@@ -30,6 +30,8 @@ public class MemberService implements UserDetailsService {
 		}
 	}
 	
+	
+	
 	@Override
 	public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
 
@@ -43,5 +45,12 @@ public class MemberService implements UserDetailsService {
 				.password(member.getPwd())
 				.roles(member.getRole().toString())
 				.build();
+	}
+
+	public boolean checkIdDuplicate(String id) {
+		Member findMember = memberRepository.findById(id);
+		if(findMember != null) // 이미 admin계정이 있을경우
+			return true;
+		return false;
 	}
 }
