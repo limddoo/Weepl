@@ -11,12 +11,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.codehaus.groovy.util.StringUtil;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.weepl.constant.MemberStatus;
 import com.weepl.constant.Role;
 import com.weepl.dto.MemberFormDto;
 
+import antlr.StringUtils;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -98,7 +100,11 @@ public class Member{
 		member.setAddrPost(memberFormDto.getAddrPost());
 		member.setJdate(LocalDateTime.now());
 		member.setStatus(MemberStatus.GENERAL);
-		member.setRole(Role.ADMIN);
+		if("COUNSELOR".equals(memberFormDto.getRole())) {
+			member.setRole(Role.COUNSELOR);
+		} else {
+			member.setRole(Role.CLIENT);
+		}
 		return member;
 	}
 }

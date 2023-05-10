@@ -56,7 +56,9 @@ public class MemberController {
 
 	@GetMapping(value = "/new")
 	public String memberForm(Model model) {
-		model.addAttribute("memberFormDto", new MemberFormDto());
+		MemberFormDto dto = new MemberFormDto();
+		dto.setRole("CLIENT");
+		model.addAttribute("memberFormDto", dto);
 		return "member/memberForm";
 	}
 

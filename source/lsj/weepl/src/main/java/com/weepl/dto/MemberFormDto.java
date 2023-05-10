@@ -14,6 +14,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class MemberFormDto {
+	private String role;
+	
 	@NotBlank(message="아이디는 필수 입력 값입니다.")
 	private String id;
 	
