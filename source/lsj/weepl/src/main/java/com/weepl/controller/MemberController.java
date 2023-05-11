@@ -64,7 +64,7 @@ public class MemberController {
 
 	@PostMapping(value = "/new")
 	public String newMember(@Valid MemberFormDto memberFormDto, BindingResult bindingResult, Model model) {
-		
+		System.out.println(memberFormDto.getRole());
 		if(bindingResult.hasErrors()) {
 			return "member/memberForm";
 		}
