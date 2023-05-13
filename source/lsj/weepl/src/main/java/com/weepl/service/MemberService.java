@@ -20,6 +20,7 @@ public class MemberService implements UserDetailsService {
 	
 	public Member saveMember(Member member) {
 		validateDuplicateMember(member);
+ 
 		return memberRepository.save(member);
 	}
 
@@ -29,8 +30,6 @@ public class MemberService implements UserDetailsService {
 			throw new IllegalStateException("이미 가입된 회원입니다."); // 이미 가입된 회원의 경우 예외를 발생시킨다.
 		}
 	}
-	
-	
 	
 	@Override
 	public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
@@ -53,4 +52,5 @@ public class MemberService implements UserDetailsService {
 			return true;
 		return false;
 	}
+
 }
