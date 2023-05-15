@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/layout2}">
+<!-- 사용자 CSS 추가 -->
+<th:block layout:fragment="css">
+	<style>
+		.error {
+			color: #bd2130;
+		}
+	</style>
+</th:block>
+<!-- 사용자 스크립트 추가 -->
+<th:block layout:fragment="script">
+	<script>
+		function findId() {
+			var name = $('#name').val();
+			if(name=='') {
+				alert("이름을 입력하세요");
+				$('#name').focus();
+				return;
+			}
+			var tel1 = $('#tel1').val();
+			var tel2 = $('#tel2').val();
+			var tel3 = $('#tel3').val();
+			var tel = tel1 + tel2 + tel3;
+			if(tel.length<10) {
+				alert("전화번호를 확인해주세요");
+				if(tel1.length == 0) {
+					$('#tel1').focus();
+					return;
+				}
+				if(tel2.length == 0) {
+					$('#tel2').focus();
+					return;
+				}
+				if(tel3.length == 0) {
+					$('#tel3').focus();
+					return;
+				}
+				$('#tel1').focus();
+				return;
+			}
+			$.ajax({
+				type: "get",
+				url: "/members/findIdByNameAndTel",
+				data : { "name" : name,
+						 "tel1" : tel1,
+						 "tel2" : tel2,
+						 "tel3" : tel3
+				},
+				contentType: "application/json",
+				success: function(result){
+					console.log("result :" +result.result)
+					var id = result.result;
+					if(id != null){
+						alert('회원님의 아이디는 '+id+' 입니다.');
+					}
+					else{
+						alert("일치하는 회원 정보가 없습니다.");
+					}
+				},
+				error : function(){
+						alert("에러발생");
+				}
+			});
+		}
+	</script>
+</th:block>
+<div layout:fragment="content">
+	<form role="form" method="get" action="/members/findPwd" th:object="${memberFormDto}" id="frm">
+		<div class="form-group">
+			<label th:for="name">이름</label> <input type="text" th:field="*{name}"
+				class="form-control" placeholder="이름 입력">
+		</div>
+		<div class="form-group">
+			<label th:for="tel1">전화번호</label> <input type="text"
+				th:field="*{tel1}" placeholder="010" maxlength="3"> - <input type="text"
+				th:field="*{tel2}" placeholder="1234" maxlength="4"> - <input type="text"
+				th:field="*{tel3}" placeholder="5678" maxlength="4">
+		</div>
+		<input type="button" onclick="findId()" value="ID찾기">
+	</form>
+</div>
+</html>

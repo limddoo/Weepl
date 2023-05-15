@@ -4,9 +4,11 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.weepl.dto.MemberFormDto;
 import com.weepl.entity.Member;
 import com.weepl.repository.MemberRepository;
 
@@ -52,5 +54,28 @@ public class MemberService implements UserDetailsService {
 			return true;
 		return false;
 	}
+	
+	public String findId(String name, String tel1, String tel2, String tel3) {
+		Member findMember = memberRepository.findByNameAndTel1AndTel2AndTel3(name, tel1, tel2, tel3);
+		if(findMember == null) {
+			return null;
+		}
+		MemberFormDto memberDto = MemberFormDto.of(findMember);
+		return memberDto.getId();
+	}
 
+	public String findPwd(String id, String name, String email) {
+		Member findMember = memberRepository.findByIdAndNameAndEmail(id, name, email);
+		if(findMember == null) {
+			return null;
+		}
+		return findMember.getId();
+	}
+	
+	public void updateMemberPwd(String id, String pwd, PasswordEncoder passwordEncoder) {
+		Member findMember = memberRepository.findById(id);
+		String password = passwordEncoder.encode(pwd);
+		findMember.setPwd(password);
+		memberRepository.save(findMember);
+	}
 }

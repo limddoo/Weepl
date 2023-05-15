@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+	
+	<script>
+
+	$(document).ready(function() {
+		var current = location.pathname.split("/").slice(-1)[0].replace(/^\/|\/$/g, '');
+		alert(current);
+	});
+	
+
+
+/* 	// 서브페이지 안의 서브페이지 활성화
+	if (current.includes('login')) {
+		element.parents('.nav-link').addClass('active');
+		element.closest('.nav-link').
+	} */
+
+	</script>
+<div class="sidebar" th:fragment="sidebar">
+  <div class="d-flex flex-column flex-shrink-0 p-3 bg-light" style="width: 200px;">
+    <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
+      <span class="fs-4">Members</span>
+    </a>
+    <hr>
+    <ul class="nav nav-pills flex-column mb-auto">
+      <li class="nav-item">
+        <a href="/members/login" class="nav-link active" aria-current="page">
+          로그인
+        </a>
+      </li>
+      <li>
+        <a href="/members/findId" class="nav-link link-dark">
+          ID찾기
+        </a>
+      </li>
+      <li>
+        <a href="/members/findPwd" class="nav-link link-dark">
+          비밀번호 찾기
+        </a>
+      </li>
+    </ul>
+    <hr>
+  </div>
+
+</div>
+</html>

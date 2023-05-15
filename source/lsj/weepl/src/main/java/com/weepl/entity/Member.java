@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.codehaus.groovy.util.StringUtil;
+import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.weepl.constant.MemberStatus;
@@ -107,4 +108,5 @@ public class Member{
 		}
 		return member;
 	}
+
 }

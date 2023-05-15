@@ -5,6 +5,9 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 
 import org.hibernate.validator.constraints.Length;
+import org.modelmapper.ModelMapper;
+
+import com.weepl.entity.Member;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -91,4 +94,25 @@ public class MemberFormDto {
 	      
 	      return memberFormDto;
 	}
+
+	public static MemberFormDto of(Member member) {
+		 MemberFormDto memberFormDto = new MemberFormDto();
+	      memberFormDto.setName(member.getName());
+	      memberFormDto.setId(member.getId());
+	      memberFormDto.setPwd(member.getPwd());
+	      memberFormDto.setEmail(member.getEmail());
+	      memberFormDto.setGender(member.getGender());
+	      memberFormDto.setTel1(member.getTel1());
+	      memberFormDto.setTel2(member.getTel2());
+	      memberFormDto.setTel3(member.getTel3());
+	      memberFormDto.setBirY(member.getBirY());
+	      memberFormDto.setBirM(member.getBirM());
+	      memberFormDto.setBirD(member.getBirD());
+	      memberFormDto.setAddr(member.getAddr());
+	      memberFormDto.setAddrDtl(member.getAddrDtl());
+	      memberFormDto.setAddrPost(member.getAddrPost());
+	      
+	      return memberFormDto;
+	}
+	
 }

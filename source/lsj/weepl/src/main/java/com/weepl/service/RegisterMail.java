@@ -25,8 +25,8 @@ public class RegisterMail implements MailServiceInter {
 	@Override
 	public MimeMessage createMessage(String to) throws MessagingException, UnsupportedEncodingException {
 		System.out.println("메일받을 사용자" + to);
-        System.out.println("인증번호" + ePw);
-		
+		System.out.println("인증번호" + ePw);
+
 		MimeMessage message = emailsender.createMimeMessage();
 
 		message.addRecipients(RecipientType.TO, to);// 보내는 대상
@@ -43,6 +43,38 @@ public class RegisterMail implements MailServiceInter {
 		msgg += "<br>";
 		msgg += "<div align='center' style='border:1px solid black; font-family:verdana';>";
 		msgg += "<h3 style='color:blue;'>회원가입 인증 코드입니다.</h3>";
+		msgg += "<div style='font-size:130%'>";
+		msgg += "CODE : <strong>";
+		msgg += ePw + "</strong><div><br/> "; // 메일에 인증번호 넣기
+		msgg += "</div>";
+		message.setText(msgg, "utf-8", "html");// 내용, charset 타입, subtype
+		// 보내는 사람의 이메일 주소, 보내는 사람 이름
+		message.setFrom(new InternetAddress("weeproject2023@naver.com", "Weepl_Admin"));// 보내는 사람
+
+		return message;
+	}
+
+	// 메일 내용 작성
+	@Override
+	public MimeMessage createMessageForPwd(String to) throws MessagingException, UnsupportedEncodingException {
+		System.out.println("메일받을 사용자" + to);
+
+		MimeMessage message = emailsender.createMimeMessage();
+
+		message.addRecipients(RecipientType.TO, to);// 보내는 대상
+		message.setSubject("Weepl 임시비밀번호 발송 메일");// 제목
+
+		String msgg = "";
+		msgg += "<div style='margin:100px;'>";
+		msgg += "<h1> 안녕하세요</h1>";
+		msgg += "<h1> 서울 Wee 통합플랫폼 Weepl 입니다</h1>";
+		msgg += "<br>";
+		msgg += "<p>아래 임시번호로 로그인하신후, 비밀번호를 수정해주세요.<p>";
+		msgg += "<br>";
+		msgg += "<p>항상 당신의 꿈을 응원합니다. 감사합니다!<p>";
+		msgg += "<br>";
+		msgg += "<div align='center' style='border:1px solid black; font-family:verdana';>";
+		msgg += "<h3 style='color:blue;'>회원님의 임시비밀번호는 아래와 같습니다.</h3>";
 		msgg += "<div style='font-size:130%'>";
 		msgg += "CODE : <strong>";
 		msgg += ePw + "</strong><div><br/> "; // 메일에 인증번호 넣기
@@ -100,7 +132,27 @@ public class RegisterMail implements MailServiceInter {
 			throw new IllegalArgumentException();
 		}
 
-
 		return ePw; // 메일로 보냈던 인증 코드를 서버로 반환
+	}
+
+	// 메일 발송
+	// sendSimpleMessage 의 매개변수로 들어온 to 는 곧 이메일 주소가 되고,
+	// MimeMessage 객체 안에 내가 전송할 메일의 내용을 담는다.
+	// 그리고 bean 으로 등록해둔 javaMail 객체를 사용해서 이메일 send!!
+	@Override
+	public String sendSimpleMessageforPwd(String to) throws Exception {
+
+		ePw = createKey(); // 랜덤 임시 비밀번호 생성
+
+		// TODO Auto-generated method stub
+		MimeMessage message = createMessageForPwd(to); // 메일 발송
+		try {// 예외처리
+			emailsender.send(message);
+		} catch (MailException es) {
+			es.printStackTrace();
+			throw new IllegalArgumentException();
+		}
+
+		return ePw; // 메일로 보냈던 임시 비밀번호를 서버로 반환
 	}
 }

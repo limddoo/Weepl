@@ -19,4 +19,10 @@ public interface MailServiceInter {
     // 메일 발송
     String sendSimpleMessage(String to) throws Exception;
 
+    // 비밀번호 찾기용 메일 작성
+	MimeMessage createMessageForPwd(String to) throws MessagingException, UnsupportedEncodingException;
+
+	// 비밀번호 찾기용 메일 발송
+	String sendSimpleMessageforPwd(String to) throws Exception;
+
 }
