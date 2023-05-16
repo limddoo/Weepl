@@ -12,7 +12,7 @@
 </th:block>
 <!-- 사용자 스크립트 추가 -->
 <th:block layout:fragment="script">
-	<script>
+	<script th:inline="javascript">
 		function findId() {
 			var name = $('#name').val();
 			if(name=='') {
@@ -68,7 +68,7 @@
 	</script>
 </th:block>
 <div layout:fragment="content">
-	<form role="form" method="get" action="/members/findPwd" th:object="${memberFormDto}" id="frm">
+	<form role="form" method="get" action="" th:object="${memberFormDto}" id="frm">
 		<div class="form-group">
 			<label th:for="name">이름</label> <input type="text" th:field="*{name}"
 				class="form-control" placeholder="이름 입력">
@@ -79,7 +79,7 @@
 				th:field="*{tel2}" placeholder="1234" maxlength="4"> - <input type="text"
 				th:field="*{tel3}" placeholder="5678" maxlength="4">
 		</div>
-		<input type="button" onclick="findId()" value="ID찾기">
+		<input type="button" class="btn btn-primary" onclick="findId()" value="ID찾기">
 	</form>
 </div>
 </html>

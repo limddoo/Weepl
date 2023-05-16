@@ -4,10 +4,7 @@
 	
 	<script>
 
-	$(document).ready(function() {
-		var current = location.pathname.split("/").slice(-1)[0].replace(/^\/|\/$/g, '');
-		alert(current);
-	});
+	
 	
 
 
@@ -26,17 +23,17 @@
     <hr>
     <ul class="nav nav-pills flex-column mb-auto">
       <li class="nav-item">
-        <a href="/members/login" class="nav-link active" aria-current="page">
+        <a href="/members/login" class="nav-link active" aria-current="page" id="login">
           로그인
         </a>
       </li>
       <li>
-        <a href="/members/findId" class="nav-link link-dark">
+        <a href="/members/findId" class="nav-link link-dark" id="findId">
           ID찾기
         </a>
       </li>
       <li>
-        <a href="/members/findPwd" class="nav-link link-dark">
+        <a href="/members/findPwd" class="nav-link link-dark" id="findPwd">
           비밀번호 찾기
         </a>
       </li>
