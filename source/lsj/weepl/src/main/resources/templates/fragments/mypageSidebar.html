@@ -1,31 +1,23 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-	
-	<script>
 
-	
-	
-
-
-/* 	// 서브페이지 안의 서브페이지 활성화
-	if (current.includes('login')) {
-		element.parents('.nav-link').addClass('active');
-		element.closest('.nav-link').
-	} */
-
-	</script>
 <div class="sidebar" th:fragment="sidebar">
   <div class="d-flex flex-column flex-shrink-0 p-3 bg-light" style="width: 200px;">
     <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
-      <span class="fs-4">Members</span>
+      <span class="fs-4">Mypage</span>
     </a>
     <hr>
     <ul class="nav nav-pills flex-column mb-auto">
       <li class="nav-item">
-        <a href="/members/login" class="nav-link active" aria-current="page" id="login">
-          로그인
-        </a>
+        <a href="/mypage/connMypage" class="nav-link active" aria-current="page" id="connMypage">
+          개인정보 수정
+         </a>
+      </li>
+      <li class="nav-item">
+        <a href="/mypage/modMyPwd" class="nav-link" aria-current="page" id="modMyPwd">
+          비밀번호 수정
+         </a>
       </li>
       <li>
         <a href="/members/findId" class="nav-link link-dark" id="findId">

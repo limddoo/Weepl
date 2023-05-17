@@ -11,15 +11,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.codehaus.groovy.util.StringUtil;
-import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.weepl.constant.MemberStatus;
 import com.weepl.constant.Role;
 import com.weepl.dto.MemberFormDto;
+import com.weepl.dto.MypageFormDto;
 
-import antlr.StringUtils;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -107,6 +105,21 @@ public class Member{
 			member.setRole(Role.CLIENT);
 		}
 		return member;
+	}
+	
+	public void updateMember(MypageFormDto mypageFormDto){
+		this.name = mypageFormDto.getName();
+		this.email = mypageFormDto.getEmail();
+		this.gender = mypageFormDto.getGender();
+		this.tel1 = mypageFormDto.getTel1();
+		this.tel2 = mypageFormDto.getTel2();
+		this.tel3 = mypageFormDto.getTel3();
+		this.birY = mypageFormDto.getBirY();
+		this.birM = mypageFormDto.getBirM();
+		this.birD = mypageFormDto.getBirD();
+		this.addr = mypageFormDto.getAddr();
+		this.addrDtl = mypageFormDto.getAddrDtl();
+		this.addrPost = mypageFormDto.getAddrPost();
 	}
 
 }

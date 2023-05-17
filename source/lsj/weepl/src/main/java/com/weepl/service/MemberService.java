@@ -27,9 +27,9 @@ public class MemberService implements UserDetailsService {
 	}
 
 	private void validateDuplicateMember(Member member) {
-		Member findMember = memberRepository.findById(member.getId());
+		Member findMember = memberRepository.findByEmail(member.getEmail());
 		if(findMember != null) {
-			throw new IllegalStateException("이미 가입된 회원입니다."); // 이미 가입된 회원의 경우 예외를 발생시킨다.
+			throw new IllegalStateException("이미 가입된 이메일입니다."); // 이미 가입된 회원의 경우 예외를 발생시킨다.
 		}
 	}
 	
