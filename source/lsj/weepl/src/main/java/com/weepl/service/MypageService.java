@@ -1,5 +1,6 @@
 package com.weepl.service;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,5 +31,10 @@ public class MypageService {
 		if(findMember != null) {
 			throw new IllegalStateException("이미 가입된 이메일입니다."); // 이미 가입된 회원의 경우 예외를 발생시킨다.
 		}
+	}
+
+	public void updateMemberPwd(String id, String pwd, PasswordEncoder passwordEncoder) {
+		Member member = memberRepository.findById(id);
+		member.updateMemberPwd(pwd, passwordEncoder);
 	}
 }

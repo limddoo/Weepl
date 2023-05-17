@@ -111,7 +111,7 @@ public class MemberController {
 		return "/member/findPwd";
 	}
 	
-	// 
+	// 비밀번호 찾기(Ajax)
 	@GetMapping(value = "/findPwdByEmail")
 	@ResponseBody
 	public HashMap<String, String> findPwdByEmail(String id, String name, String email) throws Exception {

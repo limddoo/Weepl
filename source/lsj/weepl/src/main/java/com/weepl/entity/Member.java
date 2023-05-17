@@ -122,4 +122,8 @@ public class Member{
 		this.addrPost = mypageFormDto.getAddrPost();
 	}
 
+	public void updateMemberPwd(String pwd, PasswordEncoder passwordEncoder) {
+		String password = passwordEncoder.encode(pwd);
+		this.pwd = password;
+	}
 }

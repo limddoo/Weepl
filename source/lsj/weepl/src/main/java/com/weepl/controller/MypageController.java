@@ -78,7 +78,15 @@ public class MypageController {
 	}
 	
 	@PostMapping("/modMyPwd")
-	public String modPwd(String pwd, String ppwd,Model model) {
+	public String modPwd(Authentication auth, String pwd, String ppwd, Model model) {
+		User user = (User) auth.getPrincipal();
+		Member member = mypageService.findMember(user.getUsername());
+		if(!passwordEncoder.matches(ppwd, member.getPwd())) {
+			model.addAttribute("errorMessage", "현재 비밀번호가 일치하지않습니다.");
+		} else {
+			mypageService.updateMemberPwd(member.getId(), pwd, passwordEncoder);
+			model.addAttribute("result", "수정이 완료되었습니다!");
+		}
 		return "mypage/modPwd";
 	}
 }
