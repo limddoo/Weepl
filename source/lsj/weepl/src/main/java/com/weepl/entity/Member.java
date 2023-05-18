@@ -126,4 +126,8 @@ public class Member{
 		String password = passwordEncoder.encode(pwd);
 		this.pwd = password;
 	}
+	
+	public void quitMember() {
+		this.status = MemberStatus.QUIT;
+	}
 }

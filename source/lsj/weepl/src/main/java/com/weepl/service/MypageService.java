@@ -1,5 +1,6 @@
 package com.weepl.service;
 
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,5 +37,10 @@ public class MypageService {
 	public void updateMemberPwd(String id, String pwd, PasswordEncoder passwordEncoder) {
 		Member member = memberRepository.findById(id);
 		member.updateMemberPwd(pwd, passwordEncoder);
+	}
+	
+	public void quitMember(String id) {
+		Member member = memberRepository.findById(id);
+		member.quitMember();
 	}
 }

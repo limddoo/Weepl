@@ -127,7 +127,7 @@ public class MemberController {
 		return map;
 	}
 
-	// id 중복체크(ajax)
+	// id 중복체크(Ajax)
 	@GetMapping(value = "/exists")
 	@ResponseBody
 	public HashMap<String, Object> checkMidDuplicate(String id) {
@@ -136,7 +136,7 @@ public class MemberController {
 		return map;
 	}
 
-	// 이메일 인증
+	// 이메일 인증(Ajax)
 	@GetMapping(value = "/mailConfirm")
 	@ResponseBody
 	public HashMap<String, Object> mailConfirm(String email) throws Exception {

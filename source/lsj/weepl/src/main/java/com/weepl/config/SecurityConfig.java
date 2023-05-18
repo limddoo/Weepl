@@ -27,7 +27,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.formLogin().loginPage("/members/login") // 로그인 페이지 url을 설정
 				.defaultSuccessUrl("/") // 로그인 성공 시 이동할 url
 				.usernameParameter("id") // 로그인 시 사용할 파라미터 이름으로 id를 지정
-				.passwordParameter("pwd").failureUrl("/members/login/error") // 로그인 실패 시 이동할 url을 설정
+				.passwordParameter("pwd")
+				.failureUrl("/members/login/error") // 로그인 실패 시 이동할 url을 설정
 				.and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/members/logout")) // 로그아웃 url을 설정
 				.logoutSuccessUrl("/") // 로그아웃 성공 시 이동할 url을 설정
 		;

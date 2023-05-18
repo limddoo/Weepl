@@ -3,6 +3,7 @@ package com.weepl.controller;
 import javax.validation.Valid;
 
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -88,5 +89,24 @@ public class MypageController {
 			model.addAttribute("result", "수정이 완료되었습니다!");
 		}
 		return "mypage/modPwd";
+	}
+	
+	@GetMapping("/quitMember")
+	public String quitMemberForm(Model model) {
+		return "mypage/quitMember";
+	}
+	
+	@PostMapping("/quitMember")
+	public String quitMember(Authentication auth, String pwd, Model model) {
+		User user = (User) auth.getPrincipal();
+		Member member = mypageService.findMember(user.getUsername());
+		if(!passwordEncoder.matches(pwd, member.getPwd())) {
+			model.addAttribute("errorMessage", "비밀번호가 일치하지않습니다.");
+		} else {
+			mypageService.quitMember(user.getUsername());
+			model.addAttribute("result", "회원탈퇴가 완료되었습니다.");
+			SecurityContextHolder.clearContext();
+		}
+		return "redirect:/";
 	}
 }
