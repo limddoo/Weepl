@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.weepl.dto.MemberFormDto;
 import com.weepl.dto.MypageFormDto;
 import com.weepl.entity.Member;
 import com.weepl.service.MypageService;

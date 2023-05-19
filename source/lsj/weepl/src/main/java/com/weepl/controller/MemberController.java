@@ -10,8 +10,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.weepl.constant.Role;
@@ -83,8 +85,14 @@ public class MemberController {
 
 	// 로그인 에러시 폼
 	@GetMapping(value = "/login/error")
-	public String loginError(Model model) {
-		model.addAttribute("loginErrorMsg", "아이디 또는 비밀번호를 확인해주세요");
+	public String loginError(Model model, String cause) {
+		System.out.println("에러이유:"+cause);
+		if("failed".equals(cause)) {
+			model.addAttribute("loginErrorMsg", "아이디 또는 비밀번호를 확인해주세요");
+		} else if("locked".equals(cause)) {
+			model.addAttribute("loginErrorMsg", "탈퇴처리한 회원입니다.");
+		}
+		
 		return "/member/memberLoginForm";
 	}
 

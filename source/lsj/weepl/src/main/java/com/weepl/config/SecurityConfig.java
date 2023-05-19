@@ -12,6 +12,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+import com.weepl.repository.MemberRepository;
+import com.weepl.security.AccountLoginFailureHandler;
+import com.weepl.security.AccountLoginSuccessHandler;
 import com.weepl.service.MemberService;
 
 @Configuration
@@ -20,6 +23,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	MemberService memberService;
+	
+	@Autowired
+	MemberRepository memberRepository;
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
@@ -28,15 +34,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.defaultSuccessUrl("/") // 로그인 성공 시 이동할 url
 				.usernameParameter("id") // 로그인 시 사용할 파라미터 이름으로 id를 지정
 				.passwordParameter("pwd")
+				.successHandler(new AccountLoginSuccessHandler(memberRepository))
 				.failureUrl("/members/login/error") // 로그인 실패 시 이동할 url을 설정
+				.failureHandler(new AccountLoginFailureHandler())
 				.and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/members/logout")) // 로그아웃 url을 설정
 				.logoutSuccessUrl("/") // 로그아웃 성공 시 이동할 url을 설정
 		;
 
 		http.authorizeRequests().mvcMatchers("/", "/members/**").permitAll()
 								.mvcMatchers("admin/**").hasRole("ADMIN")
-								.mvcMatchers("/mypage/**").hasRole("CLIENT")
-								.mvcMatchers("/mypage/**").hasRole("COUNSELOR")
+								.mvcMatchers("/mypage/**").hasAnyRole("CLIENT", "COUNSELOR")
 								.anyRequest().authenticated()
 								.and();
 
