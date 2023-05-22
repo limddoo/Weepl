@@ -1,8 +1,7 @@
-package com.weepl.security;
+package com.weepl.handler;
 
 import java.io.IOException;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,10 +14,6 @@ import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-
-import com.weepl.constant.MemberStatus;
-import com.weepl.entity.Member;
-import com.weepl.repository.MemberRepository;
 
 import lombok.RequiredArgsConstructor;
 

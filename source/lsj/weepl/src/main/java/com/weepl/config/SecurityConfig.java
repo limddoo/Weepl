@@ -12,9 +12,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+import com.weepl.handler.AccountLoginFailureHandler;
+import com.weepl.handler.AccountLoginSuccessHandler;
 import com.weepl.repository.MemberRepository;
-import com.weepl.security.AccountLoginFailureHandler;
-import com.weepl.security.AccountLoginSuccessHandler;
 import com.weepl.service.MemberService;
 
 @Configuration
@@ -41,7 +41,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.logoutSuccessUrl("/") // 로그아웃 성공 시 이동할 url을 설정
 		;
 
-		http.authorizeRequests().mvcMatchers("/", "/members/**").permitAll()
+		http.authorizeRequests().mvcMatchers("/", "/members/**","/ws/**","/swagger-ui.*","/swagger/**").permitAll()
 								.mvcMatchers("admin/**").hasRole("ADMIN")
 								.mvcMatchers("/mypage/**").hasAnyRole("CLIENT", "COUNSELOR")
 								.anyRequest().authenticated()

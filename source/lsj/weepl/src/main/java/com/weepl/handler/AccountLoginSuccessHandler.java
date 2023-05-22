@@ -1,4 +1,4 @@
-package com.weepl.security;
+package com.weepl.handler;
 
 import java.io.IOException;
 
@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
