@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<div class="sidebar" th:fragment="sidebar">
+	<div class="d-flex flex-column flex-shrink-0 p-3 bg-light"
+		style="width: 200px;">
+		<span class="fs-4">회원관리</span>
+		<hr>
+		<ul class="nav nav-pills flex-column mb-auto">
+			<li class="nav-item"><a href="#"
+				class="nav-link active" aria-current="page" id=""> 회원정보 관리 </a></li>
+			<li class="nav-item"><a href="#"
+				class="nav-link active" aria-current="page" id=""> 신고내역 관리 </a></li>
+			<li class="nav-item"><a href="#"
+				class="nav-link active" aria-current="page" id=""> 이용제한 회원관리 </a></li>
+		</ul>
+		<hr>
+		<span class="fs-4">사이트관리</span>
+		<hr>
+		<ul class="nav nav-pills flex-column mb-auto">
+			<li class="nav-item"><a href="#"
+				class="nav-link active" aria-current="page" id=""> 비대면 상담 내역 </a></li>
+			<li class="nav-item"><a href="#"
+				class="nav-link active" aria-current="page" id=""> 비대면 상담 진행 </a></li>
+		</ul>
+		<hr>
+	</div>
+
+</div>
+</html>
