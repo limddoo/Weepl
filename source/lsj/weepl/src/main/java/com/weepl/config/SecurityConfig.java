@@ -41,7 +41,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.logoutSuccessUrl("/") // 로그아웃 성공 시 이동할 url을 설정
 		;
 
-		http.authorizeRequests().mvcMatchers("/", "/members/**","/ws/**","/swagger-ui.*","/swagger/**").permitAll()
+		http.authorizeRequests().mvcMatchers("/", "/members/**","/ws/**","/chat/**","/favicon.ico").permitAll()
 								.mvcMatchers("admin/**").hasRole("ADMIN")
 								.mvcMatchers("/mypage/**").hasAnyRole("CLIENT", "COUNSELOR")
 								.anyRequest().authenticated()
@@ -64,6 +64,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	public void configure(WebSecurity web) throws Exception {
-		web.ignoring().antMatchers("/css/**", "/js/**", "/img/**"); // static 디렉토리 하위 파일은 인증을 무시하도록 설정
+		web.ignoring().antMatchers("/css/**", "/js/**", "/img/**", "/v2/api-docs","/swagger-resources/**",
+                "/swagger-ui.html", "/swagger/**"); // static 디렉토리 하위 파일은 인증을 무시하도록 설정
 	}
 }

@@ -2,9 +2,11 @@ package com.weepl.dto;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
+@ToString
 public class ChatDto {
 	// 메시지  타입 : 입장, 채팅
     public enum MessageType{

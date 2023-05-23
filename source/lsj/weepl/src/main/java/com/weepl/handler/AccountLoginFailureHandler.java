@@ -29,6 +29,7 @@ public class AccountLoginFailureHandler implements AuthenticationFailureHandler 
 		if (exception instanceof BadCredentialsException) { // 그냥 아이디, 비밀번호가 일치하지 않아서 진입했을경우
 			redirectStrategy.sendRedirect(request, response, "/members/login/error?cause=failed");
 		} else if (exception instanceof LockedException) { // LoginSuccessHandler에서 LockedException발생시 넘어 온 경우
+			System.out.println(exception.getMessage());
 			redirectStrategy.sendRedirect(request, response, "/members/login/error?cause=locked");
 		}
 

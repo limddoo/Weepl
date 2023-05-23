@@ -11,4 +11,9 @@ public class MainController {
 		
 		return "main";
 	}
+	
+	@GetMapping("/chat/create")
+    public String createRoomForm() {
+    	return "chat/test";
+    }
 }

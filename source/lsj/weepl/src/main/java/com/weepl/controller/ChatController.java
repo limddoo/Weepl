@@ -12,19 +12,20 @@ import com.weepl.dto.ChatRoom;
 import com.weepl.service.ChatService;
 
 import lombok.RequiredArgsConstructor;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/chat")
 public class ChatController {
     private final ChatService chatService;
-
-    @PostMapping
+    
+    @PostMapping("/create")
     public ChatRoom createRoom(@RequestBody String name) {
         return chatService.createRoom(name);
     }
 
-    @GetMapping
+    @GetMapping("/find")
     public List<ChatRoom> findAllRoom() {
         return chatService.findAllRoom();
     }
