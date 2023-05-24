@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{layouts/memberLayout}">
+	layout:decorate="~{layouts/basicLayout}">
 <!-- 사용자 CSS 추가 -->
 <th:block layout:fragment="css">
 	<style>
@@ -16,7 +16,7 @@
 <script th:inline="javascript">
             $(document).ready(function(){
 
-            const username = [[${#authentication.principal.username}]];
+            const name = [[${#authentication.principal.username}]];
 
             $("#disconn").on("click", (e) => {
                 disconnect();
@@ -26,8 +26,22 @@
                 send();
             });
 
-            const websocket = new WebSocket("ws://localhost:8080/ws/chat");
-
+            const websocket = new WebSocket("ws://localhost:8090/ws/chat");
+			
+            $.ajax({
+				type: "get",
+				url: "/chat/createRoom",
+				data : { "name" : name },
+				contentType: "application/json",
+				success: function(result){
+					createdRoomId = result.roomId;
+					console.log("roomId:"+createdRoomId);
+				},
+				error : function(){
+						alert("에러발생");
+				}
+			});
+            
             websocket.onmessage = onMessage;
             websocket.onopen = onOpen;
             websocket.onclose = onClose;
@@ -35,22 +49,28 @@
             function send(){
 
                 let msg = document.getElementById("msg");
+                var talkMsg = msg.value;
 
-                console.log(username + ":" + msg.value);
-                websocket.send(username + ":" + msg.value);
+                console.log(name + ":" + msg.value);
+                var talkdata = {type:'TALK',roomId:createdRoomId,sender:name,message:talkMsg};
+                websocket.send(JSON.stringify(talkdata));
                 msg.value = '';
             }
             
             //채팅창에서 나갔을 때
             function onClose(evt) {
-                var str = username + ": 님이 방을 나가셨습니다.";
-                websocket.send(str);
+                var str = name + ": 님이 방을 나가셨습니다.";
+                var quitdata = {type:'QUIT',roomId:createdRoomId,sender:name,message:str};
+                
+                websocket.send(JSON.stringify(quitdata));
             }
             
             //채팅창에 들어왔을 때
             function onOpen(evt) {
-                var str = username + ": 님이 입장하셨습니다.";
-                websocket.send(str);
+                var str = name + ": 님이 입장하셨습니다.";
+                var enterdata = {type:'ENTER',roomId:createdRoomId,sender:name,message:str};
+                
+                websocket.send(JSON.stringify(enterdata));
             }
 
             function onMessage(msg) {
@@ -58,18 +78,19 @@
                 var sessionId = null;
                 //데이터를 보낸 사람
                 var message = null;
-                var arr = data.split(":");
+                var arr = data.replace("{","").replace("}","").replaceAll('"',"").split(",");
 
                 for(var i=0; i<arr.length; i++){
+                	arr[i] = arr[i].split(":")[1]
                     console.log('arr[' + i + ']: ' + arr[i]);
                 }
 
-                var cur_session = username;
+                var cur_session = name;
 
                 //현재 세션에 로그인 한 사람
                 console.log("cur_session : " + cur_session);
-                sessionId = arr[0];
-                message = arr[1];
+                sessionId = arr[2];
+                message = arr[3];
 
                 console.log("sessionID : " + sessionId);
                 console.log("cur_session : " + cur_session);
@@ -78,14 +99,14 @@
                 if(sessionId == cur_session){
                     var str = "<div class='col-6'>";
                     str += "<div class='alert alert-secondary'>";
-                    str += "<b>" + sessionId + " : " + message + "</b>";
+                    str += "<b>" + arr[2] + " : " + arr[3] + "</b>";
                     str += "</div></div>";
                     $("#msgArea").append(str);
                 }
                 else{
                     var str = "<div class='col-6'>";
                     str += "<div class='alert alert-warning'>";
-                    str += "<b>" + sessionId + " : " + message + "</b>";
+                    str += "<b>" + arr[2] + " : " + arr[3] + "</b>";
                     str += "</div></div>";
                     $("#msgArea").append(str);
                 }

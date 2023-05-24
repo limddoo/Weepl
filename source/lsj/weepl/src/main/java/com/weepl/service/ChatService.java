@@ -9,12 +9,18 @@ import java.util.UUID;
 
 import javax.annotation.PostConstruct;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.weepl.dto.ChatRoom;
+import com.weepl.dto.MemberFormDto;
+import com.weepl.entity.ChattingRoom;
+import com.weepl.entity.Member;
+import com.weepl.repository.ChattingRoomRepository;
+import com.weepl.repository.MemberRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +31,8 @@ import lombok.extern.slf4j.Slf4j;
 public class ChatService {
     private final ObjectMapper objectMapper;
     private Map<String, ChatRoom> chatRooms;
+    private final ChattingRoomRepository chattingRoomRepository;
+    private final MemberRepository memberRepository;
 
     @PostConstruct
     private void init() {
@@ -46,7 +54,20 @@ public class ChatService {
                 .name(name)
                 .build();
         chatRooms.put(randomId, chatRoom);
+        saveChattingRoom(randomId);
         return chatRoom;
+    }
+    
+    public String findChatRoom(String userId) {
+    	Member member = memberRepository.findById(userId);
+    	ChattingRoom chattingRoom = chattingRoomRepository.findByMember(member);
+    	return chattingRoom.getRoomId();
+    }
+    
+    private void saveChattingRoom(String roomId) {
+    	Member member = memberRepository.findById("hong");
+    	ChattingRoom cr = ChattingRoom.createChattingRoom(member, roomId);
+    	chattingRoomRepository.save(cr);
     }
 
     public <T> void sendMessage(WebSocketSession session, T message) {

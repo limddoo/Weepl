@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{layouts/memberLayout}">
+	layout:decorate="~{layouts/basicLayout}">
 <!-- 사용자 CSS 추가 -->
 <th:block layout:fragment="css">
 	<style>
@@ -13,55 +13,125 @@
 <!-- 사용자 스크립트 추가 -->
 <th:block layout:fragment="script">
 <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
-<script>
-	// websocket 생성
-    const websocket = new WebSocket("ws://localhost:8090/ws/chat");
-    websocket.onmessage = onMessage;	// 소켓이 메세지를 받을 때
-    websocket.onopen = onOpen;		// 소켓이 생성될때(클라이언트 접속)
-    websocket.onclose = onClose;	// 소켓이 닫힐때(클라이언트 접속해제)
+<script th:inline="javascript">
+            $(document).ready(function(){
 
-    //on exit chat room
-    function onClose(evt) {
-    console.log("close event : " + evt);
-    }
+            const name = [[${#authentication.principal.username}]];
 
-    //on entering chat room
-    function onOpen(evt) {
-    console.log("open event : " + evt);
-    }
+            $("#disconn").on("click", (e) => {
+                disconnect();
+            })
+            
+            $("#button-send").on("click", (e) => {
+                send();
+            });
 
-    // on message controller
-    function onMessage(msg) {
-    var data = JSON.parse(msg.data); // msg를 받으면 data 필드 안에 Json String으로 정보가 있음
-    // 필요한 정보를 Json data에서 추출
-     var senderId = data.senderId;
-     var message = data.message;
-     var time = data.time;
-     var newOne = data.newOne;
-     var outOne = data.outOne;
-    }
-    
-    // send a message
-    function send(){
-    var message = document.getElementById("msg").value;
-    
-    // don't send when content is empty
-    // 채팅 입력 칸이 비어있지 않을 경우만 정보를 Json형태로 전송
-    if(message != "") {			
-	let msg = {
-   	'receiverId' : receiverId,
-    	'message' : message
-      	}
+            const websocket = new WebSocket("ws://192.168.0.98:8090/ws/chat");
+			
+            
+            
+            websocket.onmessage = onMessage;
+            websocket.onopen = onOpen;
+            websocket.onclose = onClose;
 
-    	if(message != null) {
-    	websocket.send(JSON.stringify(msg));	// websocket handler로 전송(서버로 전송)
-    	}
-    	document.getElementById("msg").value = '';
- 	}
-}
+            function send(){
 
+                let msg = document.getElementById("msg");
+                var talkMsg = msg.value;
+
+                console.log(name + ":" + msg.value);
+                var talkdata = {type:'TALK',roomId:foundRoomId,sender:name,message:talkMsg};
+                websocket.send(JSON.stringify(talkdata));
+                msg.value = '';
+            }
+            
+            //채팅창에서 나갔을 때
+            function onClose(evt) {
+                var str = name + ": 님이 방을 나가셨습니다.";
+                var quitdata = {type:'QUIT',roomId:foundRoomId,sender:name,message:str};
+                
+                websocket.send(JSON.stringify(quitdata));
+            }
+            
+            //채팅창에 들어왔을 때
+            function onOpen(evt) {
+            	$.ajax({
+    				type: "get",
+    				url: "/chat/findRoom",
+    				data : { "name" : name },
+    				contentType: "application/json",
+    				success: function(result){
+    					foundRoomId = result.roomId;
+    					console.log("roomId:"+foundRoomId);
+    					var str = name + ": 님이 입장하셨습니다.";
+    	                var enterdata = {type:'ENTER',roomId:foundRoomId,sender:name,message:str};
+    	                
+    	                websocket.send(JSON.stringify(enterdata));
+    				},
+    				error : function(){
+    						alert("에러발생");
+    				}
+    			});
+                
+            }
+
+            function onMessage(msg) {
+                var data = msg.data;
+                var sessionId = null;
+                //데이터를 보낸 사람
+                var message = null;
+                var arr = data.replace("{","").replace("}","").replaceAll('"',"").split(",");
+
+                for(var i=0; i<arr.length; i++){
+                	arr[i] = arr[i].split(":")[1]
+                    console.log('arr[' + i + ']: ' + arr[i]);
+                }
+
+                var cur_session = name;
+
+                //현재 세션에 로그인 한 사람
+                console.log("cur_session : " + cur_session);
+                sessionId = arr[2];
+                message = arr[3];
+
+                console.log("sessionID : " + sessionId);
+                console.log("cur_session : " + cur_session);
+
+                //로그인 한 클라이언트와 타 클라이언트를 분류하기 위함
+                if(sessionId == cur_session){
+                    var str = "<div class='col-6'>";
+                    str += "<div class='alert alert-secondary'>";
+                    str += "<b>" + arr[2] + " : " + arr[3] + "</b>";
+                    str += "</div></div>";
+                    $("#msgArea").append(str);
+                }
+                else{
+                    var str = "<div class='col-6'>";
+                    str += "<div class='alert alert-warning'>";
+                    str += "<b>" + arr[2] + " : " + arr[3] + "</b>";
+                    str += "</div></div>";
+                    $("#msgArea").append(str);
+                }
+            }
+            })
 </script>
 </th:block>
 <div layout:fragment="content">
+ <div class="container">
+            <div class="col-6">
+                <label><b>채팅방</b></label>
+            </div>
+            <div>
+                <div id="msgArea" class="col"></div>
+                <div class="col-6">
+                    <div class="input-group mb-3">
+                        <input type="text" id="msg" class="form-control" aria-label="Recipient's username" aria-describedby="button-addon2">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary" type="button" id="button-send">전송</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 </div>
 </html>

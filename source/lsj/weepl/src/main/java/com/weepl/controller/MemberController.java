@@ -36,8 +36,8 @@ public class MemberController {
 	@PostConstruct
 	private void createAdmin() {
 		// 관리자
-		boolean check = memberService.checkIdDuplicate("admin");
-		if (check) // 이미 admin 계정이 있는 경우 관리자계정 생성하지않음
+		boolean check1 = memberService.checkIdDuplicate("admin");
+		if (check1) // 이미 admin 계정이 있는 경우 관리자계정 생성하지않음
 			return;
 		MemberFormDto memberFormDto = MemberFormDto.createAdmin();
 		Member member = Member.createMember(memberFormDto, passwordEncoder);
@@ -45,8 +45,19 @@ public class MemberController {
 		member.setPwd(password);
 		member.setRole(Role.ADMIN);
 		memberService.saveMember(member);
+
+		// 유저
+		boolean check2 = memberService.checkIdDuplicate("hong");
+		if (check2) // 이미 hong 계정이 있는 경우 관리자계정 생성하지않음
+			return;
+		MemberFormDto memberFormDto2 = MemberFormDto.createUser();
+		Member member2 = Member.createMember(memberFormDto2, passwordEncoder);
+		String password2 = passwordEncoder.encode(memberFormDto2.getPwd());
+		member2.setPwd(password2);
+		member2.setRole(Role.CLIENT);
+		memberService.saveMember(member2);
 	}
-	
+
 	// 회원가입 폼 띄우기 전 약관동의 페이지
 	@GetMapping(value = "/beforeRegister")
 	public String agreeForm(Model model) {
@@ -59,7 +70,7 @@ public class MemberController {
 		model.addAttribute("memberFormDto", new MemberFormDto("CLIENT"));
 		return "/member/memberForm";
 	}
-	
+
 	// 신규회원 등록
 	@PostMapping(value = "/new")
 	public String newMember(@Valid MemberFormDto memberFormDto, BindingResult bindingResult, Model model) {
@@ -86,13 +97,13 @@ public class MemberController {
 	// 로그인 에러시 폼
 	@GetMapping(value = "/login/error")
 	public String loginError(Model model, String cause) {
-		System.out.println("에러이유:"+cause);
-		if("failed".equals(cause)) {
+		System.out.println("에러이유:" + cause);
+		if ("failed".equals(cause)) {
 			model.addAttribute("loginErrorMsg", "아이디 또는 비밀번호를 확인해주세요");
-		} else if("locked".equals(cause)) {
+		} else if ("locked".equals(cause)) {
 			model.addAttribute("loginErrorMsg", "탈퇴처리한 회원입니다.");
 		}
-		
+
 		return "/member/memberLoginForm";
 	}
 
@@ -102,7 +113,7 @@ public class MemberController {
 		model.addAttribute("memberFormDto", new MemberFormDto());
 		return "/member/findId";
 	}
-	
+
 	// 이름과 전화번호로 아이디 찾기(Ajax)
 	@GetMapping(value = "/findIdByNameAndTel")
 	@ResponseBody
@@ -111,21 +122,21 @@ public class MemberController {
 		map.put("result", memberService.findId(name, tel1, tel2, tel3));
 		return map;
 	}
-	
+
 	// 비밀번호 찾기 폼
 	@GetMapping(value = "/findPwd")
 	public String findPwd(Model model) {
 		model.addAttribute("memberFormDto", new MemberFormDto());
 		return "/member/findPwd";
 	}
-	
+
 	// 비밀번호 찾기(Ajax)
 	@GetMapping(value = "/findPwdByEmail")
 	@ResponseBody
 	public HashMap<String, String> findPwdByEmail(String id, String name, String email) throws Exception {
 		HashMap<String, String> map = new HashMap<>();
 		String memberId = memberService.findPwd(id, name, email);
-		if(memberId != null) {
+		if (memberId != null) {
 			String pwd = registerMail.sendSimpleMessageforPwd(email);
 			memberService.updateMemberPwd(id, pwd, passwordEncoder);
 			map.put("result", "true");
@@ -151,5 +162,15 @@ public class MemberController {
 		HashMap<String, Object> map = new HashMap<>();
 		map.put("result", registerMail.sendSimpleMessage(email));
 		return map;
+	}
+
+	@GetMapping("/untactConsForm")
+	public String untactConsForm() {
+		return "chat/test";
+	}
+
+	@GetMapping("/chattingForm")
+	public String chattingForm() {
+		return "chat/chatting";
 	}
 }

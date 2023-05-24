@@ -11,8 +11,8 @@
 </style>
 </th:block>
 <div layout:fragment="content">
-	<form action="/chat/create" role="form" method="post">
-		<input type="button" id="startUntactCons" onClick="">
+	<form action="/admin/chattingForm" role="form" method="get">
+		<input type="submit" id="startUntactCons" >
 		<input type="hidden" th:name="${_csrf.parameterName}"
 			th:value="${_csrf.token}">
 	</form>
