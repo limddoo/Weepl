@@ -115,9 +115,9 @@ public class MemberController {
 	}
 
 	// 이름과 전화번호로 아이디 찾기(Ajax)
-	@GetMapping(value = "/findIdByNameAndTel")
+	@PostMapping(value = "/findIdByNameAndTel")
 	@ResponseBody
-	public HashMap<String, String> findIdByNameAndTel(String name, String tel1, String tel2, String tel3) {
+	public HashMap<String, String> findIdByNameAndTel(@RequestParam("name") String name, @RequestParam("tel1") String tel1, @RequestParam("tel2") String tel2, @RequestParam("tel3") String tel3) {
 		HashMap<String, String> map = new HashMap<>();
 		map.put("result", memberService.findId(name, tel1, tel2, tel3));
 		return map;
@@ -131,9 +131,9 @@ public class MemberController {
 	}
 
 	// 비밀번호 찾기(Ajax)
-	@GetMapping(value = "/findPwdByEmail")
+	@PostMapping(value = "/findPwdByEmail")
 	@ResponseBody
-	public HashMap<String, String> findPwdByEmail(String id, String name, String email) throws Exception {
+	public HashMap<String, String> findPwdByEmail(@RequestParam("id") String id, @RequestParam("name") String name, @RequestParam("email") String email) throws Exception {
 		HashMap<String, String> map = new HashMap<>();
 		String memberId = memberService.findPwd(id, name, email);
 		if (memberId != null) {
@@ -147,9 +147,9 @@ public class MemberController {
 	}
 
 	// id 중복체크(Ajax)
-	@GetMapping(value = "/exists")
+	@PostMapping(value = "/exists")
 	@ResponseBody
-	public HashMap<String, Object> checkMidDuplicate(String id) {
+	public HashMap<String, Object> checkMidDuplicate(@RequestParam("id") String id) {
 		HashMap<String, Object> map = new HashMap<>();
 		map.put("result", memberService.checkIdDuplicate(id));
 		return map;
@@ -166,7 +166,7 @@ public class MemberController {
 
 	@GetMapping("/untactConsForm")
 	public String untactConsForm() {
-		return "chat/test";
+		return "chat/connUntactCons";
 	}
 
 	@GetMapping("/chattingForm")

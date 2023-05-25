@@ -10,54 +10,14 @@
 		}
 	</style>
 </th:block>
-<!-- 사용자 스크립트 추가 -->
-<th:block layout:fragment="script">
-	<script th:inline="javascript">
-		function findPwd() {
-			var _id = $('#id').val();
-			if(_id=='') {
-				alert("아이디를 입력하세요");
-				$('#id').focus();
-				return;
-			}
-			var name = $('#name').val();
-			if(name=='') {
-				alert("이름을 입력하세요");
-				$('#name').focus();
-				return;
-			}
-			var email = $('#email').val();
-			if(email=='') {
-				alert("이메일을 입력하세요");
-				$('#email').focus();
-				return;
-			}
-			$.ajax({
-				type: "get",
-				url: "/members/findPwdByEmail",
-				data : { "id" : _id,
-						 "name" : name,
-						 "email" : email
-				},
-				contentType: "application/json",
-				success: function(result){
-					var result = result.result;
-					console.log("result :" +result)
-					if(result == "true"){
-						alert('이메일을 확인해주세요.');
-					}
-					else{
-						alert("일치하는 회원 정보가 없습니다.");
-					}
-				},
-				error : function(){
-						alert("에러발생");
-				}
-			});
-			
-		}
-	</script>
-</th:block>
+<head>
+    <meta charset="UTF-8">
+    <meta name="_csrf" th:content="${_csrf.token}">
+	<meta name="_csrf_header" th:content="${_csrf.headerName}">
+    <title>비밀번호 찾기</title>
+    <script type="text/javascript" src="/js/findIdPw.js"></script>
+</head>
+<body>
 <div layout:fragment="content">
 	<form role="form" method="get" action="" th:object="${memberFormDto}" id="frm">
 		<div class="form-group">
@@ -72,7 +32,8 @@
 			<label th:for="email">이메일</label> <input type="email"
 				th:field="*{email}" class="form-control" placeholder="이메일 입력">
 		</div>
-		<input type="button" class="btn btn-primary" onclick="findPwd()" value="비밀번호 찾기">
+		<input type="button" class="btn btn-primary" id="find_pwd_btn" value="비밀번호 찾기">
 	</form>
 </div>
+</body>
 </html>
