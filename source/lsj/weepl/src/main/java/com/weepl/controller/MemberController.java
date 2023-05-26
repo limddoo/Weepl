@@ -156,9 +156,9 @@ public class MemberController {
 	}
 
 	// 이메일 인증(Ajax)
-	@GetMapping(value = "/mailConfirm")
+	@PostMapping(value = "/mailConfirm")
 	@ResponseBody
-	public HashMap<String, Object> mailConfirm(String email) throws Exception {
+	public HashMap<String, Object> mailConfirm(@RequestParam("email") String email) throws Exception {
 		HashMap<String, Object> map = new HashMap<>();
 		map.put("result", registerMail.sendSimpleMessage(email));
 		return map;

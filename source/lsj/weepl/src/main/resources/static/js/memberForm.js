@@ -1,10 +1,15 @@
 $(document).ready(function(){
 	header = $("meta[name='_csrf_header']").attr('content');
 	token = $("meta[name='_csrf']").attr('content');
-	var errorMessage = [[$(errorMessage)]]; // String타입 : CDATA 형태로 들어감
 	if(errorMessage != null){
 		console.log(errorMessage);
 		alert(errorMessage);
+	}
+	if(errorMessage == "이미 가입된 이메일입니다.") {
+		document.getElementById("email").value = "";
+	}
+	if(returnId != null) {
+		document.getElementById("_id").value = returnId;
 	}
 });
 // 주소입력
@@ -107,12 +112,14 @@ if(_email==''){
 	return;
 }
 $.ajax({
-type : "get",
+type : "post",
 url : "/members/mailConfirm",
 data : {
 	"email" : _email
 },
-contentType: "application/json",
+beforeSend: function(xhr){
+	xhr.setRequestHeader(header, token);
+},
 success : function(result){
 	 alert("해당 이메일로 인증번호 발송이 완료되었습니다. \n 확인부탁드립니다.")
 	 console.log("data : "+result.result);

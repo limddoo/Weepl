@@ -19,4 +19,9 @@ public class AdminController {
     public String chattingForm() {
     	return "admin/chatting";
     }
+	
+	@GetMapping("/ucMngForm")
+    public String ucMngForm() {
+    	return "admin/untactConsSchMng";
+    }
 }

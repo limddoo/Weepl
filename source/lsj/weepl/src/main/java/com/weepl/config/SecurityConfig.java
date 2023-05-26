@@ -27,44 +27,44 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	MemberRepository memberRepository;
 
-	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-
-		http.formLogin().loginPage("/members/login") // 로그인 페이지 url을 설정
-				.defaultSuccessUrl("/") // 로그인 성공 시 이동할 url
-				.usernameParameter("id") // 로그인 시 사용할 파라미터 이름으로 id를 지정
-				.passwordParameter("pwd")
-				.successHandler(new AccountLoginSuccessHandler(memberRepository))
-				.failureUrl("/members/login/error") // 로그인 실패 시 이동할 url을 설정
-				.failureHandler(new AccountLoginFailureHandler())
-				.and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/members/logout")) // 로그아웃 url을 설정
-				.logoutSuccessUrl("/") // 로그아웃 성공 시 이동할 url을 설정
-		;
-
-		http.authorizeRequests().mvcMatchers("/", "/members/**","/ws/**","/chat/**","/favicon.ico").permitAll()
-								.mvcMatchers("/admin/**").hasRole("ADMIN")
-								.mvcMatchers("/mypage/**").hasAnyRole("CLIENT", "COUNSELOR")
-								.anyRequest().authenticated()
-								.and();
-
-		http.exceptionHandling().authenticationEntryPoint(new CustomAuthenticationEntryPoint());
-
+		http.formLogin()
+        .loginPage("/members/login")
+        .defaultSuccessUrl("/")
+        .usernameParameter("id")
+        .successHandler(new AccountLoginSuccessHandler(memberRepository))
+        .failureUrl("/members/login/error")
+        .failureHandler(new AccountLoginFailureHandler())
+        .and()
+        .logout()
+        .logoutRequestMatcher(new AntPathRequestMatcher("/members/logout"))
+        .logoutSuccessUrl("/") 
+        ;
 		
-	}
+		 http.authorizeRequests()
+	      .mvcMatchers("/admin/**").hasRole("ADMIN")
+	      .mvcMatchers("/mypage/**").hasAnyRole("CLIENT", "COUNSELOR")
+	      .mvcMatchers("/", "/members/**","/ws/**","/chat/**").permitAll()
+	      .anyRequest().authenticated()
+	      ;
 
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
+		 http.exceptionHandling() // 인증되지 않은 사용자가 리소스에 접근하였을 때 수행되는 핸들러 등록
+//	      .authenticationEntryPoint(new CustomAuthenticationEntryPoint())
+//	      .accessDeniedHandler(new CustomAccessDeniedHandler()); 
+	      .accessDeniedPage("/error_user");
+	   }
 
-	@Override
-	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(memberService).passwordEncoder(passwordEncoder());
-	}
+	 @Bean
+	   public PasswordEncoder passwordEncoder() {
+	      return new BCryptPasswordEncoder();
+	   }
+	   
+	   protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+	      auth.userDetailsService(memberService)
+	      .passwordEncoder(passwordEncoder());
+	   }
 
-	@Override
-	public void configure(WebSecurity web) throws Exception {
-		web.ignoring().antMatchers("/css/**", "/js/**", "/img/**", "/v2/api-docs","/swagger-resources/**",
-                "/swagger-ui.html", "/swagger/**"); // static 디렉토리 하위 파일은 인증을 무시하도록 설정
-	}
+	   public void configure(WebSecurity web) throws Exception {
+		      web.ignoring().antMatchers("/css/**", "/js/**", "/img/**","/favicon.ico");
+		   }
 }

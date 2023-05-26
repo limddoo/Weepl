@@ -14,12 +14,16 @@
 <th:block layout:fragment="script">
 	<!-- 주소입력서비스API -->
 	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+	<script type="text/javascript" th:inline="javascript">
+	var errorMessage = [[${errorMessage}]];
+	var returnId = [[${memberFormDto.id}]];
+	</script>
 </th:block>
 <head>
     <meta charset="UTF-8">
     <meta name="_csrf" th:content="${_csrf.token}">
 	<meta name="_csrf_header" th:content="${_csrf.headerName}">
-    <title>비밀번호 찾기</title>
+    <title>회원가입</title>
     <script type="text/javascript" src="/js/memberForm.js"></script>
 </head>
 <body>
