@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -31,18 +32,22 @@ public class ReserveApply {
 	@JoinColumn(name="mem_cd")
 	private Member member;
 	
-	private LocalDateTime reservedDt;
+	@Column(nullable=false)
+	private LocalDateTime reserveDt;
 	
-	private String state;
+	@Column(nullable=false)
+	private String status;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="reserve_schedule_cd")
 	private ReserveSchedule reserveSchedule;
 	
 	private String roomId;
-	
+	@Column(nullable=false)
 	private String consDiv;
 	
+	@Lob
+	@Column(nullable=false)
 	private String consReqContent;
 	
 	private LocalDateTime cancDt;

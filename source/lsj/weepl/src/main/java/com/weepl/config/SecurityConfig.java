@@ -32,6 +32,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .loginPage("/members/login")
         .defaultSuccessUrl("/")
         .usernameParameter("id")
+        .passwordParameter("pwd")
         .successHandler(new AccountLoginSuccessHandler(memberRepository))
         .failureUrl("/members/login/error")
         .failureHandler(new AccountLoginFailureHandler())
@@ -44,7 +45,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		 http.authorizeRequests()
 	      .mvcMatchers("/admin/**").hasRole("ADMIN")
 	      .mvcMatchers("/mypage/**").hasAnyRole("CLIENT", "COUNSELOR")
-	      .mvcMatchers("/", "/members/**","/ws/**","/chat/**").permitAll()
+	      .mvcMatchers("/", "/members/**","/ws/**","/chat/**","/board/**","/boardCons/**").permitAll()
 	      .anyRequest().authenticated()
 	      ;
 
@@ -65,6 +66,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	   }
 
 	   public void configure(WebSecurity web) throws Exception {
-		      web.ignoring().antMatchers("/css/**", "/js/**", "/img/**","/favicon.ico");
+		      web.ignoring().antMatchers("/css/**", "/js/**", "/img/**","/favicon.ico","/wee/**", "/images/**");
 		   }
 }

@@ -1,14 +1,18 @@
 package com.weepl.entity;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -16,6 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import com.weepl.constant.MemberStatus;
 import com.weepl.constant.Role;
 import com.weepl.dto.MemberFormDto;
+import com.weepl.dto.ModMemberInfoDto;
 import com.weepl.dto.MypageFormDto;
 
 import lombok.Getter;
@@ -121,6 +126,21 @@ public class Member{
 		this.addrDtl = mypageFormDto.getAddrDtl();
 		this.addrPost = mypageFormDto.getAddrPost();
 	}
+	
+	public void updateMember(ModMemberInfoDto modMemberInfoDto){
+		this.name = modMemberInfoDto.getName();
+		this.email = modMemberInfoDto.getEmail();
+		this.gender = modMemberInfoDto.getGender();
+		this.tel1 = modMemberInfoDto.getTel1();
+		this.tel2 = modMemberInfoDto.getTel2();
+		this.tel3 = modMemberInfoDto.getTel3();
+		this.birY = modMemberInfoDto.getBirY();
+		this.birM = modMemberInfoDto.getBirM();
+		this.birD = modMemberInfoDto.getBirD();
+		this.addr = modMemberInfoDto.getAddr();
+		this.addrDtl = modMemberInfoDto.getAddrDtl();
+		this.addrPost = modMemberInfoDto.getAddrPost();
+	}
 
 	public void updateMemberPwd(String pwd, PasswordEncoder passwordEncoder) {
 		String password = passwordEncoder.encode(pwd);
@@ -129,5 +149,22 @@ public class Member{
 	
 	public void quitMember() {
 		this.status = MemberStatus.QUIT;
+	}
+	
+	public void restrictMember() {
+		this.status = MemberStatus.RESTRICT;
+	}
+
+//	@OneToOne(mappedBy = "member", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//    private MemberRestrict memberRestrict;
+
+	@OneToMany(mappedBy = "member", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private List<MemberRestrict> memberRestricts;
+	
+	public void updateMemberStatus(MemberStatus newStatus) {
+	    if (this.status == MemberStatus.RESTRICT && newStatus == MemberStatus.GENERAL) {
+	        this.memberRestricts.clear();
+	    }
+	    this.status = newStatus;
 	}
 }

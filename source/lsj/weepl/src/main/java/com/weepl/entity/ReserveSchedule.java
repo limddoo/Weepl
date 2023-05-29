@@ -24,7 +24,7 @@ public class ReserveSchedule {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long cd;
 	
-	private LocalDateTime reserve_date;
+	private LocalDateTime reserveDt;
 	
-	private String reserve_time;
+	private String reserveTime;
 }

@@ -78,4 +78,8 @@ public class MemberService implements UserDetailsService {
 		findMember.setPwd(password);
 		memberRepository.save(findMember);
 	}
+	
+	public Member findMemberByCd(Long cd) {
+		return memberRepository.findByCd(cd);
+	}
 }

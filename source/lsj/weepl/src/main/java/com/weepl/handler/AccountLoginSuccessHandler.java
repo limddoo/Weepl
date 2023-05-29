@@ -6,6 +6,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
@@ -41,7 +42,9 @@ public class AccountLoginSuccessHandler implements AuthenticationSuccessHandler 
 		if (MemberStatus.QUIT.equals(member.getStatus())) {
 			// 아래 예외로 인해 로그인 실패가 발생하고, 로그인 실패 핸들러 호출됨
 			throw new LockedException("탈퇴처리한 회원입니다.");
-		}
+		} else if (MemberStatus.RESTRICT.equals(member.getStatus())) {
+            throw new DisabledException("이용이 제한된 회원입니다.");
+        }
 
 		SavedRequest savedRequest = requestCache.getRequest(request, response);
 		// 인증이 필요한 리소스에 접근하려다 로그인 화면으로 넘어간경우

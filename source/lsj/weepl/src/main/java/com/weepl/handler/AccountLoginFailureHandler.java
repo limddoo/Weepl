@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.DefaultRedirectStrategy;
@@ -31,7 +32,11 @@ public class AccountLoginFailureHandler implements AuthenticationFailureHandler 
 		} else if (exception instanceof LockedException) { // LoginSuccessHandler에서 LockedException발생시 넘어 온 경우
 			System.out.println(exception.getMessage());
 			redirectStrategy.sendRedirect(request, response, "/members/login/error?cause=locked");
-		}
+		} else if (exception instanceof DisabledException) {
+            redirectStrategy.sendRedirect(request, response, "/members/login/error?cause=restricted");
+        } else {
+            redirectStrategy.sendRedirect(request, response, "/members/login/error");
+        }
 
 		
 	}

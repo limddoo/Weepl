@@ -29,7 +29,7 @@
             });
 
             // 웹소켓 연결
-            const websocket = new WebSocket("ws://192.168.0.98:8090/ws/chat");
+            const websocket = new WebSocket("ws://localhost/ws/chat");
             
             websocket.onmessage = onMessage;
             websocket.onopen = onOpen;

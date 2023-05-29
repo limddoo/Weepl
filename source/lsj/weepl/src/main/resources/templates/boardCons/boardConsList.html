@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/basicLayout}">
+
+<!-- 사용자 스크립트 추가 -->
+<th:block layout:fragment="script">
+	<script th:inline="javascript">
+		$(document).ready(function() {
+			const name = [[${#authentication.principal.username}]];
+			$("checkName").on("click", (e) => {
+				
+				checkName();
+			})
+			
+			function checkName(){
+				var boardcd = board.cd;
+				var url = "/boardCons/consDtl/" + boardcd;
+				
+				
+				if(name == 'admin'){
+					alert('관리자의 권한으로 상담상세정보를 들어갑니다.');
+					location.href='/boardCons/consDtl/' + [[${board.cd}]]
+				}else{
+					pwd = prompt('비밀번호를 입력하세요.');
+					if(pwd == boardCons.pwd){
+						alert('비밀번호가 일치합니다.');
+						location.href= '/boardCons/consDtl/' + [[${board.cd}]];
+					}else{
+						alert('비밀번호가 일치하지 않습니다.');
+					}
+				}
+			}
+			
+			
+		});
+		
+	</script>
+</th:block>
+<th:block layout:fragment="css">
+	<style>
+select {
+	margin-right: 10px;
+}
+</style>
+</th:block>
+
+<div layout:fragment="content">
+	<form action="@{'/boardCons/' + ${boardCons.number}}" role="form" method="get" th:object="${boardCons}">
+		<table class="table">
+			<thead>
+			  <tr>
+			  	<td>번호</td>
+			  	<td>제목</td>
+			  	<td>작성자</td>
+			  	<td>날짜</td>
+			  </tr>
+			  </thead>
+			  <tbody>
+			  	<tr th:each="board, status: ${boardCons.getContent()}">
+			  		<td th:text="${board.cd}"></td>
+			  		<td><a href="javascript:checkName();" th:text="${board.title}"></a></td>
+			  		<td th:text="${board.name}"></td>
+					<td th:text="${board.regDt}"></td>
+			  	</tr>
+			  	
+			  </tbody>
+			  
+		</table>
+	</form>
+	<button type="button" class="btn btn-primary" onclick="location.href='/boardCons/connConsForm'">상담신청하기</button>
+</div>
+
+</html>
