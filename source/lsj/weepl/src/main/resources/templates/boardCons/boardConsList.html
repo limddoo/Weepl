@@ -2,39 +2,78 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{layouts/basicLayout}">
-
+<head>
+    <meta charset="UTF-8">
+    <meta name="_csrf" th:content="${_csrf.token}">
+	<meta name="_csrf_header" th:content="${_csrf.headerName}">
+    <title>게시판 상담</title>
+</head>
 <!-- 사용자 스크립트 추가 -->
 <th:block layout:fragment="script">
-	<script th:inline="javascript">
-		$(document).ready(function() {
-			const name = [[${#authentication.principal.username}]];
-			$("checkName").on("click", (e) => {
-				
-				checkName();
-			})
-			
-			function checkName(){
-				var boardcd = board.cd;
-				var url = "/boardCons/consDtl/" + boardcd;
-				
-				
+	<script th:inline="javascript">		
+		function checkName(boardCd){
+			var header = $("meta[name='_csrf_header']").attr('content');
+			var token = $("meta[name='_csrf']").attr('content');
+			console.log("header:"+header+", token: "+token+", boardCd: "+boardCd);
+			const user = [[${#authentication.principal}]];
+			console.log(user);
+			if(user != 'anonymousUser') {
+				const name = user.username;
 				if(name == 'admin'){
-					alert('관리자의 권한으로 상담상세정보를 들어갑니다.');
-					location.href='/boardCons/consDtl/' + [[${board.cd}]]
-				}else{
-					pwd = prompt('비밀번호를 입력하세요.');
-					if(pwd == boardCons.pwd){
-						alert('비밀번호가 일치합니다.');
-						location.href= '/boardCons/consDtl/' + [[${board.cd}]];
-					}else{
-						alert('비밀번호가 일치하지 않습니다.');
-					}
+					location.href = "/boardCons/consDtl/"+boardCd;
+				} else {
+					$.ajax({
+						type:"post",
+						url:"/boardCons/getBoardMember",
+						data:{"boardCd":boardCd},
+						beforeSend: function(xhr){
+							xhr.setRequestHeader(header, token);
+						},
+						success: function(result){
+							if(name == result.result) {
+								location.href = "/boardCons/consDtl/"+boardCd;
+							} else {
+								checkBoardPwd(header, token, boardCd);
+							}
+						},
+						error : function(){
+							alert("에러발생");
+						}
+					});
 				}
+			} else {
+				checkBoardPwd(header, token, boardCd);
 			}
 			
-			
-		});
+		}
 		
+		function checkBoardPwd(header, token, boardCd) {
+			var password = prompt("비밀번호 입력");
+			console.log(password);
+			$.ajax({
+				type:"post",
+				url:"/boardCons/confirmBoardPwd",
+				data:{
+					"boardCd":boardCd,
+					"boardPwd":password
+				},
+				beforeSend: function(xhr){
+					xhr.setRequestHeader(header, token);
+				},
+				success: function(confirmResult){
+					console.log(confirmResult.result);
+					if(confirmResult.result == "ENTER") {
+						location.href = "/boardCons/consDtl/"+boardCd;
+					} else {
+						alert('비밀번호가 맞지않습니다.');
+						return;
+					}
+				},
+				error : function(){
+					alert("에러발생");
+				}
+			});
+		}
 	</script>
 </th:block>
 <th:block layout:fragment="css">
@@ -58,8 +97,8 @@ select {
 			  </thead>
 			  <tbody>
 			  	<tr th:each="board, status: ${boardCons.getContent()}">
-			  		<td th:text="${board.cd}"></td>
-			  		<td><a href="javascript:checkName();" th:text="${board.title}"></a></td>
+			  		<td th:text="${board.cd}" ></td>
+			  		<td><span th:onclick="checkName([[${board.cd}]])" th:text="${board.title}"></span></td>
 			  		<td th:text="${board.name}"></td>
 					<td th:text="${board.regDt}"></td>
 			  	</tr>

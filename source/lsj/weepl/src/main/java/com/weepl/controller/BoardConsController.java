@@ -1,5 +1,7 @@
 package com.weepl.controller;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -16,6 +18,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.weepl.dto.BoardConsFormDto;
 import com.weepl.dto.BoardConsListDto;
@@ -98,7 +102,7 @@ public class BoardConsController {
 
 	@GetMapping(value = "/consDtl/{board_cons_cd}")
 	public String boardConsDtl(@PathVariable("board_cons_cd") Long cd, Model model) {
-		BoardCons boardCons = boardConsService.BoardConsDtl(cd);
+		BoardCons boardCons = boardConsService.boardConsDtl(cd);
 		model.addAttribute("boardCons", boardCons);
 		return "boardCons/boardConsDtl";
 	}
@@ -140,4 +144,24 @@ public class BoardConsController {
 		return "redirect:/boardCons/consList";
 	}
 
+	@PostMapping(value="/getBoardMember")
+	@ResponseBody
+	public Map<String,String> getBoardMember(@RequestParam("boardCd") Long boardCd) {
+		Map<String, String> result = new HashMap<>();
+		Member member = boardConsService.findBoardMember(boardCd);
+		if(member != null) {
+			result.put("result", member.getId());
+		}
+		
+		return result;
+	}
+	
+	@PostMapping(value="/confirmBoardPwd")
+	@ResponseBody
+	public Map<String, String> confirmBoardPwd(@RequestParam("boardCd") Long boardCd, @RequestParam("boardPwd") String boardPwd) {
+		Map<String, String> result = new HashMap<>();
+		result.put("result", boardConsService.confirmPwd(boardCd, boardPwd));
+		System.out.println(boardConsService.confirmPwd(boardCd, boardPwd));
+		return result;
+	}
 }

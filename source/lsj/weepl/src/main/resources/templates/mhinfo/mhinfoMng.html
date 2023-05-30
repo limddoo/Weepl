@@ -3,7 +3,7 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{layouts/basicLayout}">
 
-사용자 스크립트 추가
+<!-- 사용자 스크립트 추가 -->
 <th:block layout:fragment="script">
 	<script th:inline="javascript">
 		$(document).ready(function() {
@@ -26,7 +26,7 @@
 
 </th:block>
 
-사용자 CSS 추가
+<!-- 사용자 CSS 추가 -->
 <th:block layout:fragment="css">
 	<style>
 select {
@@ -82,11 +82,6 @@ select {
     font-size: 23px;
     color : #808080;
 }
-
-
-
-
-
 
 
 

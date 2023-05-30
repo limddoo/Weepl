@@ -24,64 +24,58 @@ public class MhinfoRepositoryCustomImpl implements MhinfoRepositoryCustom {
 	public MhinfoRepositoryCustomImpl(EntityManager em) {
 		this.queryFactory = new JPAQueryFactory(em);
 	}
-	
-private BooleanExpression searchByCategory(String searchBy, String searchQuery) {
-	
-		if("SCHOOL".equals(searchQuery)) {
+
+	private BooleanExpression searchByCategory(String searchBy, String searchQuery) {
+		if ("SCHOOL".equals(searchQuery)) {
 			return QMhinfo.mhinfo.mhinfoCate.eq(MhinfoCate.SCHOOL);
-		} else if("MIND".equals(searchQuery)) {
+		} else if ("MIND".equals(searchQuery)) {
 			return QMhinfo.mhinfo.mhinfoCate.eq(MhinfoCate.MIND);
-		} else if("RELATIONSHIP".equals(searchQuery)) {
+		} else if ("RELATIONSHIP".equals(searchQuery)) {
 			return QMhinfo.mhinfo.mhinfoCate.eq(MhinfoCate.RELATIONSHIP);
 		}
 		return null;
 	}
-	
-	
+
 	private BooleanExpression searchByLike(String searchBy, String searchQuery) {
-		
-		if(StringUtils.equals("title", searchBy)){
+
+		if (StringUtils.equals("title", searchBy)) {
 			return QMhinfo.mhinfo.title.like("%" + searchQuery + "%");
-			} else if(StringUtils.equals("createdBy", searchBy)){
+		} else if (StringUtils.equals("createdBy", searchBy)) {
 			return QMhinfo.mhinfo.createdBy.like("%" + searchQuery + "%");
-			}
-			return null;
+		}
+		return null;
 	}
-	
+
 	@Override
 	public Page<Mhinfo> getAdminMhinfoPage(MhinfoSearchDto mhinfoSearchDto, Pageable pageable) {
-	    BooleanExpression categoryExpression = searchByCategory(mhinfoSearchDto.getSearchByCate(), mhinfoSearchDto.getSearchQuery());
-	    BooleanExpression likeExpression = searchByLike(mhinfoSearchDto.getSearchBy(), mhinfoSearchDto.getSearchQuery());
+		BooleanExpression categoryExpression = searchByCategory(mhinfoSearchDto.getSearchByCate(),
+				mhinfoSearchDto.getSearchQuery());
+		BooleanExpression likeExpression = searchByLike(mhinfoSearchDto.getSearchBy(),
+				mhinfoSearchDto.getSearchQuery());
 
-	    QueryResults<Mhinfo> results = queryFactory
-	            .selectFrom(QMhinfo.mhinfo)
-	            .where(categoryExpression, likeExpression)
-	            .orderBy(QMhinfo.mhinfo.cd.desc())
-	            .offset(pageable.getOffset())
-	            .limit(pageable.getPageSize())
-	            .fetchResults();
+		QueryResults<Mhinfo> results = queryFactory.selectFrom(QMhinfo.mhinfo).where(categoryExpression, likeExpression)
+				.orderBy(QMhinfo.mhinfo.cd.desc()).offset(pageable.getOffset()).limit(pageable.getPageSize())
+				.fetchResults();
 
-	    List<Mhinfo> content = results.getResults();
-	    long total = results.getTotal();
-	    return new PageImpl<>(content, pageable, total);
+		List<Mhinfo> content = results.getResults();
+		long total = results.getTotal();
+		return new PageImpl<>(content, pageable, total);
 	}
 
 	@Override
 	public Page<Mhinfo> getUserMhinfoPage(MhinfoSearchDto mhinfoSearchDto, Pageable pageable) {
-	    BooleanExpression categoryExpression = searchByCategory(mhinfoSearchDto.getSearchBy(), mhinfoSearchDto.getSearchQuery());
-	    BooleanExpression likeExpression = searchByLike(mhinfoSearchDto.getSearchBy(), mhinfoSearchDto.getSearchQuery());
+		BooleanExpression categoryExpression = searchByCategory(mhinfoSearchDto.getSearchBy(),
+				mhinfoSearchDto.getSearchQuery());
+		BooleanExpression likeExpression = searchByLike(mhinfoSearchDto.getSearchBy(),
+				mhinfoSearchDto.getSearchQuery());
 
-	    QueryResults<Mhinfo> results = queryFactory
-	            .selectFrom(QMhinfo.mhinfo)
-	            .where(categoryExpression, likeExpression)
-	            .orderBy(QMhinfo.mhinfo.cd.desc())
-	            .offset(pageable.getOffset())
-	            .limit(pageable.getPageSize())
-	            .fetchResults();
+		QueryResults<Mhinfo> results = queryFactory.selectFrom(QMhinfo.mhinfo).where(categoryExpression, likeExpression)
+				.orderBy(QMhinfo.mhinfo.cd.desc()).offset(pageable.getOffset()).limit(pageable.getPageSize())
+				.fetchResults();
 
-	    List<Mhinfo> content = results.getResults();
-	    long total = results.getTotal();
-	    return new PageImpl<>(content, pageable, total);
+		List<Mhinfo> content = results.getResults();
+		long total = results.getTotal();
+		return new PageImpl<>(content, pageable, total);
 	}
 
 }

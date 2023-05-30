@@ -95,7 +95,7 @@ public class BoardConsService {
 	}
 
 	@Transactional(readOnly = true)
-	public BoardCons BoardConsDtl(Long cd) {
+	public BoardCons boardConsDtl(Long cd) {
 		return boardConsRepository.findByCd(cd);
 
 	}
@@ -120,6 +120,24 @@ public class BoardConsService {
 
 	public Member findMember(String id) {
 		return memberRepository.findById(id);
+	}
+	
+	public Member findBoardMember(Long boardCd) {
+		BoardCons boardCons = boardConsRepository.getById(boardCd);
+		if(boardCons != null) {
+			return memberRepository.findByCd(boardCons.getMember().getCd());
+		}
+		return null;
+	}
+	
+	public String confirmPwd(Long boardCd, String pwd) {
+		BoardCons board = boardConsRepository.findByCd(boardCd);
+		if(board != null) {
+			if(pwd.equals(board.getPwd())) {
+				return "ENTER";
+			}
+		}
+		return null;
 	}
 	
 	public BoardConsNmem findNmem(Long cd) {

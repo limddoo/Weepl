@@ -45,7 +45,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		 http.authorizeRequests()
 	      .mvcMatchers("/admin/**").hasRole("ADMIN")
 	      .mvcMatchers("/mypage/**").hasAnyRole("CLIENT", "COUNSELOR")
-	      .mvcMatchers("/", "/members/**","/ws/**","/chat/**","/board/**","/boardCons/**").permitAll()
+	      .mvcMatchers("/", "/members/**","/ws/**","/chat/**","/board/**","/boardCons/**","/mhinfo/**").permitAll()
 	      .anyRequest().authenticated()
 	      ;
 
@@ -66,6 +66,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	   }
 
 	   public void configure(WebSecurity web) throws Exception {
-		      web.ignoring().antMatchers("/css/**", "/js/**", "/img/**","/favicon.ico","/wee/**", "/images/**");
+		      web.ignoring().antMatchers("/css/**", "/js/**", "/img/**","/wee/**", "/images/**","/error");
 		   }
 }
