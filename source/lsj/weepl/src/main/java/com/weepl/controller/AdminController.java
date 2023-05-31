@@ -1,5 +1,8 @@
 package com.weepl.controller;
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -17,11 +20,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.weepl.dto.MemberSearchDto;
 import com.weepl.dto.ModMemberInfoDto;
 import com.weepl.entity.Member;
-import com.weepl.repository.MemberRepository;
 import com.weepl.service.AdminService;
 
 import lombok.RequiredArgsConstructor;
@@ -31,9 +35,6 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/admin")
 public class AdminController {
 	private final AdminService adminService;
-	private final MemberRepository memberRepository;
-	private ModMemberInfoDto modMemberInfoDto;
-
 	private final Logger LOGGER = LoggerFactory.getLogger(AdminController.class);
 	
 	@PostMapping(value = "/modMemberInfo/{memCd}")
@@ -163,4 +164,16 @@ public class AdminController {
     public String ucMngForm() {
     	return "admin/untactConsSchMng";
     }
+	
+	@PostMapping(value="/unSchCreate")
+	@ResponseBody
+	public HashMap<String, String> ucMSchCreate(@RequestParam(value="schDate")String schDate, @RequestParam(value="am")String schTimeAm, @RequestParam(value="pm")String schTimePm, Model model) {
+		HashMap<String, String> map = new HashMap<>();
+		String[] schDateArray = schDate.split(",");
+		List<String> schDateList = Arrays.asList(schDateArray);
+		System.out.println("am:"+schTimeAm+", pm:"+schTimePm);
+		adminService.saveReserveSchedule(schDateList, schTimeAm, schTimePm);
+		map.put("result","등록 성공!");
+		return map;
+	}
 }

@@ -6,9 +6,9 @@ import java.util.List;
 
 import javax.persistence.EntityNotFoundException;
 
+import org.apache.groovy.parser.antlr4.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -20,10 +20,11 @@ import com.weepl.dto.MemberSearchDto;
 import com.weepl.dto.ModMemberInfoDto;
 import com.weepl.entity.Member;
 import com.weepl.entity.MemberRestrict;
+import com.weepl.entity.ReserveSchedule;
 import com.weepl.repository.MemberRepository;
-import com.weepl.repository.MemberRepositoryCustom;
 import com.weepl.repository.MemberRestrictRepository;
 import com.weepl.repository.ReserveApplyRepository;
+import com.weepl.repository.ReserveScheduleRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -38,6 +39,8 @@ public class AdminService {
 	private final MemberRepository memberRepository;
 
 	private final MemberRestrictRepository memberRestrictRepository;
+	
+	private final ReserveScheduleRepository reserveScheduleRepository;
 
 	public List<Member> findMembers() {
 		
@@ -115,4 +118,25 @@ public class AdminService {
 	    public Page<Member> getAdminMemberInfoPage(MemberSearchDto memberSearchDto, Pageable pageable){
 	    	return memberRepository.getAdminMemberInfoPage(memberSearchDto, pageable);
 	    }
+		
+		private void setReserveSchedule(String date, String time) {
+			ReserveSchedule foundRs = reserveScheduleRepository.findByReserveDateAndReserveTime(date, time);
+			if(foundRs == null) {
+				ReserveSchedule rs = ReserveSchedule.createReserveSchedule(date, time);
+				
+				reserveScheduleRepository.save(rs);
+			}
+		}
+		
+		
+		public void saveReserveSchedule(List<String> schDateList, String am, String pm) {
+			for(String schDate : schDateList) {
+				if(!StringUtils.isEmpty(am)) {
+					setReserveSchedule(schDate, am);
+				}
+				if(!StringUtils.isEmpty(pm)) {
+					setReserveSchedule(schDate, pm);
+				}
+			}
+		}
 }
