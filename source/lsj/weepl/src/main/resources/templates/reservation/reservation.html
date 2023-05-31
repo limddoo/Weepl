@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{layouts/basicLayout}">
+	layout:decorate="~{layouts/consLayout}">
 <head>
 <meta charset='utf-8' />
 <meta name="_csrf_header" th:content="${_csrf.headerName}">
@@ -34,7 +34,7 @@ body {
 </head>
 
 <body>
-	<div layout:fragment="content">
+	<div layout:fragment="content" class="content-wrapper">
 		<div id='calendar'></div>
 		<div>
 			<button onclick="calendar.addEvent()">일정추가</button>

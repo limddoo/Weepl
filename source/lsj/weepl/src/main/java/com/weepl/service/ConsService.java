@@ -28,7 +28,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequiredArgsConstructor
 @Service
-public class ChatService {
+public class ConsService {
     private final ObjectMapper objectMapper;
     private Map<String, ChatRoom> chatRooms;
     private final ChattingRoomRepository chattingRoomRepository;

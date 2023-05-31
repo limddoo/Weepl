@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-layout:decorate="~{layouts/basicLayout}">
+layout:decorate="~{layouts/consLayout}">
 <!-- 사용자 CSS 추가 -->
 <th:block layout:fragment="css">
 	<style>
@@ -26,7 +26,7 @@ layout:decorate="~{layouts/basicLayout}">
 	
 	</script>
 </th:block>
-<div layout:fragment="content">
+<div layout:fragment="content" class="content-wrapper">
 	<form action="/boardCons/consForm" role="form" method="post" th:object="${boardConsFormDto}">
 	
 	<p class="h2">게시판 상담 신청</p>

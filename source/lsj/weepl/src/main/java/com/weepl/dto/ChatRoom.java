@@ -5,7 +5,7 @@ import java.util.Set;
 
 import org.springframework.web.socket.WebSocketSession;
 
-import com.weepl.service.ChatService;
+import com.weepl.service.ConsService;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -24,7 +24,7 @@ public class ChatRoom {
 	        this.name = name;
 	    }
 
-	    public void handlerActions(WebSocketSession session, ChatDto chatMessage, ChatService chatService) {
+	    public void handlerActions(WebSocketSession session, ChatDto chatMessage, ConsService chatService) {
 	        if (chatMessage.getType().equals(ChatDto.MessageType.ENTER)) {
 	            sessions.add(session);
 	            chatMessage.setMessage(chatMessage.getSender() + "님이 입장했습니다.");
@@ -37,7 +37,7 @@ public class ChatRoom {
 
 	    }
 
-	    private <T> void sendMessage(T message, ChatService chatService) {
+	    private <T> void sendMessage(T message, ConsService chatService) {
 	        sessions.parallelStream()
 	                .forEach(session -> chatService.sendMessage(session, message));
 	    }

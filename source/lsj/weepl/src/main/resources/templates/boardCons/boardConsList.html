@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{layouts/basicLayout}">
+	layout:decorate="~{layouts/consLayout}">
 <head>
     <meta charset="UTF-8">
     <meta name="_csrf" th:content="${_csrf.token}">
@@ -76,17 +76,11 @@
 		}
 	</script>
 </th:block>
-<th:block layout:fragment="css">
-	<style>
-select {
-	margin-right: 10px;
-}
-</style>
-</th:block>
 
-<div layout:fragment="content">
+<body>
+<div layout:fragment="content" class="content-wrapper">
 	<form action="@{'/boardCons/' + ${boardCons.number}}" role="form" method="get" th:object="${boardCons}">
-		<table class="table">
+		<table class="table-container">
 			<thead>
 			  <tr>
 			  	<td>번호</td>
@@ -109,5 +103,7 @@ select {
 	</form>
 	<button type="button" class="btn btn-primary" onclick="location.href='/boardCons/connConsForm'">상담신청하기</button>
 </div>
+</body>
+
 
 </html>

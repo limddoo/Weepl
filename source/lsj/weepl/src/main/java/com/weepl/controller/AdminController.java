@@ -41,14 +41,14 @@ public class AdminController {
 	public String modMemberInfo(@Valid ModMemberInfoDto modMemberInfoDto, BindingResult bindingResult, Model model)
 			throws Exception {
 		if (bindingResult.hasErrors()) {
-			return "member/modMemberInfoForm";
+			return "admin/modMemberInfoForm";
 		}
 
 		try {
 			adminService.updateMember(modMemberInfoDto);
 		} catch (IllegalStateException e) {
 			model.addAttribute("errorMessage", e.getMessage());
-			return "member/modMemberInfoForm";
+			return "admin/modMemberInfoForm";
 		}
 
 		model.addAttribute("result", "수정이 완료되었습니다!");
@@ -66,7 +66,7 @@ public class AdminController {
 			model.addAttribute("errorMessage", "멤버를 찾을 수 없습니다."); // 에러 메시지 설정
 			return "redirect:/admin/memberList";
 		}
-		return "member/modMemberInfoForm";
+		return "admin/modMemberInfoForm";
 	}
 
 	@GetMapping("/deleteMember/{memCd}")
@@ -122,7 +122,7 @@ public class AdminController {
 			model.addAttribute("memberList", memberList);
 			model.addAttribute("memberSearchDto", memberSearchDto);
 			model.addAttribute("maxPage", 5);
-			return "member/memberList";
+			return "admin/memberList";
 		}
 	 
 	 @GetMapping(value = { "/reMemberList", "/reMemberList/{page}" })
@@ -148,7 +148,7 @@ public class AdminController {
 	     model.addAttribute("reMemberList", reMemberList);
 	     model.addAttribute("memberSearchDto", memberSearchDto);
 	     model.addAttribute("maxPage", reMemberList.getTotalPages()); // 수정: 실제 최대 페이지 수를 사용
-	     return "member/reMemberList";
+	     return "admin/reMemberList";
 	 }
 	@GetMapping("/untactConsForm")
     public String untactConsForm() {
@@ -171,7 +171,6 @@ public class AdminController {
 		HashMap<String, String> map = new HashMap<>();
 		String[] schDateArray = schDate.split(",");
 		List<String> schDateList = Arrays.asList(schDateArray);
-		System.out.println("am:"+schTimeAm+", pm:"+schTimePm);
 		adminService.saveReserveSchedule(schDateList, schTimeAm, schTimePm);
 		map.put("result","등록 성공!");
 		return map;
