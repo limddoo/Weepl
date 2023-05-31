@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+layout:decorate="~{layouts/layout1}">
+
+<th:block layout:fragment="css">
+	<style>
+	.inner{
+	min-width: auto;
+}
+.text-center {
+    text-align: center !important;
+}
+.item {
+    background-color: #0092d7;
+    color: #fff;
+}
+	</style>
+
+</th:block>
+<th:block layout:fragment="script">
+<script>
+	var testForm = null;
+	$(document).ready(function(){
+		testForm = $("#testForm");
+	
+	});
+	var chkTest = function(field, check, msg, autoFlag) {
+		if (autoFlag!=false) {
+			autoFlag = true;
+		}
+		var failFlag = false;
+		var fieldValue = getFieldValue(field);
+
+		switch(check) {
+			case "null": // null 체크
+				if (autoFlag==true) {
+					msg = msg +" : 필수 입력 사항입니다.";
+				}
+
+				failFlag = (fieldValue==null || fieldValue=="" || fieldValue.length<1);
+			break;
+
+			
+			case "checked": //체크박스
+				if (autoFlag==true) {
+					msg = msg +" : 필수 체크 사항입니다.";
+				}
+
+				failFlag = !getFieldCheck(field);
+			break;
+
+			default:
+				msg = "Validation을 지원하지 않은 속성입니다.";
+				failFlag = false;
+			break;
+		}
+
+		if (failFlag) {
+			if (msg!=null) {
+				alert (msg);
+			}
+
+			try {
+				switch(check) {
+					case 'hidden':
+					case 'editor':
+						break;
+					default:
+						field.focus();
+						field.select();
+						break;
+				}
+			} catch(e) {
+				console.log(e);
+			}
+		}
+
+		return !failFlag;
+	}
+	var fnTestFormValidation = function(){
+		return{
+			true
+			&&	chk_field(formWrite.find("input[name=test_ques_val_1]"), "checked", "일 또는 여가활동을 하는데 흥미나 즐거움을 느끼지 못한다(")
+			&&	chk_field(formWrite.find("input[name=test_ques_val_2]"), "checked", "기분이 가라앉거나, 우울하거나, 희망이 없다(")
+			&&	chk_field(formWrite.find("input[name=test_ques_val_3]"), "checked", "잠이 들거나 계속 잠을 자는 것이 어렵거나, 잠을 너무 많이 잔다(")
+		}
+	}
+</script>
+</th:block>
+
+	<div layout:fragment="content">
+		<div class="inner">
+		  <form id="testForm" action="testResult" method="get" onsubmit="return fnTestFormValidation();">
+		  	
+		  	<div class="checkPointArea">
+		  		<div class="inner">
+		  			<ul class="chkPointList">
+		  				<li>
+		  					<div class="item">
+		  						<strong>일 또는 여가활동을 하는데 흥미나 즐거움을 느끼지 못한다</strong>
+		  						<ul class="itemList">
+		  							<li>
+		  							<label for= "test_ques_val_1_1">
+		  								<input type="radio" id="test_ques_val_1_1" name="test_ques_val_1" value=1/>
+		  								<div>
+		  							  	   <p>전혀 그렇지 않다</p>
+		  								</div>
+		  							</label>
+		  							</li>
+		  							<li>
+		  							<label for="test_ques_val_1_2">
+		  								<input type="radio" id="test_ques_val_1_2" name="test_ques_val_1" value=2/>
+		  								<div>
+		  							  	   <p>그렇지 않다</p>
+		  								</div>
+		  							</label>
+		  							</li>
+		  							<li>
+		  							<label for="test_ques_val_1_3">
+		  								<input type="radio" id="test_ques_val_1_3" name="test_ques_val_1" value=3/>
+		  								<div>
+		  							  	   <p>그렇다</p>
+		  								</div>
+		  							</label>
+		  							</li>
+		  							<li>
+		  							<label for="test_ques_val_1_4">
+		  								<input type="radio" id="test_ques_val_1_4" name="test_ques_val_1" value=4/>
+		  								<div>
+		  							  	   <p>매우 그렇다</p>
+		  								</div>
+		  							</label>
+		  							</li>
+		  						</ul>
+		  					</div>
+		  				</li>
+		  				<li>
+		  					<div class="item">
+		  						<strong>기분이 가라앉거나, 우울하거나, 희망이 없다</strong>
+		  						<ul class="itemList">
+		  							<li>
+		  							<label for="test_ques_val_2_1">
+		  								<input type="radio" id="test_ques_val_2_1" name="test_ques_val_2" value=1/>
+		  								<div>
+		  							  	   <p>전혀 그렇지 않다</p>
+		  								</div>
+		  							</label>
+		  							</li>
+		  							<li>
+		  							<label for="test_ques_val_2_2">
+		  								<input type="radio" id="test_ques_val_2_2" name="test_ques_val_2" value=2/>
+		  								<div>
+		  							  	   <p>그렇지 않다</p>
+		  								</div>
+		  							</label>
+		  							</li>
+		  							<li>
+		  							<label for="test_ques_val_2_3">
+		  								<input type="radio" id="test_ques_val_2_3" name="test_ques_val_2" value=3/>
+		  								<div>
+		  							  	   <p>그렇다</p>
+		  								</div>
+		  							</label>
+		  							</li>
+		  							<li>
+		  							<label for="test_ques_val_2_4">
+		  								<input type="radio" id="test_ques_val_2_4" name="test_ques_val_2" value=4/>
+		  								<div>
+		  							  	   <p>매우 그렇다</p>
+		  								</div>
+		  							</label>
+		  							</li>
+		  						</ul>
+		  					</div>
+		  				</li>
+		  				<li>
+		  					<div class="item">
+		  						<strong>잠이 들거나 계속 자는 것이 어렵거나, 잠을 너무 많이 잔다</strong>
+		  						<ul class="itemList">
+		  							<li>
+		  							<label for="test_ques_val_3_1">
+		  								<input type="radio" id="test_ques_val_3_1" name="test_ques_val_3" value=1/>
+		  								<div>
+		  							  	   <p>전혀 그렇지 않다</p>
+		  								</div>
+		  							</label>
+		  							</li>
+		  							<li>
+		  							<label for="test_ques_val_3_2">
+		  								<input type="radio" id="test_ques_val_3_2" name="test_ques_val_3" value=2/>
+		  								<div>
+		  							  	   <p>그렇지 않다</p>
+		  								</div>
+		  							</label>
+		  							</li>
+		  							<li>
+		  							<label for="test_ques_val_3_3">
+		  								<input type="radio" id="test_ques_val_3_3" name="test_ques_val_3" value=3/>
+		  								<div>
+		  							  	   <p>그렇다</p>
+		  								</div>
+		  							</label>
+		  							</li>
+		  							<li>
+		  							<label for="test_ques_val_3_4">
+		  								<input type="radio" id="test_ques_val_3_4" name="test_ques_val_3" value=4/>
+		  								<div>
+		  							  	   <p>매우 그렇다</p>
+		  								</div>
+		  							</label>
+		  							</li>
+		  						</ul>
+		  					</div>
+		  				</li>
+		  			</ul>
+		  		</div>
+		  	</div>
+		  	<div>
+		  		<button type="submit" class="btn btn-primary">
+		  		 <span>결과 보기</span>
+		  		</button>
+		  	</div>
+		  </form>
+		</div>
+	</div>
+</html>

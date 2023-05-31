@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+layout:decorate="~{layouts/layout1}">
+
+<th:block layout:fragment="css">
+<style>
+.inner{
+	min-width: auto;
+}
+.item {
+    background-color: #0092d7;
+    color: #fff;
+}
+</style>
+
+</th:block>
+<th:block layout:fragment="script">
+	<script>
+		var testForm = null;
+		$(document).ready(function(){
+			testForm = $("#testForm");
+			
+		});
+		var chkTest = function(field, check, msg, autoFlag) {
+			if (autoFlag!=false) {
+				autoFlag = true;
+			}
+			var failFlag = false;
+			var fieldValue = getFieldValue(field);
+
+			switch(check) {
+				case "null": // null 체크
+					if (autoFlag==true) {
+						msg = msg +" : 필수 입력 사항입니다.";
+					}
+
+					failFlag = (fieldValue==null || fieldValue=="" || fieldValue.length<1);
+				break;
+
+				
+				case "checked": //체크박스
+					if (autoFlag==true) {
+						msg = msg +" : 필수 체크 사항입니다.";
+					}
+
+					failFlag = !getFieldCheck(field);
+				break;
+
+				default:
+					msg = "Validation을 지원하지 않은 속성입니다.";
+					failFlag = false;
+				break;
+			}
+
+			if (failFlag) {
+				if (msg!=null) {
+					alert (msg);
+				}
+
+				try {
+					switch(check) {
+						case 'hidden':
+						case 'editor':
+							break;
+						default:
+							field.focus();
+							field.select();
+							break;
+					}
+				} catch(e) {
+					console.log(e);
+				}
+			}
+
+			return !failFlag;
+		}
+		var fnTestFormValidation = function(){
+			
+			return (
+						chkTest(testForm.find("input[name^=test_sq]"), "checked", "검사지")
+			)
+		}
+		
+	</script>
+</th:block>
+<div layout:fragment="content">
+	<div class = "inner">
+	<div>
+		<ul>
+			<li>
+				<a href="applyTest01" class="item">
+					1:1검사
+				</a>
+			</li>
+			<li>
+				<a href="applyTest02.html" class="item">
+					상황별 마음검사
+				</a>
+			</li>
+		</ul>
+	</div>
+		<form id="testForm" action="applyTest01_1" method="get" >
+			<p>진행할 검사를 선택해주세요.</p>
+			<p>*복수 선택 가능</p>
+			
+			<div>
+				<ul>
+					<li>
+					  <label for="test_sq_1" class="item">
+					   <input type="checkbox" id="test_sq_1" name="test_sq[]" value="1"/>
+					   <div>
+					   	<strong>우울감(PHQ_9)</strong>
+					   </div>
+					  </label>
+					</li>
+					<li>
+					  <label for="test_sq_2" class="item">
+					   <input type="checkbox" id="test_sq_2" name="test_sq[]" value="2"/>
+					   <div>
+					   	<strong>자살위험도(P4)</strong>
+					   </div>
+					  </label>
+					</li>
+					<li>
+					  <label for="test_sq_3" class="item">
+					   <input type="checkbox" id="test_sq_3" name="test_sq[]" value="3"/>
+					   <div>
+					   	<strong>스마트폰 과의존 척도</strong>
+					   </div>
+					  </label>
+					</li>
+				</ul>
+			</div>
+			<div>
+				<button type="submit" class="btn btn-primary">
+				<span>검사 시작</span>
+				</button>
+			</div>
+		</form>
+	 </div>
+</div>
+</html>
