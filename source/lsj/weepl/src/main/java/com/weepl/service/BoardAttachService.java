@@ -67,7 +67,7 @@ public class BoardAttachService {
 
 	public void deleteBoardAttach(Long noticeCd) throws Exception {
 	
-		List<BoardAttach> savedBoardAttach = boardAttachRepository.findByNotice_NoticeCdOrderByAttachCdAsc(noticeCd);
+		List<BoardAttach> savedBoardAttach = boardAttachRepository.findByNotice_NoticeCdOrderByCdAsc(noticeCd);
 		for(int i =0; i<savedBoardAttach.size(); i++) {
 			BoardAttach boardAttach = savedBoardAttach.get(i);
 			if(!boardAttach.getAttachName().isBlank()) {

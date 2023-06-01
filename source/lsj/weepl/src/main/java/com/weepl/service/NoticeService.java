@@ -90,7 +90,7 @@ public class NoticeService {
 			noticeImgDtoList.add(noticeImgDto);
 		}
 		
-		List<BoardAttach> boardAttachList = boardAttachRepository.findByNotice_NoticeCdOrderByAttachCdAsc(noticeCd); //해당 공지사항 이미지 조회
+		List<BoardAttach> boardAttachList = boardAttachRepository.findByNotice_NoticeCdOrderByCdAsc(noticeCd); //해당 공지사항 이미지 조회
 		List<NoticeAttachDto> noticeAttachDtoList = new ArrayList<>();
 		for(BoardAttach boardAttach : boardAttachList) { //조회한 BoardImg 엔티티를 NoticeImgDto 객체로 만들어서 리스트에 추가한다.
 			NoticeAttachDto noticeAttachDto = NoticeAttachDto.boardAttachToBoardAttachDto(boardAttach);

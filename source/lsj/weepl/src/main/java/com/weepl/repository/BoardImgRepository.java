@@ -24,4 +24,6 @@ public interface BoardImgRepository extends JpaRepository<BoardImg, Long> {
 
 	@Query("select new com.weepl.dto.BoardImgDto(cd, imgName) from BoardImg where mhinfo_Cd = :cd") // cd�� entity
 	List<BoardImgDto> getLists(Long cd);
+	
+	List<BoardImg> findBySweetBoardCdOrderByCdAsc(Long cd);
 }

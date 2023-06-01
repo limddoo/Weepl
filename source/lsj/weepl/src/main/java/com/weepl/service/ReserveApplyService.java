@@ -27,7 +27,7 @@ public class ReserveApplyService {
 		
 		reserveApplyRepository.save(reserveApply);
 		
-		return reserveApply.getCd();
+		return reserveApply.getReserveApplyCd();
 	}
 	
 	 public List<Map<String, Object>> addReserveApply(){

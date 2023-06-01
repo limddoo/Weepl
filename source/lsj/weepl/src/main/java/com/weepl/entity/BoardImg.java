@@ -10,6 +10,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import lombok.Data;
 
 @Entity
@@ -35,6 +38,11 @@ public class BoardImg extends BaseEntity{
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="notice_cd")
 	private Notice notice;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "sweet_board_cd")
+	@OnDelete(action= OnDeleteAction.CASCADE)
+	private SweetBoard sweetBoard;
 	
 	public void updateBoardImg(String oriImgName, String imgName, String imgUrl) {
 		this.oriImgName = oriImgName;

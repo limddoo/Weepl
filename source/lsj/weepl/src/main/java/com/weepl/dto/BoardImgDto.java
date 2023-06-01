@@ -19,6 +19,8 @@ public class BoardImgDto {
 	private String oriImgName;
 	private String imgUrl;
 	private String repImgYn;
+	// 게시판 구분
+	private String boardDiv;
 	private static ModelMapper modelMapper = new ModelMapper();
 	
 	public static BoardImgDto of(BoardImg BoardImg) {
