@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/consLayout}">
+<head>
+<meta charset='utf-8' />
+<meta name="_csrf_header" th:content="${_csrf.headerName}">
+<meta name="_csrf" th:content="${_csrf.token}">
+<script
+	src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.7/index.global.min.js'></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"
+	integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+	crossorigin="anonymous"></script>
+
+<th:block layout:fragment="css">
+	<style>
+body {
+	margin: 40px 10px;
+	padding: 0;
+	font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+	font-size: 14px;
+}
+
+#calendar {
+	max-width: 1000px;
+	margin: 0 auto;
+}
+
+.fc-daygrid-day-number {
+	color: black;
+}
+</style>
+</th:block>
+</head>
+
+<body>
+	<div layout:fragment="content" class="content-wrapper">
+		<div id='calendar'></div>
+		<div>
+			<button onclick="calendar.addEvent()">일정추가</button>
+			
+	<form name="reservationForm" id="reservationForm">
+    <input type="hidden" name="cmd" value="openPop" />
+    <input type="hidden" name="data" />
+	</form>
+		</div>
+	</div>
+
+
+
+</body>
+<th:block layout:fragment="script">
+
+	<script th:inline="javascript">
+	
+		document.addEventListener('DOMContentLoaded', function() {
+
+			var calendarEl = document.getElementById('calendar');
+
+			var request = $.ajax({
+				url : "/reservation/selectDate",
+				method : "GET",
+				async : true, // 비동기화 여부 (default : true)
+				headers : { // Http header
+					"Content-Type" : "application/json",
+					"X-HTTP-Method-Override" : "GET"
+				},
+				dataType : 'json', // 데이터 타입 (html, xml, json, text 등등) 
+				success : function(result) { // 결과 성공 콜백함수
+					console.log(result);
+				},
+				error : function(request, status, error) { // 결과 에러 콜백함수
+					console.log(error)
+				}
+			});
+
+			function addEvent() {
+				calendar.addEvent(data0), calendar.addEvent(data1)
+			}
+			
+			function showPopUp(data) {
+				console.log("showPopUp의 data : " + (typeof "data"))
+			    const url = "/reservation/reservationForm/"+JSON.stringify(data);
+				var data = data;
+				//등록된 url 및 window 속성 기준으로 팝업창을 연다.
+				//window.open(url, "상담예약", windowStatus);
+				
+			    	var reservationForm = document.getElementById("reservationForm");
+			    	 window.open(url , "reservationForm", "toolbar=no, width=1000, height=700, directories=no, status=no, scrollbars=no, resizable=yes"); 
+			    	  reservationForm.action = url; 
+			    	 reservationForm.method="post";
+			    	 reservationForm.target="reservationForm";
+			    	 reservationForm.data = data;			    	
+			    	// reservationForm.submit();	 	
+			}
+
+			request.done(function(data) {
+				console.log(data);
+				var calendar = new FullCalendar.Calendar(calendarEl, {
+					initialView : 'dayGridMonth',
+					showNonCurrentDates : true,
+					headerToolbar : {
+						left : 'prev',
+						center : 'title',
+						right : 'next'
+					},
+					navLinks : true, // can click day/week names to navigate views
+					businessHours : true, // display business hours
+					editable : true,
+					selectable : true,
+					locale : "ko",
+
+					eventClick : function(info) {
+						
+						const name = [[${#authentication.principal.username}]];
+						var data = JSON.parse(JSON.stringify(info.event));						
+						data.name = name;
+						var header = $("meta[name='_csrf_header']").attr('content');
+						var token = $("meta[name='_csrf']").attr('content');
+						var result = confirm(info.event.start.toISOString().replace('T', ' ').slice(0, -5)+ '에 예약을 진행하시겠습니까?');
+						if(result == true){
+							alert("상담 예약을 진행합니다.");
+						}
+						else{
+							alert("상담 예약을 취소했습니다.")	
+							return;
+						}
+						
+						//alert('Coordinates: ' + info.jsEvent.pageX + ','
+						//		+ info.jsEvent.pageY);
+						//alert('View: ' + info.view.type);
+						//location.href= '/board/notice';						
+						$.ajax({
+							url : "/reservation/selectReservation",
+							method : "POST",
+							async : true, // 비동기화 여부 (default : true)
+						 	headers : { // Http header
+								"Content-Type" : "application/json",
+								"X-HTTP-Method-Override" : "POST"
+							}, 
+							data : JSON.stringify(data),
+							
+							beforeSend: function(xhr){
+							        xhr.setRequestHeader(header, token);
+							        
+							},
+							success : showPopUp(data),	
+						
+							error : function(request, status, error) { // 결과 에러 콜백함수
+								console.log(error)
+							}
+						});
+						// change the border color just for fun
+						info.el.style.borderColor = 'red';
+					},
+
+					events : [
+
+					{
+						id : '123123',
+						title : '예약가능',
+						start : '2023-05-03T10:00:00',
+
+					},
+
+					{
+						id : '456456',
+						title : '예약가능',
+						start : '2023-05-03T13:00:00',
+					},
+
+					{
+						title : 'Meeting',
+						start : '2023-05-13T11:00:00',
+						constraint : 'availableForMeeting', // defined below
+						color : '#257e4a'
+					},
+
+					{
+						start : '2023-05-18',
+						end : '2023-05-20',
+						title : 'Conference'
+					},
+
+					{
+						title : 'Party',
+						start : '2023-05-29T20:00:00'
+					},
+
+					// areas where "Meeting" must be dropped
+					{
+						groupId : 'availableForMeeting',
+						start : '2023-05-11T10:00:00',
+						end : '2023-05-11T16:00:00',
+						display : 'background'
+					},
+
+					{
+						groupId : 'availableForMeeting',
+						start : '2023-05-13T10:00:00',
+						end : '2023-05-13T16:00:00',
+						display : 'background'
+					},
+
+					// red areas where no events can be dropped
+					{
+						start : '2023-05-01',
+						overlap : false,
+						display : 'background',
+						color : '#ff9f89',
+						daysOfWeek : [ 0, 6 ]
+					} ]
+				});
+				calendar.render();
+			});
+		});
+	</script>
+</th:block>
+
+</html>
+
