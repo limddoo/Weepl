@@ -24,7 +24,7 @@ layout:decorate="~{layouts/consLayout}">
 	<div layout:fragment="content" class="content-wrapper">
 		<form action="@{'/boardCons/' + ${boardCons.number}}"role="form" method="get" th:object="${boardCons}">
 			<p class="h2">게시판 상담 상세글</p>
-			<table>
+			<table class="table-container">
 				<tbody>
 					<tr>
 					  <th scope="row">글 번호</th>

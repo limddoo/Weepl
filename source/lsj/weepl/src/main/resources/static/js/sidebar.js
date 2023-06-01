@@ -7,5 +7,12 @@ $(document).ready(function() {
 		if(selected != null) {
 			$('.active').removeClass('active');
 			selected.classList.add('active');
+		} else {
+			current = location.pathname.split("/").slice(-2)[0].replace(/^\/|\/$/g, '');
+			console.log(current);
+			if(current.includes('board')) {
+				$('.active').removeClass('active');
+				document.getElementById('consList').classList.add('active');
+			}
 		}
 });

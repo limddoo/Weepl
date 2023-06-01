@@ -16,13 +16,18 @@ padding: 15px 0;
 text-align: center;
 }
 .content {
-	display: flex;
 	justify-content: center;
 	align-items: flex-start;
 }
 
 .content-wrapper {
 	width: 1200px;
+	margin-left:200px;
+}
+
+.input-div {
+	width: 1000px;
+	display: block;
 }
 
 .table-container {
