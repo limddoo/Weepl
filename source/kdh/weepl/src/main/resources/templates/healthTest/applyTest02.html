@@ -1,10 +1,72 @@
 <!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+layout:decorate="~{layouts/layout1}">
 
-</body>
+<th:block layout:fragment="css">
+<style>
+.inner{
+	min-width: auto;
+}
+.item {
+    background-color: #0092d7;
+    color: #fff;
+}
+</style>
+
+<div layout:fragment="content">
+	<div class = "inner">
+	<div>
+		<ul>
+			<li>
+				<a href="applyTest01" class="item">
+					1:1검사
+				</a>
+			</li>
+			<li>
+				<a href="applyTest02.html" class="item">
+					상황별 마음검사
+				</a>
+			</li>
+		</ul>
+	</div>
+		<form id="testForm" action="applyTest01_1" method="get" >
+			<p>진행할 검사를 선택해주세요.</p>
+			
+			<div>
+				<ul>
+					<li>
+					  <label for="test_sq_1" class="item">
+					   <input type="checkbox" id="test_sq_1" name="test_sq[]" value="1"/>
+					   <div>
+					   	<strong>우울, 불안할때</strong>
+					   </div>
+					  </label>
+					</li>
+					<li>
+					  <label for="test_sq_2" class="item">
+					   <input type="checkbox" id="test_sq_2" name="test_sq[]" value="2"/>
+					   <div>
+					   	<strong>잠을 못잘때</strong>
+					   </div>
+					  </label>
+					</li>
+					<li>
+					  <label for="test_sq_3" class="item">
+					   <input type="checkbox" id="test_sq_3" name="test_sq[]" value="3"/>
+					   <div>
+					   	<strong>직장내 스트레스가 많을때</strong>
+					   </div>
+					  </label>
+					</li>
+				</ul>
+			</div>
+			<div>
+				<button type="submit" class="btn btn-primary">
+				<span>검사 시작</span>
+				</button>
+			</div>
+		</form>
+	 </div>
+</div>
 </html>

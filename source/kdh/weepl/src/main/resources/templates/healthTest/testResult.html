@@ -2,11 +2,41 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{layouts/layout1}">
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
-
-</body>
+	
+	<th:block layout:fragment="css">
+		<style>
+		li{
+		list-style-type: none;
+		
+		}
+		
+		</style>
+	
+	</th:block>
+	
+	<th:block layout:fragment="script">
+	<script>
+		$(document).ready(function(){
+			
+		})
+	</script>
+	
+	</th:block>
+	
+	<div layout:fragment="content">
+	<form action="">
+	<div class ="inner">
+	<strong>마음건강 검사 결과</strong>
+		<div id="test" class="chkResult">
+		<ul>
+			<li><h2>총 점수 : </h2></li>
+			<li>5점 이하:정상</li>
+			<li>6점이상 8점이하: 경도, 중증도</li>
+			<li>9점 이상:심각</li>
+		</ul>
+		</div>
+	</div>
+	</form>
+</div>
+<div></div>
 </html>
