@@ -1,0 +1,5 @@
+package com.weepl.dto;
+
+public class MemberDto {
+
+}

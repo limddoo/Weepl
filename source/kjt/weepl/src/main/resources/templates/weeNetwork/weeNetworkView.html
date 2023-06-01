@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/basicLayout}">
+<head>
+<meta charset="UTF-8">
+<title>Kakao Maps API</title>
+<script type="text/javascript"
+	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c6b36dba7a1ac8f9b03d372abf87accb"></script>
+</head>
+<body>
+	<div layout:fragment="content">
+
+	
+    <form th:action="@{/weeNetwork/search}" role="form" method="get" th:object="${weeNetworkFormDto}">
+    
+    <br>
+    
+     <div class="form-inline justify-content-center" th:object="${weeNetworkSearchDto}">
+                <select  class="form-control" style="width: 250px;">
+                    <option value="SEOUL">서울</option>
+                    <option value="DAEJEON">대전</option>
+                    <option value="DAEGU">대구</option>
+                    <option value="BUSAN">부산</option>
+                </select>&nbsp;&nbsp; 
+               <input style="width: 550px;" name="search_keyword" type="text" class="form-control" placeholder="위(Wee) 기관 명칭" onclick="hidden">&nbsp;&nbsp; 
+               <button id="searchBtn" class="btn btn-primary" onclick="search()">검색</button><br><br><br>
+            </div>
+            <div id="map" style="width: 100%; height: 600px;"></div>
+</form>
+
+		<script>
+			$(document).ready(function() {
+				var mapContainer = document.getElementById('map');
+				var mapOption = {
+					center : new kakao.maps.LatLng(37.603819799563, 127.013290960705),
+					level : 7
+				};
+				var map = new kakao.maps.Map(mapContainer, mapOption);
+
+				$.ajax({
+					url : '/weeNetwork/getApi',
+					type : 'GET',
+					dataType : 'json',
+					success : function(data) {
+						// 데이터를 받아온 후 실행될 콜백 함수
+						
+
+						// 데이터를 활용하여 지도에 마커 표시 등의 작업 수행
+						var positionsSEOUL = [];
+						for (var i = 0; i < data.length; i++) {
+							if(data[i].locName==='SEOUL'){
+								console.log(positionsSEOUL);
+							
+								positionsSEOUL.push({
+								name : data[i].agencyName,
+								latlng : new kakao.maps.LatLng(data[i].lati, data[i].longi)
+							});
+						}
+						}
+						var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
+						for (var i = 0; i < positionsSEOUL.length; i++) {
+							var imageSize = new kakao.maps.Size(24, 35);
+							var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
+							var marker = new kakao.maps.Marker({
+								map : map,
+								position : positionsSEOUL[i].latlng,
+								title : positionsSEOUL[i].name,
+								image : markerImage
+							});
+						}
+					},
+					error : function(xhr, status, error) {
+						// 데이터 요청이 실패했을 때 실행될 콜백 함수
+						console.error(error);
+					}
+				});
+				
+				$('#searchBtn').on('click', function() {
+				$.ajax({
+					url : '/weeNetwork/getApi',
+					type : 'GET',
+					dataType : 'json',
+					success : function(data) {
+						// 데이터를 받아온 후 실행될 콜백 함수
+						
+
+						// 데이터를 활용하여 지도에 마커 표시 등의 작업 수행
+						var positionsDAEGU = [];
+						for (var i = 0; i < data.length; i++) {
+							if(data[i].locName==='DAEGU'){
+								console.log(positionsDAEGU);
+							
+							positionsDAEGU.push({
+								name : data[i].agencyName,
+								latlng : new kakao.maps.LatLng(data[i].lati, data[i].longi)
+							});
+						}
+						}
+						var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
+						for (var i = 0; i < positionsDAEGU.length; i++) {
+							var imageSize = new kakao.maps.Size(24, 35);
+							var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
+							var marker = new kakao.maps.Marker({
+								map : map,
+								position : positionsDAEGU[i].latlng,
+								title : positionsDAEGU[i].name,
+								image : markerImage
+							});
+						}
+					},
+					error : function(xhr, status, error) {
+						// 데이터 요청이 실패했을 때 실행될 콜백 함수
+						console.error(error);
+					}
+				});
+			});
+			});
+		</script>
+<br>
+		<button type="button" class="btn btn-primary" onclick="location.href='/weeNetwork/admin/new'">센터등록하기</button><br><br><br><br>
+	</div>
+</body>
+</html>

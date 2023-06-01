@@ -1,5 +1,5 @@
 package com.weepl.constant;
 
 public enum ReserveStatus {
-	WATING, APPLIED, REFUSED, CANCLED
+	WAITING, APPLIED, REFUSED, CANCLED
 }

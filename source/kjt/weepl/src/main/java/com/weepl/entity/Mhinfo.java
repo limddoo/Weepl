@@ -25,9 +25,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@NoArgsConstructor @AllArgsConstructor
+@NoArgsConstructor 
+@AllArgsConstructor
 @Entity
-@Table(name = "Mhinfo")
+@Table(name = "mhinfo")
 @Getter @Setter
 @ToString
 public class Mhinfo extends BaseEntity{
@@ -59,5 +60,9 @@ public class Mhinfo extends BaseEntity{
 
 	@Enumerated(EnumType.STRING)
 	private MhinfoCate mhinfoCate;
+
+	public void setMhinfoCate(String mhinfoCate) {
+	    this.mhinfoCate = MhinfoCate.valueOf(mhinfoCate);
+	}
 	
 }
