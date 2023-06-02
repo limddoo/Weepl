@@ -36,7 +36,7 @@ public class WeeNetwork {
 	private String agencyTel;
 	
 	@Column(nullable = true)
-	private String adrrDtl;
+	private String addrDtl;
 	
 	@Column(nullable = true)
 	private Float lati;

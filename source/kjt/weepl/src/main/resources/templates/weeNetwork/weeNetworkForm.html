@@ -17,7 +17,6 @@
 					<span class="input-group-text">지역명</span>
 				</div>
 				<select class="form-control" style="width: 250px;" th:field="*{locName}">
-            <option value="all">전체</option>
             <option value="SEOUL">서울</option>
             <option value="DAEJEON">대전</option>
             <option value="DAEGU">대구</option>
@@ -51,10 +50,10 @@
 				<div class="input-group-prepend">
 					<span class="input-group-text">상세주소</span>
 				</div>
-				<input type="text" th:field="*{adrrDtl}" class="form-control"
+				<input type="text" th:field="*{addrDtl}" class="form-control"
 					placeholder="상세주소를 입력해주세요">
 			</div>
-			<p th:if="${#fields.hasErrors('adrrDtl')}" th:errors="*{adrrDtl}"
+			<p th:if="${#fields.hasErrors('addrDtl')}" th:errors="*{addrDtl}"
 				class="fieldError">Incorrect data</p>
 
 

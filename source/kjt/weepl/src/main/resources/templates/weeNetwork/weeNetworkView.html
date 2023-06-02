@@ -1,124 +1,159 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{layouts/basicLayout}">
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layouts/basicLayout}">
 <head>
-<meta charset="UTF-8">
-<title>Kakao Maps API</title>
-<script type="text/javascript"
-	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c6b36dba7a1ac8f9b03d372abf87accb"></script>
+    <meta charset="UTF-8">
+    <title>Kakao Maps API</title>
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c6b36dba7a1ac8f9b03d372abf87accb"></script>
 </head>
 <body>
-	<div layout:fragment="content">
+    <div layout:fragment="content">
 
-	
-    <form th:action="@{/weeNetwork/search}" role="form" method="get" th:object="${weeNetworkFormDto}">
-    
-    <br>
-    
-     <div class="form-inline justify-content-center" th:object="${weeNetworkSearchDto}">
-                <select  class="form-control" style="width: 250px;">
+        <form id="searchForm" th:action="@{/weeNetwork/search}" role="form" method="get" th:object="${weeNetworkFormDto}">
+
+            <br>
+
+            <div class="form-inline justify-content-center" th:object="${weeNetworkSearchDto}">
+                <select id="locName" class="form-control" style="width: 250px;">
                     <option value="SEOUL">서울</option>
                     <option value="DAEJEON">대전</option>
                     <option value="DAEGU">대구</option>
                     <option value="BUSAN">부산</option>
-                </select>&nbsp;&nbsp; 
-               <input style="width: 550px;" name="search_keyword" type="text" class="form-control" placeholder="위(Wee) 기관 명칭" onclick="hidden">&nbsp;&nbsp; 
-               <button id="searchBtn" class="btn btn-primary" onclick="search()">검색</button><br><br><br>
+                </select>&nbsp;&nbsp;
+                <input style="width: 550px;" name="search_keyword" type="text" class="form-control" placeholder="위(Wee) 기관 명칭">&nbsp;&nbsp;
+                <button id="searchBtn" type="button" class="btn btn-primary">검색</button><br><br><br>
             </div>
             <div id="map" style="width: 100%; height: 600px;"></div>
-</form>
+        </form>
 
-		<script>
-			$(document).ready(function() {
-				var mapContainer = document.getElementById('map');
-				var mapOption = {
-					center : new kakao.maps.LatLng(37.603819799563, 127.013290960705),
-					level : 7
-				};
-				var map = new kakao.maps.Map(mapContainer, mapOption);
+        <script>
+            var mapContainer = document.getElementById('map');
+            var mapOption = {
+                center: new kakao.maps.LatLng(37.5663174209601, 126.977829174031),
+                level: 9
+            };
 
-				$.ajax({
-					url : '/weeNetwork/getApi',
-					type : 'GET',
-					dataType : 'json',
-					success : function(data) {
-						// 데이터를 받아온 후 실행될 콜백 함수
-						
+            var map = new kakao.maps.Map(mapContainer, mapOption);
 
-						// 데이터를 활용하여 지도에 마커 표시 등의 작업 수행
-						var positionsSEOUL = [];
-						for (var i = 0; i < data.length; i++) {
-							if(data[i].locName==='SEOUL'){
-								console.log(positionsSEOUL);
-							
-								positionsSEOUL.push({
-								name : data[i].agencyName,
-								latlng : new kakao.maps.LatLng(data[i].lati, data[i].longi)
-							});
-						}
-						}
-						var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
-						for (var i = 0; i < positionsSEOUL.length; i++) {
-							var imageSize = new kakao.maps.Size(24, 35);
-							var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
-							var marker = new kakao.maps.Marker({
-								map : map,
-								position : positionsSEOUL[i].latlng,
-								title : positionsSEOUL[i].name,
-								image : markerImage
-							});
-						}
-					},
-					error : function(xhr, status, error) {
-						// 데이터 요청이 실패했을 때 실행될 콜백 함수
-						console.error(error);
-					}
-				});
-				
-				$('#searchBtn').on('click', function() {
-				$.ajax({
-					url : '/weeNetwork/getApi',
-					type : 'GET',
-					dataType : 'json',
-					success : function(data) {
-						// 데이터를 받아온 후 실행될 콜백 함수
-						
+            var iwContent = '<div style="padding:5px;"></div>';
+            var iwPosition = new kakao.maps.LatLng(33.450701, 126.570667);
+            var iwRemoveable = true;
 
-						// 데이터를 활용하여 지도에 마커 표시 등의 작업 수행
-						var positionsDAEGU = [];
-						for (var i = 0; i < data.length; i++) {
-							if(data[i].locName==='DAEGU'){
-								console.log(positionsDAEGU);
-							
-							positionsDAEGU.push({
-								name : data[i].agencyName,
-								latlng : new kakao.maps.LatLng(data[i].lati, data[i].longi)
-							});
-						}
-						}
-						var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
-						for (var i = 0; i < positionsDAEGU.length; i++) {
-							var imageSize = new kakao.maps.Size(24, 35);
-							var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
-							var marker = new kakao.maps.Marker({
-								map : map,
-								position : positionsDAEGU[i].latlng,
-								title : positionsDAEGU[i].name,
-								image : markerImage
-							});
-						}
-					},
-					error : function(xhr, status, error) {
-						// 데이터 요청이 실패했을 때 실행될 콜백 함수
-						console.error(error);
-					}
-				});
-			});
-			});
-		</script>
-<br>
-		<button type="button" class="btn btn-primary" onclick="location.href='/weeNetwork/admin/new'">센터등록하기</button><br><br><br><br>
-	</div>
+            var infowindow = new kakao.maps.InfoWindow({
+                map: map,
+                position: iwPosition,
+                content: iwContent,
+                removable: iwRemoveable
+            });
+
+            var markers = [];
+            var selectedCity = 'SEOUL';
+
+            $(document).ready(function() {
+                $('#locName').on('change', function() {
+                    selectedCity = $(this).val();
+                });
+
+                $('#searchBtn').on('click', function() {
+                    var keyword = $('input[name="search_keyword"]').val();
+                    executeSearch(selectedCity, keyword);
+                    setCenterByCity(selectedCity);
+                });
+
+                $('input[name="search_keyword"]').on('keydown', function(event) {
+                    if (event.keyCode === 13) {
+                        event.preventDefault();
+                        var keyword = $(this).val();
+                        executeSearch(selectedCity, keyword);
+                        setCenterByCity(selectedCity);
+                    }
+                });
+
+                function executeSearch(city, keyword) {
+                    getMarkers(city, keyword);
+                }
+
+                function setCenterByCity(city) {
+                    var center;
+                    var level = 9;
+
+                    if (city === 'SEOUL') {
+                        center = new kakao.maps.LatLng(37.5663174209601, 126.977829174031);
+                    } else if (city === 'DAEJEON') {
+                        center = new kakao.maps.LatLng(36.3332013057389, 127.39258005912);
+                    } else if (city === 'DAEGU') {
+                        center = new kakao.maps.LatLng(35.881353112815, 128.539891651246);
+                    } else if (city === 'BUSAN') {
+                        center = new kakao.maps.LatLng(35.17992598569, 129.07509523457);
+                    }
+
+                    map.setCenter(center);
+                    map.setLevel(level);
+                }
+
+                function getMarkers(city, keyword) {
+                    $.ajax({
+                        url: '/weeNetwork/getApi',
+                        type: 'GET',
+                        dataType: 'json',
+                        success: function(data) {
+                            removeMarkers();
+                            var positions = [];
+
+                            for (var i = 0; i < data.length; i++) {
+                                if (data[i].locName === city && data[i].agencyName.includes(keyword)) {
+                                	console.log(data);
+                                    positions.push({
+                                        name: data[i].agencyName,
+                                        tel: data[i].agencyTel,
+                                        addr: data[i].addrDtl,
+                                        url: data[i].url,
+                                        latlng: new kakao.maps.LatLng(data[i].lati, data[i].longi)
+                                    	
+                                    });
+                                }
+                            }
+
+                            for (var i = 0; i < positions.length; i++) {
+                                var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
+                                var imageSize = new kakao.maps.Size(24, 35);
+                                var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
+                                var marker = new kakao.maps.Marker({
+                                    map: map,
+                                    position: positions[i].latlng,
+                                    title: positions[i].name,
+                                    tel: positions[i].tel,
+                                    addr: positions[i].addr,
+                                    image: markerImage
+                                });
+                                markers.push(marker);
+								console.log(marker);
+                                // 마커 클릭 이벤트 등록
+                                kakao.maps.event.addListener(marker, 'click', function() {
+                                    infowindow.setContent(this.getTitle() + '<br>' +iwContent);
+                                    infowindow.open(map, this);
+                                });
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            console.error(error);
+                        }
+                    });
+                }
+
+                function removeMarkers() {
+                    for (var i = 0; i < markers.length; i++) {
+                        markers[i].setMap(null);
+                    }
+                    markers = [];
+                }
+            });
+
+        </script>
+
+        <br>
+        <button type="button" class="btn btn-primary" onclick="location.href='/weeNetwork/admin/new'">센터등록하기</button><br><br><br><br>
+    </div>
 </body>
 </html>

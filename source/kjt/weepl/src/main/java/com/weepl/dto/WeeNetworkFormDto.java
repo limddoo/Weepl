@@ -16,7 +16,7 @@ public class WeeNetworkFormDto {
 	private String locName;
 	private String agencyName;
 	private String agencyTel;
-	private String adrrDtl;
+	private String addrDtl;
 	private Float lati;
 	private Float longi;
 	private String url;
