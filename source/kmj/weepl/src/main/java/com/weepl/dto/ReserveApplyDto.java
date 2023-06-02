@@ -31,5 +31,6 @@ public class ReserveApplyDto {
 	
 	public static ReserveApplyDto reserveApplytoReserveApplyDto(ReserveApply reserveApply) {
 		return modelMapper.map(reserveApply, ReserveApplyDto.class);
+		//entity -> dto
 	}
 }

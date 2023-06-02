@@ -11,7 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.weepl.dto.ReserveApplyDto;
+import com.weepl.entity.ReserveSchedule;
 import com.weepl.service.ReserveApplyService;
 
 @Controller
@@ -31,8 +31,11 @@ public class ReserveApplyController {
 	@Autowired
 	ReserveApplyService reserveApplyService;
 
+	
 	@GetMapping("/main")
 	public String showReservation(Model model) {
+		ReserveSchedule reserveSchedule = new ReserveSchedule();
+		//LOGGER.info("ListReservation의 값 {}", reserveApplyService.listReservation().toString());
 		return "/reservation/reservation";
 	}
 
@@ -40,7 +43,7 @@ public class ReserveApplyController {
 	@ResponseBody
 	@GetMapping("/selectDate") // ajax 데이터 전송 URL //
 	public  List<Map<String, Object>> addReservation() { 
-		LOGGER.info(reserveApplyService.addReserveApply().toString());
+		LOGGER.info("sadasdasdds{}",reserveApplyService.addReserveApply().toString());
 		return	reserveApplyService.addReserveApply();  
 	}
 	
