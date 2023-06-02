@@ -17,7 +17,7 @@
 	<th:block layout:fragment="script">
 	<script>
 		$(document).ready(function(){
-			
+			var val = location.href
 		})
 	</script>
 	
@@ -26,10 +26,11 @@
 	<div layout:fragment="content">
 	<form action="">
 	<div class ="inner">
+	<h3 th:text="'진행한 검사:' + ${testName}">  </h3>
 	<strong>마음건강 검사 결과</strong>
 		<div id="test" class="chkResult">
 		<ul>
-			<li><h2>총 점수 : </h2></li>
+			<li style="font-size:35px;" th:text="'총 점수: '+ ${testSum}+'점'" ></li>
 			<li>5점 이하:정상</li>
 			<li>6점이상 8점이하: 경도, 중증도</li>
 			<li>9점 이상:심각</li>

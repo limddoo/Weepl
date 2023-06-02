@@ -76,7 +76,8 @@ layout:decorate="~{layouts/layout1}">
 			return !failFlag;
 		}
 		var fnTestFormValidation = function(){
-			
+			var el_applyTest = testForm.find("input[name^=test_sq]:checked")
+			testForm.prop("action", el_applyTest.val());
 			return (
 						chkTest(testForm.find("input[name^=test_sq]"), "checked", "검사지")
 			)
@@ -94,21 +95,20 @@ layout:decorate="~{layouts/layout1}">
 				</a>
 			</li>
 			<li>
-				<a href="applyTest02.html" class="item">
+				<a href="applyTest02" class="item">
 					상황별 마음검사
 				</a>
 			</li>
 		</ul>
 	</div>
-		<form id="testForm" action="applyTest01_1" method="get" >
+		<form id="testForm" action="about:blank" method="get" onsubmit="return fnTestFormValidation();">
 			<p>진행할 검사를 선택해주세요.</p>
-			<p>*복수 선택 가능</p>
 			
 			<div>
 				<ul>
 					<li>
 					  <label for="test_sq_1" class="item">
-					   <input type="checkbox" id="test_sq_1" name="test_sq[]" value="1"/>
+					   <input type="checkbox" id="test_sq_1" name="test_sq[]" value="applyTest01_1"/>
 					   <div>
 					   	<strong>우울감(PHQ_9)</strong>
 					   </div>
@@ -116,17 +116,33 @@ layout:decorate="~{layouts/layout1}">
 					</li>
 					<li>
 					  <label for="test_sq_2" class="item">
-					   <input type="checkbox" id="test_sq_2" name="test_sq[]" value="2"/>
+					   <input type="checkbox" id="test_sq_2" name="test_sq[]" value="applyTest01_2"/>
 					   <div>
-					   	<strong>자살위험도(P4)</strong>
+					   	<strong>스마트폰 과의존 척도</strong>
 					   </div>
 					  </label>
 					</li>
 					<li>
 					  <label for="test_sq_3" class="item">
-					   <input type="checkbox" id="test_sq_3" name="test_sq[]" value="3"/>
+					   <input type="checkbox" id="test_sq_3" name="test_sq[]" value="applyTest01_3"/>
 					   <div>
-					   	<strong>스마트폰 과의존 척도</strong>
+					   	<strong>청소년 도박문제 자가점검 (CAGI)</strong>
+					   </div>
+					  </label>
+					</li>
+					<li>
+					  <label for="test_sq_4" class="item">
+					   <input type="checkbox" id="test_sq_4" name="test_sq[]" value="applyTest01_4"/>
+					   <div>
+					   	<strong>범불안장애 척도 (GAD-7)</strong>
+					   </div>
+					  </label>
+					</li>
+					<li>
+					  <label for="test_sq_5" class="item">
+					   <input type="checkbox" id="test_sq_5" name="test_sq[]" value="applyTest01_5"/>
+					   <div>
+					   	<strong>스트레스 대처반응척도 (K-CSI)</strong>
 					   </div>
 					  </label>
 					</li>

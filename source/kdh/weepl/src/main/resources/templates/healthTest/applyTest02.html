@@ -13,7 +13,76 @@ layout:decorate="~{layouts/layout1}">
     color: #fff;
 }
 </style>
+</th:block>
+<th:block layout:fragment="script">
+	<script>
+		var testForm = null;
+		$(document).ready(function(){
+			testForm = $("#testForm");
+			
+		});
+		var chkTest = function(field, check, msg, autoFlag) {
+			if (autoFlag!=false) {
+				autoFlag = true;
+			}
+			var failFlag = false;
+			var fieldValue = getFieldValue(field);
 
+			switch(check) {
+				case "null": // null 체크
+					if (autoFlag==true) {
+						msg = msg +" : 필수 입력 사항입니다.";
+					}
+
+					failFlag = (fieldValue==null || fieldValue=="" || fieldValue.length<1);
+				break;
+
+				
+				case "checked": //체크박스
+					if (autoFlag==true) {
+						msg = msg +" : 필수 체크 사항입니다.";
+					}
+
+					failFlag = !getFieldCheck(field);
+				break;
+
+				default:
+					msg = "Validation을 지원하지 않은 속성입니다.";
+					failFlag = false;
+				break;
+			}
+
+			if (failFlag) {
+				if (msg!=null) {
+					alert (msg);
+				}
+
+				try {
+					switch(check) {
+						case 'hidden':
+						case 'editor':
+							break;
+						default:
+							field.focus();
+							field.select();
+							break;
+					}
+				} catch(e) {
+					console.log(e);
+				}
+			}
+
+			return !failFlag;
+		}
+		var fnTestFormValidation = function(){
+			
+			return (
+						chkTest(testForm.find("input[name^=test_sq]"), "checked", "내 마음의 상황")
+			)
+		}
+		
+	</script>
+</th:block>
 <div layout:fragment="content">
 	<div class = "inner">
 	<div>
@@ -24,20 +93,20 @@ layout:decorate="~{layouts/layout1}">
 				</a>
 			</li>
 			<li>
-				<a href="applyTest02.html" class="item">
+				<a href="applyTest02" class="item">
 					상황별 마음검사
 				</a>
 			</li>
 		</ul>
 	</div>
-		<form id="testForm" action="applyTest01_1" method="get" >
+		<form id="testForm" action="applyTest02_1" method="get" >
 			<p>진행할 검사를 선택해주세요.</p>
 			
 			<div>
 				<ul>
 					<li>
 					  <label for="test_sq_1" class="item">
-					   <input type="checkbox" id="test_sq_1" name="test_sq[]" value="1"/>
+					   <input type="radio" id="test_sq_1" name="test_sq[]" value="1"/>
 					   <div>
 					   	<strong>우울, 불안할때</strong>
 					   </div>
@@ -45,7 +114,7 @@ layout:decorate="~{layouts/layout1}">
 					</li>
 					<li>
 					  <label for="test_sq_2" class="item">
-					   <input type="checkbox" id="test_sq_2" name="test_sq[]" value="2"/>
+					   <input type="radio" id="test_sq_2" name="test_sq[]" value="2"/>
 					   <div>
 					   	<strong>잠을 못잘때</strong>
 					   </div>
@@ -53,7 +122,7 @@ layout:decorate="~{layouts/layout1}">
 					</li>
 					<li>
 					  <label for="test_sq_3" class="item">
-					   <input type="checkbox" id="test_sq_3" name="test_sq[]" value="3"/>
+					   <input type="radio" id="test_sq_3" name="test_sq[]" value="3"/>
 					   <div>
 					   	<strong>직장내 스트레스가 많을때</strong>
 					   </div>
