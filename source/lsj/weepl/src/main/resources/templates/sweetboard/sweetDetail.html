@@ -71,7 +71,7 @@
 		$("#btn-comment-save").on('click', function(){
 			var cd = $("#cd").val();
 			var data = {
-					content: $("#comment").val();
+				content: $("#comment").val();
 			};
 			var url = "/dtl/"+cd+"/com";
 			$.ajax({
@@ -283,7 +283,7 @@ h1 {
 							<td class="board_attach" width="150" align="center" bgcolor="#FF9933">파일</td>
 							<td class="board_attach_file" width="1500" align="center">
 								<div th:each="boardAttach : ${sweetBoardDto.boardAttachDtoList}" class="text-center">
- 								<a th:href="${@/sweetboard/dtl/'+ ${sweetBoardDto.cd}}" 
+ 								<a th:href="${'/sweetboard/dtl/'+ ${sweetBoardDto.cd}}" 
 										th:title="${boardAttach.attach_name}">다운로드 링크주소</a>
 										
 									<div th:text="${boardAttachDto.attachName}"></div> 
