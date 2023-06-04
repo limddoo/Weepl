@@ -5,10 +5,8 @@ import lombok.Setter;
 
 @Getter @Setter
 public class MhinfoSearchDto {
-	private String searchByCate;
-	
-	private String searchBy;
-	
+		private String searchByCate;
+	private String searchByLike;
 	private String searchQuery="";
 
 }

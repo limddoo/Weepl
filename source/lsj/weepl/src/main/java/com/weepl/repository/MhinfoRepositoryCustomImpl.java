@@ -11,6 +11,7 @@ import org.thymeleaf.util.StringUtils;
 
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.weepl.constant.MhinfoCate;
 import com.weepl.dto.MhinfoSearchDto;
@@ -25,15 +26,20 @@ public class MhinfoRepositoryCustomImpl implements MhinfoRepositoryCustom {
 		this.queryFactory = new JPAQueryFactory(em);
 	}
 
-	private BooleanExpression searchByCategory(String searchBy, String searchQuery) {
-		if ("SCHOOL".equals(searchQuery)) {
+	
+	
+	private BooleanExpression searchByCate(String searchBy, String searchQuery) {
+
+		if (searchBy == null || StringUtils.equals("all", searchBy)) {
+			return Expressions.asBoolean(true).isTrue();
+		} else if ("SCHOOL".equals(searchBy)) {
 			return QMhinfo.mhinfo.mhinfoCate.eq(MhinfoCate.SCHOOL);
-		} else if ("MIND".equals(searchQuery)) {
+		} else if ("MIND".equals(searchBy)) {
 			return QMhinfo.mhinfo.mhinfoCate.eq(MhinfoCate.MIND);
-		} else if ("RELATIONSHIP".equals(searchQuery)) {
+		} else if ("RELATIONSHIP".equals(searchBy)) {
 			return QMhinfo.mhinfo.mhinfoCate.eq(MhinfoCate.RELATIONSHIP);
 		}
-		return null;
+		return Expressions.asBoolean(true).isTrue();
 	}
 
 	private BooleanExpression searchByLike(String searchBy, String searchQuery) {
@@ -41,41 +47,59 @@ public class MhinfoRepositoryCustomImpl implements MhinfoRepositoryCustom {
 		if (StringUtils.equals("title", searchBy)) {
 			return QMhinfo.mhinfo.title.like("%" + searchQuery + "%");
 		} else if (StringUtils.equals("createdBy", searchBy)) {
-			return QMhinfo.mhinfo.createdBy.like("%" + searchQuery + "%");
+			return QMhinfo.mhinfo.content.like("%" + searchQuery + "%");
 		}
 		return null;
 	}
 
 	@Override
-	public Page<Mhinfo> getAdminMhinfoPage(MhinfoSearchDto mhinfoSearchDto, Pageable pageable) {
-		BooleanExpression categoryExpression = searchByCategory(mhinfoSearchDto.getSearchByCate(),
-				mhinfoSearchDto.getSearchQuery());
-		BooleanExpression likeExpression = searchByLike(mhinfoSearchDto.getSearchBy(),
-				mhinfoSearchDto.getSearchQuery());
+	public Page<Mhinfo> getMhinfoPage(MhinfoSearchDto mhinfoSearchDto, Pageable pageable) {
+	    BooleanExpression categoryExpression = null;
+	    if (mhinfoSearchDto.getSearchByCate() != null) {
+	        categoryExpression = searchByCate(mhinfoSearchDto.getSearchByCate(), mhinfoSearchDto.getSearchQuery());
+	    }
 
-		QueryResults<Mhinfo> results = queryFactory.selectFrom(QMhinfo.mhinfo).where(categoryExpression, likeExpression)
-				.orderBy(QMhinfo.mhinfo.cd.desc()).offset(pageable.getOffset()).limit(pageable.getPageSize())
-				.fetchResults();
+	    BooleanExpression likeExpression = StringUtils.isEmpty(mhinfoSearchDto.getSearchQuery()) ? null :
+	            searchByLike(mhinfoSearchDto.getSearchByLike(), mhinfoSearchDto.getSearchQuery());
 
-		List<Mhinfo> content = results.getResults();
-		long total = results.getTotal();
-		return new PageImpl<>(content, pageable, total);
-	}
+	    QueryResults<Mhinfo> results;
+	    if (likeExpression != null) {
+	        if (categoryExpression != null) {
+	            results = queryFactory.selectFrom(QMhinfo.mhinfo)
+	                    .where(categoryExpression, likeExpression)
+	                    .orderBy(QMhinfo.mhinfo.cd.desc())
+	                    .offset(pageable.getOffset())
+	                    .limit(pageable.getPageSize())
+	                    .fetchResults();
+	        } else {
+	            results = queryFactory.selectFrom(QMhinfo.mhinfo)
+	                    .where(likeExpression)
+	                    .orderBy(QMhinfo.mhinfo.cd.desc())
+	                    .offset(pageable.getOffset())
+	                    .limit(pageable.getPageSize())
+	                    .fetchResults();
+	        }
+	    } else {
+	        if (categoryExpression != null) {
+	            results = queryFactory.selectFrom(QMhinfo.mhinfo)
+	                    .where(categoryExpression)
+	                    .orderBy(QMhinfo.mhinfo.cd.desc())
+	                    .offset(pageable.getOffset())
+	                    .limit(pageable.getPageSize())
+	                    .fetchResults();
+	        } else {
+	            results = queryFactory.selectFrom(QMhinfo.mhinfo)
+	                    .orderBy(QMhinfo.mhinfo.cd.desc())
+	                    .offset(pageable.getOffset())
+	                    .limit(pageable.getPageSize())
+	                    .fetchResults();
+	        }
+	    }
 
-	@Override
-	public Page<Mhinfo> getUserMhinfoPage(MhinfoSearchDto mhinfoSearchDto, Pageable pageable) {
-		BooleanExpression categoryExpression = searchByCategory(mhinfoSearchDto.getSearchBy(),
-				mhinfoSearchDto.getSearchQuery());
-		BooleanExpression likeExpression = searchByLike(mhinfoSearchDto.getSearchBy(),
-				mhinfoSearchDto.getSearchQuery());
+	    List<Mhinfo> title = results.getResults();
+	    long total = results.getTotal();
 
-		QueryResults<Mhinfo> results = queryFactory.selectFrom(QMhinfo.mhinfo).where(categoryExpression, likeExpression)
-				.orderBy(QMhinfo.mhinfo.cd.desc()).offset(pageable.getOffset()).limit(pageable.getPageSize())
-				.fetchResults();
-
-		List<Mhinfo> content = results.getResults();
-		long total = results.getTotal();
-		return new PageImpl<>(content, pageable, total);
+	    return new PageImpl<>(title, pageable, total);
 	}
 
 }

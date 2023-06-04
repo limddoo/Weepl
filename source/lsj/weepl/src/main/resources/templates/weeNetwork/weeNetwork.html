@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/basicLayout}">
+<head>
+<meta charset="UTF-8">
+<title>Kakao Maps API</title>
+<script type="text/javascript"
+	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c6b36dba7a1ac8f9b03d372abf87accb"></script>
+</head>
+<body>
+	<div layout:fragment="content">
+<script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=zzx7cunppi"></script>
+<!--subContainer-->
+<script type="text/javascript">
+	var map;
+	$(function() {
+		var mapOptions = { 
+			    center: new naver.maps.LatLng(37.567732, 126.979171), 
+			    zoom: 11
+			}; 
+	
+		map = new naver.maps.Map('map', mapOptions); 
+		
+		showWeeList();
+	});
+	
+	var markers = [];
+	var infoWindows = [];
+	
+	var pinClass = {
+        url: '/home/images/icon_find01.png',
+        size: new naver.maps.Size(26, 33),
+        origin: new naver.maps.Point(0, 0),
+        anchor: new naver.maps.Point(11, 35)
+    }
+	
+	var pinCenter = {
+        url: '/home/images/icon_find02.png',
+        size: new naver.maps.Size(26, 33),
+        origin: new naver.maps.Point(0, 0),
+        anchor: new naver.maps.Point(11, 35)
+    }
+	
+	var pinFamcs = {
+        url: '/home/images/icon_find03.png',
+        size: new naver.maps.Size(26, 33),
+        origin: new naver.maps.Point(0, 0),
+        anchor: new naver.maps.Point(11, 35)
+    }
+	
+	var pinSchool = {
+        url: '/home/images/icon_find04.png',
+        size: new naver.maps.Size(26, 33),
+        origin: new naver.maps.Point(0, 0),
+        anchor: new naver.maps.Point(11, 35)
+    }
+	
+	function showWeeList() {    
+		var pinIcon;
+		
+
+ 		for (var i=0, ii=markers.length; i<ii; i++) {
+ 		    naver.maps.Event.addListener(markers[i], 'click', getClickHandler(i));
+ 		}
+	}
+	
+	function closeInfoWindow() {
+		$(".popupconts").parent().parent().hide();
+	}
+	
+	function getClickHandler(seq) {
+	    return function(e) {
+	        var marker = markers[seq],
+	            infoWindow = infoWindows[seq];
+
+	        if (infoWindow.getMap()) {
+	            infoWindow.close();
+	        } else {
+	            infoWindow.open(map, marker);
+	        }
+	    }
+	}
+	
+</script>
+
+            <div class="subview">
+			<h3>기관찾기</h3> 
+				<!--BBS Search-->
+                <div class="bbs_search">
+<form action="wee02001i.do" id="main" name="main">
+<input type="hidden" name="search_yn" value="Y">
+<input type="hidden" name="sch_key" value="nm">
+                        <label for="sch_sido" class="hidden">검색조건 선택</label>
+                        <select id="sch_sido" name="sch_sido" title="지역_시도">
+	                      
+	              		    <option value="01" >서울</option>
+	            		  
+	              		    <option value="02" >부산</option>
+	            		  
+	              		    <option value="03" >대구</option>
+	            		  
+	              		    <option value="04" >인천</option>
+	            		  
+	              		    <option value="05" >광주</option>
+	            		  
+	              		    <option value="06" >대전</option>
+	            		  
+	              		    <option value="07" >울산</option>
+	            		  
+	              		    <option value="17" >세종</option>
+	            		  
+	              		    <option value="08" >경기</option>
+	            		  
+	              		    <option value="09" >강원</option>
+	            		  
+	              		    <option value="10" >충북</option>
+	            		  
+	              		    <option value="11" >충남</option>
+	            		  
+	              		    <option value="12" >전북</option>
+	            		  
+	              		    <option value="13" >전남</option>
+	            		  
+	              		    <option value="14" >경북</option>
+	            		  
+	              		    <option value="15" >경남</option>
+	            		  
+	              		    <option value="16" >제주</option>
+	            		   
+                        </select>
+                        <label for="sch_wee_grp" class="hidden">기관 선택</label>
+                        <select name="sch_wee_grp" id="sch_wee_grp" title="기관선택">
+                            <option value="">위(Wee) 기관 전체</option>
+                            <option value="CLASS" >위(Wee) 클래스</option>
+                            <option value="CENTER" selected='selected'>위(Wee) 센터</option>
+                            <option value="FAMCS" >가정형 위(Wee)센터</option>
+                            <option value="SCHOOL" >위(Wee) 스쿨</option>
+                        </select>
+                        <label for="sch_keyword" class="hidden">검색어 입력</label>
+                        <input name="sch_keyword" id="sch_keyword" type="text" value="" placeholder="위(Wee) 기관 명칭" title="검색어 입력">
+                        <input type="submit" id="btnSearch" class="schbtn" value="검색" title="검색">
+</form>
+                </div>
+                <!--//BBS Search-->
+
+                <div class="bbs_count">
+                    <div class="total2">
+						<p> 
+						  <i class="iconfind find01"></i> 위(Wee) 클래스, 
+						  <i class="iconfind find02"></i> 위(Wee) 센터, 
+						  <i class="iconfind find03"></i> 가정형 위(Wee)센터, 
+						  <i class="iconfind find04"></i> 위(Wee) 스쿨
+						</p>
+					</div>
+                    <div class="total">
+						  
+					</div>
+                </div>
+
+				<div id="map" style="width:100%;height:500px;" class="mt_30">
+				</div>
+            </div>
+	
+	
+	<!--satisfaction-->
+	<div class="satisfaction">
+		<form name="satisf" id="satisf" method="post" action="satisPs.do">
+		<div class="satisf-inner">  
+			<article class="icon">
+				<h5>이 페이지에서 제공하는 정보에 만족하십니까?</h5>
+			   <div class="inputList">
+				   <ul>
+					   <li><input type="radio" name="satis" value="5" id="satisf01"> <label for="satisf01">매우만족</label> </li>
+					   <li><input type="radio" name="satis" value="4" id="satisf02"> <label for="satisf02">만족</label> </li>
+					   <li><input type="radio" name="satis" value="3" id="satisf03"> <label for="satisf03">보통</label> </li>
+					   <li><input type="radio" name="satis" value="2" id="satisf04"> <label for="satisf04">불만족</label> </li>
+					   <li><input type="radio" name="satis" value="1" id="satisf05"> <label for="satisf05">매우불만족</label> </li> 
+				   </ul> 
+				   <a href="javascript:goSatis();" class="btn_satis">확인</a>
+			   </div>  
+			</article> 
+		</div>
+		</form>
+	</div>   
+	<!--//satisfaction--> 
+	
+	<script type="text/javascript">
+		function goSatis() {
+			if ($("input[name=satis]:checked").length == 0) {
+				alert("만족도를 선택하여 주십시오");
+				return;
+			}
+			if (confirm("만족도를 저장하시겠습니까?")) {
+				ajaxJson("/home/main/satisPs.do", "menu_sn=33&satis_point=" + $("input[name=satis]:checked").val(), function(rtn) {
+					if (rtn.isOk == "Y") {
+						alert("만족도를 저장하였습니다."); 
+					} else {
+						alert(rtn.errMsg);
+					}
+				});
+			}
+		}
+	</script>
+
+				
+<br>
+		<button type="button" class="btn btn-primary" onclick="location.href='/weeNetwork/admin/new'">센터등록하기</button><br><br><br><br>
+	</div>
+</body>
+</html>
