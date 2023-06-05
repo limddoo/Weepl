@@ -1,7 +1,0 @@
-package com.weepl.repository;
-
-@Repository
-public interface MhinfoCateRepository {
-
-	List<Mhinfo> findbyId
-}

@@ -1,9 +1,0 @@
-package com.weepl.repository;
-
-import org.springframework.data.repository.CrudRepository;
-
-import com.weepl.entity.MemberRestrict;
-
-public interface MemberRestrictRepository extends CrudRepository<MemberRestrict, Long>{
-
-}

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.weepl.dto.ModMemberInfoDto;
 import com.weepl.dto.MypageFormDto;
 import com.weepl.entity.Member;
 import com.weepl.service.MypageService;
@@ -56,13 +57,13 @@ public class MypageController {
 	}
 
 	@PostMapping("/modMyInfo")
-	public String modMyInfo(@Valid MypageFormDto mypageFormDto, BindingResult bindingResult, Model model) {
+	public String modMyInfo(@Valid ModMemberInfoDto modMemberInfoDto, BindingResult bindingResult, Model model) {
 		if (bindingResult.hasErrors()) {
 			return "mypage/modMyInfo";
 		}
 		
 		try {
-			mypageService.updateMember(mypageFormDto);
+			mypageService.updateMember(modMemberInfoDto);
 		} catch (IllegalStateException e) {
 			model.addAttribute("errorMessage", e.getMessage());
 			return "mypage/modMyInfo";

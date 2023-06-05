@@ -142,20 +142,6 @@ public class WeeNetworkController {
 	        List<WeeNetwork> wnList = weeNetworkService.getAllWn();
 	        return new ResponseEntity<>(wnList, HttpStatus.OK);
 	    }
-	 
-//	 @GetMapping(value = "/modWeeNetworkInfo/{weeNetworkCd}")
-//		public String modWeeNetworkInfoForm(@PathVariable("weeNetworkCd") Long weeNetworkCd, Model model) {
-//			WeeNetwork weeNetwork = weeNetworkService.findOne(weeNetworkCd);
-//			if (weeNetwork != null) {
-//				WeeNetworkFormDto weeNetworkFormDto = WeeNetworkFormDto.of(weeNetwork);
-//				model.addAttribute("weeNetworkFormDto", weeNetworkFormDto);
-//			} else {
-//				// 처리할 로직 추가 (멤버를 찾을 수 없는 경우)
-//				model.addAttribute("errorMessage", "멤버를 찾을 수 없습니다."); // 에러 메시지 설정
-//				return "redirect:/weeNetwork";
-//			}
-//			return "member/weeNetworkView";
-//		}
 
 	 @PostMapping("/search")
 	    public String weeNetworkSearchResult(@ModelAttribute("weeNetworkSearchDto") WeeNetworkSearchDto weeNetworksearchDto, Model model) {

@@ -1,5 +1,6 @@
 package com.weepl.controller;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -26,9 +27,9 @@ import com.weepl.service.AdminService;
 
 import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor
 @Controller
 @RequestMapping("/admin")
+@RequiredArgsConstructor
 public class AdminController {
 	private final AdminService adminService;
 	private final MemberRepository memberRepository;
@@ -56,8 +57,9 @@ public class AdminController {
 
 	@GetMapping(value = "/modMemberInfo/{memCd}")
 	public String modMemberInfoForm(@PathVariable("memCd") Long memCd, Model model) {
-		Member member = adminService.findOne(memCd);
-		if (member != null) {
+		Optional<Member> optionalMember = adminService.findOne(memCd);
+		if (optionalMember.isPresent()) {
+			Member member = optionalMember.get();
 			ModMemberInfoDto modMemberInfoDto = ModMemberInfoDto.of(member);
 			model.addAttribute("modMemberInfoDto", modMemberInfoDto);
 		} else {
@@ -149,18 +151,4 @@ public class AdminController {
 	     model.addAttribute("maxPage", reMemberList.getTotalPages()); // 수정: 실제 최대 페이지 수를 사용
 	     return "member/reMemberList";
 	 }
-	@GetMapping("/untactConsForm")
-    public String untactConsForm() {
-    	return "admin/untactCons";
-    }
-	
-	@GetMapping("/chattingForm")
-    public String chattingForm() {
-    	return "admin/chatting";
-    }
-	
-	@GetMapping("/ucMngForm")
-    public String ucMngForm() {
-    	return "admin/untactConsSchMng";
-    }
 }

@@ -8,7 +8,7 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.weepl.dto.ChatDto;
 import com.weepl.dto.ChatRoom;
-import com.weepl.service.ChatService;
+import com.weepl.service.ConsService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -19,7 +19,7 @@ import lombok.extern.log4j.Log4j2;
 public class WebSocketHandler extends TextWebSocketHandler {
 
 	private final ObjectMapper objectMapper;
-    private final ChatService chatService;
+    private final ConsService consService;
 
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
@@ -28,8 +28,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
         ChatDto chatMessage = objectMapper.readValue(payload, ChatDto.class);
         log.info("{}", chatMessage);
         
-        ChatRoom chatRoom = chatService.findRoomById(chatMessage.getRoomId());
-        log.info("{}", chatRoom);
-        chatRoom.handlerActions(session, chatMessage, chatService);
+        ChatRoom chatRoom = consService.findRoomById(chatMessage.getRoomId());
+        chatRoom.handlerActions(session, chatMessage, consService);
     }
 	}

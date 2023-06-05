@@ -9,6 +9,8 @@ import com.weepl.entity.BoardAttach;
 @Repository
 public interface BoardAttachRepository extends JpaRepository<BoardAttach, Long> {
 
-	List<BoardAttach> findByNotice_NoticeCdOrderByAttachCdAsc(Long noticeCd);
+	List<BoardAttach> findByNotice_NoticeCdOrderByCdAsc(Long noticeCd);
+	
+	List<BoardAttach> findByCdOrderByCdAsc(Long cd);
 
 }

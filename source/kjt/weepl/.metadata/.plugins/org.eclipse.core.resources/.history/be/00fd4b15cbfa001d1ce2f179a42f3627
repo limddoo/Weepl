@@ -1,5 +1,0 @@
-package com.weepl.repository;
-
-public interface MemberRepositoryCustom {
-	Page<Member> getAdminMemberInfo(MemberSearchDto memberSearchDto, pageable pageable);
-}

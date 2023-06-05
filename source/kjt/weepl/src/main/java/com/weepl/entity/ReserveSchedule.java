@@ -1,7 +1,5 @@
 package com.weepl.entity;
 
-import java.time.LocalDateTime;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -24,7 +22,18 @@ public class ReserveSchedule {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long cd;
 	
-	private LocalDateTime reserveDt;
+	private String reserveDate;
 	
 	private String reserveTime;
+	
+	private String status;
+	
+	public static ReserveSchedule createReserveSchedule(String reserveDate, String reserveTime) {
+		ReserveSchedule rs = new ReserveSchedule();
+		rs.setReserveDate(reserveDate);
+		rs.setReserveTime(reserveTime);
+		rs.setStatus("예약가능");
+		
+		return rs;
+	}
 }

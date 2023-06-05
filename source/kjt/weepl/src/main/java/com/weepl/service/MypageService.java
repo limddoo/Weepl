@@ -1,12 +1,10 @@
 package com.weepl.service;
 
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.weepl.dto.ModMemberInfoDto;
-import com.weepl.dto.MypageFormDto;
 import com.weepl.entity.Member;
 import com.weepl.repository.MemberRepository;
 
@@ -22,12 +20,6 @@ public class MypageService {
 		return memberRepository.findById(id);
 	}
 
-	public void updateMember(MypageFormDto mypageFormDto) {
-		Member member = memberRepository.findById(mypageFormDto.getId());
-		validateDuplicateMember(member);
-		member.updateMember(mypageFormDto);
-	}
-	
 	public void updateMember(ModMemberInfoDto modMemberInfoDto) {
 		Member member = memberRepository.findById(modMemberInfoDto.getId());
 		validateDuplicateMember(member);

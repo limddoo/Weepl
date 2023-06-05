@@ -10,35 +10,30 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name="board_img")
-@Data
-public class BoardImg extends BaseEntity{
-
-		@Id
+@Getter @Setter
+public class BoardImg extends BaseEntity {
+	@Id
 	@Column(name="board_img_cd")
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long cd;
 	
-	private String imgName;
-	private String oriImgName;
-	private String imgUrl;
-	private String repImgYn;
-	private String boardDiv;
+	private String imgName; 
+	private String oriImgName; 
+	private String imgUrl; 
+	private String repimgYn;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "mhinfo_cd")
 	private Mhinfo mhinfo;
 	
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="notice_cd")
-	private Notice notice;
-	
-	public void updateBoardImg(String oriImgName, String imgName, String imgUrl) {
-		this.oriImgName = oriImgName;
-		this.imgName = imgName;
-		this.imgUrl = imgUrl;
+	public void updateBoardImg(String oriImgName, String imgName, String imgUrl){
+	this.oriImgName = oriImgName; 
+	this.imgName = imgName;
+	this.imgUrl = imgUrl;
 	}
 }

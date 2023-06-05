@@ -14,6 +14,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.springframework.stereotype.Component;
+
 import com.weepl.constant.RestrictStatus;
 
 import lombok.Getter;
@@ -25,6 +27,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
+@Component
 public class MemberRestrict {
 	@Id
 	@Column(name = "restrict_cd")
@@ -44,4 +47,6 @@ public class MemberRestrict {
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="mem_cd")
 	private Member member;
+	
+	
 }

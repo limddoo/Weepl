@@ -32,8 +32,4 @@ public class BoardConsNmem {
 	
 	private String region;
 	
-	@OneToOne
-	@JoinColumn(name="board_cons_cd")
-	private BoardCons boardCons;
-
 }

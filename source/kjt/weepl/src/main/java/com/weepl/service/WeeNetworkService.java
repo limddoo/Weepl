@@ -39,10 +39,6 @@ public class WeeNetworkService {
 		return weeNetworkRepository.save(weeNetwork);
 	}
 	
-//	public WeeNetwork findOne(Long weeNetworkCd) {
-//		return weeNetworkRepository.findByCd(weeNetworkCd);
-//	}
-	
 	public List<WeeNetwork> searchWeeNetworks(WeeNetworkSearchDto weeNetworkSearchDto) {
 	    String agencyName = weeNetworkSearchDto.getAgencyName();
 	    String locName = weeNetworkSearchDto.getLocName();

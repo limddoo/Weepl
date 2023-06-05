@@ -17,6 +17,7 @@ import com.weepl.dto.MhinfoSearchDto;
 import com.weepl.entity.BoardImg;
 import com.weepl.entity.Mhinfo;
 import com.weepl.repository.BoardImgRepository;
+import com.weepl.repository.MemberRepository;
 import com.weepl.repository.MhinfoRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -29,6 +30,7 @@ public class MhinfoService {
 	private final MhinfoRepository mhinfoRepository;
 	private final BoardImgService boardImgService;
 	private final BoardImgRepository boardImgRepository; 
+	private final MemberRepository memberRepository;
 	
 	public Long findNextAvailableMhinfoCd() {
 		List<Long> mhinfoCds = mhinfoRepository.findAllMhinfoCds();
@@ -49,9 +51,9 @@ public class MhinfoService {
 			boardImg.setMhinfo(mhinfo);
 			
 			if(i == 0)
-				boardImg.setRepImgYn("Y");
+				boardImg.setRepimgYn("Y");
 			else
-				boardImg.setRepImgYn("N");
+				boardImg.setRepimgYn("N");
 			boardImgService.saveBoardImg(boardImg, boardImgFileList.get(i));
 		}
 		return mhinfo.getCd();
@@ -88,22 +90,25 @@ public class MhinfoService {
 	}
 	
 	public Long updateMhinfo(MhinfoFormDto mhinfoFormDto, List<MultipartFile> boardImgFileList) throws Exception {
-	    Mhinfo mhinfo = mhinfoRepository.findById(mhinfoFormDto.getCd())
-	            .orElseThrow(EntityNotFoundException::new);
-	    mhinfo.updateMhinfo(mhinfoFormDto);
-	    
-	    mhinfo.setMhinfoCate(mhinfoFormDto.getMhinfoCate()); // mhinfoCate 값을 설정해줍니다.
-	    
-	    List<Long> boardImgCds = mhinfoFormDto.getBoardImgCds();
-	    for(int i=0; i<boardImgFileList.size(); i++) {
-	        boardImgService.updateBoardImg(boardImgCds.get(i), boardImgFileList.get(i));
-	    }
-	    return mhinfo.getCd();
+		Mhinfo mhinfo = mhinfoRepository.findById(mhinfoFormDto.getCd())
+				.orElseThrow(EntityNotFoundException::new);
+		mhinfo.updateMhinfo(mhinfoFormDto);
+		
+		List<Long> boardImgCds = mhinfoFormDto.getBoardImgCds();
+		for(int i=0;i<boardImgFileList.size();i++) {
+			boardImgService.updateBoardImg(boardImgCds.get(i), boardImgFileList.get(i));
+		}
+		return mhinfo.getCd();
 	}
 	
 	@Transactional(readOnly = true)
-    public Page<Mhinfo> getMhinfoPage(MhinfoSearchDto mhinfoSearchDto, Pageable pageable){
-    	return mhinfoRepository.getMhinfoPage(mhinfoSearchDto, pageable);
+    public Page<Mhinfo> getAdminMhinfoPage(MhinfoSearchDto mhinfoSearchDto, Pageable pageable){
+    	return mhinfoRepository.getAdminMhinfoPage(mhinfoSearchDto, pageable);
+    }
+	
+	@Transactional(readOnly = true)
+    public Page<Mhinfo> getUserMhinfoPage(MhinfoSearchDto mhinfoSearchDto, Pageable pageable){
+    	return mhinfoRepository.getUserMhinfoPage(mhinfoSearchDto, pageable);
     }
 	
 	@Transactional

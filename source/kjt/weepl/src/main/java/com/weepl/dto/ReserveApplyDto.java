@@ -13,11 +13,14 @@ public class ReserveApplyDto {
 	private Long reserveApplyCd;
 	private Long memCd;
 	private Long reserveScheduleCd;
-	private LocalDateTime reserveDt;
-	private String consDiv;
+	private String reserveId;
+	private String reserveTitle;
 	private String consReqContent;
+	private LocalDateTime reserveDt;
 	private String reserveStatus;
 	private LocalDateTime cancDt;
+	
+	private String name;
 	
 	private static ModelMapper modelMapper = new ModelMapper();
 	
