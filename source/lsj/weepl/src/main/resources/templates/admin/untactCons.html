@@ -16,9 +16,9 @@
 		src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
 	<script th:inline="javascript">
 
-function new_window() {
+function new_window(reserveApplyCd) {
 	popupWindow = window.open(
-		      "/admin/chattingForm",
+		      "/admin/chattingForm/"+reserveApplyCd,
 		      "비대면 상담",
 		      "resizeable"
 		    );
@@ -33,7 +33,34 @@ function new_window() {
 </th:block>
 <div layout:fragment="content" class="content-wrapper">
 	<form action="/admin/chattingForm" role="form" method="get">
-		<input type="button" value="비대면 상담 시작" onClick="new_window()">
+		<table class="table-container">
+			<thead>
+				<tr>
+					<th>회원이름</th>
+					<th>신청제목</th>
+					<th>신청내용</th>
+					<th>상담일</th>
+					<th>상담시간</th>
+					<th>신청상태</th>
+					<th>-</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="reserveApply : ${reserveApplyList}">
+					<td th:text="${reserveApply.memberCd.name}"></td>
+					<td th:text="${reserveApply.reserveTitle}"></td>
+					<td th:text="${reserveApply.consReqContent}"></td>
+					<td th:text="${reserveApply.reserveSchedule.reserveDate}"></td>
+					<td th:text="${reserveApply.reserveSchedule.reserveTime}"></td>
+					<td th:text="${reserveApply.reserveStatus}"></td>
+					<td>
+						<input type="button" value="비대면 상담 시작" th:onclick="new_window([[${reserveApply.reserveApplyCd}]])">
+					</td>
+					</th:block>
+				</tr>
+			</tbody>
+		</table>
+		
 		<input type="submit" id="startUntactCons"> <input
 			type="hidden" th:name="${_csrf.parameterName}"
 			th:value="${_csrf.token}">

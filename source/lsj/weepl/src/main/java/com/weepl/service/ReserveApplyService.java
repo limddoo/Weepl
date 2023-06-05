@@ -35,6 +35,7 @@ public class ReserveApplyService {
 	public Long saveReserveApply(ReserveApplyDto reserveApplyDto) {
 
 		ReserveApply reserveApply = reserveApplyDto.reserveApplyDtotoReserveApply();
+		reserveApply.setReserveSchedule(reserveScheduleRepository.getById(Long.valueOf(reserveApplyDto.getReserveId())));
 		reserveApply.setMemberCd(memberRepository.findById(reserveApplyDto.getName()));
 
 		reserveApplyRepository.save(reserveApply);

@@ -28,25 +28,17 @@ public class ConsController {
     
     @GetMapping(value="/createRoom")
     @ResponseBody
-    public HashMap<String, String> createRoom(String name) {
-    	HashMap<String, String> map = new HashMap<>();
-    	ChatRoom room = consService.createRoom(name);
-    	map.put("roomId", room.getRoomId());
-        return map;
+    public void createRoom(String name, Long reserveApplyCd) {
+    	consService.createRoom(name, reserveApplyCd);
     }
     
     @GetMapping(value="/findRoom")
     @ResponseBody
-    public HashMap<String, String> findRoom(String name) {
-    	HashMap<String, String> map = new HashMap<>();
+    public HashMap<String, Long> findRoom(String name, Long reserveApplyCd) {
+    	HashMap<String, Long> map = new HashMap<>();
     	
-    	map.put("roomId", consService.findChatRoom(name));
+    	map.put("roomId", consService.findChatRoom(name, reserveApplyCd));
         return map;
     }
 
-    @GetMapping
-    @ResponseBody
-    public List<ChatRoom> findAllRoom() {
-        return consService.findAllRoom();
-    }
 }

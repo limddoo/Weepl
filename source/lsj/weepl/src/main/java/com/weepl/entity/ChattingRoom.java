@@ -8,6 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import lombok.Getter;
@@ -29,12 +30,15 @@ public class ChattingRoom {
 	@JoinColumn(name="mem_cd")
 	private Member member;
 	
-	private String roomId;
+	// ReserveApply의 reserveApplyCd
+	@OneToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="mem_cd")
+	private ReserveApply reserveApply;
 	
-	public static ChattingRoom createChattingRoom(Member member, String roomId) {
+	public static ChattingRoom createChattingRoom(ReserveApply reserveApply) {
 		ChattingRoom cr = new ChattingRoom();
-		cr.member = member;
-		cr.roomId = roomId;
+		cr.member = reserveApply.getMemberCd();
+		cr.reserveApply = reserveApply;
 		
 		return cr;
 	}

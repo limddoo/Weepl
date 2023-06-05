@@ -151,14 +151,14 @@ public class AdminController {
 	     return "admin/reMemberList";
 	 }
 	@GetMapping("/untactConsForm")
-    public String untactConsForm() {
-		/* List<ReserveSchedule> reserveScheduleList */
+    public String untactConsForm(Model model) {
+		model.addAttribute("reserveApplyList", adminService.getReserveApplyList());
     	return "admin/untactCons";
     }
 	
-	@GetMapping("/chattingForm")
-    public String chattingForm(Model model) {
-		
+	@GetMapping("/chattingForm/{reserveApplyCd}")
+    public String chattingForm(Model model, @PathVariable(value="reserveApplyCd") Long reserveApplyCd) {
+		model.addAttribute("reserveApplyCd", reserveApplyCd);
     	return "admin/chatting";
     }
 	

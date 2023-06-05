@@ -10,6 +10,7 @@
        $(document).ready(function(){
 			// 채팅에서 사용할 이름: Member 아이디
             const name = [[${#authentication.principal.username}]];
+            const reserveApplyCd = [[${reserveApplyCd}]];
 
        		// 나가기 버튼 클릭: 웹소켓 닫기, 채팅창에 퇴장메시지 출력, 화면닫기
             $("#disconn").on("click", (e) => {
@@ -45,7 +46,8 @@
             	$.ajax({
     				type: "get",
     				url: "/cons/findRoom",
-    				data : { "name" : name },
+    				data : { "name" : name,
+						"reserveApplyCd" : reserveApplyCd},
     				contentType: "application/json",
     				success: function(result){
     					foundRoomId = result.roomId;

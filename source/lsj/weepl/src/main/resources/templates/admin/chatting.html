@@ -11,6 +11,8 @@
        $(document).ready(function(){
 			// 채팅에서 사용할 이름: Member 아이디
             const name = [[${#authentication.principal.username}]];
+       		const reserveApplyCd = [[${reserveApplyCd}]];
+       		console.log(reserveApplyCd)
 
        		// 나가기 버튼 클릭: 웹소켓 닫기, 채팅창에 퇴장메시지 출력, 화면닫기
             $("#disconn").on("click", (e) => {
@@ -46,11 +48,11 @@
             	$.ajax({
     				type: "get",
     				url: "/cons/createRoom",
-    				data : { "name" : name },
+    				data : { "name" : name,
+    						"reserveApplyCd" : reserveApplyCd},
     				contentType: "application/json",
-    				success: function(result){
-    					createdRoomId = result.roomId;
-    	                var enterdata = {type:'ENTER',roomId:createdRoomId,sender:name,message:''};
+    				success: function(){
+    	                var enterdata = {type:'ENTER',roomId:reserveApplyCd,sender:name,message:'<<입장>>'};
     	                
     	                websocket.send(JSON.stringify(enterdata));
     				},
@@ -108,7 +110,7 @@
             // 채팅창에 퇴장메시지 출력, 웹소켓 닫기, 화면닫기
             function disconnect(){
             	var str = name + "님이 퇴장하셨습니다.";
-                var quitdata = {type:'QUIT',roomId:createdRoomId,sender:name,message:str};
+                var quitdata = {type:'QUIT',roomId:reserveApplyCd,sender:name,message:'<<퇴장>>'};
                 
                 websocket.send(JSON.stringify(quitdata));
             	websocket.close();
@@ -122,7 +124,7 @@
                 var talkMsg = msg.value;
 
                 console.log(name + ":" + msg.value);
-                var talkdata = {type:'TALK',roomId:createdRoomId,sender:name,message:talkMsg};
+                var talkdata = {type:'TALK',roomId:reserveApplyCd,sender:name,message:talkMsg};
                 websocket.send(JSON.stringify(talkdata));
                 msg.value = '';
             }
