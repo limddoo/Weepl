@@ -19,6 +19,11 @@
 		$(document).ready(function(){
 			var val = location.href
 		})
+		function saveResult(){
+			if(mem_cd == null){
+			
+			}
+		}
 	</script>
 	
 	</th:block>
@@ -26,18 +31,22 @@
 	<div layout:fragment="content">
 	<form action="">
 	<div class ="inner">
+	<h1><strong>마음건강 검사 결과</strong></h1>
 	<h3 th:text="'진행한 검사:' + ${testName}">  </h3>
-	<strong>마음건강 검사 결과</strong>
+	
 		<div id="test" class="chkResult">
 		<ul>
 			<li style="font-size:35px;" th:text="'총 점수: '+ ${testSum}+'점'" ></li>
-			<li>5점 이하:정상</li>
-			<li>6점이상 8점이하: 경도, 중증도</li>
-			<li>9점 이상:심각</li>
+			<li th:text="${testStat}"></li>
 		</ul>
 		</div>
 	</div>
+	<div>
+		<button type="submit" class="btn btn-primary" onclick="saveResult()">
+			<span>결과 저장하기</span>
+		</button>
+	</div>
 	</form>
 </div>
-<div></div>
+
 </html>

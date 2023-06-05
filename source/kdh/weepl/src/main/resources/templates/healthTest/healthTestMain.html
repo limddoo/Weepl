@@ -33,66 +33,18 @@
 			testForm = $("#testForm");
 			
 		});
-		var chkTest = function(field, check, msg, autoFlag) {
-			if (autoFlag!=false) {
-				autoFlag = true;
-			}
-			var failFlag = false;
-			var fieldValue = getFieldValue(field);
-
-			switch(check) {
-				case "null": // null 체크
-					if (autoFlag==true) {
-						msg = msg +" : 필수 입력 사항입니다.";
-					}
-
-					failFlag = (fieldValue==null || fieldValue=="" || fieldValue.length<1);
-				break;
-
-				
-				case "checked": //체크박스
-					if (autoFlag==true) {
-						msg = msg +" : 필수 체크 사항입니다.";
-					}
-
-					failFlag = !getFieldCheck(field);
-				break;
-
-				default:
-					msg = "Validation을 지원하지 않은 속성입니다.";
-					failFlag = false;
-				break;
-			}
-
-			if (failFlag) {
-				if (msg!=null) {
-					alert (msg);
-				}
-
-				try {
-					switch(check) {
-						case 'hidden':
-						case 'editor':
-							break;
-						default:
-							field.focus();
-							field.select();
-							break;
-					}
-				} catch(e) {
-					console.log(e);
-				}
-			}
-
-			return !failFlag;
-		}
+		
 		var fnTestFormValidation = function(){
+			if(! $('input[name=applyTest]:checked').val()){
+				alert("필수선택 항목입니다.");
+				return false;
+			}else{
+				
+			
 			var el_applyTest = testForm.find("input[name=applyTest]:checked")
 			testForm.prop("action", el_applyTest.val());
+			}
 			
-			return(
-				chkTest(testForm.find("input[name=applyTest]"), "checked", "검사지")		
-			);
 		}
 	</script>
 </th:block>

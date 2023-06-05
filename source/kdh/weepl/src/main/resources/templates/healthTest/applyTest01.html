@@ -22,65 +22,22 @@ layout:decorate="~{layouts/layout1}">
 			testForm = $("#testForm");
 			
 		});
-		var chkTest = function(field, check, msg, autoFlag) {
-			if (autoFlag!=false) {
-				autoFlag = true;
-			}
-			var failFlag = false;
-			var fieldValue = getFieldValue(field);
+		function clickCheck(target) {
+		    document.querySelectorAll(`input[type=checkbox]`)
+		        .forEach(el => el.checked = false);
 
-			switch(check) {
-				case "null": // null 체크
-					if (autoFlag==true) {
-						msg = msg +" : 필수 입력 사항입니다.";
-					}
-
-					failFlag = (fieldValue==null || fieldValue=="" || fieldValue.length<1);
-				break;
-
-				
-				case "checked": //체크박스
-					if (autoFlag==true) {
-						msg = msg +" : 필수 체크 사항입니다.";
-					}
-
-					failFlag = !getFieldCheck(field);
-				break;
-
-				default:
-					msg = "Validation을 지원하지 않은 속성입니다.";
-					failFlag = false;
-				break;
-			}
-
-			if (failFlag) {
-				if (msg!=null) {
-					alert (msg);
-				}
-
-				try {
-					switch(check) {
-						case 'hidden':
-						case 'editor':
-							break;
-						default:
-							field.focus();
-							field.select();
-							break;
-					}
-				} catch(e) {
-					console.log(e);
-				}
-			}
-
-			return !failFlag;
+		    target.checked = true;
 		}
 		var fnTestFormValidation = function(){
+			if(! $('input[name^=test_sq]:checked').val()){
+				alert("필수선택 항목입니다.");
+				return false;
+			}else{
+			
 			var el_applyTest = testForm.find("input[name^=test_sq]:checked")
 			testForm.prop("action", el_applyTest.val());
-			return (
-						chkTest(testForm.find("input[name^=test_sq]"), "checked", "검사지")
-			)
+			}
+			
 		}
 		
 	</script>
@@ -108,7 +65,7 @@ layout:decorate="~{layouts/layout1}">
 				<ul>
 					<li>
 					  <label for="test_sq_1" class="item">
-					   <input type="checkbox" id="test_sq_1" name="test_sq[]" value="applyTest01_1"/>
+					   <input type="checkbox" id="test_sq_1" name="test_sq[]" value="applyTest01_1"  onclick="clickCheck(this)"/>
 					   <div>
 					   	<strong>우울감(PHQ_9)</strong>
 					   </div>
@@ -116,7 +73,7 @@ layout:decorate="~{layouts/layout1}">
 					</li>
 					<li>
 					  <label for="test_sq_2" class="item">
-					   <input type="checkbox" id="test_sq_2" name="test_sq[]" value="applyTest01_2"/>
+					   <input type="checkbox" id="test_sq_2" name="test_sq[]" value="applyTest01_2"  onclick="clickCheck(this)"/>
 					   <div>
 					   	<strong>스마트폰 과의존 척도</strong>
 					   </div>
@@ -124,7 +81,7 @@ layout:decorate="~{layouts/layout1}">
 					</li>
 					<li>
 					  <label for="test_sq_3" class="item">
-					   <input type="checkbox" id="test_sq_3" name="test_sq[]" value="applyTest01_3"/>
+					   <input type="checkbox" id="test_sq_3" name="test_sq[]" value="applyTest01_3"  onclick="clickCheck(this)"/>
 					   <div>
 					   	<strong>청소년 도박문제 자가점검 (CAGI)</strong>
 					   </div>
@@ -132,7 +89,7 @@ layout:decorate="~{layouts/layout1}">
 					</li>
 					<li>
 					  <label for="test_sq_4" class="item">
-					   <input type="checkbox" id="test_sq_4" name="test_sq[]" value="applyTest01_4"/>
+					   <input type="checkbox" id="test_sq_4" name="test_sq[]" value="applyTest01_4"  onclick="clickCheck(this)"/>
 					   <div>
 					   	<strong>범불안장애 척도 (GAD-7)</strong>
 					   </div>
@@ -140,9 +97,41 @@ layout:decorate="~{layouts/layout1}">
 					</li>
 					<li>
 					  <label for="test_sq_5" class="item">
-					   <input type="checkbox" id="test_sq_5" name="test_sq[]" value="applyTest01_5"/>
+					   <input type="checkbox" id="test_sq_5" name="test_sq[]" value="applyTest01_5"  onclick="clickCheck(this)"/>
 					   <div>
 					   	<strong>스트레스 대처반응척도 (K-CSI)</strong>
+					   </div>
+					  </label>
+					</li>
+					<li>
+					  <label for="test_sq_6" class="item">
+					   <input type="checkbox" id="test_sq_6" name="test_sq[]" value="applyTest01_6"  onclick="clickCheck(this)"/>
+					   <div>
+					   	<strong>우울증 척도 (CES-D)</strong>
+					   </div>
+					  </label>
+					</li>
+					<li>
+					  <label for="test_sq_7" class="item">
+					   <input type="checkbox" id="test_sq_7" name="test_sq[]" value="applyTest01_7"  onclick="clickCheck(this)"/>
+					   <div>
+					   	<strong>스트레스 지각척도 (PSS)</strong>
+					   </div>
+					  </label>
+					</li>
+					<li>
+					  <label for="test_sq_8" class="item">
+					   <input type="checkbox" id="test_sq_8" name="test_sq[]" value="applyTest01_8"  onclick="clickCheck(this)"/>
+					   <div>
+					   	<strong>조기 정신증 검사 (K-ESI)</strong>
+					   </div>
+					  </label>
+					</li>
+					<li>
+					  <label for="test_sq_9" class="item">
+					   <input type="checkbox" id="test_sq_9" name="test_sq[]" value="applyTest01_9"  onclick="clickCheck(this)"/>
+					   <div>
+					   	<strong>교정된 정신증 고위험군 선별도구 (mKPQ-16)</strong>
 					   </div>
 					  </label>
 					</li>

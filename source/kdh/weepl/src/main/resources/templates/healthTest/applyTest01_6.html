@@ -45,14 +45,14 @@ layout:decorate="~{layouts/layout1}">
 		<div class="inner">
 		  <form id="testForm" action="testResult" method="post">
 		  	<input type="hidden" id="totalSum" name="testSum">
-		  	<input type="hidden" id="testName" name="testName" value="스트레스 대처반응척도">
-		  	<input type="hidden" id="testStat" name="testStat" value="15 이하: 정상, 16~24: 경도, 25~30: 중증도, 31 이상: 심각">
+		  	<input type="hidden" id="testName" name="testName" value="우울증 척도">
+		  	<input type="hidden" id="testStat" name="testStat" value="20 이하: 정상, 21~34: 경도, 35~44: 중증도, 45 이상: 심각">
 		  	<div class="checkPointArea">
 		  		<div class="inner">
 		  			<ul class="chkPointList">
 		  				<li>
 		  					<div class="item">
-		  						<strong>가까운 사람에게 감정을 털어놓았습니까?</strong>
+		  						<strong>평소에는 성가시지 않던 일이 성가시게 느껴졌다</strong>
 		  						<ul class="itemList">
 		  							<li>
 		  							<label for= "test_ques_val_1_1">
@@ -91,7 +91,7 @@ layout:decorate="~{layouts/layout1}">
 		  				</li>
 		  				<li>
 		  					<div class="item">
-		  						<strong>문제를 최대한 해결하기 위해 주변 상황을 다시 정리하였습니까?</strong>
+		  						<strong>별로 먹고 싶지 않았다; 입맛이 없었다</strong>
 		  						<ul class="itemList">
 		  							<li>
 		  							<label for="test_ques_val_2_1">
@@ -130,7 +130,7 @@ layout:decorate="~{layouts/layout1}">
 		  				</li>
 		  				<li>
 		  					<div class="item">
-		  						<strong>무엇을 결정하기 전에 가능한 해결책을 모두 생각해 보았습니까?</strong>
+		  						<strong>가족이나 친구가 도와주더라도 울적한 기분을 떨칠 수 없었다</strong>
 		  						<ul class="itemList">
 		  							<li>
 		  							<label for="test_ques_val_3_1">
@@ -170,7 +170,7 @@ layout:decorate="~{layouts/layout1}">
 		  				
 		  				<li>
 		  					<div class="item">
-		  						<strong>문제를 외면하기 위해 관심을 다른 곳으로 돌렸습니까?</strong>
+		  						<strong>나도 다른 사람만큼 기분이 좋았다</strong>
 		  						<ul class="itemList">
 		  							<li>
 		  							<label for="test_ques_val_4_1">
@@ -209,7 +209,7 @@ layout:decorate="~{layouts/layout1}">
 		  				</li>
 		  				<li>
 		  					<div class="item">
-		  						<strong>사람들의 위로나 공감을 받아들였습니까?</strong>
+		  						<strong>하고 있는 일에 마음을 집중하기가 어려웠다</strong>
 		  						<ul class="itemList">
 		  							<li>
 		  							<label for="test_ques_val_5_1">
@@ -248,7 +248,7 @@ layout:decorate="~{layouts/layout1}">
 		  				</li>
 		  				<li>
 		  					<div class="item">
-		  						<strong>발생한 상황에 대해 회피하려고 했습니까?</strong>
+		  						<strong>우울했다</strong>
 		  						<ul class="itemList">
 		  							<li>
 		  							<label for="test_ques_val_6_1">
@@ -287,7 +287,7 @@ layout:decorate="~{layouts/layout1}">
 		  				</li>
 		  				<li>
 		  					<div class="item">
-		  						<strong>마음의 안정을 얻기 위해 다른 사람들에게 내가 겪은 문제 상황을 이야기 했습니까?</strong>
+		  						<strong>하는 일마다 힘들게 느꼈다</strong>
 		  						<ul class="itemList">
 		  							<li>
 		  							<label for="test_ques_val_7_1">
@@ -326,7 +326,7 @@ layout:decorate="~{layouts/layout1}">
 		  				</li>
 		  				<li>
 		  					<div class="item">
-		  						<strong>문제를 해결하기 위해 목표를 세웠습니까?</strong>
+		  						<strong>미래에 대해 희망적으로 느꼈다</strong>
 		  						<ul class="itemList">
 		  							<li>
 		  							<label for="test_ques_val_8_1">
@@ -365,7 +365,7 @@ layout:decorate="~{layouts/layout1}">
 		  				</li>
 		  				<li>
 		  					<div class="item">
-		  						<strong>선택한 방안들을 신중하게 검토해 보았습니까?</strong>
+		  						<strong>내 인생은 실패작이라고 생각했다</strong>
 		  						<ul class="itemList">
 		  							<li>
 		  							<label for="test_ques_val_9_1">
@@ -404,7 +404,7 @@ layout:decorate="~{layouts/layout1}">
 		  				</li>
 		  				<li>
 		  					<div class="item">
-		  						<strong>‘상황이 나아지겠지’란 상상만 했습니까?</strong>
+		  						<strong>무서움을 느꼈다</strong>
 		  						<ul class="itemList">
 		  							<li>
 		  							<label for="test_ques_val_10_1">
@@ -433,6 +433,201 @@ layout:decorate="~{layouts/layout1}">
 		  							<li>
 		  							<label for="test_ques_val_10_4">
 		  								<input type="radio" id="test_ques_val_10_4" name="test_ques_val_10" value="4"/>
+		  								<div>
+		  							  	   <p>매우 그렇다</p>
+		  								</div>
+		  							</label>
+		  							</li>
+		  						</ul>
+		  					</div>
+		  				</li>
+		  				<li>
+		  					<div class="item">
+		  						<strong>잠을 설쳤다</strong>
+		  						<ul class="itemList">
+		  							<li>
+		  							<label for="test_ques_val_11_1">
+		  								<input type="radio" id="test_ques_val_11_1" name="test_ques_val_11" value="1"/>
+		  								<div>
+		  							  	   <p>전혀 그렇지 않다</p>
+		  								</div>
+		  							</label>
+		  							</li>
+		  							<li>
+		  							<label for="test_ques_val_11_2">
+		  								<input type="radio" id="test_ques_val_11_2" name="test_ques_val_11" value="2"/>
+		  								<div>
+		  							  	   <p>그러지 않다</p>
+		  								</div>
+		  							</label>
+		  							</li>
+		  							<li>
+		  							<label for="test_ques_val_11_3">
+		  								<input type="radio" id="test_ques_val_11_3" name="test_ques_val_11" value="3"/>
+		  								<div>
+		  							  	   <p>그렇다</p>
+		  								</div>
+		  							</label>
+		  							</li>
+		  							<li>
+		  							<label for="test_ques_val_11_4">
+		  								<input type="radio" id="test_ques_val_11_4" name="test_ques_val_11" value="4"/>
+		  								<div>
+		  							  	   <p>매우 그렇다</p>
+		  								</div>
+		  							</label>
+		  							</li>
+		  						</ul>
+		  					</div>
+		  				</li>
+		  				<li>
+		  					<div class="item">
+		  						<strong>행복했다</strong>
+		  						<ul class="itemList">
+		  							<li>
+		  							<label for="test_ques_val_12_1">
+		  								<input type="radio" id="test_ques_val_10_1" name="test_ques_val_12" value="1"/>
+		  								<div>
+		  							  	   <p>전혀 그렇지 않다</p>
+		  								</div>
+		  							</label>
+		  							</li>
+		  							<li>
+		  							<label for="test_ques_val_12_2">
+		  								<input type="radio" id="test_ques_val_12_2" name="test_ques_val_12" value="2"/>
+		  								<div>
+		  							  	   <p>그러지 않다</p>
+		  								</div>
+		  							</label>
+		  							</li>
+		  							<li>
+		  							<label for="test_ques_val_12_3">
+		  								<input type="radio" id="test_ques_val_12_3" name="test_ques_val_12" value="3"/>
+		  								<div>
+		  							  	   <p>그렇다</p>
+		  								</div>
+		  							</label>
+		  							</li>
+		  							<li>
+		  							<label for="test_ques_val_12_4">
+		  								<input type="radio" id="test_ques_val_12_4" name="test_ques_val_12" value="4"/>
+		  								<div>
+		  							  	   <p>매우 그렇다</p>
+		  								</div>
+		  							</label>
+		  							</li>
+		  						</ul>
+		  					</div>
+		  				</li>
+		  				<li>
+		  					<div class="item">
+		  						<strong>평소보다 말을 적게 했다</strong>
+		  						<ul class="itemList">
+		  							<li>
+		  							<label for="test_ques_val_13_1">
+		  								<input type="radio" id="test_ques_val_13_1" name="test_ques_val_13" value="1"/>
+		  								<div>
+		  							  	   <p>전혀 그렇지 않다</p>
+		  								</div>
+		  							</label>
+		  							</li>
+		  							<li>
+		  							<label for="test_ques_val_13_2">
+		  								<input type="radio" id="test_ques_val_13_2" name="test_ques_val_13" value="2"/>
+		  								<div>
+		  							  	   <p>그러지 않다</p>
+		  								</div>
+		  							</label>
+		  							</li>
+		  							<li>
+		  							<label for="test_ques_val_13_3">
+		  								<input type="radio" id="test_ques_val_13_3" name="test_ques_val_13" value="3"/>
+		  								<div>
+		  							  	   <p>그렇다</p>
+		  								</div>
+		  							</label>
+		  							</li>
+		  							<li>
+		  							<label for="test_ques_val_13_4">
+		  								<input type="radio" id="test_ques_val_13_4" name="test_ques_val_13" value="4"/>
+		  								<div>
+		  							  	   <p>매우 그렇다</p>
+		  								</div>
+		  							</label>
+		  							</li>
+		  						</ul>
+		  					</div>
+		  				</li>
+		  				<li>
+		  					<div class="item">
+		  						<strong>외로움을 느꼈다</strong>
+		  						<ul class="itemList">
+		  							<li>
+		  							<label for="test_ques_val_14_1">
+		  								<input type="radio" id="test_ques_val_14_1" name="test_ques_val_14" value="1"/>
+		  								<div>
+		  							  	   <p>전혀 그렇지 않다</p>
+		  								</div>
+		  							</label>
+		  							</li>
+		  							<li>
+		  							<label for="test_ques_val_14_2">
+		  								<input type="radio" id="test_ques_val_14_2" name="test_ques_val_14" value="2"/>
+		  								<div>
+		  							  	   <p>그러지 않다</p>
+		  								</div>
+		  							</label>
+		  							</li>
+		  							<li>
+		  							<label for="test_ques_val_14_3">
+		  								<input type="radio" id="test_ques_val_14_3" name="test_ques_val_14" value="3"/>
+		  								<div>
+		  							  	   <p>그렇다</p>
+		  								</div>
+		  							</label>
+		  							</li>
+		  							<li>
+		  							<label for="test_ques_val_14_4">
+		  								<input type="radio" id="test_ques_val_14_4" name="test_ques_val_14" value="4"/>
+		  								<div>
+		  							  	   <p>매우 그렇다</p>
+		  								</div>
+		  							</label>
+		  							</li>
+		  						</ul>
+		  					</div>
+		  				</li>
+		  				<li>
+		  					<div class="item">
+		  						<strong>사람들이 불친절했다</strong>
+		  						<ul class="itemList">
+		  							<li>
+		  							<label for="test_ques_val_15_1">
+		  								<input type="radio" id="test_ques_val_15_1" name="test_ques_val_15" value="1"/>
+		  								<div>
+		  							  	   <p>전혀 그렇지 않다</p>
+		  								</div>
+		  							</label>
+		  							</li>
+		  							<li>
+		  							<label for="test_ques_val_15_2">
+		  								<input type="radio" id="test_ques_val_15_2" name="test_ques_val_15" value="2"/>
+		  								<div>
+		  							  	   <p>그러지 않다</p>
+		  								</div>
+		  							</label>
+		  							</li>
+		  							<li>
+		  							<label for="test_ques_val_15_3">
+		  								<input type="radio" id="test_ques_val_15_3" name="test_ques_val_15" value="3"/>
+		  								<div>
+		  							  	   <p>그렇다</p>
+		  								</div>
+		  							</label>
+		  							</li>
+		  							<li>
+		  							<label for="test_ques_val_15_4">
+		  								<input type="radio" id="test_ques_val_15_4" name="test_ques_val_15" value="4"/>
 		  								<div>
 		  							  	   <p>매우 그렇다</p>
 		  								</div>
