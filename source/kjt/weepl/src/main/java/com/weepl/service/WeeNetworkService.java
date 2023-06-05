@@ -35,6 +35,10 @@ public class WeeNetworkService {
 		return weeNetwork.getCd();
 	}
 
+	public WeeNetwork saveAgency(WeeNetwork weeNetwork) {
+		return weeNetworkRepository.save(weeNetwork);
+	}
+	
 //	public WeeNetwork findOne(Long weeNetworkCd) {
 //		return weeNetworkRepository.findByCd(weeNetworkCd);
 //	}

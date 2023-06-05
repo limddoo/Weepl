@@ -79,7 +79,7 @@
                     var level = 9;
 
                     if (city === 'SEOUL') {
-                        center = new kakao.maps.LatLng(37.5663174209601, 126.977829174031);
+                        center = new kakao.maps.LatLng(37.5766460, 127.026650);
                     } else if (city === 'DAEJEON') {
                         center = new kakao.maps.LatLng(36.3332013057389, 127.39258005912);
                     } else if (city === 'DAEGU') {
@@ -101,23 +101,23 @@
                             removeMarkers();
                             var positions = [];
 
+                           
                             for (var i = 0; i < data.length; i++) {
                                 if (data[i].locName === city && data[i].agencyName.includes(keyword)) {
-                                	console.log(data);
-                                    positions.push({
-                                        name: data[i].agencyName,
-                                        tel: data[i].agencyTel,
-                                        addr: data[i].addrDtl,
-                                        url: data[i].url,
-                                        latlng: new kakao.maps.LatLng(data[i].lati, data[i].longi)
-                                    	
-                                    });
+                                  var position = {
+                                    name: data[i].agencyName,
+                                    tel: data[i].agencyTel,
+                                    addr: data[i].addrDtl,
+                                    url: data[i].url,
+                                    latlng: new kakao.maps.LatLng(data[i].lati, data[i].longi)
+                                  };
+                                  positions.push(position);
                                 }
-                            }
+                              }
 
                             for (var i = 0; i < positions.length; i++) {
-                                var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
-                                var imageSize = new kakao.maps.Size(24, 35);
+                                var imageSrc = "/img/map_marker.png";
+                                var imageSize = new kakao.maps.Size(32, 50);
                                 var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
                                 var marker = new kakao.maps.Marker({
                                     map: map,
@@ -127,13 +127,27 @@
                                     addr: positions[i].addr,
                                     image: markerImage
                                 });
-                                markers.push(marker);
-								console.log(marker);
-                                // 마커 클릭 이벤트 등록
-                                kakao.maps.event.addListener(marker, 'click', function() {
-                                    infowindow.setContent(this.getTitle() + '<br>' +iwContent);
-                                    infowindow.open(map, this);
-                                });
+                                markers.push(marker);	
+                             
+								kakao.maps.event.addListener(marker, 'click', (function(position) {
+								    return function() {
+								        var content = '<div style="padding:5px; width: 440px; height: 120px;">' +
+								            '<strong style="font-size: 20px;">' + position.name + '</strong><br>' +
+								            '주소: ' + position.addr + '<br>' +
+								            '대표전화: ' + position.tel + '<br>';
+
+								        // url이 존재하는 경우에만 버튼을 추가합니다
+								        if (position.url) {
+								            content += '<button onclick="window.open(\'' + position.url + '\')">홈페이지 바로가기</button>';
+								        }
+
+								        content += '</div>';
+
+								        infowindow.setContent(content);
+								        infowindow.open(map, this);
+								        infowindow.setZIndex(9999);
+								    };
+								})(positions[i]));
                             }
                         },
                         error: function(xhr, status, error) {
@@ -153,7 +167,7 @@
         </script>
 
         <br>
-        <button type="button" class="btn btn-primary" onclick="location.href='/weeNetwork/admin/new'">센터등록하기</button><br><br><br><br>
+        <button type="button" class="btn btn-primary" onclick="location.href='/weeNetwork/admin/new'" sec:authorize="hasAnyAuthority('ROLE_ADMIN')">센터등록하기</button><br><br><br><br>
     </div>
 </body>
 </html>
