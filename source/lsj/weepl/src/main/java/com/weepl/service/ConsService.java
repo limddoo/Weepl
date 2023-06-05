@@ -9,15 +9,15 @@ import java.util.UUID;
 
 import javax.annotation.PostConstruct;
 
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.weepl.dto.ChatDto;
 import com.weepl.dto.ChatRoom;
-import com.weepl.dto.MemberFormDto;
 import com.weepl.entity.ChattingRoom;
+import com.weepl.entity.CompCons;
 import com.weepl.entity.Member;
 import com.weepl.repository.ChattingRoomRepository;
 import com.weepl.repository.MemberRepository;
@@ -76,5 +76,10 @@ public class ConsService {
         } catch (IOException e) {
             log.error(e.getMessage(), e);
         }
+    }
+    
+    public void saveConsContent(ChatDto chatDto) {
+    	CompCons compCons = chatDto.createCompCons();
+    	
     }
 }

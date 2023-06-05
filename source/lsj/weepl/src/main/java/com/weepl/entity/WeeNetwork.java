@@ -7,6 +7,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.weepl.dto.WeeNetworkFormDto;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -39,11 +41,24 @@ public class WeeNetwork {
 	private String addrDtl;
 	
 	@Column(nullable = true)
-	private Float lati;
+	private Double lati;
 	
 	@Column(nullable = true)
-	private Float longi;
+	private Double longi;
 	
 	@Column(nullable = false)
 	private String url;
+	
+	public static WeeNetwork createAgency(WeeNetworkFormDto weeNetworkFormDto) {
+		WeeNetwork weeNetwork = new WeeNetwork();
+		weeNetwork.setLocName(weeNetworkFormDto.getLocName());
+		weeNetwork.setAgencyName(weeNetworkFormDto.getAgencyName());
+		weeNetwork.setAddrDtl(weeNetworkFormDto.getAddrDtl());
+		weeNetwork.setAgencyTel(weeNetworkFormDto.getAgencyTel());
+		weeNetwork.setUrl(weeNetworkFormDto.getUrl());
+		weeNetwork.setLati(weeNetworkFormDto.getLati());
+		weeNetwork.setLongi(weeNetworkFormDto.getLongi());
+		
+		return weeNetwork;
+	}
 }

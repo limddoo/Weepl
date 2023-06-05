@@ -152,11 +152,13 @@ public class AdminController {
 	 }
 	@GetMapping("/untactConsForm")
     public String untactConsForm() {
+		/* List<ReserveSchedule> reserveScheduleList */
     	return "admin/untactCons";
     }
 	
 	@GetMapping("/chattingForm")
-    public String chattingForm() {
+    public String chattingForm(Model model) {
+		
     	return "admin/chatting";
     }
 	
@@ -165,7 +167,7 @@ public class AdminController {
     	return "admin/untactConsSchMng";
     }
 	
-	@PostMapping(value="/unSchCreate")
+	@PostMapping(value="/ucSchCreate")
 	@ResponseBody
 	public HashMap<String, String> ucMSchCreate(@RequestParam(value="schDate")String schDate, @RequestParam(value="am")String schTimeAm, @RequestParam(value="pm")String schTimePm, Model model) {
 		HashMap<String, String> map = new HashMap<>();
@@ -173,6 +175,16 @@ public class AdminController {
 		List<String> schDateList = Arrays.asList(schDateArray);
 		adminService.saveReserveSchedule(schDateList, schTimeAm, schTimePm);
 		map.put("result","등록 성공!");
+		return map;
+	}
+	
+	@GetMapping(value="/ucSchDelete")
+	@ResponseBody
+	public HashMap<String, String> ucSchDelete(Long selectedId) {
+		HashMap<String, String> map = new HashMap<>();
+		System.out.println("선택된 스케쥴아이디: "+selectedId);
+		adminService.deleteReserveScedult(selectedId);
+		map.put("result","삭제 성공!");
 		return map;
 	}
 }

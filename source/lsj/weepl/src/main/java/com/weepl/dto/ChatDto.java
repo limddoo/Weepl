@@ -1,5 +1,7 @@
 package com.weepl.dto;
 
+import com.weepl.entity.CompCons;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -18,4 +20,13 @@ public class ChatDto {
     private String sender; // 채팅을 보낸 사람
     private String message; // 메시지
     
+    
+    public CompCons createCompCons() {
+    	CompCons compCons = new CompCons();
+    	compCons.setStatus(this.type.toString());
+    	compCons.setName(this.getSender());
+    	compCons.setMsg(this.message);
+    	
+    	return compCons;
+    }
 }

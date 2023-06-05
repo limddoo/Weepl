@@ -6,6 +6,7 @@ html {
 
 body {
 	min-height: 100%;
+	padding-bottom: 40px;
 }
 
 .footer {
@@ -13,6 +14,7 @@ body {
 	left: 0;
 	right: 0;
 	bottom: 0;
+	height: 10px;
 	width: 100%;
 	padding: 15px 0;
 	text-align: center;
@@ -25,7 +27,7 @@ body {
 }
 
 .content-wrapper {
-	width: 1200px;
+	width: 1000px;
 	margin-left: 200px;
 }
 

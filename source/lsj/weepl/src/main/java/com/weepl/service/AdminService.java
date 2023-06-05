@@ -139,4 +139,8 @@ public class AdminService {
 				}
 			}
 		}
+		
+		public void deleteReserveScedult(Long id) {
+			reserveScheduleRepository.deleteById(id);
+		}
 }

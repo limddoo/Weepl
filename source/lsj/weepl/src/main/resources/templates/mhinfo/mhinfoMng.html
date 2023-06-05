@@ -128,16 +128,18 @@
                             </tr>
                         </div>
                         <span>
-                            <button type="button" class="btn btn-primary" th:onclick="|location.href='/mhinfo/admin/mhinfo/${mhinfo.cd}'|" >수정</button>
+                        	<button type="button" class="btn btn-primary" th:onclick="|location.href='/mhinfo/admin/mhinfo/${mhinfo.cd}'|" sec:authorize="hasAnyAuthority('ROLE_ADMIN')">수정</button>
                         </span> 
-                        <span> <button type="button" class="btn btn-primary" th:onclick="|location.href='/mhinfo/admin/delete/${mhinfo.cd}'|" >삭제</button></span>
+                        <span> 
+                        	<button type="button" class="btn btn-primary" th:onclick="|location.href='/mhinfo/admin/delete/${mhinfo.cd}'|" sec:authorize="hasAnyAuthority('ROLE_ADMIN')">삭제</button>
+                        </span>
                     </div>
                 </div>
             </div>
         </div>
 
         <div>
-            <button type="button" class="btn btn-primary" onClick="location.href='/mhinfo/admin/mhinfo/new'" >글쓰기</button>
+        	<button type="button" class="btn btn-primary" onClick="location.href='/mhinfo/admin/mhinfo/new'" sec:authorize="hasAnyAuthority('ROLE_ADMIN')">글쓰기</button>
 
             <div th:with="start=${(mhinfos.number/maxPage)*maxPage + 1}, end=(${(mhinfos.totalPages == 0) ? 1 : (start + (maxPage - 1) < mhinfos.totalPages ? start + (maxPage - 1) : mhinfos.totalPages)})">
                 <ul class="pagination justify-content-center">
