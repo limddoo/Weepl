@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/basicLayout}">
+
+<head>
+<meta charset="UTF-8">
+<title>스윗게시판 조회</title>
+
+<th:block layout:fragment="script">
+	<script th:inline="javascript">
+		$(document).ready(function() {
+			$("#searchBtn").on("click", function(e) {
+				e.preventDefault();
+				page(0);
+			});
+		});
+
+		function page(page) {
+			var searchDateType = $("#searchDateType").val();
+			var searchBy = $("#searchBy").val();
+			var searchQuery = $("#searchQuery").val();
+			location.href = "/sweetboard/list/" + page + "?searchDateType="
+					+ searchDateType + "&searchBy=" + searchBy
+					+ "&searchQuery=" + searchQuery;
+		}
+	</script>
+</th:block>
+
+<th:block layout:fragment="css">
+<style>
+select {
+	margin-right: 10px;
+}
+
+tr {
+	text-align: "center";
+}
+
+h1 {
+	margin-bottom : 15px;
+}
+.board {
+	background: #FEE1E8;
+}
+
+#board_title {
+	width : 45%;
+}
+
+.newSweet {
+	margin-top: 30px;
+}
+</style>
+</th:block>
+</head>
+
+
+<body>
+	<div layout:fragment="content">
+		<form th:action="@{'/list/' + ${sweetBoards.number}}" role="form"
+			method="get" th:object="${sweetBoards}">
+			<h1>&nbsp;&nbsp;스윗(SWeeT) 게시판</h1>
+			<table class="table" border="1">
+				<thead>
+					<tr>
+						<td class="board" id="board_no">글번호</td>
+						<td class="board" id="board_creator">작성자</td>
+						<td class="board" id="board_title">제목</td>
+						<td class="board" id="board_repl">댓글</td>
+						<td class="board" id="board_div">게시판구분</td>
+						<td class="board" id="board_date">작성일</td>
+						<td class="board" id="board_like">좋아요</td>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="sweetBoard, status: ${sweetBoards.getContent()}">
+						<td th:text="${sweetBoard.cd}"></td>
+						<td th:text="${sweetBoard.createdBy}"></td>
+						<td><a th:href="'/sweetboard/dtl/'+${sweetBoard.cd}"
+							th:text="${sweetBoard.title}"></a></td>
+						<td th:text="${sweetBoard.like_cnt}"></td> <!-- comment_cnt로 변경 예정 -->
+						<td th:text="${sweetBoard.board_div}"></td>
+						<td th:text="${sweetBoard.regDt}"></td>
+						<td th:text="${sweetBoard.like_cnt}"></td>
+					</tr>
+				</tbody>
+			</table>
+
+			<div
+				th:with="start=${(sweetBoards.number/maxPage)*maxPage + 1}, end=(${(sweetBoards.totalPages == 0) ? 1 : (start + (maxPage - 1) < sweetBoards.totalPages ? start + 
+(maxPage - 1) : sweetBoards.totalPages)})">
+				<ul class="pagination justify-content-center">
+					<li class="page-item"
+						th:classappend="${sweetBoards.first}?'disabled'"><a
+						th:onclick="'javascript:page(' + ${sweetBoards.number - 1} + ')'"
+						aria-label='Previous' class="page-link"> <span
+							aria-hidden='true'>Previous</span>
+					</a></li>
+					<li class="page-item"
+						th:each="page: ${#numbers.sequence(start, end)}"
+						th:classappend="${sweetBoards.number eq page-1}?'active':''"><a
+						th:onclick="'javascript:page(' + ${page - 1} + ')'"
+						th:inline="text" class="page-link">[[${page}]]</a></li>
+					<li class="page-item"
+						th:classappend="${sweetBoards.last}?'disabled'"><a
+						th:onclick="'javascript:page(' + ${sweetBoards.number + 1} + ')'"
+						aria-label='Next' class="page-link"> <span aria-hidden='true'>Next</span>
+					</a></li>
+				</ul>
+			</div>
+
+			<div class="form-inline justify-content-center"
+				th:object="${sweetSearchDto}">
+				<select th:field="*{searchDateType}" class="form-control"
+					style="width: auto;">
+					<option value="all">전체기간</option>
+					<option value="1d">1 일</option>
+					<option value="1w">1 주</option>
+					<option value="1m">1개월</option>
+					<option value="6m">6개월</option>
+				</select> <select th:field="*{searchBoardDiv}" class="form-control"
+					style="width: auto;">
+					<option value="">게시판구분 (전체)</option>
+					<option value="SCHOOL_TASK">학교업무 공유게시판</option>
+					<option value="CONSULTING">상담전문성 공유게시판</option>
+					<option value="FORM">서식 공유게시판</option>
+					<option value="FREETALK">자유게시판</option>
+				</select> <select th:field="*{searchBy}" class="form-control"
+					style="width: auto;">
+					<option value="">전체항목</option>
+					<option value="title">제목</option>
+					<option value="content">내용</option>
+					<option value="createdBy">작성자</option>
+				</select> <input th:field="*{searchQuery}" type="text" class="form-control"
+					placeholder="검색어를 입력해주세요">
+				<button id="searchBtn" type="submit" class="btn btn-primary">검색</button>
+			</div>
+		</form>
+
+		<div class="newSweet" style="text-align: center">
+			<a class="add_link" href="/sweetboard/add" style="font-size: 40px">글 등록하기</a>
+		</div>
+
+	</div>
+</body>
+</html>
