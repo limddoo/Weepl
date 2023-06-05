@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/basicLayout}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript"
+	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c6b36dba7a1ac8f9b03d372abf87accb&libraries=services"></script>
+</head>
+<body>
+	<div layout:fragment="content">
+
+		<form id=frm role="form" method="post" th:object="${weeNetworkFormDto}">
+			<div class="input-group">
+				<div class="input-group-prepend">
+					<span class="input-group-text">지역명</span>
+				</div>
+				<select class="form-control" style="width: 250px;" th:field="*{locName}" >
+            <option value="SEOUL">서울</option>
+            <option value="DAEJEON">대전</option>
+            <option value="DAEGU">대구</option>
+            <option value="BUSAN">부산</option>
+        </select>
+			</div>
+			<p th:if="${#fields.hasErrors('locName')}" th:errors="*{locName}"
+				class="fieldError">Incorrect data</p>
+
+			<div class="input-group">
+				<div class="input-group-prepend">
+					<span class="input-group-text">기관명</span>
+				</div>
+				<input type="text" th:field="*{agencyName}" class="form-control"
+					placeholder="기관명을 입력해주세요">
+			</div>
+			<p th:if="${#fields.hasErrors('agencyName')}"
+				th:errors="*{agencyName}" class="fieldError">Incorrect data</p>
+
+			<div class="input-group">
+				<div class="input-group-prepend">
+					<span class="input-group-text">전화번호</span>
+				</div>
+				<input type="text" th:field="*{agencyTel}" class="form-control"
+					placeholder="전화번호를 입력해주세요">
+			</div>
+			<p th:if="${#fields.hasErrors('agencyTel')}" th:errors="*{agencyTel}"
+				class="fieldError">Incorrect data</p>
+
+			<div class="input-group">
+				<div class="input-group-prepend">
+					<span class="input-group-text">상세주소</span>
+				</div>
+				<input type="text" th:field="*{addrDtl}" class="form-control"
+					placeholder="상세주소를 입력해주세요">
+			</div>
+			<p th:if="${#fields.hasErrors('addrDtl')}" th:errors="*{addrDtl}"
+				class="fieldError">Incorrect data</p>
+
+
+
+			<input id="address" placeholder="주소 입력" />
+			<button id="button" type="button">submit</button>
+			<div>
+				<div id="resultAddress"></div>
+				<div id="result"></div>
+			</div>
+
+			<div class="input-group">
+				<div class="input-group-prepend">
+					<span class="input-group-text">위도</span>
+				</div>
+				<input type="text" th:field="*{lati}" class="form-control"
+					placeholder="위도를 입력해주세요">
+			</div>
+			<p th:if="${#fields.hasErrors('lati')}" th:errors="*{lati}"
+				class="fieldError">Incorrect data</p>
+
+			<div class="input-group">
+				<div class="input-group-prepend">
+					<span class="input-group-text">경도</span>
+				</div>
+				<input type="text" th:field="*{longi}" class="form-control"
+					placeholder="경도를 입력해주세요">
+			</div>
+			<p th:if="${#fields.hasErrors('longi')}" th:errors="*{longi}"
+				class="fieldError">Incorrect data</p>
+
+			<div class="input-group">
+				<div class="input-group-prepend">
+					<span class="input-group-text">홈페이지</span>
+				</div>
+				<input type="text" th:field="*{url}" class="form-control"
+					placeholder="홈페이지 주소를 입력해주세요">
+			</div>
+			<p th:if="${#fields.hasErrors('url')}" th:errors="*{url}"
+				class="fieldError">Incorrect data</p>
+			
+			<div style="text-align: center">
+				<button th:formaction="@{/weeNetwork/admin/new}" type="submit"
+					class="btn btn-primary">저장</button>
+				
+			</div>
+			<input type="hidden" th:name="${_csrf.parameterName}"
+				th:value="${_csrf.token}">
+
+		</form>
+
+		<script>
+		document.getElementById("button").addEventListener("click",
+				searchAddress);
+		document.getElementById("frm").addEventListener("keydown", function(e) {
+			  if (e.code === "Enter") {
+				  console.log("엔터키입력")
+			    e.preventDefault();
+			    
+			  }
+			});
+		
+			function searchAddress() {
+				var divAddress = document.getElementById("resultAddress");
+				var divResult = document.getElementById("result");
+				var addr = document.getElementById("address").value;
+				var geocoder = new kakao.maps.services.Geocoder();
+				geocoder.addressSearch(addr, function(result, status) {
+					console.log(result, status);
+					if (status === "OK") {
+						var address = result[0].road_address
+								|| result[0].address;
+						divAddress.innerText = address.address_name;
+						divResult.innerText = "위도: " + result[0].y + ", 경도: "
+								+ result[0].x;
+					} else if (status === "ZERO_RESULT") {
+						divAddress.innerText = "";
+						divResult.innerText = "검색 결과가 없습니다.";
+					}
+				});
+			}
+			
+			
+			
+			
+			
+		</script>
+
+	</div>
+</body>
+</html>

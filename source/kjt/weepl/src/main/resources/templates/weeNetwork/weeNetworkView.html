@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layouts/basicLayout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Kakao Maps API</title>
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c6b36dba7a1ac8f9b03d372abf87accb"></script>
+</head>
+<body>
+    <div layout:fragment="content">
+
+        <form id="searchForm" th:action="@{/weeNetwork/search}" role="form" method="get" th:object="${weeNetworkFormDto}">
+
+            <br>
+
+            <div class="form-inline justify-content-center" th:object="${weeNetworkSearchDto}">
+                <select id="locName" class="form-control" style="width: 250px;">
+                    <option value="SEOUL">서울</option>
+                    <option value="DAEJEON">대전</option>
+                    <option value="DAEGU">대구</option>
+                    <option value="BUSAN">부산</option>
+                </select>&nbsp;&nbsp;
+                <input style="width: 550px;" name="search_keyword" type="text" class="form-control" placeholder="위(Wee) 기관 명칭">&nbsp;&nbsp;
+                <button id="searchBtn" type="button" class="btn btn-primary">검색</button><br><br><br>
+            </div>
+            <div id="map" style="width: 100%; height: 600px;"></div>
+        </form>
+
+        <script>
+            var mapContainer = document.getElementById('map');
+            var mapOption = {
+                center: new kakao.maps.LatLng(37.5663174209601, 126.977829174031),
+                level: 9
+            };
+
+            var map = new kakao.maps.Map(mapContainer, mapOption);
+
+            var iwContent = '<div style="padding:5px;"></div>';
+            var iwPosition = new kakao.maps.LatLng(33.450701, 126.570667);
+            var iwRemoveable = true;
+
+            var infowindow = new kakao.maps.InfoWindow({
+                map: map,
+                position: iwPosition,
+                content: iwContent,
+                removable: iwRemoveable
+            });
+
+            var markers = [];
+            var selectedCity = 'SEOUL';
+
+            $(document).ready(function() {
+                $('#locName').on('change', function() {
+                    selectedCity = $(this).val();
+                });
+
+                $('#searchBtn').on('click', function() {
+                    var keyword = $('input[name="search_keyword"]').val();
+                    executeSearch(selectedCity, keyword);
+                    setCenterByCity(selectedCity);
+                });
+
+                $('input[name="search_keyword"]').on('keydown', function(event) {
+                    if (event.keyCode === 13) {
+                        event.preventDefault();
+                        var keyword = $(this).val();
+                        executeSearch(selectedCity, keyword);
+                        setCenterByCity(selectedCity);
+                    }
+                });
+
+                function executeSearch(city, keyword) {
+                    getMarkers(city, keyword);
+                }
+
+                function setCenterByCity(city) {
+                    var center;
+                    var level = 9;
+
+                    if (city === 'SEOUL') {
+                        center = new kakao.maps.LatLng(37.5766460, 127.026650);
+                    } else if (city === 'DAEJEON') {
+                        center = new kakao.maps.LatLng(36.3332013057389, 127.39258005912);
+                    } else if (city === 'DAEGU') {
+                        center = new kakao.maps.LatLng(35.881353112815, 128.539891651246);
+                    } else if (city === 'BUSAN') {
+                        center = new kakao.maps.LatLng(35.17992598569, 129.07509523457);
+                    }
+
+                    map.setCenter(center);
+                    map.setLevel(level);
+                }
+
+                function getMarkers(city, keyword) {
+                    $.ajax({
+                        url: '/weeNetwork/getApi',
+                        type: 'GET',
+                        dataType: 'json',
+                        success: function(data) {
+                            removeMarkers();
+                            var positions = [];
+
+                           
+                            for (var i = 0; i < data.length; i++) {
+                                if (data[i].locName === city && data[i].agencyName.includes(keyword)) {
+                                  var position = {
+                                    name: data[i].agencyName,
+                                    tel: data[i].agencyTel,
+                                    addr: data[i].addrDtl,
+                                    url: data[i].url,
+                                    latlng: new kakao.maps.LatLng(data[i].lati, data[i].longi)
+                                  };
+                                  positions.push(position);
+                                }
+                              }
+
+                            for (var i = 0; i < positions.length; i++) {
+                                var imageSrc = "/img/map_marker.png";
+                                var imageSize = new kakao.maps.Size(32, 50);
+                                var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
+                                var marker = new kakao.maps.Marker({
+                                    map: map,
+                                    position: positions[i].latlng,
+                                    title: positions[i].name,
+                                    tel: positions[i].tel,
+                                    addr: positions[i].addr,
+                                    image: markerImage
+                                });
+                                markers.push(marker);	
+                             
+								kakao.maps.event.addListener(marker, 'click', (function(position) {
+								    return function() {
+								        var content = '<div style="padding:5px; width: 440px; height: 120px;">' +
+								            '<strong style="font-size: 20px;">' + position.name + '</strong><br>' +
+								            '주소: ' + position.addr + '<br>' +
+								            '대표전화: ' + position.tel + '<br>';
+
+								        // url이 존재하는 경우에만 버튼을 추가합니다
+								        if (position.url) {
+								            content += '<button onclick="window.open(\'' + position.url + '\')">홈페이지 바로가기</button>';
+								        }
+
+								        content += '</div>';
+
+								        infowindow.setContent(content);
+								        infowindow.open(map, this);
+								        infowindow.setZIndex(9999);
+								    };
+								})(positions[i]));
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            console.error(error);
+                        }
+                    });
+                }
+
+                function removeMarkers() {
+                    for (var i = 0; i < markers.length; i++) {
+                        markers[i].setMap(null);
+                    }
+                    markers = [];
+                }
+            });
+
+        </script>
+
+        <br>
+        <button type="button" class="btn btn-primary" onclick="location.href='/weeNetwork/admin/new'" sec:authorize="hasAnyAuthority('ROLE_ADMIN')">센터등록하기</button><br><br><br><br>
+    </div>
+</body>
+</html>
