@@ -41,7 +41,7 @@ public class ReserveApply {
 	@JoinColumn(name="reserve_schedule_cd")
 	private ReserveSchedule reserveSchedule;
 	
-	private String reserveId;
+	//private String reserveId;
 	
 	private String reserveTitle;
 	

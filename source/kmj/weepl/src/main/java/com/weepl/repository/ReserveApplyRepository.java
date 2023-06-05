@@ -8,5 +8,5 @@ import com.weepl.entity.ReserveApply;
 
 @Repository
 public interface ReserveApplyRepository extends JpaRepository<ReserveApply, Long> {
-	
+	ReserveApply findByMemberCd(Member memberCd);
 }
