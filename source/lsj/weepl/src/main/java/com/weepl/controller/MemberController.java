@@ -163,14 +163,4 @@ public class MemberController {
 		map.put("result", registerMail.sendSimpleMessage(email));
 		return map;
 	}
-
-	@GetMapping("/untactConsForm")
-	public String untactConsForm() {
-		return "chat/connUntactCons";
-	}
-
-	@GetMapping("/chattingForm")
-	public String chattingForm() {
-		return "chat/chatting";
-	}
 }

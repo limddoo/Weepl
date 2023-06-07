@@ -133,5 +133,14 @@ public class MypageController {
 		String name = principal.getName();
 		return mypageService.viewMyReservation(name);
 	}
+	
+	@GetMapping("/untactConsForm")
+	public String untactConsForm() {
+		return "/mypage/connUntactCons";
+	}
 
+	@GetMapping("/chattingForm")
+	public String chattingForm() {
+		return "/mypage/chatting";
+	}
 }
