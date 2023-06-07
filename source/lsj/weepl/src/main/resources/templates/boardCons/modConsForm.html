@@ -18,7 +18,7 @@ layout:decorate="~{layouts/consLayout}">
 		  alert(errorMessage);
 		  }
 	  });
-	
+		
 	</script>
 </th:block>
 <div layout:fragment="content" class="content-wrapper">
@@ -40,13 +40,6 @@ layout:decorate="~{layouts/consLayout}">
 			<textarea class="form-control" aria-label="With textarea"
 				th:field="*{content}"></textarea>
 		</div>
-		<div class="input-group">
-			<div class="input-group-prepend">
-		  <span class="input-group-text">상담 비밀번호</span>
-		  </div>
-		  <input type="password" th:field="*{pwd}" class="form-control" placeholder="비밀번호 입력">
-		  </div>
-		  <p th:if="${#fields.hasErrors('pwd')}" th:errors="*{pwd}" class="fieldError">Incorrect data</p>
 		
 		<div style="text-align: center">
 			<button th:formaction="@{'/boardCons/modCons/' + ${boardConsFormDto.cd} }" type="submit" class="btn btn-primary">수정하기</button>

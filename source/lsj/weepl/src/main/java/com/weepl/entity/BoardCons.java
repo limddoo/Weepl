@@ -50,7 +50,6 @@ public class BoardCons extends BaseEntity{
 	public void updateCons(BoardConsFormDto boardConsFormDto) {
 		this.title = boardConsFormDto.getTitle();
 		this.content = boardConsFormDto.getContent();
-		this.pwd = boardConsFormDto.getPwd();
 	}
 	
 	public void updateConsResYn() {

@@ -115,7 +115,7 @@ public class BoardConsController {
 	}
 
 	@PostMapping(value = "/modCons/{board_cons_cd}")
-	public String consUpdate(@Valid BoardConsFormDto boardConsFormDto, BindingResult bindingResult, Model model) {
+	public String consUpdate(BoardConsFormDto boardConsFormDto, BindingResult bindingResult, Model model) {
 		if (bindingResult.hasErrors()) {
 			return "boardCons/modConsForm";
 		}
@@ -124,9 +124,6 @@ public class BoardConsController {
 			return "boardCons/modConsForm";
 		} else if (boardConsFormDto.getContent() == null) {
 			model.addAttribute("errorMessage", "신청 내용은 필수 입력입니다.");
-			return "boardCons/modConsForm";
-		} else if (boardConsFormDto.getPwd() == null) {
-			model.addAttribute("errorMessage", "비밀번호는 필수 입력입니다.");
 			return "boardCons/modConsForm";
 		}
 		try {
