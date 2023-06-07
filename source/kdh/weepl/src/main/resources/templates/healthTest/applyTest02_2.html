@@ -39,22 +39,14 @@ layout:decorate="~{layouts/layout1}">
 <div layout:fragment="content">
 	<div class = "inner">
 	<div>
-		<ul>
-			<li>
-				<a href="applyTest01" class="item">
-					1:1검사
-				</a>
-			</li>
-			<li>
-				<a href="applyTest02" class="item">
-					상황별 마음검사
-				</a>
-			</li>
-		</ul>
+		<h1 th:text="${major_div}"></h1>
 	</div>
 		<form id="testForm" action="about:blank" method="get" onsubmit="return fnTestFormValidation();">
+		<input type="hidden" th:value="${major_div}" name="majorDiv">
+		<input type="hidden" th:value="${mid_div}" name="midDiv">
+		<strong th:text="${mid_div}"></strong>
 			<p>진행할 검사를 선택해주세요.</p>
-			<p>잠을 잘 못잘 때</p>
+			
 			<div>
 				<ul>
 					<li>

@@ -21,7 +21,11 @@
 		})
 		function saveResult(){
 			if(mem_cd == null){
-			
+				alert("회원만 저장이 가능합니다. 저장을 하려면 로그인 또는 회원가입을 해주세요.");
+				return false;
+			}
+			else{
+				
 			}
 		}
 	</script>
@@ -29,14 +33,16 @@
 	</th:block>
 	
 	<div layout:fragment="content">
-	<form action="">
+	<form action="" method="post">
 	<div class ="inner">
 	<h1><strong>마음건강 검사 결과</strong></h1>
-	<h3 th:text="'진행한 검사:' + ${testName}">  </h3>
-	
+	<input type="hidden" th:value="${mid_div}">
+	<h4 th:text="'검사 유형: ' + ${major_div}"></h4>
+	<h3 th:text="'진행한 검사:' + ${minor_div}">  </h3>
+		
 		<div id="test" class="chkResult">
 		<ul>
-			<li style="font-size:35px;" th:text="'총 점수: '+ ${testSum}+'점'" ></li>
+			<li style="font-size:35px;" th:text="'총 점수: '+ ${testSum}+'점' + '('+${totalStat}+')'" ></li>
 			<li th:text="${testStat}"></li>
 		</ul>
 		</div>
@@ -46,6 +52,8 @@
 			<span>결과 저장하기</span>
 		</button>
 	</div>
+		<input type="hidden" th:name="${_csrf.parameterName}"
+			th:value="${_csrf.token}">
 	</form>
 </div>
 

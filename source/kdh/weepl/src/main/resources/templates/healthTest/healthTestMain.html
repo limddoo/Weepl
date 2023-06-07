@@ -35,13 +35,13 @@
 		});
 		
 		var fnTestFormValidation = function(){
-			if(! $('input[name=applyTest]:checked').val()){
+			if(! $('input[name=major_div]:checked').val()){
 				alert("필수선택 항목입니다.");
 				return false;
 			}else{
 				
 			
-			var el_applyTest = testForm.find("input[name=applyTest]:checked")
+			var el_applyTest = testForm.find("input[name=major_div]:checked")
 			testForm.prop("action", el_applyTest.val());
 			}
 			
@@ -56,13 +56,13 @@
 						<ul>
 							<li class="list1">
 								<label>
-									<input type="radio" name="applyTest" value="applyTest01">
+									<input type="radio" name="major_div" value="applyTest01">
 									<strong>맞춤형 1:1검사</strong>
 								</label>
 							</li>
 							<li class="list2">
 								<label>
-									<input type="radio" name="applyTest" value="applyTest02">
+									<input type="radio" name="major_div" value="applyTest02">
 									<strong>상황별검사</strong>
 								</label>
 							</li>
