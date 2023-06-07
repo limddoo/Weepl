@@ -84,7 +84,7 @@ body {
 			    const url = "/reservation/reservationForm/"+JSON.stringify(data);
 				var data = data;
 				
-			    	var reservationForm = document.getElementById("reservationForm");
+			    	//var reservationForm = document.getElementById("reservationForm");
 			    	 window.open(url , "reservationForm", "toolbar=no, width=1000, height=700, directories=no, status=no, scrollbars=no, resizable=yes"); 
 			    	// location.reload();
 			}
@@ -100,10 +100,10 @@ body {
 					},				
 					navLinks : true, // can click day/week names to navigate views
 					businessHours : true, // display business hours
-					editable : true,
+					editable : false,
 					selectable : true,
+					
 					locale : "ko",
-				
 					eventClick : function(info) {	
 						console.log("info.event : "+JSON.stringify(info.event))
 						console.log("result"+result)

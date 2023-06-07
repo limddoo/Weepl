@@ -86,8 +86,12 @@
 	<script th:inline="javascript">
 $(document).ready(function(){
 var errorMessage = [[${errorMessage}]]; <!--등록 시 실패 메시지를 받아서 공지등록 재진입 시 alert를 통해서 실패 사유를 보여준다.-->
-if(errorMessage != null){
+if(errorMessage == "나의 예약 내용입니다."){
 alert(errorMessage);
+}
+if(errorMessage == "예약이 불가능합니다."){
+	alert(errorMessage);
+	window.close();
 }
 
 $("#submit_btn").on("click", (e) => {
