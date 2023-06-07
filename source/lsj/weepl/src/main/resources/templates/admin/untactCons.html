@@ -15,8 +15,18 @@
 	<script
 		src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
 	<script th:inline="javascript">
-
-function new_window(reserveApplyCd) {
+	
+function new_window(reserveDate, reserveTime, reserveApplyCd) {
+	const now = new Date();
+	var possible_time_start = new Date(reserveDate+" "+reserveTime);
+	var possible_time_end = new Date(reserveDate+" "+reserveTime);
+	possible_time_start.setMinutes(possible_time_start.getMinutes() - 10);
+	possible_time_end.setMinutes(possible_time_end.getMinutes() + 59);
+	
+	if(possible_time_start > now || possible_time_end < now) {
+		alert("상담 가능한 시간이 아닙니다.");
+		return;
+	}
 	popupWindow = window.open(
 		      "/admin/chattingForm/"+reserveApplyCd,
 		      "비대면 상담",
@@ -47,14 +57,14 @@ function new_window(reserveApplyCd) {
 			</thead>
 			<tbody>
 				<tr th:each="reserveApply : ${reserveApplyList}">
-					<td th:text="${reserveApply.memberCd.name}"></td>
+					<td th:text="${reserveApply.member.name}"></td>
 					<td th:text="${reserveApply.reserveTitle}"></td>
 					<td th:text="${reserveApply.consReqContent}"></td>
 					<td th:text="${reserveApply.reserveSchedule.reserveDate}"></td>
 					<td th:text="${reserveApply.reserveSchedule.reserveTime}"></td>
 					<td th:text="${reserveApply.reserveStatus}"></td>
 					<td>
-						<input type="button" value="비대면 상담 시작" th:onclick="new_window([[${reserveApply.reserveApplyCd}]])">
+						<input type="button" value="비대면 상담 시작" th:disabled="!${reserveApply.reserveStatus == '예약완료'}" th:onclick="new_window([[${reserveApply.reserveSchedule.reserveDate}]],[[${reserveApply.reserveSchedule.reserveTime}]],[[${reserveApply.reserveApplyCd}]])">
 					</td>
 					</th:block>
 				</tr>

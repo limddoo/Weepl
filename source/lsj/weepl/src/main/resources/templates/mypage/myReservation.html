@@ -63,7 +63,7 @@ body {
 			
 			
 			  var request = $.ajax({
-				url : "/reservation/selectDate",
+				url : "/reservation/viewMyReservation",
 				method : "GET",
 				async : true,
 				headers : { 
@@ -100,9 +100,8 @@ body {
 					},				
 					navLinks : true, // can click day/week names to navigate views
 					businessHours : true, // display business hours
-					editable : false,
+					editable : true,
 					selectable : true,
-					
 					locale : "ko",
 					eventClick : function(info) {	
 						console.log("info.event : "+JSON.stringify(info.event))
@@ -152,7 +151,11 @@ body {
 						}, //미완성
 					eventDisplay:'block',
 
-					events : [
+					events : [{
+						title:"예약가능",
+						start:"2023-06-15T10:00:00"
+						
+					}
 					],		 
 				});
 				calendar.render();	

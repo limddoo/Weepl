@@ -111,10 +111,23 @@
             function disconnect(){
             	var str = name + "님이 퇴장하셨습니다.";
                 var quitdata = {type:'QUIT',roomId:reserveApplyCd,sender:name,message:'<<퇴장>>'};
-                
-                websocket.send(JSON.stringify(quitdata));
-            	websocket.close();
-            	window.close();
+                if(confirm('비대면 상담을 종료합니다.')) {
+                	console.log("/cons/endCons 실행")
+                	$.ajax({
+                		type: "get",
+    					url: "/cons/endCons",
+    					data : { "reserveApplyCd" : reserveApplyCd},
+    					contentType: "application/json",
+    					success: function(){
+    						websocket.send(JSON.stringify(quitdata));
+    		            	websocket.close();
+    		            	window.close();
+    					},
+    					error : function(){
+    							alert("에러발생");
+    					}
+                	});
+                }
             }
             
             // 메시지 전송

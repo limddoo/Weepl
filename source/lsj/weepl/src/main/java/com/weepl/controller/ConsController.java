@@ -40,5 +40,12 @@ public class ConsController {
     	map.put("roomId", consService.findChatRoom(name, reserveApplyCd));
         return map;
     }
+    
+    @GetMapping(value="/endCons")
+    @ResponseBody
+    public void endCons(Long reserveApplyCd) {
+    	System.out.println("상담을 종료합니다.");
+    	consService.endCons(reserveApplyCd);
+    }
 
 }

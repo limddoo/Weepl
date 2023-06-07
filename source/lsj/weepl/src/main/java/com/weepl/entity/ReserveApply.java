@@ -35,13 +35,11 @@ public class ReserveApply {
     
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="mem_cd")
-    private Member memberCd;
+    private Member member;
     
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="reserve_schedule_cd")
     private ReserveSchedule reserveSchedule;
-    
-    private String reserveId;
     
     private String reserveTitle;
     
@@ -50,11 +48,14 @@ public class ReserveApply {
     private String consReqContent;
     
     @CreatedDate
-    //@Column(nullable=false)
     private LocalDateTime reserveDt;
     
     @Column(nullable=false)
     private String reserveStatus;    
     
     private LocalDateTime cancDt;
+    
+    public void updateReserveApply(String status) {
+    	this.reserveStatus = status;
+    }
 }

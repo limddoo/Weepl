@@ -7,8 +7,10 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
+import javax.persistence.EntityNotFoundException;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
@@ -28,6 +30,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@Transactional
 @RequiredArgsConstructor
 @Service
 public class ConsService {
@@ -82,5 +85,12 @@ public class ConsService {
     	CompCons compCons = chatDto.createCompCons();
     	compCons.setReserveApply(reserveApplyRepository.getById(chatDto.getRoomId()));
     	compConsRepository.save(compCons);
+    }
+    
+    public void endCons(Long reserveApplyCd) {
+    	ReserveApply reserveApply = reserveApplyRepository.findById(reserveApplyCd)
+    			.orElseThrow(EntityNotFoundException::new);
+    	
+    	reserveApply.updateReserveApply("상담완료");
     }
 }

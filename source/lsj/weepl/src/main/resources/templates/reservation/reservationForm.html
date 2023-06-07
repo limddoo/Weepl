@@ -35,7 +35,7 @@
 	<form role="form" th:action method="post" enctype="utf-8"
 		th:object="${reserveApplyDto}">
 		<input type="hidden" th:field="*{reserveStatus}"> 
-		<input type="hidden" th:field="*{reserveId}">
+		<input type="hidden" th:field="*{reserveScheduleCd}">
 		<input type="hidden"th:field="*{name}">
 		<p class="h2">상담예약</p>
 		<input type="hidden" th:field="*{reserveApplyCd}">
@@ -67,15 +67,15 @@
 			<button th:onclick="window.close()" class="btn btn-primary">닫기</button>
 		</div>
 
-		<div th:unless="${#strings.isEmpty(reserveApplyDto.reserveApplyCd)}"
+		  <div th:unless="${#strings.isEmpty(reserveApplyDto.reserveApplyCd)}"
 			style="text-align: center">
 			<button
-				th:formaction="@{'/board/notice/' + ${noticeFormDto.noticeCd} }"
+				th:formaction="@{'/reservation/updateReservation/' + ${reserveApplyDto.reserveApplyCd} }"
 				type="submit" class="btn btn-primary">수정</button>
 			<button
-				th:formaction="@{'/board/notice/delete/' + ${noticeFormDto.noticeCd}}"
+				th:formaction="@{'/reservation/cancelReservation/' + ${reserveApplyDto.reserveApplyCd}}"
 				type="submit" class="btn btn-primary">예약 취소</button>
-		</div>
+		</div>  
 
 		<input type="hidden" th:name="${_csrf.parameterName}"
 			th:value="${_csrf.token}">
@@ -86,8 +86,12 @@
 	<script th:inline="javascript">
 $(document).ready(function(){
 var errorMessage = [[${errorMessage}]]; <!--등록 시 실패 메시지를 받아서 공지등록 재진입 시 alert를 통해서 실패 사유를 보여준다.-->
-if(errorMessage != null){
+if(errorMessage == "나의 예약 내용입니다."){
 alert(errorMessage);
+}
+if(errorMessage == "예약이 불가능합니다."){
+	alert(errorMessage);
+	window.close();
 }
 
 $("#submit_btn").on("click", (e) => {
@@ -101,7 +105,7 @@ function submit(){
 	var token = $("meta[name='_csrf']").attr('content');
 	var reserveApplyInfo = {
 	  	name : $("#name").val(),
-		reserveId: $("#reserveId").val(),
+	  	reserveScheduleCd: $("#reserveScheduleCd").val(), 
 		reserveStatus : $("#reserveStatus").val(),
 		reserveTitle : $("#reserveTitle").val(),
 		consReqContent : $("#consReqContent").val(),
@@ -127,10 +131,8 @@ $.ajax({
 			return;
 		}
 	},
-    success: function(data){
-        console.log(data);
-    },
-    complete : window.close(), //모든 과정 완료 후 창이 자동으로 꺼짐
+    success: opener.location.reload(),
+    complete : window.close(),//모든 과정 완료 후 창이 자동으로 꺼짐
     error : function(request, status, error) { // 결과 에러 콜백함수
 		console.log(error)
 	}

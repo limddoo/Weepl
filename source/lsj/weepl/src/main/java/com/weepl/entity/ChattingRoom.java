@@ -32,12 +32,12 @@ public class ChattingRoom {
 	
 	// ReserveApply의 reserveApplyCd
 	@OneToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="mem_cd")
+	@JoinColumn(name="reserve_apply_cd")
 	private ReserveApply reserveApply;
 	
 	public static ChattingRoom createChattingRoom(ReserveApply reserveApply) {
 		ChattingRoom cr = new ChattingRoom();
-		cr.member = reserveApply.getMemberCd();
+		cr.member = reserveApply.getMember();
 		cr.reserveApply = reserveApply;
 		
 		return cr;
