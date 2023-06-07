@@ -36,7 +36,23 @@ import lombok.RequiredArgsConstructor;
 public class AdminController {
 	private final AdminService adminService;
 	private final Logger LOGGER = LoggerFactory.getLogger(AdminController.class);
+
+	// 회원 고유번호로 해당 회원 정보 수정폼 호출
+	@GetMapping(value = "/modMemberInfo/{memCd}")
+	public String modMemberInfoForm(@PathVariable("memCd") Long memCd, Model model) {
+		Member member = adminService.findOne(memCd);
+		if (member != null) {
+			ModMemberInfoDto modMemberInfoDto = ModMemberInfoDto.of(member);
+			model.addAttribute("modMemberInfoDto", modMemberInfoDto);
+		} else {
+			// 처리할 로직 추가 (멤버를 찾을 수 없는 경우)
+			model.addAttribute("errorMessage", "멤버를 찾을 수 없습니다."); // 에러 메시지 설정
+			return "redirect:/admin/memberList";
+		}
+		return "admin/modMemberInfoForm";
+	}
 	
+	// 회원 정보 수정 기능
 	@PostMapping(value = "/modMemberInfo/{memCd}")
 	public String modMemberInfo(@Valid ModMemberInfoDto modMemberInfoDto, BindingResult bindingResult, Model model)
 			throws Exception {
@@ -55,36 +71,19 @@ public class AdminController {
 		return "redirect:/admin/memberList";
 	}
 
-	@GetMapping(value = "/modMemberInfo/{memCd}")
-	public String modMemberInfoForm(@PathVariable("memCd") Long memCd, Model model) {
-		Member member = adminService.findOne(memCd);
-		if (member != null) {
-			ModMemberInfoDto modMemberInfoDto = ModMemberInfoDto.of(member);
-			model.addAttribute("modMemberInfoDto", modMemberInfoDto);
-		} else {
-			// 처리할 로직 추가 (멤버를 찾을 수 없는 경우)
-			model.addAttribute("errorMessage", "멤버를 찾을 수 없습니다."); // 에러 메시지 설정
-			return "redirect:/admin/memberList";
-		}
-		return "admin/modMemberInfoForm";
-	}
 
+	//TODO 회원 강퇴기능 status를 추가할지 추후 상의
 	@GetMapping("/deleteMember/{memCd}")
 	public String deleteMemberInfo(@PathVariable("memCd") Long memCd, Model model) throws Exception {
 		adminService.deleteMember(memCd);
 		return "redirect:/admin/memberList";
 	}
 
+	// 회원에게 이용제한을 부여
 	@GetMapping("/restrictMember/{memCd}")
 	public String restrictMember(@PathVariable("memCd") Long memCd, Model model) throws Exception {
 		adminService.restrictMemberForOneWeek(memCd);
 		return "redirect:/admin/memberList";
-	}
-
-	@PostMapping("/restrictMember/{memCd}")
-	public ResponseEntity<String> restrictMember(@PathVariable("memCd") Long memCd) {
-	    adminService.restrictMemberForOneWeek(memCd);
-	    return ResponseEntity.ok("회원이 제한되었습니다.");
 	}
 
 	@PostMapping("/{memCd}/cancel-restriction")
@@ -99,6 +98,7 @@ public class AdminController {
 	        return "redirect:/admin/reMemberList";
 	    }
 	 
+	 // 회원 전체 목록 호출
 	 @GetMapping(value = { "/memberList", "/memberList/{page}" })
 		public String memberList(MemberSearchDto memberSearchDto, @PathVariable("page") Optional<Integer> page,
 				Model model) {
@@ -125,6 +125,7 @@ public class AdminController {
 			return "admin/memberList";
 		}
 	 
+	 // 이용제한 유저 목록 호출
 	 @GetMapping(value = { "/reMemberList", "/reMemberList/{page}" })
 	 public String reMemberList(MemberSearchDto memberSearchDto, @PathVariable("page") Optional<Integer> page,
 	                            Model model) {
@@ -150,23 +151,28 @@ public class AdminController {
 	     model.addAttribute("maxPage", reMemberList.getTotalPages()); // 수정: 실제 최대 페이지 수를 사용
 	     return "admin/reMemberList";
 	 }
+	 
+	// 비대면 상담 목록 호출
 	@GetMapping("/untactConsForm")
     public String untactConsForm(Model model) {
 		model.addAttribute("reserveApplyList", adminService.getReserveApplyList());
     	return "admin/untactCons";
     }
 	
+	// 비대면 상담 진행 페이지 호출
 	@GetMapping("/chattingForm/{reserveApplyCd}")
     public String chattingForm(Model model, @PathVariable(value="reserveApplyCd") Long reserveApplyCd) {
 		model.addAttribute("reserveApplyCd", reserveApplyCd);
     	return "admin/chatting";
     }
 	
+	// 비대면 상담 일정 관리 페이지 호출
 	@GetMapping("/ucMngForm")
     public String ucMngForm() {
     	return "admin/untactConsSchMng";
     }
 	
+	// 비대면 상담 일정 등록(Ajax)
 	@PostMapping(value="/ucSchCreate")
 	@ResponseBody
 	public HashMap<String, String> ucMSchCreate(@RequestParam(value="schDate")String schDate, @RequestParam(value="am")String schTimeAm, @RequestParam(value="pm")String schTimePm, Model model) {
@@ -178,6 +184,7 @@ public class AdminController {
 		return map;
 	}
 	
+	// 비대면 상담 일정 삭제(Ajax)
 	@GetMapping(value="/ucSchDelete")
 	@ResponseBody
 	public HashMap<String, String> ucSchDelete(Long selectedId) {

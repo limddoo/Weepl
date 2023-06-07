@@ -57,14 +57,16 @@
 	<button type="button" class="btn btn-primary"
 		th:onclick="|location.href='/boardCons/consDel/' + ${boardCons.cd}|">삭제하기</button>
 	<form action="/boardCons/replyBoardCons" role="form" method="post"
-		th:object="${boardConsReply}" th:if="${boardCons.res_yn == 'N'}"  sec:authorize="hasRole('ROLE_ADMIN')">
-		<input type="hidden" th:field="*{boardCons}">
+		th:object="${boardConsReplyDto}" th:if="${boardCons.res_yn == 'N'}"  sec:authorize="hasRole('ROLE_ADMIN')">
+		<input type="hidden" name="boardConsCd" th:value="${boardCons.cd}">
 		<div class="input-group">
 			<div class="input-group-prepend">
 				<span class="input-group-text"> 상담 답변 내용</span>
 			</div>
 			<textarea class="form-control" aria-label="With textarea"
 				th:field="*{content}"></textarea>
+			<p th:if="${#fields.hasErrors('content')}" th:errors="*{content}"
+				class="fieldError">Incorrect data</p>
 		</div>
 		<input type="hidden" th:name="${_csrf.parameterName}"
 			th:value="${_csrf.token}">

@@ -157,4 +157,8 @@ public class AdminService {
 	public List<ReserveApply> getReserveApplyList() {
 		return reserveApplyRepository.findAll();
 	}
+	
+	public List<ReserveApply> getCompConsList() {
+		return reserveApplyRepository.findByReserveStatus("상담완료");
+	}
 }

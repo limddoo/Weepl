@@ -165,11 +165,11 @@ public class BoardConsService {
 	}
 	
 	public BoardCons replyBoardCons(BoardConsReplyDto boardConsReplyDto) {
-		BoardCons boardCons = boardConsReplyDto.getBoardCons();
+		BoardCons boardCons = boardConsRepository.findByCd(boardConsReplyDto.getBoardConsCd());
 		boardCons.updateConsResYn();
 		
 		BoardCons savedBoardCons = boardConsRepository.save(boardCons);
-		BoardConsReply boardConsReply = BoardConsReply.createBoardReply(boardConsReplyDto);
+		BoardConsReply boardConsReply = BoardConsReply.createBoardReply(boardConsReplyDto, savedBoardCons);
 		boardConsReplyRepository.save(boardConsReply);
 		
 		return savedBoardCons;

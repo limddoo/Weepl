@@ -98,8 +98,7 @@ public class BoardConsController {
 		BoardCons boardCons = boardConsService.boardConsDtl(cd);
 		BoardConsReply boardConsReply = boardConsService.getBoardConsReply(boardCons);
 		if(boardConsReply == null) {
-			boardConsReply = new BoardConsReply();
-			boardConsReply.setBoardCons(boardCons);
+			model.addAttribute("boardConsReplyDto", new BoardConsReplyDto());
 		}
 		model.addAttribute("boardConsReply", boardConsReply);
 		model.addAttribute("boardCons", boardCons);
@@ -165,8 +164,13 @@ public class BoardConsController {
 	}
 	
 	@PostMapping(value="/replyBoardCons")
-	public String replyBoardCons(@Valid BoardConsReplyDto boardConsReplyDto, String boardConsCd, BindingResult bindingResult) {
+	public String replyBoardCons(@Valid BoardConsReplyDto boardConsReplyDto, BindingResult bindingResult, Model model) {
 		System.out.println("답변내용:"+boardConsReplyDto);
+		BoardCons boardCons = boardConsService.boardConsDtl(boardConsReplyDto.getBoardConsCd());
+		if (bindingResult.hasErrors()) {
+			model.addAttribute("boardCons", boardCons);
+			return "boardCons/boardConsDtl";
+		}
 		BoardCons savedBoardCons = boardConsService.replyBoardCons(boardConsReplyDto);
 		return "redirect:/boardCons/consDtl/"+savedBoardCons.getCd();
 	}

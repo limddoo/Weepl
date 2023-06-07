@@ -50,7 +50,7 @@ public class MypageService {
 	
 	private void validateDuplicateMember(Member member) {
 		Member findMember = memberRepository.findByEmail(member.getEmail());
-		if(findMember != null) {
+		if(findMember.getCd() != member.getCd()) {
 			throw new IllegalStateException("이미 가입된 이메일입니다."); // 이미 가입된 회원의 경우 예외를 발생시킨다.
 		}
 	}
