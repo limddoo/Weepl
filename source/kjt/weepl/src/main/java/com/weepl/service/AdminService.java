@@ -3,13 +3,12 @@ package com.weepl.service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
 
+import org.apache.groovy.parser.antlr4.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -21,8 +20,11 @@ import com.weepl.dto.MemberSearchDto;
 import com.weepl.dto.ModMemberInfoDto;
 import com.weepl.entity.Member;
 import com.weepl.entity.MemberRestrict;
+import com.weepl.entity.ReserveSchedule;
 import com.weepl.repository.MemberRepository;
 import com.weepl.repository.MemberRestrictRepository;
+import com.weepl.repository.ReserveApplyRepository;
+import com.weepl.repository.ReserveScheduleRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -30,21 +32,23 @@ import lombok.RequiredArgsConstructor;
 @Transactional
 @RequiredArgsConstructor
 public class AdminService {
+	private final ReserveApplyRepository reserveApplyRepository;
+	
 	private final Logger LOGGER = LoggerFactory.getLogger(AdminService.class);
 	
-	@Autowired
 	private final MemberRepository memberRepository;
 
-	@Autowired
 	private final MemberRestrictRepository memberRestrictRepository;
+	
+	private final ReserveScheduleRepository reserveScheduleRepository;
 
 	public List<Member> findMembers() {
 		
 		return memberRepository.findAll();
 	}
 
-	public Optional<Member> findOne(Long memCd) {
-		return memberRepository.findMemberByCd(memCd);
+	public Member findOne(Long memCd) {
+		return memberRepository.findByCd(memCd);
 	}
 
 	public Long updateMember(ModMemberInfoDto modMemberInfoDto) throws Exception {
@@ -59,78 +63,84 @@ public class AdminService {
 	}
 
 	// 회원 삭제
-	public void deleteMember(Long memCd) {
-		memberRepository.deleteById(memCd);
-	}
-
-	// 회원 이용제한
-	public void restrictMember(String id) {
-		Member member = memberRepository.findById(id);
-		member.restrictMember();
-	}
-
-	// 일주일 이용제한 Mysql에 저장
-	public void restrictMemberForOneWeek(Long memCd) {
-		Member member = memberRepository.findById(memCd).orElseThrow(EntityNotFoundException::new);
-		member.restrictMember();
-
-		LocalDateTime stdt = LocalDateTime.now();
-		LocalDateTime eddt = stdt.plusWeeks(1);
-
-		MemberRestrict memberRestrict = new MemberRestrict();
-		memberRestrict.setStdt(stdt);
-		memberRestrict.setEddt(eddt);
-		memberRestrict.setStatus(RestrictStatus.RESTRICTED);
-		memberRestrict.setMember(member);
-
-		if (member.getMemberRestricts() == null) {
-			member.setMemberRestricts(new ArrayList<>());
+		public void deleteMember(Long memCd) {
+			memberRepository.deleteById(memCd);
 		}
 
-		member.getMemberRestricts().add(memberRestrict); // MemberRestrict 객체를 리스트에 추가
-
-		member.setStatus(MemberStatus.RESTRICT);
-
-		memberRepository.save(member);
-	}
-
-	// MemberRestrict 데이터 남기기 -> 카운트형식으로 탈퇴시키기
-//    public void cancelMemberRestriction(Long memCd) {
-//        Member member = memberRepository.findById(memCd)
-//                .orElseThrow(EntityNotFoundException::new);
-//                
-//        member.setStatus(MemberStatus.GENERAL);
-//        
-//        if (member.getMemberRestricts() != null && !member.getMemberRestricts().isEmpty()) {
-//            List<MemberRestrict> memberRestricts = member.getMemberRestricts();
-//            for (MemberRestrict memberRestrict : memberRestricts) {
-//                memberRestrict.setStdt(LocalDateTime.now());
-//                memberRestrict.setStatus(RestrictStatus.UNRESTRICTED);
-//            }
-//            memberRestricts.clear(); // memberRestricts 리스트에서 모든 MemberRestrict 제거
-//        }
-//        
-//        memberRepository.save(member);
-//    }
-
-	// MemberRestrict 데이터 날리기 ->
-	public void cancelMemberRestriction(Long memCd) {
-		Member member = memberRepository.findById(memCd).orElseThrow(EntityNotFoundException::new);
-
-		member.setStatus(MemberStatus.GENERAL);
-
-		if (member.getMemberRestricts() != null && !member.getMemberRestricts().isEmpty()) {
-			member.getMemberRestricts().clear(); // memberRestricts 리스트에서 모든 MemberRestrict 제거
+		// 회원 이용제한
+		public void restrictMember(String id) {
+			Member member = memberRepository.findById(id);
+			member.restrictMember();
 		}
 
-		memberRepository.save(member);
+		// 일주일 이용제한 Mysql에 저장
+		public void restrictMemberForOneWeek(Long memCd) {
+			Member member = memberRepository.findById(memCd).orElseThrow(EntityNotFoundException::new);
+			member.restrictMember();
 
-		// memberRestricts 테이블의 데이터 삭제
-		memberRestrictRepository.deleteByMember(member);
-	}
-	
-	@Transactional(readOnly = true)
-    public Page<Member> getAdminMemberInfoPage(MemberSearchDto memberSearchDto, Pageable pageable){
-    	return memberRepository.getAdminMemberInfoPage(memberSearchDto, pageable);
-    }
+			LocalDateTime stdt = LocalDateTime.now();
+			LocalDateTime eddt = stdt.plusWeeks(1);
+
+			MemberRestrict memberRestrict = new MemberRestrict();
+			memberRestrict.setStdt(stdt);
+			memberRestrict.setEddt(eddt);
+			memberRestrict.setStatus(RestrictStatus.RESTRICTED);
+			memberRestrict.setMember(member);
+
+			if (member.getMemberRestricts() == null) {
+				member.setMemberRestricts(new ArrayList<>());
+			}
+
+			member.getMemberRestricts().add(memberRestrict); // MemberRestrict 객체를 리스트에 추가
+
+			member.setStatus(MemberStatus.RESTRICT);
+
+			memberRepository.save(member);
+		}
+
+		// MemberRestrict 데이터 날리기 ->
+		public void cancelMemberRestriction(Long memCd) {
+			Member member = memberRepository.findById(memCd).orElseThrow(EntityNotFoundException::new);
+
+			member.setStatus(MemberStatus.GENERAL);
+
+			if (member.getMemberRestricts() != null && !member.getMemberRestricts().isEmpty()) {
+				member.getMemberRestricts().clear(); // memberRestricts 리스트에서 모든 MemberRestrict 제거
+			}
+
+			memberRepository.save(member);
+
+			// memberRestricts 테이블의 데이터 삭제
+			memberRestrictRepository.deleteByMember(member);
+		}
+		
+		@Transactional(readOnly = true)
+	    public Page<Member> getAdminMemberInfoPage(MemberSearchDto memberSearchDto, Pageable pageable){
+	    	return memberRepository.getAdminMemberInfoPage(memberSearchDto, pageable);
+	    }
+		
+		private void setReserveSchedule(String date, String time) {
+			ReserveSchedule foundRs = reserveScheduleRepository.findByReserveDateAndReserveTime(date, time);
+			if(foundRs == null) {
+				ReserveSchedule rs = ReserveSchedule.createReserveSchedule(date, time);
+				
+				reserveScheduleRepository.save(rs);
+			}
+		}
+		
+		
+		public void saveReserveSchedule(List<String> schDateList, String am, String pm) {
+			for(String schDate : schDateList) {
+				if(!StringUtils.isEmpty(am)) {
+					setReserveSchedule(schDate, am);
+				}
+				if(!StringUtils.isEmpty(pm)) {
+					setReserveSchedule(schDate, pm);
+				}
+			}
+		}
+		
+		public void deleteReserveScedult(Long id) {
+			reserveScheduleRepository.deleteById(id);
+		}
 }

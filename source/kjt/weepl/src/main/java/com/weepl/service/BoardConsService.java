@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import javax.persistence.EntityNotFoundException;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -42,9 +40,25 @@ public class BoardConsService {
 		boardCons.setRes_yn("N");
 		boardConsRepository.save(boardCons);
 
-		System.out.println("asdjfhsakdjfbskadbfkusdhfkusdhf"+boardCons.getCd());
+		System.out.println("asdjfhsakdjfbskadbfkusdhfkusdhf" + boardCons.getCd());
 		return boardCons.getCd();
 	}
+
+//	@Transactional
+//	public void saveBoardConsNmem(BoardConsNmem boardConsNmem) {
+//	    // BoardCons 객체 생성
+//	    BoardCons boardCons = new BoardCons();
+//	    // 필요한 속성 설정
+//	    boardCons.setTitle("제목");
+//	    boardCons.setContent("내용");
+//	    // 다른 속성 설정...
+//	    
+//	    // BoardConsNmem 객체와 BoardCons 객체의 관계 설정
+////	    boardConsNmem.setBoardCons(boardCons);
+//	    
+//	    // BoardConsNmem 객체 저장
+//	    boardConsNmemRepository.save(boardConsNmem);
+//	}
 
 	public Long saveNmCons(BoardConsFormDto boardConsFormDto) throws Exception {
 		BoardCons boardCons = boardConsFormDto.createCons();
@@ -58,17 +72,17 @@ public class BoardConsService {
 	}
 
 	@Transactional(readOnly = true)
-	public Page<BoardConsDto> getBoardConsPage(Pageable pageable){
-		Map<String,Object> result = boardConsRepository.getBoardConsList(pageable);
-		List<BoardCons> boardConsList = (List)result.get("content");
+	public Page<BoardConsDto> getBoardConsPage(Pageable pageable) {
+		Map<String, Object> result = boardConsRepository.getBoardConsList(pageable);
+		List<BoardCons> boardConsList = (List) result.get("content");
 		List<BoardConsDto> boardConsDtoList = new ArrayList<>();
-		for(BoardCons boardCons : boardConsList) {
+		for (BoardCons boardCons : boardConsList) {
 			BoardConsDto boardConsDto = createBoardConsListDto(boardCons);
 			boardConsDtoList.add(boardConsDto);
 		}
-		return new PageImpl<>(boardConsDtoList, pageable, (Long)result.get("total"));
+		return new PageImpl<>(boardConsDtoList, pageable, (Long) result.get("total"));
 	}
-	
+
 	@Transactional(readOnly = true)
 	public List<BoardConsDto> boardList() {
 
@@ -80,7 +94,7 @@ public class BoardConsService {
 			boardConsDto.setTitle(board.getTitle());
 			boardConsDto.setReg_dt(board.getRegDt());
 			if (board.getMember() == null) {
-				
+
 				BoardConsNmem Nmem = board.getBoardConsNmem();
 				if (Nmem != null) {
 					boardConsDto.setName(Nmem.getName());
@@ -100,22 +114,24 @@ public class BoardConsService {
 	}
 
 	@Transactional(readOnly = true)
-	public BoardCons boardConsDtl(Long cd) {
+	public BoardCons getBoardConsDtl(Long cd) {
+//	    BoardConsFormDto boardConsFormDto = boardConsRepository.findByCd(cd);
+//	    BoardCons boardCons = boardConsFormDto.toBoardCons();
 		return boardConsRepository.findByCd(cd);
-
 	}
 
 	@Transactional
 	public BoardCons ModConsForm(Long cd) {
+//	    BoardConsFormDto boardConsFormDto = boardConsRepository.findByCd(cd);
+//	    BoardCons boardCons = boardConsFormDto.toBoardCons();
 		return boardConsRepository.findByCd(cd);
 	}
 
 	public Long updateCons(BoardConsFormDto boardConsFormDto) throws Exception {
-	    BoardCons boardCons = boardConsRepository.findById(boardConsFormDto.getCd())
-	            .orElseThrow(EntityNotFoundException::new);
-	    boardCons.updateCons(boardConsFormDto);
+		BoardCons boardCons = boardConsRepository.findByCd(boardConsFormDto.getCd());
+		boardCons.updateCons(boardConsFormDto);
 
-	    return boardCons.getCd();
+		return boardCons.getCd();
 	}
 
 	public Long deleteCons(Long cd) {
@@ -126,19 +142,19 @@ public class BoardConsService {
 	public Member findMember(String id) {
 		return memberRepository.findById(id);
 	}
-	
+
 	public Member findBoardMember(Long boardCd) {
 		BoardCons boardCons = boardConsRepository.getById(boardCd);
-		if(boardCons != null) {
+		if (boardCons != null) {
 			return memberRepository.findByCd(boardCons.getMember().getCd());
 		}
 		return null;
 	}
-	
-	public String confirmPwd(Long boardCd, String pwd) {
-		BoardCons board = boardConsRepository.findByCd(boardCd);
-		if(board != null) {
-			if(pwd.equals(board.getPwd())) {
+
+	public String confirmPwd(Long boardConsCd, String pwd) {
+		BoardCons boardCons = boardConsRepository.findByCd(boardConsCd);
+		if (boardCons != null) {
+			if (pwd.equals(boardCons.getPwd())) {
 				return "ENTER";
 			}
 		}
@@ -166,21 +182,21 @@ public class BoardConsService {
 		}
 		return boardConsDto;
 	}
-	
+
 	public BoardCons replyBoardCons(BoardConsReplyDto boardConsReplyDto) {
 		BoardCons boardCons = boardConsReplyDto.getBoardCons();
 		boardCons.updateConsResYn();
-		
+
 		BoardCons savedBoardCons = boardConsRepository.save(boardCons);
 		BoardConsReply boardConsReply = BoardConsReply.createBoardReply(boardConsReplyDto);
 		boardConsReplyRepository.save(boardConsReply);
-		
+
 		return savedBoardCons;
 	}
-	
+
 	public BoardConsReply getBoardConsReply(BoardCons boardCons) {
 		BoardConsReply savedBoardConsReply = boardConsReplyRepository.findByBoardCons(boardCons);
-		
+
 		return savedBoardConsReply;
 	}
 }

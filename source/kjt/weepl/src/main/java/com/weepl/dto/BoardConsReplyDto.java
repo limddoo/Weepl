@@ -1,6 +1,6 @@
 package com.weepl.dto;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 
 import com.weepl.entity.BoardCons;
 
@@ -14,6 +14,6 @@ import lombok.ToString;
 public class BoardConsReplyDto {
 	private BoardCons boardCons;
 	
-	@NotEmpty(message="내용을 입력해주세요")
+	@NotBlank(message="내용을 입력해주세요")
 	private String content;
 }

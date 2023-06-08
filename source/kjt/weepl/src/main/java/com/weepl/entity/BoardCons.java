@@ -46,6 +46,7 @@ public class BoardCons extends BaseEntity{
 	
 	private String res_yn;
 	
+	private String name;
 	
 	public void updateCons(BoardConsFormDto boardConsFormDto) {
 		this.title = boardConsFormDto.getTitle();
@@ -56,5 +57,4 @@ public class BoardCons extends BaseEntity{
 	public void updateConsResYn() {
 		this.res_yn = "Y";
 	}
-
 }

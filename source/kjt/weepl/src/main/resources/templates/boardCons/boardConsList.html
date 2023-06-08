@@ -72,6 +72,10 @@
 				}
 			});
 		}
+		
+		function page(page) {
+			location.href = "/boardCons/consList/" + page;
+		}
 	</script>
 </th:block>
 
@@ -91,7 +95,7 @@
 			  <tbody>
 			  	<tr th:each="board, status: ${boardCons.getContent()}">
 			  		<td th:text="${board.cd}" ></td>
-			  		<td><span th:onclick="checkName([[${board.cd}]])" th:text="${board.title}"></span></td>
+			  		<td><a href="#" th:onclick="checkName([[${board.cd}]])"> <span  th:text="${board.title}"></span></a></td>
 			  		<td th:text="${board.name}"></td>
 					<td th:text="${board.reg_dt}"></td>
 					<td th:if="${board.res_yn == 'Y'}">답변완료</td>
@@ -101,6 +105,27 @@
 			  </tbody>
 			  
 		</table>
+		<div th:with="start=${(boardCons.number/ maxPage) * maxPage + 1}, end=(${(boardCons.totalPages == 0) ? 1 : (start + (maxPage - 1) < boardCons.totalPages ? start + (maxPage - 1) : boardCons.totalPages)})">
+    <ul class="pagination justify-content-center">
+        <li class="page-boardCons" th:classappend="${boardCons.first} ? 'disabled':''">
+            <a th:onclick="'javascript:page(' + ${boardCons.number - 1} + ')'"
+               aria-label="Previous" class="page-link">
+                <span aria-hidden="true">Previous</span>
+            </a>
+        </li>
+        <li class="page-boardCons" th:each="page: ${#numbers.sequence(start, end)}"
+            th:classappend="${boardCons.number eq page-1} ? 'active' : ''">
+            <a th:onclick="'javascript:page(' + ${page - 1} + ')'"
+               class="page-link"> [[${page}]]</a>
+        </li>
+        <li class="page-boardCons" th:classappend="${boardCons.last} ? 'disabled':''">
+            <a th:onclick="'javascript:page(' + ${boardCons.number + 1} + ')'"
+               aria-label="Next" class="page-link">
+                <span aria-hidden="true">Next</span>
+            </a>
+        </li>
+    </ul>
+</div>
 	</form>
 	<button type="button" class="btn btn-primary" onclick="location.href='/boardCons/connConsForm'">상담신청하기</button>
 </div>

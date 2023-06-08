@@ -8,6 +8,5 @@ import com.weepl.dto.MhinfoSearchDto;
 import com.weepl.entity.Mhinfo;
 
 public interface MhinfoRepositoryCustom {
-	Page<Mhinfo> getAdminMhinfoPage(MhinfoSearchDto mhinfoSearchDto, Pageable pageable);
-	Page<Mhinfo> getUserMhinfoPage(MhinfoSearchDto mhinfoSearchDto, Pageable pageable);
+	Page<Mhinfo> getMhinfoPage(MhinfoSearchDto mhinfoSearchDto, Pageable pageable);
 }

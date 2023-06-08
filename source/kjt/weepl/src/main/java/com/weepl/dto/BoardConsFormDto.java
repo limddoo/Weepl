@@ -12,9 +12,11 @@ import com.weepl.entity.Member;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
+@ToString
 public class BoardConsFormDto {
 	
 	private Long cd;
@@ -62,6 +64,26 @@ public class BoardConsFormDto {
 		return boardConsFormDto;
 	}
 	
+	public static BoardConsFormDto of(BoardCons boardCons) {
+	    BoardConsFormDto boardConsFormDto = new BoardConsFormDto();
+	    boardConsFormDto.setCd(boardCons.getCd());
+	    boardConsFormDto.setTitle(boardCons.getTitle());
+	    boardConsFormDto.setContent(boardCons.getContent());
+
+	    return boardConsFormDto;
+	}
+//	
+//	public BoardCons toBoardCons() {
+//        BoardCons boardCons = new BoardCons();
+//        boardCons.setCd(this.cd);
+//        boardCons.setTitle(this.title);
+//        boardCons.setPwd(this.pwd);
+//        boardCons.setContent(this.content);
+//        // 나머지 필드도 복사
+//
+//        return boardCons;
+//    }
+
 	private Long memberCd;
 
 }

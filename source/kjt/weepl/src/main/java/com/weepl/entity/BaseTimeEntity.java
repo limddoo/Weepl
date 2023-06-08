@@ -10,8 +10,6 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -23,12 +21,9 @@ public abstract class BaseTimeEntity {
 	// 작성 일시
 	@CreatedDate // 엔티티가 생성되어 저장될 때 시간을 자동으로 저장한다.
 	@Column(updatable = false)
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private LocalDateTime regDt;
 	
 	// 수정 일시
 	@LastModifiedDate // 엔티티 값을 변경할 때 시간을 자동으로 저장한다.
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private LocalDateTime modDt;
-	
 }

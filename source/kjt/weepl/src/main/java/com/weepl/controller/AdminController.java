@@ -1,5 +1,7 @@
 package com.weepl.controller;
 
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,37 +20,35 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.weepl.dto.MemberSearchDto;
 import com.weepl.dto.ModMemberInfoDto;
 import com.weepl.entity.Member;
-import com.weepl.repository.MemberRepository;
 import com.weepl.service.AdminService;
 
 import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
 @Controller
 @RequestMapping("/admin")
-@RequiredArgsConstructor
 public class AdminController {
 	private final AdminService adminService;
-	private final MemberRepository memberRepository;
-	private ModMemberInfoDto modMemberInfoDto;
-
 	private final Logger LOGGER = LoggerFactory.getLogger(AdminController.class);
 	
 	@PostMapping(value = "/modMemberInfo/{memCd}")
 	public String modMemberInfo(@Valid ModMemberInfoDto modMemberInfoDto, BindingResult bindingResult, Model model)
 			throws Exception {
 		if (bindingResult.hasErrors()) {
-			return "member/modMemberInfoForm";
+			return "admin/modMemberInfoForm";
 		}
 
 		try {
 			adminService.updateMember(modMemberInfoDto);
 		} catch (IllegalStateException e) {
 			model.addAttribute("errorMessage", e.getMessage());
-			return "member/modMemberInfoForm";
+			return "admin/modMemberInfoForm";
 		}
 
 		model.addAttribute("result", "수정이 완료되었습니다!");
@@ -57,9 +57,8 @@ public class AdminController {
 
 	@GetMapping(value = "/modMemberInfo/{memCd}")
 	public String modMemberInfoForm(@PathVariable("memCd") Long memCd, Model model) {
-		Optional<Member> optionalMember = adminService.findOne(memCd);
-		if (optionalMember.isPresent()) {
-			Member member = optionalMember.get();
+		Member member = adminService.findOne(memCd);
+		if (member != null) {
 			ModMemberInfoDto modMemberInfoDto = ModMemberInfoDto.of(member);
 			model.addAttribute("modMemberInfoDto", modMemberInfoDto);
 		} else {
@@ -67,7 +66,7 @@ public class AdminController {
 			model.addAttribute("errorMessage", "멤버를 찾을 수 없습니다."); // 에러 메시지 설정
 			return "redirect:/admin/memberList";
 		}
-		return "member/modMemberInfoForm";
+		return "admin/modMemberInfoForm";
 	}
 
 	@GetMapping("/deleteMember/{memCd}")
@@ -123,7 +122,7 @@ public class AdminController {
 			model.addAttribute("memberList", memberList);
 			model.addAttribute("memberSearchDto", memberSearchDto);
 			model.addAttribute("maxPage", 5);
-			return "member/memberList";
+			return "admin/memberList";
 		}
 	 
 	 @GetMapping(value = { "/reMemberList", "/reMemberList/{page}" })
@@ -149,6 +148,43 @@ public class AdminController {
 	     model.addAttribute("reMemberList", reMemberList);
 	     model.addAttribute("memberSearchDto", memberSearchDto);
 	     model.addAttribute("maxPage", reMemberList.getTotalPages()); // 수정: 실제 최대 페이지 수를 사용
-	     return "member/reMemberList";
+	     return "admin/reMemberList";
 	 }
+	@GetMapping("/untactConsForm")
+    public String untactConsForm() {
+		/* List<ReserveSchedule> reserveScheduleList */
+    	return "admin/untactCons";
+    }
+	
+	@GetMapping("/chattingForm")
+    public String chattingForm(Model model) {
+		
+    	return "admin/chatting";
+    }
+	
+	@GetMapping("/ucMngForm")
+    public String ucMngForm() {
+    	return "admin/untactConsSchMng";
+    }
+	
+	@PostMapping(value="/ucSchCreate")
+	@ResponseBody
+	public HashMap<String, String> ucMSchCreate(@RequestParam(value="schDate")String schDate, @RequestParam(value="am")String schTimeAm, @RequestParam(value="pm")String schTimePm, Model model) {
+		HashMap<String, String> map = new HashMap<>();
+		String[] schDateArray = schDate.split(",");
+		List<String> schDateList = Arrays.asList(schDateArray);
+		adminService.saveReserveSchedule(schDateList, schTimeAm, schTimePm);
+		map.put("result","등록 성공!");
+		return map;
+	}
+	
+	@GetMapping(value="/ucSchDelete")
+	@ResponseBody
+	public HashMap<String, String> ucSchDelete(Long selectedId) {
+		HashMap<String, String> map = new HashMap<>();
+		System.out.println("선택된 스케쥴아이디: "+selectedId);
+		adminService.deleteReserveScedult(selectedId);
+		map.put("result","삭제 성공!");
+		return map;
+	}
 }
