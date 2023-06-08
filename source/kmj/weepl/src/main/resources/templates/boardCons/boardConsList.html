@@ -14,9 +14,7 @@
 		function checkName(boardCd){
 			var header = $("meta[name='_csrf_header']").attr('content');
 			var token = $("meta[name='_csrf']").attr('content');
-			console.log("header:"+header+", token: "+token+", boardCd: "+boardCd);
 			const user = [[${#authentication.principal}]];
-			console.log(user);
 			if(user != 'anonymousUser') {
 				const name = user.username;
 				if(name == 'admin'){
@@ -79,7 +77,7 @@
 
 <body>
 <div layout:fragment="content" class="content-wrapper">
-	<form action="@{'/boardCons/' + ${boardCons.number}}" role="form" method="get" th:object="${boardCons}">
+	<form action="@{'/boardCons/consList' + ${boardCons.number}}" role="form" method="get" th:object="${boardCons}">
 		<table class="table-container">
 			<thead>
 			  <tr>
@@ -87,6 +85,7 @@
 			  	<td>제목</td>
 			  	<td>작성자</td>
 			  	<td>날짜</td>
+			  	<td>답변여부</td>
 			  </tr>
 			  </thead>
 			  <tbody>
@@ -94,7 +93,9 @@
 			  		<td th:text="${board.cd}" ></td>
 			  		<td><span th:onclick="checkName([[${board.cd}]])" th:text="${board.title}"></span></td>
 			  		<td th:text="${board.name}"></td>
-					<td th:text="${board.regDt}"></td>
+					<td th:text="${board.reg_dt}"></td>
+					<td th:if="${board.res_yn == 'Y'}">답변완료</td>
+					<td th:unless="${board.res_yn == 'Y'}">미답변</td>
 			  	</tr>
 			  	
 			  </tbody>

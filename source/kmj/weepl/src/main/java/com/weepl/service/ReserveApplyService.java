@@ -37,7 +37,7 @@ public class ReserveApplyService {
 	public Long saveReserveApply(ReserveApplyDto reserveApplyDto) {
 		LOGGER.info("reserveApplyDto의 값:{}",reserveApplyDto);
 		ReserveApply reserveApply = reserveApplyDto.reserveApplyDtoToReserveApply();
-		reserveApply.setMemberCd(memberRepository.findById(reserveApplyDto.getName()));
+		reserveApply.setMember(memberRepository.findById(reserveApplyDto.getName()));
 
 		reserveApplyRepository.save(reserveApply);
 		
@@ -48,7 +48,7 @@ public class ReserveApplyService {
 		return reserveApply.getReserveApplyCd();
 	}
 
-	public List<Map<String, Object>> addReserveApply() {
+public List<Map<String, Object>> addReserveApply() {
 		
 		List<Map<String, Object>> reserveApplyList = new ArrayList<Map<String, Object>>();
 
@@ -64,47 +64,7 @@ public class ReserveApplyService {
 			sb.append(result.get("reserveDate"));
 			sb.append("T");
 			sb.append(result.get("reserveTime"));
-
-			reserveApply.put("id", result.get("cd"));
-			reserveApply.put("title", result.get("status"));
-			reserveApply.put("start", sb);
-			if(result.get("status").equals("예약완료")) {
-				reserveApply.put("color", "red");
-				//reserveApply.put("title", "예약완료");
-			}
-			sb = null;
-			result.clear();
-			reserveApplyList.add(reserveApply);
-		}
-		return reserveApplyList;
-	}
-	
-	
-	public List<Map<String, Object>> viewMyReservation(String name) {
-		//1. member repository findbyid 해서 membercd 조회
-		//2. memberCd로 reserveAplly 조회
-		//3. reserveapply의 reserveschedulecd 값들 조회
-		//4. reserveschedule에서 해당 reserveCd값으로 조회 후 결과물 받기
-		Member member = memberRepository.findById(name);
-		ReserveApply reserveApply = reserveApplyRepository.findByMemberCd(member); 
-		Long reserveScheduleCd = reserveApply.getReserveSchedule();
-		reserveScheduleRepository.findById();
-		List<Map<String, Object>> reserveApplyList = new ArrayList<Map<String, Object>>();
-
-		List reserveScheduleList = reserveScheduleRepository.findAll();
-
-		LOGGER.info("reserveScheduleList의 값 : {}", reserveScheduleList);
-		for (int i = 0; i < reserveScheduleList.size(); i++) {
-			Map<String, Object> reserveApply = new HashMap<String, Object>();
-			StringBuilder sb = new StringBuilder();
-			ObjectMapper objectMapper = new ObjectMapper();
-			Map result = objectMapper.convertValue(reserveScheduleList.get(i), Map.class);
 			
-
-			sb.append(result.get("reserveDate"));
-			sb.append("T");
-			sb.append(result.get("reserveTime"));
-
 			reserveApply.put("id", result.get("cd"));
 			reserveApply.put("title", result.get("status"));
 			reserveApply.put("start", sb);
@@ -118,6 +78,8 @@ public class ReserveApplyService {
 		}
 		return reserveApplyList;
 	}
+	
+	
 	
 	
 	@Transactional(readOnly=true)
@@ -126,8 +88,8 @@ public class ReserveApplyService {
 		ReserveApplyDto reserveApplyDto = new ReserveApplyDto();
 		if(reserveApply!=null) {  
 			reserveApplyDto = ReserveApplyDto.reserveApplyToReserveApplyDto(reserveApply);
-			reserveApplyDto.setMemCd(reserveApply.getMemberCd().getCd());
-			reserveApplyDto.setId(reserveApply.getMemberCd().getId()); //컨트롤러에서 현재 로그인한 사용자 ID와 비교하기 위함
+			reserveApplyDto.setMemCd(reserveApply.getMember().getCd());
+			reserveApplyDto.setId(reserveApply.getMember().getId()); //컨트롤러에서 현재 로그인한 사용자 ID와 비교하기 위함
 		}
 		return reserveApplyDto;
 	}

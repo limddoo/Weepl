@@ -8,15 +8,18 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.weepl.dto.BoardConsFormDto;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Getter @Setter
+@ToString
 @Table(name="board_cons")
 public class BoardCons extends BaseEntity{
 	@Id
@@ -27,6 +30,10 @@ public class BoardCons extends BaseEntity{
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="mem_cd")
 	private Member member;
+	
+	@OneToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="nmem_cd")
+	private BoardConsNmem boardConsNmem;
 	
 	@Column(name="board_cons_pwd")
 	private String pwd;
@@ -46,6 +53,8 @@ public class BoardCons extends BaseEntity{
 		this.pwd = boardConsFormDto.getPwd();
 	}
 	
-	
+	public void updateConsResYn() {
+		this.res_yn = "Y";
+	}
 
 }

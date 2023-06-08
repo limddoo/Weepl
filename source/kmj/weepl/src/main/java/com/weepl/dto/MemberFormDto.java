@@ -115,6 +115,26 @@ public class MemberFormDto {
 	      
 	      return memberFormDto;
 	}
+	
+	static public MemberFormDto createUser2() {
+		 MemberFormDto memberFormDto = new MemberFormDto();
+	      memberFormDto.setName("김유저");
+	      memberFormDto.setId("kim");
+	      memberFormDto.setPwd("12341234");
+	      memberFormDto.setEmail("kim@abc.com");
+	      memberFormDto.setGender("M");
+	      memberFormDto.setTel1("010");
+	      memberFormDto.setTel2("1234");
+	      memberFormDto.setTel3("1234");
+	      memberFormDto.setBirY("1996");
+	      memberFormDto.setBirM("05");
+	      memberFormDto.setBirD("23");
+	      memberFormDto.setAddr("대전광역시 서구 둔산서로 17");
+	      memberFormDto.setAddrDtl("양호빌딩 6층");
+	      memberFormDto.setAddrPost("35235");
+	      
+	      return memberFormDto;
+	}
 
 	public static MemberFormDto of(Member member) {
 		 MemberFormDto memberFormDto = new MemberFormDto();

@@ -28,33 +28,34 @@ import lombok.ToString;
 @ToString
 @EntityListeners(AuditingEntityListener.class)
 public class ReserveApply {
-	@Id
-	@Column(name="reserve_apply_cd")
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long reserveApplyCd;
-	
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="mem_cd")
-	private Member memberCd;
-	
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="reserve_schedule_cd")
-	private ReserveSchedule reserveSchedule;
-	
-	//private String reserveId;
-	
-	private String reserveTitle;
-	
-	@Lob
-	@Column(nullable=false)
-	private String consReqContent;
-	
-	@CreatedDate
-	//@Column(nullable=false)
-	private LocalDateTime reserveDt;
-	
-	@Column(nullable=false)
-	private String reserveStatus;	
-	
-	private LocalDateTime cancDt;
+    @Id
+    @Column(name="reserve_apply_cd")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long reserveApplyCd;
+    
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="mem_cd")
+    private Member member;
+    
+    @ManyToOne(fetch=FetchType.EAGER)
+    @JoinColumn(name="reserve_schedule_cd")
+    private ReserveSchedule reserveSchedule;
+    
+    private String reserveTitle;
+    
+    @Lob
+    @Column(nullable=false)
+    private String consReqContent;
+    
+    @CreatedDate
+    private LocalDateTime reserveDt;
+    
+    @Column(nullable=false)
+    private String reserveStatus;    
+    
+    private LocalDateTime cancDt;
+    
+    public void updateReserveApply(String status) {
+    	this.reserveStatus = status;
+    }
 }

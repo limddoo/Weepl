@@ -49,7 +49,6 @@ public class BoardConsFormDto {
 		boardConsNmem.setName(boardConsFormDto.getName());
 		boardConsNmem.setEmail(boardConsFormDto.getEmail());
 		boardConsNmem.setGender(boardConsFormDto.getGender());
-		boardConsNmem.setBoardCons(boardCons);
 		
 		return boardConsNmem;
 	}

@@ -9,14 +9,12 @@ import java.util.UUID;
 
 import javax.annotation.PostConstruct;
 
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.weepl.dto.ChatRoom;
-import com.weepl.dto.MemberFormDto;
 import com.weepl.entity.ChattingRoom;
 import com.weepl.entity.Member;
 import com.weepl.repository.ChattingRoomRepository;

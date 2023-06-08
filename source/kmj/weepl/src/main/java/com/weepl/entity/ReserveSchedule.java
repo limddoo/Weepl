@@ -12,7 +12,6 @@ import com.weepl.dto.ReserveApplyDto;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-
 @Entity
 @Table
 @Getter

@@ -121,7 +121,7 @@
 			 return;
 		 }
 		 $.ajax({
-			 url:"/admin/unSchCreate",
+			 url:"/admin/ucSchCreate",
 			 method:"post",
 			 data :{
 				 "schDate":schs,
@@ -132,23 +132,103 @@
 			 },
 			 success: function(result) {
 				 alert(result.result);
+				 location.reload();
 			 }, error: function() {
 				 alert("에러발생!");
 			 }
 		 });
 	}
+	
+	document.addEventListener('DOMContentLoaded', function() {
+
+		var calendarEl = document.getElementById('calendar');
+		
+		
+		  var request = $.ajax({
+			url : "/reservation/selectDate",
+			method : "GET",
+			async : true,
+			headers : { 
+				"Content-Type" : "application/json",
+				"X-HTTP-Method-Override" : "GET"
+			},
+			dataType : 'json',
+			success : function(result) { 
+				console.log(result)
+			},
+			error : function(request, status, error) { // 결과 에러 콜백함수
+				console.log(error)
+			}
+		});
+
+		request.done(function(result) {
+			var calendar = new FullCalendar.Calendar(calendarEl, {
+				initialView : 'dayGridMonth',
+				showNonCurrentDates : true,
+				headerToolbar : {
+					left : 'prev',
+					center : 'title',
+					right : 'next'
+				},				
+				navLinks : true, // can click day/week names to navigate views
+				businessHours : true, // display business hours
+				editable : true,
+				selectable : true,
+				locale : "ko",
+				eventClick : function(info) {
+					var data = JSON.parse(JSON.stringify(info.event));
+					if(data.title != '예약가능') {
+						alert('예약된 일정은 삭제가 불가능합니다.');
+						return false;
+					}
+					if(confirm("이 일정을 삭제하시겠습니까?")) {
+						selectedId = data.id;
+						$.ajax({
+							url: "/admin/ucSchDelete",
+							method: "GET",
+							data: {selectedId: selectedId},
+							success: function(result) {
+								alert(result.result);
+								location.reload();
+							},
+							error: function(result) {
+								alert("일정 삭제중 에러가 발생했습니다.")
+							}
+						});
+					}
+				},
+				eventChange:  function changeEventColor(){
+					
+					}, //미완성
+				eventDisplay:'block',
+
+				events : [
+
+				],		 
+			});
+			calendar.render();	
+				for(var i =0; i<result.length;i++){
+					calendar.addEvent(result[i])
+				}	
+		});
+		
+	});
 	</script>
-
-
 </th:block>
 <head>
 <meta charset="UTF-8">
 <meta name="_csrf" th:content="${_csrf.token}">
 <meta name="_csrf_header" th:content="${_csrf.headerName}">
+<script
+	src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.7/index.global.min.js'></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"
+	integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+	crossorigin="anonymous"></script>
 <title>비대면 상담 일정 관리</title>
 </head>
 <body>
 	<div layout:fragment="content" class="content-wrapper">
+		<div id='calendar'></div>
 		<div>
 			시작일:<input type="date" id="startDate" onchange="setEndDate()">
 			종료일:<input type="date" id="endDate" onchange="getSchList()">
@@ -157,9 +237,8 @@
 		</div>
 		<div id="schArea"></div>
 		<button onclick="setSch()">일정 추가</button>
-		<form action="/admin/unSchCreate" role="form" method="post" name="schForm" id="schForm">
-		
-		</form>
+		<form action="/admin/ucSchCreate" role="form" method="post"
+			name="schForm" id="schForm"></form>
 	</div>
 </body>
 </html>

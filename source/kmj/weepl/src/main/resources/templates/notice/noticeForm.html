@@ -15,30 +15,16 @@ bindDomEvent();
 
 function bindDomEvent(){
 $(".custom-file-input").on("change", function() {
-var fileName = $(this).val().split("\\").pop(); //파일명
+var fileName = $(this).val().split("\\").pop(); //이미지 파일명
 var fileExt = fileName.substring(fileName.lastIndexOf(".")+1); // 확장자 추출
 fileExt = fileExt.toLowerCase(); //소문자 변환(이미지 확장자를 소문자로 통일하여 비교하기 위함)
-if(fileExt != "jpg" && fileExt != "jpeg" && fileExt != "gif" && fileExt != "png" && fileExt != "bmp"){
+if(fileExt != "jpg" && fileExt != "jpeg" && fileExt != "gif" && fileExt != "png" && fileExt != "bmp"&& fileExt != "txt" && fileExt != "hwp" && fileExt != "zip"){
 alert("이미지 파일만 등록이 가능합니다."); <!-- 파일첨부 시 이미지 파일인지 검사한다. -->
-$(this).val(null);
 return;
 }
 $(this).siblings(".custom-file-label").html(fileName); <!-- 라벨 태그 안의 내용을 jquery의 .html()을 이용하여 파일명을 입력해준다. -->
 });
-
-$(".custom-file-input2").on("change", function() {
-	var fileName = $(this).val().split("\\").pop(); //파일명
-	var fileExt = fileName.substring(fileName.lastIndexOf(".")+1); // 확장자 추출
-	fileExt = fileExt.toLowerCase(); //소문자 변환(이미지 확장자를 소문자로 통일하여 비교하기 위함)
-	if(fileExt != "txt" && fileExt != "hwp" && fileExt != "zip" && fileExt != "xlsx"){
-	alert("문서 파일만 등록이 가능합니다."); <!-- 파일첨부 시 이미지 파일인지 검사한다. -->
-	$(this).val(null);
-	return;
-	}
-	$(this).siblings(".custom-file-label2").html(fileName); <!-- 라벨 태그 안의 내용을 jquery의 .html()을 이용하여 파일명을 입력해준다. -->
-	});
 }
-
 </script>
 </th:block>
 <!-- 사용자 CSS 추가 -->
@@ -94,7 +80,7 @@ $(".custom-file-input2").on("change", function() {
 				</div>
 			</div>
 		</div>
-
+		
 		<div th:if="${not #lists.isEmpty(noticeFormDto.noticeImgDtoList)}">
 			<div class="form-group"
 				th:each="noticeImgDto, status: ${noticeFormDto.noticeImgDtoList}">
@@ -114,21 +100,20 @@ ${status.index+1}"></label>
 		<div th:if="${#lists.isEmpty(noticeFormDto.noticeAttachDtoList)}">
 			<!-- 상품 이미지 정보를 담고 있는 리스트가 비어 있다면 상품 등록한다. -->
 			<div class="form-group" th:each="num: ${#numbers.sequence(1,5)}">
-				<div class="custom-file attach-div">
-					<input type="file" class="custom-file-input2"
-						name="boardAttachFile"> <label class="custom-file-label2"
-						th:text="${num}"></label>
+				<div class="custom-file img-div">
+					<input type="file" class="custom-file-input" name="boardAttachFile">
+					<label class="custom-file-label" th:text="${num}"></label>
 				</div>
 			</div>
 		</div>
 		<div th:if="${not #lists.isEmpty(noticeFormDto.noticeAttachDtoList)}">
 			<div class="form-group"
 				th:each="noticeAttachDto, status: ${noticeFormDto.noticeAttachDtoList}">
-				<div class="custom-file attach-div">
-					<input type="file" class="custom-file-input2"
-						name="boardAttachFile"> <input type="hidden"
-						name="noticeAttachIds" th:value="${noticeAttachDto.attachCd}">
-					<label class="custom-file-label2"
+				<div class="custom-file img-div">
+					<input type="file" class="custom-file-input" name="boardAttachFile">
+					<input type="hidden" name="noticeAttachIds"
+						th:value="${noticeAttachDto.attachCd}"> <label
+						class="custom-file-label"
 						th:text="${not #strings.isEmpty(noticeAttachDto.oriAttachName)} ? ${noticeAttachDto.oriAttachName} : '공지사항 첨부파일' + 
 ${status.index+1}"></label>
 					<!--타임리프 유틸리티 객체인 #strings.isEmpty(string)을 이용하여 저장이미지 정보가 있다면 파일명을 보여주고 없다면 상품이미지번호출력-->

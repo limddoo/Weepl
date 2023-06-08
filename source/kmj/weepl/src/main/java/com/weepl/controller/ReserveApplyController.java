@@ -41,31 +41,17 @@ public class ReserveApplyController {
 	@ResponseBody
 	@GetMapping("/selectDate") // ajax 데이터 전송 URL //
 	public List<Map<String, Object>> addReservation() {
-		LOGGER.info("addResrevation() 호출");
 		return reserveApplyService.addReserveApply();
 	}
-	
-
-	// 사용자의 내 상담일정 보기
-	@GetMapping("/myReservation")
-	public String myReservation() {
-		LOGGER.info("myReservation 호출");
-		return "/mypage/myReservation";
-	}
-	
-	@ResponseBody
-	@GetMapping("/viewMyReservation") // ajax 데이터 전송 URL //
-	public List<Map<String, Object>> viewMyReservation(Principal principal) {
-		LOGGER.info("viewMyReservation() 호출");
-		String name = principal.getName();
-		return reserveApplyService.viewMyReservation(name);
-	}
-	
 
 	// 사용자가 예약 일정 선택
 	@ResponseBody
 	@PostMapping("/selectReservation")
-	public void selectReservation(@RequestBody Map<String, Object> selectedReservation, Model model) throws Exception {
+	public void selectReservation(@RequestBody Map<String, Object> selectedReservation, Model model,
+			Principal principal) throws Exception {
+
+		String id = principal.getName();
+		LOGGER.info("id={}", id);
 		try {
 			LOGGER.info("selectedReservation : {}", selectedReservation.toString());
 			model.addAttribute("selectedReservation", selectedReservation);
@@ -77,12 +63,12 @@ public class ReserveApplyController {
 
 	// showPopUp() 컨트롤러에서 실행
 	@RequestMapping("/reservationForm/{data}")
-	public String reservationForm(@PathVariable("data") String jsonData, Model model, Principal principal)
-			throws Exception {
+    public String reservationForm(@PathVariable("data") String jsonData, Model model, Principal principal) throws IOException {
 
 		Map<String, Object> mappedJsonData = jsonToMap(jsonData);
-		LOGGER.info("fjgflkgjlfkgjlkfjglfgjlkgjgjg: {}", mappedJsonData.toString());
-		ReserveApplyDto reserveApplyDto = reserveApplyService.getReserveDtl(Long.parseLong(mappedJsonData.get("id").toString()));
+		LOGGER.info("json데이터: {}", mappedJsonData.toString());
+		ReserveApplyDto reserveApplyDto = reserveApplyService
+				.getReserveDtl(Long.parseLong(mappedJsonData.get("id").toString()));
 
 		if (reserveApplyDto.getId() == null) // 신규에약
 		{
@@ -95,12 +81,11 @@ public class ReserveApplyController {
 			reserveApplyDto.setReserveStatus("예약완료");
 			reserveApplyDto.setName(mappedJsonData.get("name").toString());
 			reserveApplyDto.setReserveScheduleCd(Long.parseLong(mappedJsonData.get("id").toString()));
-			model.addAttribute("errorMessage", "나의 예약 내용입니다.");
 			model.addAttribute("reserveApplyDto", reserveApplyDto);
 		} else // 남의 예약을 클릭한 경우
 		{
 			reserveApplyDto = new ReserveApplyDto();
-			model.addAttribute("errorMessage", "예약이 불가능합니다.");
+			//model.addAttribute("errorMessage", "예약이 불가능합니다.");
 			model.addAttribute("reserveApplyDto", reserveApplyDto);
 		}
 		return "/reservation/reservationForm";
@@ -133,12 +118,6 @@ public class ReserveApplyController {
 		return "redirect:/reservation/main";
 	}
 
-	// 상담내용 수정
-
-	@RequestMapping("/updateReservation/{**}")
-	public String updateReservation() {
-		return "asd";
-	}
 
 	// 상담예약 취소
 

@@ -5,68 +5,71 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import javax.annotation.PostConstruct;
+import javax.persistence.EntityNotFoundException;
 
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.weepl.dto.ChatDto;
 import com.weepl.dto.ChatRoom;
-import com.weepl.dto.MemberFormDto;
 import com.weepl.entity.ChattingRoom;
+import com.weepl.entity.CompCons;
 import com.weepl.entity.Member;
+import com.weepl.entity.ReserveApply;
 import com.weepl.repository.ChattingRoomRepository;
+import com.weepl.repository.CompConsRepository;
 import com.weepl.repository.MemberRepository;
+import com.weepl.repository.ReserveApplyRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@Transactional
 @RequiredArgsConstructor
 @Service
 public class ConsService {
     private final ObjectMapper objectMapper;
-    private Map<String, ChatRoom> chatRooms;
+    private Map<Long, ChatRoom> chatRooms;
     private final ChattingRoomRepository chattingRoomRepository;
     private final MemberRepository memberRepository;
+    private final ReserveApplyRepository reserveApplyRepository;
+    private final CompConsRepository compConsRepository;
 
     @PostConstruct
     private void init() {
         chatRooms = new LinkedHashMap<>();
     }
 
-    public List<ChatRoom> findAllRoom() {
-        return new ArrayList<>(chatRooms.values());
-    }
-
-    public ChatRoom findRoomById(String roomId) {
+    public ChatRoom findRoomById(Long roomId) {
         return chatRooms.get(roomId);
     }
 
-    public ChatRoom createRoom(String name) {
-        String randomId = UUID.randomUUID().toString();
+    public ChatRoom createRoom(String name, Long reserveApplyCd) {
         ChatRoom chatRoom = ChatRoom.builder()
-                .roomId(randomId)
+                .roomId(reserveApplyCd)
                 .name(name)
                 .build();
-        chatRooms.put(randomId, chatRoom);
-        saveChattingRoom(randomId);
+        chatRooms.put(reserveApplyCd, chatRoom);
+        saveChattingRoom(reserveApplyCd);
         return chatRoom;
     }
     
-    public String findChatRoom(String userId) {
+    public Long findChatRoom(String userId, Long reserveApplyCd) {
     	Member member = memberRepository.findById(userId);
-    	ChattingRoom chattingRoom = chattingRoomRepository.findByMember(member);
-    	return chattingRoom.getRoomId();
+    	ReserveApply reserveApply = reserveApplyRepository.getById(reserveApplyCd);
+    	ChattingRoom chattingRoom = chattingRoomRepository.findByMemberAndReserveApply(member, reserveApply);
+    	return chattingRoom.getReserveApply().getReserveApplyCd();
     }
     
-    private void saveChattingRoom(String roomId) {
-    	Member member = memberRepository.findById("hong");
-    	ChattingRoom cr = ChattingRoom.createChattingRoom(member, roomId);
+    private void saveChattingRoom(Long reserveApplyCd) {
+    	ReserveApply reserveApply = reserveApplyRepository.getById(reserveApplyCd);
+    	ChattingRoom cr = ChattingRoom.createChattingRoom(reserveApply);
     	chattingRoomRepository.save(cr);
     }
 
@@ -76,5 +79,18 @@ public class ConsService {
         } catch (IOException e) {
             log.error(e.getMessage(), e);
         }
+    }
+    
+    public void saveConsContent(ChatDto chatDto) {
+    	CompCons compCons = chatDto.createCompCons();
+    	compCons.setReserveApply(reserveApplyRepository.getById(chatDto.getRoomId()));
+    	compConsRepository.save(compCons);
+    }
+    
+    public void endCons(Long reserveApplyCd) {
+    	ReserveApply reserveApply = reserveApplyRepository.findById(reserveApplyCd)
+    			.orElseThrow(EntityNotFoundException::new);
+    	
+    	reserveApply.updateReserveApply("상담완료");
     }
 }
