@@ -11,6 +11,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.ColumnDefault;
+
 import com.weepl.dto.BoardConsFormDto;
 
 import lombok.Getter;
@@ -42,8 +44,10 @@ public class BoardCons extends BaseEntity{
 	
 	private String content;
 	
+	@ColumnDefault("N")
 	private String del_yn;
 	
+	@ColumnDefault("N")
 	private String res_yn;
 	
 	
@@ -56,4 +60,7 @@ public class BoardCons extends BaseEntity{
 		this.res_yn = "Y";
 	}
 
+	public void updateConsDelYn() {
+		this.del_yn = "Y";
+	}
 }

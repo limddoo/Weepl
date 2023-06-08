@@ -1,6 +1,7 @@
 package com.weepl.service;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,10 +19,13 @@ import com.weepl.constant.MemberStatus;
 import com.weepl.constant.RestrictStatus;
 import com.weepl.dto.MemberSearchDto;
 import com.weepl.dto.ModMemberInfoDto;
+import com.weepl.dto.SearchDto;
+import com.weepl.entity.CompCons;
 import com.weepl.entity.Member;
 import com.weepl.entity.MemberRestrict;
 import com.weepl.entity.ReserveApply;
 import com.weepl.entity.ReserveSchedule;
+import com.weepl.repository.CompConsRepository;
 import com.weepl.repository.MemberRepository;
 import com.weepl.repository.MemberRestrictRepository;
 import com.weepl.repository.ReserveApplyRepository;
@@ -43,6 +47,8 @@ public class AdminService {
 	private final ReserveScheduleRepository reserveScheduleRepository;
 
 	private final ReserveApplyRepository reserveApplyRepository;
+
+	private final CompConsRepository compConsRepository;
 
 	// 모든 회원을 조회해서 리턴하는 메서드
 	public List<Member> findMembers() {
@@ -70,7 +76,8 @@ public class AdminService {
 
 	// 회원 삭제
 	public void deleteMember(Long memCd) {
-		memberRepository.deleteById(memCd);
+		Member member = memberRepository.findByCd(memCd);
+		member.quitMember();
 	}
 
 	// 회원 이용제한
@@ -152,13 +159,29 @@ public class AdminService {
 	public void deleteReserveScedult(Long id) {
 		reserveScheduleRepository.deleteById(id);
 	}
-	
+
 	// 상담 일정을 전부 조회하는 메서드
 	public List<ReserveApply> getReserveApplyList() {
 		return reserveApplyRepository.findAll();
 	}
-	
-	public List<ReserveApply> getCompConsList() {
-		return reserveApplyRepository.findByReserveStatus("상담완료");
+
+	// 완료된 상담(예약된 상담중 상태가 '상담완료'인 상담 리스트)
+	public Page<ReserveApply> getCompConsList(SearchDto searchDto, Pageable pageable) {
+		return reserveApplyRepository.getReserveApplyList(searchDto, pageable);
+	}
+
+	public List<String> getCompCons(Long reserveApplyCd) {
+		List<CompCons> compConsList = compConsRepository.findByReserveApply(reserveApplyRepository
+				.findById(reserveApplyCd)
+				.orElseThrow(EntityNotFoundException::new));
+		List<String> contentList = new ArrayList<>();
+		
+		for(CompCons compCons: compConsList) {
+			LocalDateTime regDt = compCons.getRegDt();
+			String parsedRegDt = regDt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+			contentList.add("["+parsedRegDt+"] "+compCons.getName()+":"+compCons.getMsg());
+		}
+		
+		return contentList;
 	}
 }

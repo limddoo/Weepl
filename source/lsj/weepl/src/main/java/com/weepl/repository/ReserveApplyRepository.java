@@ -10,7 +10,7 @@ import com.weepl.entity.Member;
 import com.weepl.entity.ReserveApply;
 
 @Repository
-public interface ReserveApplyRepository extends JpaRepository<ReserveApply, Long> {
+public interface ReserveApplyRepository extends JpaRepository<ReserveApply, Long>, ReserveApplyRepositoryCustom {
     ReserveApply findByMember(Member member);
     
     List<ReserveApply> findByReserveStatus(String status);

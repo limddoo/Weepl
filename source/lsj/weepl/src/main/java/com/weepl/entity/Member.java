@@ -155,9 +155,6 @@ public class Member{
 		this.status = MemberStatus.RESTRICT;
 	}
 
-//	@OneToOne(mappedBy = "member", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//    private MemberRestrict memberRestrict;
-
 	@OneToMany(mappedBy = "member", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<MemberRestrict> memberRestricts;
 	

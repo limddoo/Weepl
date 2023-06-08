@@ -21,17 +21,20 @@ import lombok.RequiredArgsConstructor;
 public class ConsController {
     private final ConsService consService;
     
+    // 상담 안내 페이지
     @GetMapping(value="/consInfo")
     public String consInfo() {
     	return "cons/consInfo";
     }
     
+    // 비대면 상담을 위한 채팅방 생성(Ajax)
     @GetMapping(value="/createRoom")
     @ResponseBody
     public void createRoom(String name, Long reserveApplyCd) {
     	consService.createRoom(name, reserveApplyCd);
     }
     
+    // 비대면 상담 참여를 위한 채팅방 검색(Ajax)
     @GetMapping(value="/findRoom")
     @ResponseBody
     public HashMap<String, Long> findRoom(String name, Long reserveApplyCd) {
@@ -41,6 +44,7 @@ public class ConsController {
         return map;
     }
     
+    // 상담종료후 상태 갱신
     @GetMapping(value="/endCons")
     @ResponseBody
     public void endCons(Long reserveApplyCd) {
