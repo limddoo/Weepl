@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{layouts/consLayout}">
+	layout:decorate="~{layouts/mypageLayout}">
 <head>
 <meta name="_csrf" th:content="${_csrf.token}" />
 <meta name="_csrf_header" th:content="${_csrf.headerName}" />
@@ -51,22 +51,20 @@
 
 
 	<button type="button" class="btn btn-primary"
-		th:onclick="|location.href='/boardCons/modBoardCons/' + ${boardCons.cd}|">수정하기</button>
+    th:onclick="|location.href='/mypage/modMyCons/${boardCons.cd}'|">수정하기</button>
 	<button type="button" class="btn btn-primary"
-		onclick="location.href='/boardCons/boardConsList'">리스트로 돌아가기</button>
+		onclick="location.href='/mypage/myConsList'">리스트로 돌아가기</button>
 	<button type="button" class="btn btn-primary"
-		th:onclick="|location.href='/boardCons/boardConsDel/' + ${boardCons.cd}|">삭제하기</button>
+		th:onclick="|location.href='/mypage/myConsDel/' + ${boardCons.cd}|">삭제하기</button>
 	<form action="/boardCons/replyBoardCons" role="form" method="post"
-		th:object="${boardConsReplyDto}" th:if="${boardCons.res_yn == 'N'}"  sec:authorize="hasRole('ROLE_ADMIN')">
-		<input type="hidden" name="boardConsCd" th:value="${boardCons.cd}">
+		th:object="${boardConsReply}" th:if="${boardCons.res_yn == 'N'}"  sec:authorize="hasRole('ROLE_ADMIN')">
+		<input type="hidden" th:field="*{boardCons}">
 		<div class="input-group">
 			<div class="input-group-prepend">
 				<span class="input-group-text"> 상담 답변 내용</span>
 			</div>
 			<textarea class="form-control" aria-label="With textarea"
 				th:field="*{content}"></textarea>
-			<p th:if="${#fields.hasErrors('content')}" th:errors="*{content}"
-				class="fieldError">Incorrect data</p>
 		</div>
 		<input type="hidden" th:name="${_csrf.parameterName}"
 			th:value="${_csrf.token}">
