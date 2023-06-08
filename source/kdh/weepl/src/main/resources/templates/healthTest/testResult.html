@@ -19,27 +19,45 @@
 		$(document).ready(function(){
 			var val = location.href
 		})
-		function saveResult(){
-			if(mem_cd == null){
+		var result_content= $("#result_content").val();
+		$.ajax({
+			url : "/healthTest/newResult",
+			type:"POST",
+			data: {
+				result_cd="${cd}",
+				major_div="${major_div}",
+				mid_div="${mid_div}",
+				minor_div="${minor_div}",
+				result_content="${result_content}",
+				memberCd="${memberCd}"
+			},
+			success:function(){
+				alert("결과 등록이 완료됬습니다.");
+			},
+			error:function(jqXHR, status, error){
+				if (jqXHR.status == '401') {
 				alert("회원만 저장이 가능합니다. 저장을 하려면 로그인 또는 회원가입을 해주세요.");
-				return false;
+				}else{
+					alert(jqXHR.responseText);
+				}
 			}
-			else{
-				
-			}
-		}
+		});
+		
 	</script>
 	
 	</th:block>
 	
 	<div layout:fragment="content">
-	<form action="" method="post">
+	<form action="newResult" method="post" th:object="${mhTestResultDto}">
 	<div class ="inner">
 	<h1><strong>마음건강 검사 결과</strong></h1>
+	<input type="hidden"  th:value="${cd}">
 	<input type="hidden" th:value="${mid_div}">
 	<h4 th:text="'검사 유형: ' + ${major_div}"></h4>
 	<h3 th:text="'진행한 검사:' + ${minor_div}">  </h3>
-		
+	<input type="hidden" id="result_content" th:value="'점수:' + ${testSum} + '(' + ${totalStat} + ')'"> 
+	<input type="hidden"  th:value="${memberCd}">
+	
 		<div id="test" class="chkResult">
 		<ul>
 			<li style="font-size:35px;" th:text="'총 점수: '+ ${testSum}+'점' + '('+${totalStat}+')'" ></li>
@@ -48,7 +66,7 @@
 		</div>
 	</div>
 	<div>
-		<button type="submit" class="btn btn-primary" onclick="saveResult()">
+		<button type="submit" class="btn btn-primary">
 			<span>결과 저장하기</span>
 		</button>
 	</div>

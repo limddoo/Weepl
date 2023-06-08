@@ -1,5 +1,6 @@
 package com.weepl.controller;
 
+import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -7,12 +8,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.weepl.dto.MhTestResultDto;
+import com.weepl.entity.Member;
+import com.weepl.service.MhTestResultService;
+
 import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequestMapping(value="/healthTest")
 @RequiredArgsConstructor
 public class HealthTestController {
+	
+	private final MhTestResultService mhTestResultService;
 	
 	@GetMapping(value="testMain")
 	public String TestMain() {
@@ -40,7 +47,6 @@ public class HealthTestController {
 		model.addAttribute("major_div", majorDiv);
 		model.addAttribute("mid_div", midDiv);
 		model.addAttribute("minor_div", "우울감(PHQ_9)");
-		System.out.println(majorDiv);
 		return "healthTest/applyTest01_1";
 	}
 	@GetMapping(value="applyTest01_2")
@@ -62,7 +68,6 @@ public class HealthTestController {
 		model.addAttribute("major_div", majorDiv);
 		model.addAttribute("mid_div", midDiv);
 		model.addAttribute("minor_div", "범불안장애 척도 (GAD-7)");
-		System.out.println(majorDiv);
 		return "healthTest/applyTest01_4";
 	}
 	@GetMapping(value="applyTest01_5")
@@ -77,7 +82,6 @@ public class HealthTestController {
 		model.addAttribute("major_div", majorDiv);
 		model.addAttribute("mid_div", midDiv);
 		model.addAttribute("minor_div", "우울증 척도 (CES-D)");
-		System.out.println(majorDiv);
 		return "healthTest/applyTest01_6";
 	}
 	@GetMapping(value="applyTest01_7")
@@ -122,24 +126,34 @@ public class HealthTestController {
 	
 	@PostMapping(value="testResult")
 	public String sendResult(Long testSum,String testStat, Model model,  String majorDiv, String midDiv, String minorDiv, String totalStat) {
+		System.out.println(majorDiv);
+		System.out.println(midDiv);
+		System.out.println(totalStat);
 		System.out.println(minorDiv);
-		System.out.println(testSum);
 		model.addAttribute("major_div", majorDiv);
 		model.addAttribute("mid_div", midDiv);
 		model.addAttribute("minor_div", minorDiv);
 		model.addAttribute("testSum", testSum);
 		model.addAttribute("testStat", testStat);
 		model.addAttribute("totalStat",totalStat);
+		model.addAttribute("mhTestResultDto", MhTestResultDto());
 		
-		System.out.println(majorDiv);
-		System.out.println(midDiv);
-		System.out.println(totalStat);
 		return "healthTest/testResult";
 	}
-//	@PostMapping(value="testResult")
-//	public String saveResult(Authentication auth, Model model) {
-//		return "healthTest/healthTestMain";
-//	}
-//	
+	@PostMapping(value="newResult")
+	public String saveResult(Authentication auth, Model model, MhTestResultDto mhTestResultDto) throws Exception {
+		if(auth != null) {
+			User user = (User)auth.getPrincipal();
+			Member member = mhTestResultService.findMember(user.getName());
+			model.addAttribute("errorMessage", "회원만 저장이 가능합니다. 저장을 하려면 로그인 또는 회원가입을 해주세요.");
+			
+		}else {
+		System.out.println(mhTestResultDto);
+		mhTestResultService.saveResult(mhTestResultDto);
+		}
+		
+		return "healthTest/testResult";
+	}
+	
 	
 }
