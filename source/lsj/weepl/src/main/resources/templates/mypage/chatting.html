@@ -30,7 +30,7 @@
             });
 
             // 웹소켓 연결
-            const websocket = new WebSocket("ws://localhost/ws/chat");
+            const websocket = new WebSocket("ws://localhost:8090/ws/chat");
             
             websocket.onmessage = onMessage;
             websocket.onopen = onOpen;
@@ -52,8 +52,7 @@
     				success: function(result){
     					foundRoomId = result.roomId;
     					console.log("roomId:"+foundRoomId);
-    					var str = name + ": 님이 입장하셨습니다.";
-    	                var enterdata = {type:'ENTER',roomId:foundRoomId,sender:name,message:str};
+    	                var enterdata = {type:'ENTER',roomId:foundRoomId,sender:name,message:'<<입장>>'};
     	                
     	                websocket.send(JSON.stringify(enterdata));
     				},
@@ -110,11 +109,9 @@
             
             // 채팅창에 퇴장메시지 출력, 웹소켓 닫기, 화면닫기
             function disconnect(){
-            	var str = name + "님이 퇴장하셨습니다.";
-                var quitdata = {type:'QUIT',roomId:foundRoomId,sender:name,message:str};
+                var quitdata = {type:'QUIT',roomId:foundRoomId,sender:name,message:'<<퇴장>>'};
                 
                 websocket.send(JSON.stringify(quitdata));
-            	websocket.close();
             	window.close();
             }
             

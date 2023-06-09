@@ -1,7 +1,9 @@
 package com.weepl.controller;
 
 import java.security.Principal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
@@ -12,6 +14,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -208,5 +211,16 @@ public class SweetBoardController {
 	public @ResponseBody ResponseEntity<Long> deleteSweetComment(@PathVariable("cd") Long cd, Principal principal) {
 		sweetCommentService.deleteComment(cd);
 		return new ResponseEntity<Long>(cd, HttpStatus.OK);
+	}
+	
+	// 스윗 닉네임 존재 여부
+	@GetMapping("/existNickName")
+	@ResponseBody
+	public Map<String, String> existSweetNickName(Authentication auth) {
+		Map<String, String> result = new HashMap<>();
+		String nickName = sweetBoardService.existSweetNickName(auth.getName());
+		result.put("nickName", nickName);
+		
+		return result;
 	}
 }

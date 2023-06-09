@@ -154,6 +154,10 @@ public class Member{
 	public void restrictMember() {
 		this.status = MemberStatus.RESTRICT;
 	}
+	
+	public void updateMemberNickName(String nickName) {
+		this.nickName = nickName;
+	}
 
 	@OneToMany(mappedBy = "member", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<MemberRestrict> memberRestricts;

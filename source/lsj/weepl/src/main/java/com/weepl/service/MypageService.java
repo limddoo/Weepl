@@ -15,13 +15,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.weepl.dto.ModMemberInfoDto;
 import com.weepl.dto.MyConsDtlDto;
 import com.weepl.dto.MyConsDto;
 import com.weepl.dto.MypageFormDto;
 import com.weepl.entity.BoardCons;
 import com.weepl.entity.Member;
-import com.weepl.entity.ReserveApply;
 import com.weepl.repository.BoardConsRepository;
 import com.weepl.repository.MemberRepository;
 import com.weepl.repository.ReserveApplyRepository;
@@ -74,43 +74,57 @@ private final BoardConsRepository boardConsRepository;
 		member.quitMember();
 	}
 	
-	public List<Map<String, Object>> viewMyReservation(String name) {
+	public List viewMyReservationList(String name) {
+		Member member = memberRepository.findById(name);
+		Long memberCd = member.getCd();	
+		List foundReserveApply = reserveApplyRepository.findByMember(memberCd);
+		return foundReserveApply;
+	}
+	
+	
+	public List<Map<String, Object>> viewMyReservationCalendar(String name) {
 		//1. member repository findbyid 해서 membercd 조회
 		//2. memberCd로 reserveAplly 조회
 		//3. reserveapply의 reserveschedulecd 값들 조회
 		//4. reserveschedule에서 해당 reserveCd값으로 조회 후 결과물 받기
 		Member member = memberRepository.findById(name);
-		ReserveApply foundReserveApply = reserveApplyRepository.findByMember(member); 
-		Long reserveScheduleCd = foundReserveApply.getReserveSchedule().getCd();
-		reserveScheduleRepository.findById(reserveScheduleCd);
+		Long memberCd = member.getCd();	
+		List foundReserveApply = reserveApplyRepository.findByMember(memberCd);			
 		List<Map<String, Object>> reserveApplyList = new ArrayList<Map<String, Object>>();
-
-		List reserveScheduleList = reserveScheduleRepository.findAll();
-
-		LOGGER.info("reserveScheduleList의 값 : {}", reserveScheduleList);
-		for (int i = 0; i < reserveScheduleList.size(); i++) {
+		
+		for(int i =0; i<foundReserveApply.size(); i++) {
 			Map<String, Object> reserveApply = new HashMap<String, Object>();
 			StringBuilder sb = new StringBuilder();
-			ObjectMapper objectMapper = new ObjectMapper();
-			Map result = objectMapper.convertValue(reserveScheduleList.get(i), Map.class);
-			
+			ObjectMapper objectMapper2 = new ObjectMapper();
+			Map result2 = objectMapper2.registerModule(new JavaTimeModule()).convertValue(foundReserveApply.get(i), Map.class);
+			Map result3 = objectMapper2.registerModule(new JavaTimeModule()).convertValue(result2.get("reserveSchedule"), Map.class);
 
-			sb.append(result.get("reserveDate"));
+			sb.append(result3.get("reserveDate"));
 			sb.append("T");
-			sb.append(result.get("reserveTime"));
-
-			reserveApply.put("id", result.get("cd"));
-			reserveApply.put("title", result.get("status"));
+			sb.append(result3.get("reserveTime"));
+			
+			reserveApply.put("id", result3.get("cd"));
+			reserveApply.put("title", result3.get("status"));
 			reserveApply.put("start", sb);
-			if(result.get("status").equals("예약완료")) {
+			if(result3.get("status").equals("예약완료")) {
 				reserveApply.put("color", "red");
 				//reserveApply.put("title", "예약완료");
 			}
 			sb = null;
-			result.clear();
+			result3.clear();
 			reserveApplyList.add(reserveApply);
 		}
+		
 		return reserveApplyList;
+	}
+	
+	public void deleteReserveScedult(Long id) {
+		reserveScheduleRepository.deleteById(id);	
+	}
+	
+	public void deleteUserReserveScedult(Long id) {
+		reserveApplyRepository.deleteReserveApply(id);
+		reserveScheduleRepository.deleteById(id);	
 	}
 	
 @Transactional(readOnly = true)
@@ -149,5 +163,17 @@ private final BoardConsRepository boardConsRepository;
 	    // 상세 정보에 대한 필드 값을 설정합니다.
 
 	    return consDtl;
+	}
+	
+	// 닉네임 중복여부 true: 사용가능, false: 사용불가
+	public String setNickName(String nickName, String userId) {
+		Member member = memberRepository.findByNickName(nickName);
+		if(member == null) {
+			Member foundMember = memberRepository.findById(userId);
+			foundMember.updateMemberNickName(nickName);
+			return nickName;
+		} else {
+			return null;
+		}
 	}
 }

@@ -18,10 +18,12 @@ import com.weepl.dto.SweetCommentDto;
 import com.weepl.dto.SweetSearchDto;
 import com.weepl.entity.BoardAttach;
 import com.weepl.entity.BoardImg;
+import com.weepl.entity.Member;
 import com.weepl.entity.SweetBoard;
 import com.weepl.entity.SweetComment;
 import com.weepl.repository.BoardAttachRepository;
 import com.weepl.repository.BoardImgRepository;
+import com.weepl.repository.MemberRepository;
 import com.weepl.repository.SweetBoardRepository;
 import com.weepl.repository.SweetCommentRepository;
 
@@ -38,6 +40,7 @@ public class SweetBoardService {
 	private final BoardAttachService boardAttachService;
 	private final BoardAttachRepository boardAttachRepository;
 	private final SweetCommentRepository sweetCommentRepository;
+	private final MemberRepository memberRepository;
 
 	// 게시글 저장
 	public Long saveSweetBoard(SweetBoardDto sweetBoardDto, List<MultipartFile> boardImgFileList,
@@ -159,5 +162,14 @@ public class SweetBoardService {
 	@Transactional
 	public void deleteComment(Long comCd) {
 		sweetCommentRepository.deleteById(comCd);
+	}
+	
+	public String existSweetNickName(String id) {
+		Member member = memberRepository.findById(id);
+		if(member != null) {
+			return member.getNickName();
+		}
+		
+		return null;
 	}
 }

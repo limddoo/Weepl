@@ -37,7 +37,7 @@ public class ReserveApply {
     @JoinColumn(name="mem_cd")
     private Member member;
     
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="reserve_schedule_cd")
     private ReserveSchedule reserveSchedule;
     

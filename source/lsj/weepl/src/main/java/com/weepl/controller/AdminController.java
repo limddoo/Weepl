@@ -74,7 +74,7 @@ public class AdminController {
 		return "redirect:/admin/memberList";
 	}
 
-	// TODO 회원 강퇴기능 status를 추가할지 추후 상의
+	// 회원 강퇴기능 status를 QUIT로 바꿈
 	@GetMapping("/deleteMember/{memCd}")
 	public String deleteMemberInfo(@PathVariable("memCd") Long memCd, Model model) throws Exception {
 		adminService.deleteMember(memCd);
