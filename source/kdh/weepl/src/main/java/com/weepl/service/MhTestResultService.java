@@ -19,8 +19,11 @@ public class MhTestResultService {
 	private final MhTestResultRepository mhTestResultRepository;
 	private final MemberRepository memberRepository;
 	
-	public void saveResult(MhTestResultDto mhTestResultDto) throws Exception{
+	public void saveResult(MhTestResultDto mhTestResultDto,String userId) throws Exception{
+		
+		Member member = memberRepository.findById(userId);
 		MhTestResult mhTestResult = mhTestResultDto.createResult(mhTestResultDto, null);
+		mhTestResult.setMember(member);
 		mhTestResultRepository.save(mhTestResult);
 		}
 	public Member findMember(String id) {

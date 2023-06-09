@@ -1,15 +1,17 @@
 package com.weepl.controller;
 
-import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
+
+
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.weepl.dto.MhTestResultDto;
-import com.weepl.entity.Member;
 import com.weepl.service.MhTestResultService;
 
 import lombok.RequiredArgsConstructor;
@@ -136,24 +138,36 @@ public class HealthTestController {
 		model.addAttribute("testSum", testSum);
 		model.addAttribute("testStat", testStat);
 		model.addAttribute("totalStat",totalStat);
-		model.addAttribute("mhTestResultDto", MhTestResultDto());
+		model.addAttribute("mhTestResultDto", new MhTestResultDto());
 		
 		return "healthTest/testResult";
 	}
+//	@PostMapping(value="newResult")
+//	public String saveResult(Authentication auth, Model model, MhTestResultDto mhTestResultDto) throws Exception {
+//		if(auth != null) {
+//			User user = (User)auth.getPrincipal();
+//			Member member = mhTestResultService.findMember(user.getName());
+//			model.addAttribute("errorMessage", "회원만 저장이 가능합니다. 저장을 하려면 로그인 또는 회원가입을 해주세요.");
+//			
+//		}else {
+//		System.out.println(mhTestResultDto);
+//		mhTestResultService.saveResult(mhTestResultDto);
+//		}
+//		
+//		return "healthTest/testResult";
+//	}	
 	@PostMapping(value="newResult")
-	public String saveResult(Authentication auth, Model model, MhTestResultDto mhTestResultDto) throws Exception {
-		if(auth != null) {
-			User user = (User)auth.getPrincipal();
-			Member member = mhTestResultService.findMember(user.getName());
-			model.addAttribute("errorMessage", "회원만 저장이 가능합니다. 저장을 하려면 로그인 또는 회원가입을 해주세요.");
-			
-		}else {
-		System.out.println(mhTestResultDto);
-		mhTestResultService.saveResult(mhTestResultDto);
-		}
+	@ResponseBody
+	public void saveResult(@RequestParam(value="major_div") String major_div, @RequestParam(value="mid_div") String mid_div, 
+			@RequestParam(value="minor_div") String minor_div, @RequestParam(value="result_content") String result_content, Model model, Authentication auth) throws Exception {
 		
-		return "healthTest/testResult";
+		
+		MhTestResultDto mhTestResult = new MhTestResultDto();
+		mhTestResult.setMajor_div(major_div);
+		mhTestResult.setMid_div(mid_div);
+		mhTestResult.setMinor_div(minor_div);
+		mhTestResult.setResult_content(result_content);
+		mhTestResultService.saveResult(mhTestResult, auth.getName());
 	}
-	
 	
 }

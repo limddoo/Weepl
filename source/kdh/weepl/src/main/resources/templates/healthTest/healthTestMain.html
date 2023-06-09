@@ -13,15 +13,24 @@
     line-height: 1.1;
 	
 	}
+	.check-paper-type {
+    overflow: hidden;
+}
+.check-paper-type > ul > li {
+    width: 100%;
+    padding: 5px 0;
+}
 	.inner{
 	min-width: auto;
 }
 .text-center {
     text-align: center !important;
 }
-.item {
-    background-color: #0092d7;
-    color: #fff;
+label {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    cursor: pointer;
 }
 	</style>
 
@@ -52,18 +61,22 @@
 		<div class ="inner">
 			<strong class="txt-s2 text-center mb25">마음건강검사</strong>
 				<form id="testForm" action="about:blank" method="get" onsubmit="return fnTestFormValidation();">
-					<div class="checkType">
+					<div class="check-paper-type">
 						<ul>
 							<li class="list1">
-								<label>
+								<label class="item">
 									<input type="radio" name="major_div" value="applyTest01">
+									<div class="label-content">
 									<strong>맞춤형 1:1검사</strong>
+									</div>
 								</label>
 							</li>
 							<li class="list2">
 								<label>
 									<input type="radio" name="major_div" value="applyTest02">
+									<div class="label-content">
 									<strong>상황별검사</strong>
+									</div>
 								</label>
 							</li>
 						</ul>
