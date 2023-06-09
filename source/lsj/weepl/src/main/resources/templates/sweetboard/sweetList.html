@@ -5,6 +5,8 @@
 
 <head>
 <meta charset="UTF-8">
+<meta name="_csrf" th:content="${_csrf.token}" />
+<meta name="_csrf_header" th:content="${_csrf.headerName}" />
 <title>스윗게시판 조회</title>
 
 <th:block layout:fragment="script">
@@ -23,6 +25,25 @@
 			location.href = "/sweetboard/list/" + page + "?searchDateType="
 					+ searchDateType + "&searchBy=" + searchBy
 					+ "&searchQuery=" + searchQuery;
+		}
+		
+		function checkNickName() {
+			$.ajax({
+				   url: "/sweetboard/existNickName",
+				   method: "get",
+				   success: function(result){
+				      if(result.nickName == null) {
+				         if(confirm("닉네임 설정을 해야 이용하실수 있습니다. 닉네임 설정하러 가시겠습니까?")) {
+				            location.href="/mypage/setNickName";
+				         }
+				      } else {
+				    	  location.href="/sweetboard/add";
+				      }
+				   },
+				   error: function(result) {
+				      alert("에러가 발생했습니다.");
+				   }
+				});
 		}
 	</script>
 </th:block>
@@ -67,7 +88,7 @@ h1 {
 						<td class="board" id="board_no">글번호</td>
 						<td class="board" id="board_creator">작성자</td>
 						<td class="board" id="board_title">제목</td>
-						<td class="board" id="board_repl">댓글</td>
+						<!-- <td class="board" id="board_repl">댓글</td> -->
 						<td class="board" id="board_div">게시판구분</td>
 						<td class="board" id="board_date">작성일</td>
 						<td class="board" id="board_like">좋아요</td>
@@ -79,7 +100,7 @@ h1 {
 						<td th:text="${sweetBoard.createdBy}"></td>
 						<td><a th:href="'/sweetboard/dtl/'+${sweetBoard.cd}"
 							th:text="${sweetBoard.title}"></a></td>
-						<td th:text="${sweetBoard.like_cnt}"></td> <!-- comment_cnt로 변경 예정 -->
+						<!-- <td th:text="${sweetBoard.like_cnt}"></td> comment_cnt로 변경 예정  -->
 						<td th:text="${sweetBoard.board_div}"></td>
 						<td th:text="${sweetBoard.regDt}"></td>
 						<td th:text="${sweetBoard.like_cnt}"></td>
@@ -126,20 +147,19 @@ h1 {
 					<option value="CONSULTING">상담전문성 공유게시판</option>
 					<option value="FORM">서식 공유게시판</option>
 					<option value="FREETALK">자유게시판</option>
-				</select> <select th:field="*{searchBy}" class="form-control"
-					style="width: auto;">
+				</select> <select th:field="*{searchBy}" class="form-control" style="width: auto;">
 					<option value="">전체항목</option>
 					<option value="title">제목</option>
 					<option value="content">내용</option>
 					<option value="createdBy">작성자</option>
 				</select> <input th:field="*{searchQuery}" type="text" class="form-control"
-					placeholder="검색어를 입력해주세요">
+					placeholder="검색어를 입력해주세요">&nbsp
 				<button id="searchBtn" type="submit" class="btn btn-primary">검색</button>
 			</div>
 		</form>
 
-		<div class="newSweet" style="text-align: center">
-			<a class="add_link" href="/sweetboard/add" style="font-size: 40px">글 등록하기</a>
+		<div class="newSweet" style="text-align: center" >
+			<a class="add_link" onclick="checkNickName()" style="font-size: 40px">글 등록하기</a>
 		</div>
 
 	</div>

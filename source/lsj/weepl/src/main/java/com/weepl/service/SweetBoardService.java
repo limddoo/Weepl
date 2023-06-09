@@ -14,18 +14,15 @@ import org.springframework.web.multipart.MultipartFile;
 import com.weepl.dto.BoardAttachDto;
 import com.weepl.dto.BoardImgDto;
 import com.weepl.dto.SweetBoardDto;
-import com.weepl.dto.SweetCommentDto;
 import com.weepl.dto.SweetSearchDto;
 import com.weepl.entity.BoardAttach;
 import com.weepl.entity.BoardImg;
 import com.weepl.entity.Member;
 import com.weepl.entity.SweetBoard;
-import com.weepl.entity.SweetComment;
 import com.weepl.repository.BoardAttachRepository;
 import com.weepl.repository.BoardImgRepository;
 import com.weepl.repository.MemberRepository;
 import com.weepl.repository.SweetBoardRepository;
-import com.weepl.repository.SweetCommentRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -35,17 +32,20 @@ import lombok.RequiredArgsConstructor;
 public class SweetBoardService {
 
 	private final SweetBoardRepository sweetBoardRepository;
-	private final BoardImgService boardImgService;
-	private final BoardImgRepository boardImgRepository;
-	private final BoardAttachService boardAttachService;
-	private final BoardAttachRepository boardAttachRepository;
-	private final SweetCommentRepository sweetCommentRepository;
 	private final MemberRepository memberRepository;
 
+	private final BoardImgService boardImgService;
+	private final BoardImgRepository boardImgRepository;
+
+	private final BoardAttachService boardAttachService;
+	private final BoardAttachRepository boardAttachRepository;
+
 	// 게시글 저장
-	public Long saveSweetBoard(SweetBoardDto sweetBoardDto, List<MultipartFile> boardImgFileList,
+	public Long saveSweetBoard(String userId, SweetBoardDto sweetBoardDto, List<MultipartFile> boardImgFileList,
 			List<MultipartFile> boardAttachFileList) throws Exception {
+		Member member = memberRepository.findById(userId);
 		SweetBoard sweetBoard = sweetBoardDto.createSweetBoard();
+		sweetBoard.setMember(member);
 		sweetBoardRepository.save(sweetBoard);
 
 		// 게시판 이미지 등록
@@ -57,6 +57,7 @@ public class SweetBoardService {
 				boardImg.setRepImgYn("Y");
 			else
 				boardImg.setRepImgYn("N");
+
 			boardImgService.saveBoardImg(boardImg, boardImgFileList.get(i));
 		}
 
@@ -78,7 +79,7 @@ public class SweetBoardService {
 	// 게시글 상세보기
 	@Transactional(readOnly = true)
 	public SweetBoardDto getSweetBoardDtl(Long cd) {
-		
+
 		// 해당 게시글 이미지 조회
 		List<BoardImg> boardImgList = boardImgRepository.findBySweetBoardCdOrderByCdAsc(cd);
 		List<BoardImgDto> boardImgDtoList = new ArrayList<>();
@@ -87,30 +88,20 @@ public class SweetBoardService {
 			BoardImgDto boardImgDto = BoardImgDto.of(boardImg);
 			boardImgDtoList.add(boardImgDto);
 		}
-		
+
 		// 해당 게시글 첨부파일 조회
-		List<BoardAttach> boardAttachList = boardAttachRepository.findByCdOrderByCdAsc(cd);
+		List<BoardAttach> boardAttachList = boardAttachRepository.findBySweetBoardCdOrderByCdAsc(cd);
 		List<BoardAttachDto> boardAttachDtoList = new ArrayList<>();
 		for (BoardAttach boardAttach : boardAttachList) {
 			BoardAttachDto boardAttachDto = BoardAttachDto.of(boardAttach);
 			boardAttachDtoList.add(boardAttachDto);
 		}
-		
-		// 해당 게시글 댓글 조회
-		List<SweetComment> sweetCommentList = sweetCommentRepository.findByCdOrderByCdAsc(cd);
-		List<SweetCommentDto> sweetCommentDtoList = new ArrayList<>();
-		
-		for (SweetComment sweetComment : sweetCommentList) {
-			SweetCommentDto sweetCommentDto = SweetCommentDto.of(sweetComment);
-			sweetCommentDtoList.add(sweetCommentDto);
-		}
-		
 		// 게시글 번호로 엔티티 조회 (미존재 시 예외처리)
 		SweetBoard sweetBoard = sweetBoardRepository.findById(cd).orElseThrow(EntityNotFoundException::new);
 		SweetBoardDto sweetBoardDto = SweetBoardDto.of(sweetBoard);
 		sweetBoardDto.setBoardImgDtoList(boardImgDtoList);
 		sweetBoardDto.setBoardAttachDtoList(boardAttachDtoList);
-		sweetBoardDto.setSweetCommentDtoList(sweetCommentDtoList);
+
 		return sweetBoardDto;
 	}
 
@@ -134,42 +125,32 @@ public class SweetBoardService {
 		}
 		return sweetBoard.getCd();
 	}
-	
 
 	// 게시글 삭제
 	public void deleteSweetBoard(Long cd) {
 		sweetBoardRepository.deleteById(cd);
 	}
-	
-	// 좋아요 수 업데이트
-	public Long addLike(Long cd, SweetBoardDto sweetBoardDto, int count) {
-		SweetBoard sweetBoard = sweetBoardRepository.findById(cd)
-				.orElseThrow(EntityNotFoundException::new);
-		sweetBoard.addLike(count);
-		return sweetBoard.getCd();
+
+	// 첨부파일 다운로드
+	public BoardAttachDto downloadBoardAttach(Long cd) {
+		BoardAttach boardAttach = boardAttachRepository.findById(cd).orElseThrow(EntityNotFoundException::new);
+		BoardAttachDto boardAttachDto = BoardAttachDto.of(boardAttach);
+		return boardAttachDto;
 	}
 
-	// 댓글 추가
+	// 좋아요 수 증가
 	@Transactional
-	public void addComment(Long cd, SweetComment sweetComment) {
-		SweetBoard sweetBoard = sweetBoardRepository.findById(cd).orElseThrow(EntityNotFoundException::new);
-//		sweetComment.setMember(member);
-		sweetComment.setSweetBoard(sweetBoard);
-		sweetCommentRepository.save(sweetComment);
+	public int addLike(Long cd) {
+		return sweetBoardRepository.addLike(cd);
 	}
 
-	// 댓글 삭제
-	@Transactional
-	public void deleteComment(Long comCd) {
-		sweetCommentRepository.deleteById(comCd);
-	}
-	
+	// 스윗 닉네임 존재 여부
 	public String existSweetNickName(String id) {
 		Member member = memberRepository.findById(id);
-		if(member != null) {
+		if (member != null) {
 			return member.getNickName();
 		}
-		
+
 		return null;
 	}
 }
