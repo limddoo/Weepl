@@ -43,7 +43,8 @@ public class ReserveApplyService {
 		
 		ReserveSchedule reserveSchedule = reserveScheduleRepository.findById(reserveApplyDto.getReserveScheduleCd())
 				.orElseThrow(EntityNotFoundException::new);
-		reserveSchedule.updateReserveSchedule(reserveApplyDto); 
+		
+		reserveSchedule.updateReserveSchedule(reserveApplyDto.getReserveScheduleCd(), "예약완료"); 
 		
 		return reserveApply.getReserveApplyCd();
 	}

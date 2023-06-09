@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -12,11 +14,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.weepl.dto.ModMemberInfoDto;
 import com.weepl.dto.MypageFormDto;
 import com.weepl.entity.Member;
+import com.weepl.entity.ReserveSchedule;
 import com.weepl.repository.MemberRepository;
 import com.weepl.repository.ReserveApplyRepository;
 import com.weepl.repository.ReserveScheduleRepository;
@@ -116,7 +118,10 @@ public class MypageService {
 	
 	public void deleteUserReserveScedult(Long id) {
 		reserveApplyRepository.deleteReserveApply(id);
-		reserveScheduleRepository.deleteById(id);	
+		
+		ReserveSchedule reserveSchedule = reserveScheduleRepository.findById(id)
+				.orElseThrow(EntityNotFoundException::new);
+		reserveSchedule.updateReserveSchedule(id, "예약가능");	
 	}
 	
 }

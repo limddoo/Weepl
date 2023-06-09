@@ -118,14 +118,6 @@ public class ReserveApplyController {
 		return "redirect:/reservation/main";
 	}
 
-
-	// 상담예약 취소
-
-	@RequestMapping("/cancelReservation/{**}")
-	public String cancelReservation() {
-		return "asd";
-	}
-
 	public Map<String, Object> jsonToMap(String jsonData) throws IOException {
 		ObjectMapper mapper = new ObjectMapper();
 		Map<String, Object> mappedJsonData = mapper.readValue(jsonData, Map.class);
