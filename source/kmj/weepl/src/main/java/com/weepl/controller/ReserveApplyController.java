@@ -81,11 +81,12 @@ public class ReserveApplyController {
 			reserveApplyDto.setReserveStatus("예약완료");
 			reserveApplyDto.setName(mappedJsonData.get("name").toString());
 			reserveApplyDto.setReserveScheduleCd(Long.parseLong(mappedJsonData.get("id").toString()));
+			model.addAttribute("errorMessage", "나의 예약 내용입니다.");
 			model.addAttribute("reserveApplyDto", reserveApplyDto);
 		} else // 남의 예약을 클릭한 경우
 		{
 			reserveApplyDto = new ReserveApplyDto();
-			//model.addAttribute("errorMessage", "예약이 불가능합니다.");
+			model.addAttribute("errorMessage", "예약이 불가능합니다.");
 			model.addAttribute("reserveApplyDto", reserveApplyDto);
 		}
 		return "/reservation/reservationForm";

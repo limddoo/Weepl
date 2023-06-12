@@ -65,7 +65,7 @@ public List<Map<String, Object>> addReserveApply() {
 			sb.append(result.get("reserveDate"));
 			sb.append("T");
 			sb.append(result.get("reserveTime"));
-			
+
 			reserveApply.put("id", result.get("cd"));
 			reserveApply.put("title", result.get("status"));
 			reserveApply.put("start", sb);

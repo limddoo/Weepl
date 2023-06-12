@@ -12,7 +12,6 @@
 			// 채팅에서 사용할 이름: Member 아이디
             const name = [[${#authentication.principal.username}]];
        		const reserveApplyCd = [[${reserveApplyCd}]];
-       		console.log(reserveApplyCd)
 
        		// 나가기 버튼 클릭: 웹소켓 닫기, 채팅창에 퇴장메시지 출력, 화면닫기
             $("#disconn").on("click", (e) => {
@@ -109,7 +108,6 @@
             
             // 채팅창에 퇴장메시지 출력, 웹소켓 닫기, 화면닫기
             function disconnect(){
-            	var str = name + "님이 퇴장하셨습니다.";
                 var quitdata = {type:'QUIT',roomId:reserveApplyCd,sender:name,message:'<<퇴장>>'};
                 if(confirm('비대면 상담을 종료합니다.')) {
                 	console.log("/cons/endCons 실행")

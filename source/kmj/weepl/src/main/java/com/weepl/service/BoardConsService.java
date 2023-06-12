@@ -36,8 +36,6 @@ public class BoardConsService {
 
 	public Long saveCons(BoardConsFormDto boardConsFormDto) throws Exception {
 		BoardCons boardCons = boardConsFormDto.createCons();
-		boardCons.setDel_yn("N");
-		boardCons.setRes_yn("N");
 		boardConsRepository.save(boardCons);
 
 		return boardCons.getCd();
@@ -45,8 +43,6 @@ public class BoardConsService {
 
 	public Long saveNmCons(BoardConsFormDto boardConsFormDto) throws Exception {
 		BoardCons boardCons = boardConsFormDto.createCons();
-		boardCons.setDel_yn("N");
-		boardCons.setRes_yn("N");
 		BoardConsNmem boardConsNmem = boardConsFormDto.createConsNmem(boardConsFormDto, boardCons);
 		BoardConsNmem savedBoardConsNmem = boardConsNmemRepository.save(boardConsNmem);
 		boardCons.setBoardConsNmem(savedBoardConsNmem);
@@ -115,9 +111,9 @@ public class BoardConsService {
 
 	}
 
-	public Long deleteCons(Long cd) {
-		return boardConsRepository.deleteByCd(cd);
-
+	public void deleteCons(Long cd) {
+		BoardCons boardCons = boardConsRepository.getById(cd);
+		boardCons.updateConsDelYn();
 	}
 
 	public Member findMember(String id) {
@@ -165,11 +161,11 @@ public class BoardConsService {
 	}
 	
 	public BoardCons replyBoardCons(BoardConsReplyDto boardConsReplyDto) {
-		BoardCons boardCons = boardConsReplyDto.getBoardCons();
+		BoardCons boardCons = boardConsRepository.findByCd(boardConsReplyDto.getBoardConsCd());
 		boardCons.updateConsResYn();
 		
 		BoardCons savedBoardCons = boardConsRepository.save(boardCons);
-		BoardConsReply boardConsReply = BoardConsReply.createBoardReply(boardConsReplyDto);
+		BoardConsReply boardConsReply = BoardConsReply.createBoardReply(boardConsReplyDto, savedBoardCons);
 		boardConsReplyRepository.save(boardConsReply);
 		
 		return savedBoardCons;

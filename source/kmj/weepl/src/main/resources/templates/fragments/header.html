@@ -1,113 +1,158 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-  <head><script src="/docs/5.3/assets/js/color-modes.js"></script>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <style>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
 
-      .b-example-divider {
-        width: 100%;
-        height: 3rem;
-        background-color: rgba(0, 0, 0, .1);
-        border: solid rgba(0, 0, 0, .15);
-        border-width: 1px 0;
-        box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
-      }
+<style>
+* {
+	margin: 0;
+	padding: 0;
+}
 
-      .b-example-vr {
-        flex-shrink: 0;
-        width: 1.5rem;
-        height: 100vh;
-      }
+ul {
+	list-style: none;
+}
 
-      .bi {
-        vertical-align: -.125em;
-        fill: currentColor;
-      }
+a {
+	text-decoration: none;
+	color: #333;
+}
 
-      .nav-scroller {
-        position: relative;
-        z-index: 2;
-        height: 2.75rem;
-        overflow-y: hidden;
-      }
+.menu:after {
+	display: block;
+	content: '';
+	clear: both;
+}
 
-      .nav-scroller .nav {
-        display: flex;
-        flex-wrap: nowrap;
-        padding-bottom: 1rem;
-        margin-top: -1px;
-        overflow-x: auto;
-        text-align: center;
-        white-space: nowrap;
-        -webkit-overflow-scrolling: touch;
-      }
+.menu>li {
+	position: relative;
+	float: left;
+	margin-right: 5px;
+}
 
-      .btn-bd-primary {
-        --bd-violet-bg: #712cf9;
-        --bd-violet-rgb: 112.520718, 44.062154, 249.437846;
+.menu>li>a {
+	display: block;
+	padding: 0 15px;
+	background: #333;
+	height: 40px;
+	line-height: 40px;
+	color: #fff;
+}
 
-        --bs-btn-font-weight: 600;
-        --bs-btn-color: var(--bs-white);
-        --bs-btn-bg: var(--bd-violet-bg);
-        --bs-btn-border-color: var(--bd-violet-bg);
-        --bs-btn-hover-color: var(--bs-white);
-        --bs-btn-hover-bg: #6528e0;
-        --bs-btn-hover-border-color: #6528e0;
-        --bs-btn-focus-shadow-rgb: var(--bd-violet-rgb);
-        --bs-btn-active-color: var(--bs-btn-hover-color);
-        --bs-btn-active-bg: #5a23c8;
-        --bs-btn-active-border-color: #5a23c8;
-      }
-      .bd-mode-toggle {
-        z-index: 1500;
-      }
-    </style>
+.menu>li:hover .depth_1 {
+	display: block;
+}
 
-    
-    <!-- Custom styles for this template -->
-    <link href="https://fonts.googleapis.com/css?family=Playfair&#43;Display:700,900&amp;display=swap" rel="stylesheet">
-  </head>
-  <body>
-<div class="container">
-  <header class="blog-header lh-1 py-3">
-    <div class="row flex-nowrap justify-content-between align-items-center">
-      <div class="col-4 pt-1">
-        <a class="link-secondary" href="#">Subscribe</a>
-      </div>
-      <div class="col-4 text-center">
-        <a class="blog-header-logo text-body-emphasis" href="/">Weepl</a>
-      </div>
-     <div class="col-4 d-flex justify-content-end align-items-center" id="navbarTogglerDemo03">
-				<span class="nav-item" sec:authorize="isAnonymous()"><a
-					class="nav-link" href="/members/beforeRegister">회원가입</a></span>
-				<span class="nav-item" sec:authorize="isAnonymous()"><a
-					class="nav-link" href="/members/login">로그인</a></span>
-				<span class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')"><a
-					class="nav-link" href="/admin/memberList">관리자페이지</a></span>
-				<span class="nav-item" sec:authorize="hasAnyRole('ROLE_COUNSELOR', 'ROLE_CLIENT')"><a
-					class="nav-link" href="/mypage/connMypageForm">마이페이지</a></span>
-				<span class="nav-item" sec:authorize="isAuthenticated()"><a
-					class="nav-link" href="/members/logout">로그아웃</a></span>
-		</div>
-    </div>
-    <div class="nav-scroller py-1 mb-2">
-    <nav class="nav d-flex justify-content-between">
-      <ul class="nav nav-pills">
-				<li class="nav-item"><a class="nav-link" href="/board/notice">서울 위(Wee)</a></li>
-				<li class="nav-item"><a class="nav-link" href="/cons/consInfo">상담신청</a></li>
-				<li class="nav-item"><a class="nav-link" href="#">마음건강검사</a></li>
-				<li class="nav-item"><a class="nav-link" href="/mhinfo/mhinfos">마음건강정보</a></li>
-				<li class="nav-item"><a class="nav-link" href="/weeNetwork">Wee-Network</a>
-				</li>
-				<li class="nav-item"
-					sec:authorize="hasAnyRole('ROLE_COUNSELOR', 'ROLE_ADMIN')"><a
-					class="nav-link" href="/sweetboard/list">스윗(SWeeT)</a></li>
-			</ul>
-    </nav>
-  </div>
-  </header>
-</div>
+.menu .depth_1 {
+	display: none;
+	position: absolute;
+	left: 0;
+	right: 0;
+	text-align: center;
+}
+
+.menu .depth_1 a {
+	display: block;
+	padding: 5px;
+	background: #666;
+	color: #fff;
+}
+
+.asd {
+	width: 500px;
+	color: red;
+	border: 1px solid blue;
+}
+</style>
+
+ <link href="https://fonts.googleapis.com/css?family=Playfair&#43;Display:700,900&amp;display=swap" rel="stylesheet">
+
+</head>
+<body>
+	<div class="container">
+		<header class="header">
+			<div class="logo">
+				<a href="/"
+					class="e">
+					<img src="\img\logo1.png" alt="wee_logo" width="180" height="80"
+					align="center" border="0">
+				</a>
+			</div>
+
+
+			<div class="">
+				<ul class="">
+					<li class="asd"><a class="asd" href="/board/notice">서울 위(Wee)</a></li>
+					<li class=""><a class="" href="/cons/consInfo">상담신청</a></li>
+					<li class=""><a class="" href="/mhTest/testMain">마음건강검사</a></li>
+					<li class=""><a class="" href="/mhinfo/mhinfos">마음건강정보</a></li>
+					<li class=""><a class="" href="/weeNetwork">Wee-Network</a></li>
+					<li class=""
+						sec:authorize="hasAnyRole('ROLE_COUNSELOR', 'ROLE_ADMIN')"><a
+						class="" href="/sweetboard/list">스윗(SWeeT)</a></li>
+				</ul>
+				<ul class="menu">
+					<li><a href="#">서울 Wee</a>
+						<ul class="depth_1">
+							<li><a href="#">Wee 프로젝트</a></li>
+							<li><a href="#">서울 Wee 센터</a></li>
+							<li><a href="#">공지사항</a></li>
+							<li><a href="#">서울 Weepl 상징</a></li>
+						</ul></li>
+
+					<li><a href="#">상담신청</a>
+						<ul class="depth_1">
+							<li><a href="#">이용안내</a></li>
+							<li><a href="#">비대면 상담신청</a></li>
+							<li><a href="#">게시판 상담</a></li>
+						</ul></li>
+
+					<li><a href="#">마음건강검사</a>
+						<ul class="depth_1">
+							<li><a href="#">맞춤형 마음건강검사</a></li>
+							<li><a href="#">연령별 마음건강검사</a></li>
+							<li><a href="#">상황별 마음건강검사</a></li>
+						</ul></li>
+					<li><a href="#">마음건강정보</a>
+						<ul class="depth_1">
+							<li><a href="#">추천글</a></li>
+							<li><a href="#">대인관계</a></li>
+							<li><a href="#">학교생활</a></li>
+							<li><a href="#">마음건강</a></li>
+							<li><a href="#">위기</a></li>
+							<li><a href="#">일탈</a></li>
+						</ul></li>
+					<li><a href="#">Wee-Network</a>
+						<ul class="depth_1">
+							<li><a href="#">Wee-Network소개</a></li>
+							<li><a href="#">Wee-Network 기관찾기</a></li>
+							<li><a href="#">공지사항</a></li>
+						</ul></li>
+					<li><a href="#">스윗(SWeeT)</a>
+						<ul class="depth_1">
+							<li><a href="#">학교업무</a></li>
+							<li><a href="#">상담게시판</a></li>
+							<li><a href="#">각종서식</a></li>
+							<li><a href="#">자유게시판</a></li>
+						</ul></li>
+				</ul>
+			</div>
+
+			<div class="" id="">
+				<span class="" sec:authorize="isAnonymous()"><a class=""
+					href="/members/beforeRegister">회원가입</a></span> <span class=""
+					sec:authorize="isAnonymous()"><a class=""
+					href="/members/login">로그인</a></span> <span class=""
+					sec:authorize="hasRole('ROLE_ADMIN')"><a class=""
+					href="/admin/memberList">관리자페이지</a></span> <span class=""
+					sec:authorize="hasAnyRole('ROLE_COUNSELOR', 'ROLE_CLIENT')"><a
+					class="" href="/mypage/connMypageForm">마이페이지</a></span> <span class=""
+					sec:authorize="isAuthenticated()"><a class=""
+					href="/members/logout">로그아웃</a></span>
+			</div>
+		</header>
+	</div>
 </html>

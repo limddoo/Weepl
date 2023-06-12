@@ -56,17 +56,6 @@ public class MemberController {
 		member2.setPwd(password2);
 		member2.setRole(Role.CLIENT);
 		memberService.saveMember(member2);
-
-		// 유저
-		boolean check3 = memberService.checkIdDuplicate("kim");
-		if (check3) // 이미 hong 계정이 있는 경우 관리자계정 생성하지않음
-			return;
-		MemberFormDto memberFormDto3 = MemberFormDto.createUser2();
-		Member member3 = Member.createMember(memberFormDto3, passwordEncoder);
-		String password3 = passwordEncoder.encode(memberFormDto3.getPwd());
-		member3.setPwd(password3);
-		member3.setRole(Role.CLIENT);
-		memberService.saveMember(member3);
 	}
 
 	// 회원가입 폼 띄우기 전 약관동의 페이지
@@ -128,8 +117,7 @@ public class MemberController {
 	// 이름과 전화번호로 아이디 찾기(Ajax)
 	@PostMapping(value = "/findIdByNameAndTel")
 	@ResponseBody
-	public HashMap<String, String> findIdByNameAndTel(@RequestParam("name") String name,
-			@RequestParam("tel1") String tel1, @RequestParam("tel2") String tel2, @RequestParam("tel3") String tel3) {
+	public HashMap<String, String> findIdByNameAndTel(@RequestParam("name") String name, @RequestParam("tel1") String tel1, @RequestParam("tel2") String tel2, @RequestParam("tel3") String tel3) {
 		HashMap<String, String> map = new HashMap<>();
 		map.put("result", memberService.findId(name, tel1, tel2, tel3));
 		return map;
@@ -145,8 +133,7 @@ public class MemberController {
 	// 비밀번호 찾기(Ajax)
 	@PostMapping(value = "/findPwdByEmail")
 	@ResponseBody
-	public HashMap<String, String> findPwdByEmail(@RequestParam("id") String id, @RequestParam("name") String name,
-			@RequestParam("email") String email) throws Exception {
+	public HashMap<String, String> findPwdByEmail(@RequestParam("id") String id, @RequestParam("name") String name, @RequestParam("email") String email) throws Exception {
 		HashMap<String, String> map = new HashMap<>();
 		String memberId = memberService.findPwd(id, name, email);
 		if (memberId != null) {
@@ -175,15 +162,5 @@ public class MemberController {
 		HashMap<String, Object> map = new HashMap<>();
 		map.put("result", registerMail.sendSimpleMessage(email));
 		return map;
-	}
-
-	@GetMapping("/untactConsForm")
-	public String untactConsForm() {
-		return "chat/connUntactCons";
-	}
-
-	@GetMapping("/chattingForm")
-	public String chattingForm() {
-		return "chat/chatting";
 	}
 }

@@ -39,7 +39,7 @@ public class BoardConsController {
 	private final BoardConsService boardConsService;
 
 	// 게시판 상담 리스트
-	@GetMapping(value = { "/consList", "/consList/{page}" })
+	@GetMapping(value = { "/boardConsList", "/boardConsList/{page}" })
 	public String BoardConsList(@PathVariable("page") Optional<Integer> page, Model model) {
 		// PageRequest.of 메소드를 통해 Pageable객체 생성. 해당 페이지 조회, 페이지 번호가 없으면 0페이지에서 3개 조회
 		Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 10);
@@ -49,12 +49,11 @@ public class BoardConsController {
 
 		model.addAttribute("boardCons", boardCons); // 조회한 상품 데이터와 페이징 정보를 뷰에 전달한다
 		model.addAttribute("maxPage", 5); // 상품 관리 하단에 보여줄 페이지 번호의 최대 개수이다
-		System.out.println(boardCons.getContent());
 		return "boardCons/boardConsList";
 	}
 
 	// 게시판 상담 글 작성폼
-	@GetMapping(value = "/connConsForm")
+	@GetMapping(value = "/boardConsForm")
 	public String connConsForm(Authentication auth, Model model) {
 		// 로그인 한 유저의 경우, 일부항목이 이미 세팅되어있음
 		if (auth != null) {
@@ -70,7 +69,8 @@ public class BoardConsController {
 		return "boardCons/boardConsForm";
 	}
 
-	@PostMapping(value = "/consForm")
+	// 게시판 상담 글 작성
+	@PostMapping(value = "/boardConsForm")
 	public String consApp(@Valid BoardConsFormDto boardConsFormDto, BindingResult bindingResult, Model model)
 			throws Exception {
 
@@ -78,44 +78,43 @@ public class BoardConsController {
 			return "boardCons/boardConsForm";
 		}
 		if (boardConsFormDto.getMemberCd() == null) {
-			System.out.println(boardConsFormDto.getEmail());
 			boardConsService.saveNmCons(boardConsFormDto);
 
 		} else {
 			try {
-
 				boardConsService.saveCons(boardConsFormDto);
 			} catch (Exception e) {
 				model.addAttribute("errorMessage", "상담신청 중 에러가 발생하였습니다.");
 				return "boardCons/boardConsForm";
 			}
 		}
-		return "redirect:/boardCons/consList";
+		return "redirect:/boardCons/boardConsList";
 	}
 
-	@GetMapping(value = "/consDtl/{board_cons_cd}")
+	// 게시판 상담 글 상세보기
+	@GetMapping(value = "/boardConsDtl/{board_cons_cd}")
 	public String boardConsDtl(@PathVariable("board_cons_cd") Long cd, Model model) {
 		BoardCons boardCons = boardConsService.boardConsDtl(cd);
 		BoardConsReply boardConsReply = boardConsService.getBoardConsReply(boardCons);
 		if(boardConsReply == null) {
-			boardConsReply = new BoardConsReply();
-			boardConsReply.setBoardCons(boardCons);
+			model.addAttribute("boardConsReplyDto", new BoardConsReplyDto());
 		}
 		model.addAttribute("boardConsReply", boardConsReply);
 		model.addAttribute("boardCons", boardCons);
-		System.out.println(model);
 		return "boardCons/boardConsDtl";
 	}
 
-	@GetMapping(value = "/modCons/{board_cons_cd}")
+	// 게시판 상담 글 수정폼 호출
+	@GetMapping(value = "/modBoardCons/{board_cons_cd}")
 	public String modConsForm(@PathVariable("board_cons_cd") Long cd, Model model) {
 		BoardCons boardCons = boardConsService.ModConsForm(cd);
 		model.addAttribute("boardConsFormDto", boardCons);
 		return "boardCons/modConsForm";
 	}
 
-	@PostMapping(value = "/modCons/{board_cons_cd}")
-	public String consUpdate(@Valid BoardConsFormDto boardConsFormDto, BindingResult bindingResult, Model model) {
+	// 게시판 상담 글 수정
+	@PostMapping(value = "/modBoardCons/{board_cons_cd}")
+	public String consUpdate(BoardConsFormDto boardConsFormDto, BindingResult bindingResult, Model model) {
 		if (bindingResult.hasErrors()) {
 			return "boardCons/modConsForm";
 		}
@@ -125,9 +124,6 @@ public class BoardConsController {
 		} else if (boardConsFormDto.getContent() == null) {
 			model.addAttribute("errorMessage", "신청 내용은 필수 입력입니다.");
 			return "boardCons/modConsForm";
-		} else if (boardConsFormDto.getPwd() == null) {
-			model.addAttribute("errorMessage", "비밀번호는 필수 입력입니다.");
-			return "boardCons/modConsForm";
 		}
 		try {
 			boardConsService.updateCons(boardConsFormDto);
@@ -135,13 +131,14 @@ public class BoardConsController {
 			model.addAttribute("errorMessage", "상담신청 수정 중 에러가 발생했습니다");
 		}
 
-		return "redirect:/boardCons/consList";
+		return "redirect:/boardCons/boardConsList";
 	}
 
-	@GetMapping(value = "/consDel/{board_cons_cd}")
+	// 게시판 상담 글 삭제(삭제여부:Y로 설정)
+	@GetMapping(value = "/boardConsDel/{board_cons_cd}")
 	public String consDelete(@PathVariable("board_cons_cd") Long cd) {
 		boardConsService.deleteCons(cd);
-		return "redirect:/boardCons/consList";
+		return "redirect:/boardCons/boardConsList";
 	}
 
 	// Ajax: 로그인상태에서 게시판상담 상세글 접근시 접근한 유저가 해당글의 작성자인지 알기위한 메서드
@@ -163,14 +160,18 @@ public class BoardConsController {
 	public Map<String, String> confirmBoardPwd(@RequestParam("boardCd") Long boardCd, @RequestParam("boardPwd") String boardPwd) {
 		Map<String, String> result = new HashMap<>();
 		result.put("result", boardConsService.confirmPwd(boardCd, boardPwd));
-		System.out.println(boardConsService.confirmPwd(boardCd, boardPwd));
 		return result;
 	}
 	
+	// 게시판 상담에 답글 작성
 	@PostMapping(value="/replyBoardCons")
-	public String replyBoardCons(@Valid BoardConsReplyDto boardConsReplyDto, String boardConsCd, BindingResult bindingResult) {
-		System.out.println("답변내용:"+boardConsReplyDto);
+	public String replyBoardCons(@Valid BoardConsReplyDto boardConsReplyDto, BindingResult bindingResult, Model model) {
+		BoardCons boardCons = boardConsService.boardConsDtl(boardConsReplyDto.getBoardConsCd());
+		if (bindingResult.hasErrors()) {
+			model.addAttribute("boardCons", boardCons);
+			return "boardCons/boardConsDtl";
+		}
 		BoardCons savedBoardCons = boardConsService.replyBoardCons(boardConsReplyDto);
-		return "redirect:/boardCons/consDtl/"+savedBoardCons.getCd();
+		return "redirect:/boardCons/boardConsDtl/"+savedBoardCons.getCd();
 	}
 }

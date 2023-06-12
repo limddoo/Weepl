@@ -63,14 +63,17 @@ function new_window(reserveDate, reserveTime, reserveApplyCd) {
 					<td th:text="${reserveApply.reserveSchedule.reserveDate}"></td>
 					<td th:text="${reserveApply.reserveSchedule.reserveTime}"></td>
 					<td th:text="${reserveApply.reserveStatus}"></td>
-					<td>
-						<input type="button" value="비대면 상담 시작" th:disabled="!${reserveApply.reserveStatus == '예약완료'}" th:onclick="new_window([[${reserveApply.reserveSchedule.reserveDate}]],[[${reserveApply.reserveSchedule.reserveTime}]],[[${reserveApply.reserveApplyCd}]])">
+					<td><input type="button" value="비대면 상담 시작"
+						th:disabled="!${reserveApply.reserveStatus == '예약완료'}"
+						th:onclick="new_window([[${reserveApply.reserveSchedule.reserveDate}]],[[${reserveApply.reserveSchedule.reserveTime}]],[[${reserveApply.reserveApplyCd}]])">
 					</td>
 					</th:block>
 				</tr>
 			</tbody>
 		</table>
-		
+
+		<input type="hidden" th:name="${_csrf.parameterName}"
+			th:value="${_csrf.token}">
 	</form>
 </div>
 </html>

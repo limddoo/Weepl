@@ -9,6 +9,9 @@ import javax.persistence.EntityNotFoundException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,9 +19,13 @@ import org.springframework.transaction.annotation.Transactional;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.weepl.dto.ModMemberInfoDto;
+import com.weepl.dto.MyConsDtlDto;
+import com.weepl.dto.MyConsDto;
 import com.weepl.dto.MypageFormDto;
+import com.weepl.entity.BoardCons;
 import com.weepl.entity.Member;
 import com.weepl.entity.ReserveSchedule;
+import com.weepl.repository.BoardConsRepository;
 import com.weepl.repository.MemberRepository;
 import com.weepl.repository.ReserveApplyRepository;
 import com.weepl.repository.ReserveScheduleRepository;
@@ -32,6 +39,8 @@ public class MypageService {
 	private final MemberRepository memberRepository;
 	private final ReserveApplyRepository reserveApplyRepository;
 	private final ReserveScheduleRepository reserveScheduleRepository;
+private final BoardConsRepository boardConsRepository;
+	private BoardCons myCons;
 	
 	private final Logger LOGGER = LoggerFactory.getLogger(MypageService.class);
 	
@@ -53,7 +62,7 @@ public class MypageService {
 	
 	private void validateDuplicateMember(Member member) {
 		Member findMember = memberRepository.findByEmail(member.getEmail());
-		if(findMember != null) {
+		if(findMember.getCd() != member.getCd()) {
 			throw new IllegalStateException("이미 가입된 이메일입니다."); // 이미 가입된 회원의 경우 예외를 발생시킨다.
 		}
 	}
@@ -111,17 +120,65 @@ public class MypageService {
 		
 		return reserveApplyList;
 	}
-
+	
 	public void deleteReserveScedult(Long id) {
 		reserveScheduleRepository.deleteById(id);	
 	}
 	
 	public void deleteUserReserveScedult(Long id) {
 		reserveApplyRepository.deleteReserveApply(id);
-		
 		ReserveSchedule reserveSchedule = reserveScheduleRepository.findById(id)
 				.orElseThrow(EntityNotFoundException::new);
 		reserveSchedule.updateReserveSchedule(id, "예약가능");	
 	}
 	
+@Transactional(readOnly = true)
+	public Page<MyConsDto> getMyConsPage(Pageable pageable, String memberId) {
+		Map<String, Object> result = boardConsRepository.getMyBoardConsList(pageable, memberId);
+		List<BoardCons> myConsList = (List) result.get("content");
+		List<MyConsDto> myConsDtoList = new ArrayList<>();
+		System.out.println(result);
+		System.out.println(myConsList);
+		
+		for (BoardCons myCons : myConsList) {
+			MyConsDto myConsDto = createMyConsListDto(myCons);
+			myConsDtoList.add(myConsDto);
+		}
+		System.out.println(myConsDtoList);
+		return new PageImpl<>(myConsDtoList, pageable, (Long) result.get("total"));
+	}
+
+	public MyConsDto createMyConsListDto(BoardCons boardCons) {
+		MyConsDto myConsDto = new MyConsDto();
+		myConsDto.setCd(boardCons.getCd());
+		myConsDto.setTitle(boardCons.getTitle());
+		myConsDto.setReg_dt(boardCons.getRegDt());
+		myConsDto.setRes_yn(boardCons.getRes_yn());
+		
+		return myConsDto;
+	}
+	
+	public MyConsDtlDto getConsDtl(Long myConsCd) {
+	    // 상세 정보 조회 로직 구현
+	    // 예시로 임의의 상세 정보를 생성하여 반환하도록 구현합니다.
+	    MyConsDtlDto consDtl = new MyConsDtlDto();
+	    consDtl.setCd(myConsCd);
+	    consDtl.setTitle("상담 제목");
+	    consDtl.setContent("상담 내용");
+	    // 상세 정보에 대한 필드 값을 설정합니다.
+
+	    return consDtl;
+	}
+	
+	// 닉네임 중복여부 true: 사용가능, false: 사용불가
+	public String setNickName(String nickName, String userId) {
+		Member member = memberRepository.findByNickName(nickName);
+		if(member == null) {
+			Member foundMember = memberRepository.findById(userId);
+			foundMember.updateMemberNickName(nickName);
+			return nickName;
+		} else {
+			return null;
+		}
+	}
 }

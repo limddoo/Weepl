@@ -57,9 +57,9 @@
 					<td th:text="${member.status}"></td>
 					<td>
 						<button type="button" class="btn btn-primary"
-							th:onclick="|location.href='/admin/modMemberInfo/${member.cd}'|">수정</button>
+							th:onclick="|location.href='/admin/modMemberInfo/${member.cd}'|" th:disabled="${member.status.toString == 'QUIT'}">수정</button>
 						<button type="button" class="btn btn-primary"
-							th:onclick="|location.href='/admin/restrictMember/${member.cd}'|">이용제한</button>
+							th:onclick="|location.href='/admin/restrictMember/${member.cd}'|" th:disabled="${member.status.toString == 'QUIT'}">이용제한</button>
 					</td>
 					<td th:text="${#temporals.format(member.jdate, 'yyyy-MM-dd')}"></td>
 					</th:block>

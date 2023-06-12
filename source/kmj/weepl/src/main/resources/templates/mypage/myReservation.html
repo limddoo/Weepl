@@ -1,7 +1,8 @@
+
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{layouts/consLayout}">
+	layout:decorate="~{layouts/mypageLayout}">
 <head>
 <meta charset='utf-8' />
 <meta name="_csrf_header" th:content="${_csrf.headerName}">
@@ -93,7 +94,7 @@ body {
 			return;
 		}
 		popupWindow = window.open(
-			      "/admin/chattingForm/"+reserveApplyCd,
+			      "/mypage/chattingForm/"+reserveApplyCd,
 			      "비대면 상담",
 			      "resizeable"
 			    );

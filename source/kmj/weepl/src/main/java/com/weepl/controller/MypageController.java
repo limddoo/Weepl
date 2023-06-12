@@ -4,11 +4,15 @@ import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
@@ -18,13 +22,19 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.weepl.dto.BoardConsFormDto;
+import com.weepl.dto.MyConsDto;
 import com.weepl.dto.MypageFormDto;
+import com.weepl.entity.BoardCons;
+import com.weepl.entity.BoardConsReply;
 import com.weepl.entity.Member;
+import com.weepl.service.BoardConsService;
 import com.weepl.service.MypageService;
 
 import lombok.RequiredArgsConstructor;
@@ -34,9 +44,11 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class MypageController {
 	private final MypageService mypageService;
-	
+
+	private final BoardConsService boardConsService;
+
 	private final PasswordEncoder passwordEncoder;
-	
+
 	private final Logger LOGGER = LoggerFactory.getLogger(MypageController.class);
 
 	@GetMapping("/connMypageForm")
@@ -138,17 +150,100 @@ public class MypageController {
 		String name = principal.getName();
 		return mypageService.viewMyReservationCalendar(name);
 	}
-	
-	
-	@GetMapping(value="/cancelReservation")
+
+	@GetMapping(value = "/cancelReservation")
 	@ResponseBody
 	public HashMap<String, String> ucSchDelete(@ModelAttribute("reserveScheduleCd") Long reserveScheduleCd) {
 		LOGGER.info("cancelReservation 메소드 호출");
 		LOGGER.info("reserveSceduleCd의 값 : {}", reserveScheduleCd);
-		HashMap<String, String> map = new HashMap<>();		
+		HashMap<String, String> map = new HashMap<>();
 		mypageService.deleteUserReserveScedult(reserveScheduleCd);
-		map.put("result","삭제 성공!");
+		map.put("result", "삭제 성공!");
 		return map;
 	}
 
+	@GetMapping("/chattingForm/{reserveApplyCd}")
+	public String chattingForm(Model model, @PathVariable(value = "reserveApplyCd") Long reserveApplyCd) {
+		model.addAttribute("reserveApplyCd", reserveApplyCd);
+		return "/mypage/chatting";
+	}
+
+	@GetMapping(value = { "/myConsList", "/myConsList/{page}" })
+	public String myConsList(@PathVariable("page") Optional<Integer> page, Model model, Authentication auth) {
+		Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 3);
+
+		// 조회조건과 페이징 정보를 파라미터로 넘겨 Page<Item> 객체를 반환받는다.
+		Page<MyConsDto> myConsList = mypageService.getMyConsPage(pageable, auth.getName());
+
+		model.addAttribute("myConsList", myConsList); // 조회한 상품 데이터와 페이징 정보를 뷰에 전달한다
+		model.addAttribute("maxPage", 5); // 상품 관리 하단에 보여줄 페이지 번호의 최대 개수이다
+		System.out.println(myConsList.getContent());
+		return "mypage/myConsList";
+	}
+
+	@GetMapping(value = "/myConsDtl/{boardConsCd}")
+	public String boardConsDtl(@PathVariable("boardConsCd") Long cd, Model model) {
+		BoardCons boardCons = boardConsService.ModConsForm(cd);
+		System.out.println(boardCons);
+		BoardConsReply boardConsReply = boardConsService.getBoardConsReply(boardCons);
+		if (boardConsReply == null) {
+			boardConsReply = new BoardConsReply();
+			boardConsReply.setBoardCons(boardCons);
+		}
+		model.addAttribute("boardConsReply", boardConsReply);
+		model.addAttribute("boardCons", boardCons);
+		System.out.println(model);
+		return "mypage/myConsDtl";
+	}
+
+	@GetMapping(value = "/modMyCons/{boardConsCd}")
+	public String modConsForm(@PathVariable("boardConsCd") Long cd, Model model) {
+		BoardCons boardCons = boardConsService.ModConsForm(cd);
+		model.addAttribute("boardConsFormDto", boardCons);
+		return "mypage/modMyCons";
+	}
+
+	@PostMapping(value = "/modMyCons")
+	public String myConsUpdate(BoardConsFormDto boardConsFormDto, BindingResult bindingResult, Model model) {
+		if (bindingResult.hasErrors()) {
+			return "mypage/modMyCons";
+		}
+		if (boardConsFormDto.getTitle() == null) {
+			model.addAttribute("errorMessage", "제목은 필수 입력입니다.");
+			return "mypage/modMyCons";
+		} else if (boardConsFormDto.getContent() == null) {
+			model.addAttribute("errorMessage", "신청 내용은 필수 입력입니다.");
+			return "mypage/modMyCons";
+		}
+		try {
+			boardConsService.updateCons(boardConsFormDto);
+		} catch (Exception e) {
+			model.addAttribute("errorMessage", "상담신청 수정 중 에러가 발생했습니다");
+		}
+		return "redirect:/mypage/myConsList";
+	}
+
+	// 게시판 상담 글 삭제(삭제여부:Y로 설정)
+	@GetMapping(value = "/myConsDel/{board_cons_cd}")
+	public String myConsDelete(@PathVariable("board_cons_cd") Long cd) {
+		boardConsService.deleteCons(cd);
+		return "redirect:/mypage/myConsList";
+	}
+	
+	// 스윗게시판 이용자용 닉네임 등록 페이지 이동
+	@GetMapping(value="setNickName")
+	public String setNickName(Model model, Authentication auth) {
+		Member member = mypageService.findMember(auth.getName());
+		model.addAttribute("currentNickName", member.getNickName());
+		return "/mypage/setNickName";
+	}
+	
+	// 스윗게시판 이용자용 닉네임 중복여부 확인
+	@PostMapping(value="setNickName")
+	@ResponseBody
+	public Map<String, String> checkNickName(@RequestParam(value="nickName") String nickName, Authentication auth) {
+		Map<String, String> result = new HashMap<>();
+		result.put("result", mypageService.setNickName(nickName, auth.getName()));
+		return result;
+	}
 }
