@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{layouts/basicLayout}">
+	layout:decorate="~{layouts/mainLayout}">
+<head>
 <!-- 사용자 CSS 추가 -->
 <th:block layout:fragment="css">
 	<style>
@@ -37,17 +38,9 @@ a:hover {
 }
 </style>
 </th:block>
-<div layout:fragment="content">
-	<div id="carouselControls" class="carousel slide margin"
-		data-ride="carousel">
-		<div class="carousel-inner">
-			<div class="carousel-item active item">
-				<img class="d-block w-100 banner"
-					src="img/누렁이_banner.png"
-					alt="First slide">
-			</div>
-		</div>
-	</div>
-	<input type="hidden" th:name="${_csrf.parameterName}"
-			th:value="${_csrf.token}">
-</div>
+
+</head>
+<body>
+	<div layout:fragment="content"></div>
+</body>
+</html>
