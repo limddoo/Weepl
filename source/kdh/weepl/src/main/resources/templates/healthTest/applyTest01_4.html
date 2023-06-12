@@ -26,18 +26,29 @@ layout:decorate="~{layouts/layout1}">
 	
 	});
 	
-	function findResult(){
-		var get_input =$("#testForm input[type=radio]:checked");
-		 var sum = 0;
-		   var count = get_input.length; // radio 갯수
-		   for(var i=0; i < count; i++ ){
-		       if( get_input[i].checked == true ){ // 체크 된것만
-		         sum += parseInt(get_input[i].value); // radio value 값 합산
-		       }
-		       $("#totalSum").val(sum);
-		       
+	function findResult() {
+		var get_input = $("#testForm input[type=radio]:checked");
+		var sum = 0;
+		var count = get_input.length; // radio 갯수
+		for (var i = 0; i < count; i++) {
+			if (get_input[i].checked == true) { // 체크 된것만
+				sum += parseInt(get_input[i].value); // radio value 값 합산
+			}
+		}
+		$("#totalSum").val(sum);
+		var get_sum = $("#totalSum").val();
+			
+			if (get_sum <= 10)
+				$("#totalStat").val('정상');
+			else if (get_sum >= 11 && get_sum <= 16)
+				$("#totalStat").val('경도');
+			else if (get_sum >= 17 && get_sum <= 23)
+				$("#totalStat").val('중증도');
+			else if (get_sum >= 24)
+				$("#totalStat").val('심각');
+			
+			$("#testForm").submit();
 	}
-}
 </script>
 </th:block>
 
