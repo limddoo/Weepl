@@ -259,7 +259,7 @@ h1 {
 					<tr>
 						<div class="board-creator">
 							<td class="board_creator" width="150" align="center" bgcolor="#FF9933">작성자</td>
-							<td th:text="${sweetBoardDto.member.name}" />
+							<td th:text="${sweetBoardDto.member.nickName}" />
 						</div>
 					</tr>
 					<tr>
@@ -354,7 +354,7 @@ h1 {
 				<ul id="comment-box" class="list-group" style="list-style: none">
 				<!-- <div th:if="${sweetComment.del_yn == "N"}"> -->
 					<li id="comment--1" class="list-group-item d-flex justify-content-between" style="list-style:none" value="${sweetComment.cd}">
-						<div th:text="${sweetComment.member.name}"></div>
+						<div th:text="${sweetComment.member.nickName}"></div>
 						<div th:text="${sweetComment.comment}"></div>
 						<div class="d-flex">
 							<div th:text="${sweetComment.regDt}"> </div> &nbsp;&nbsp;&nbsp;

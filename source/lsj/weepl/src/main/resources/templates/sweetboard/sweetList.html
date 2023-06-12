@@ -97,7 +97,7 @@ h1 {
 				<tbody>
 					<tr th:each="sweetBoard, status: ${sweetBoards.getContent()}">
 						<td th:text="${sweetBoard.cd}"></td>
-						<td th:text="${sweetBoard.createdBy}"></td>
+						<td th:text="${sweetBoard.member.nickName}"></td>
 						<td><a th:href="'/sweetboard/dtl/'+${sweetBoard.cd}"
 							th:text="${sweetBoard.title}"></a></td>
 						<!-- <td th:text="${sweetBoard.like_cnt}"></td> comment_cnt로 변경 예정  -->

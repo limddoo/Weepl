@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -22,6 +24,7 @@ import com.weepl.dto.MyConsDto;
 import com.weepl.dto.MypageFormDto;
 import com.weepl.entity.BoardCons;
 import com.weepl.entity.Member;
+import com.weepl.entity.ReserveSchedule;
 import com.weepl.repository.BoardConsRepository;
 import com.weepl.repository.MemberRepository;
 import com.weepl.repository.ReserveApplyRepository;
@@ -124,7 +127,9 @@ private final BoardConsRepository boardConsRepository;
 	
 	public void deleteUserReserveScedult(Long id) {
 		reserveApplyRepository.deleteReserveApply(id);
-		reserveScheduleRepository.deleteById(id);	
+		ReserveSchedule reserveSchedule = reserveScheduleRepository.findById(id)
+				.orElseThrow(EntityNotFoundException::new);
+		reserveSchedule.updateReserveSchedule(id, "예약가능");	
 	}
 	
 @Transactional(readOnly = true)

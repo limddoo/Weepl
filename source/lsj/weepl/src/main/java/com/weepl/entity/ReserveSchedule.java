@@ -36,8 +36,9 @@ public class ReserveSchedule {
 		rs.setStatus("예약가능");	
 		return rs;
 	}
-	public void updateReserveSchedule(ReserveApplyDto reserveApplyDto) {
-		this.cd = reserveApplyDto.getReserveScheduleCd();
-		this.status = "예약완료";
+	
+	public void updateReserveSchedule(Long reserveScheduleCd, String status) {
+		this.cd = reserveScheduleCd;
+		this.status = status;
 	}
 }

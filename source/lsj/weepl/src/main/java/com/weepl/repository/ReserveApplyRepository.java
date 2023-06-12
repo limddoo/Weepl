@@ -20,7 +20,7 @@ public interface ReserveApplyRepository extends JpaRepository<ReserveApply, Long
 	@Query("select r from ReserveApply r where r.reserveSchedule.cd=:reserveScheduleCd")
 	ReserveApply findByReserveScheduleCd(Long reserveScheduleCd);
 
-	@Modifying
-	@Query("delete from ReserveApply r where r.reserveSchedule.cd=:id")
-	void deleteReserveApply(@Param("id") Long id);
+	@Modifying(clearAutomatically = true)
+    @Query("delete from ReserveApply r where r.reserveSchedule.cd=:id")
+    void deleteReserveApply(@Param("id") Long id);
 }
