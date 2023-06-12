@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+layout:decorate="~{layouts/basicLayout}">
+
+<th:block layout:fragment="css">
+<style>
+.inner{
+	min-width: auto;
+}
+.item {
+    background-color: #0092d7;
+    color: #fff;
+}
+</style>
+</th:block>
+<th:block layout:fragment="script">
+	<script>
+		var testForm = null;
+		$(document).ready(function(){
+			testForm = $("#testForm");
+			
+		});
+		
+		var fnTestFormValidation = function(){
+			
+			if(! $('input[name^=test_sq]:checked').val()){
+				alert("필수선택 항목입니다.");
+				return false;
+			}else{
+			
+				var el_applyTest = testForm.find("input[name^=test_sq]:checked")
+				testForm.prop("action", el_applyTest.val());
+		}
+		}
+		
+	</script>
+</th:block>
+<div layout:fragment="content">
+	<div class = "inner">
+	<div>
+		<h1 th:text="${major_div}"></h1>
+	</div>
+		<form id="testForm" action="about:blank" method="get" onsubmit="return fnTestFormValidation();">
+		<input type="hidden" th:value="${major_div}" name="majorDiv">
+		<input type="hidden" th:value="${mid_div}" name="midDiv">
+		<strong th:text="${mid_div}"></strong>
+			<div>
+				<ul>
+					<li>
+					  <label for="test_sq_1" class="item">
+					   <input type="radio" id="test_sq_1" name="test_sq[]" value="applyTest01_8"/>
+					   <div>
+					   	<strong>조기 정신증 검사 (K-ESI)</strong>
+					   </div>
+					  </label>
+					</li>
+					<li>
+					  <label for="test_sq_2" class="item">
+					   <input type="radio" id="test_sq_2" name="test_sq[]" value="applyTest01_9"/>
+					   <div>
+					   	<strong>교정된 정신증 고위험군 선별도구 (mKPQ-16)</strong>
+					   </div>
+					  </label>
+					</li>
+				</ul>
+			</div>
+			<div>
+				<button type="submit" class="btn btn-primary">
+				<span>검사 시작</span>
+				</button>
+			</div>
+		</form>
+	 </div>
+</div>
+</html>
