@@ -1,71 +1,137 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{layouts/layout1}">
-
+	layout:decorate="~{layouts/consLayout}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="_csrf" th:content="${_csrf.token}">
+	<meta name="_csrf_header" th:content="${_csrf.headerName}">
+    <title>게시판 상담</title>
+</head>
+<!-- 사용자 스크립트 추가 -->
 <th:block layout:fragment="script">
-	<script th:inline="javascript">
-		$(document).ready(function() {
-			$("checkName").on("click", (e) => {
-				checkName();
-			})
-			
-			function checkName(){
-				var boardcd = board.cd;
-				var url = "/boardCons/consDtl/" + boardcd;
-				
-				const name = [[${authentication.principal.username}]];
+	<script th:inline="javascript">		
+		function checkName(boardCd){
+			var header = $("meta[name='_csrf_header']").attr('content');
+			var token = $("meta[name='_csrf']").attr('content');
+			const user = [[${#authentication.principal}]];
+			if(user != 'anonymousUser') {
+				const name = user.username;
 				if(name == 'admin'){
-					alert('관리자의 권한으로 상담상세정보를 들어갑니다.');
-					location.href='/boardCons/consDtl/' + [[${board.cd}]]
-				}else{
-					pwd = prompt('비밀번호를 입력하세요.');
-					if(pwd == boardCons.pwd){
-						alert('비밀번호가 일치합니다.');
-						location.href= '/boardCons/consDtl/' + [[${board.cd}]];
-					}else{
-						alert('비밀번호가 일치하지 않습니다.');
-					}
+					location.href = "/boardCons/boardConsDtl/"+boardCd;
+				} else {
+					$.ajax({
+						type:"post",
+						url:"/boardCons/getBoardMember",
+						data:{"boardCd":boardCd},
+						beforeSend: function(xhr){
+							xhr.setRequestHeader(header, token);
+						},
+						success: function(result){
+							if(name == result.result) {
+								location.href = "/boardCons/boardConsDtl/"+boardCd;
+							} else {
+								checkBoardPwd(header, token, boardCd);
+							}
+						},
+						error : function(){
+							alert("에러발생");
+						}
+					});
 				}
+			} else {
+				checkBoardPwd(header, token, boardCd);
 			}
 			
-			
-		});
+		}
 		
+		function checkBoardPwd(header, token, boardCd) {
+			var password = prompt("비밀번호 입력");
+			console.log(password);
+			$.ajax({
+				type:"post",
+				url:"/boardCons/confirmBoardPwd",
+				data:{
+					"boardCd":boardCd,
+					"boardPwd":password
+				},
+				beforeSend: function(xhr){
+					xhr.setRequestHeader(header, token);
+				},
+				success: function(confirmResult){
+					console.log(confirmResult.result);
+					if(confirmResult.result == "ENTER") {
+						location.href = "/boardCons/boardConsDtl/"+boardCd;
+					} else {
+						alert('비밀번호가 맞지않습니다.');
+						return;
+					}
+				},
+				error : function(){
+					alert("에러발생");
+				}
+			});
+		}
+		
+		function page(page) {
+			location.href = "/boardCons/boardConsList/" + page;
+		}
 	</script>
 </th:block>
-<th:block layout:fragment="css">
-	<style>
-select {
-	margin-right: 10px;
-}
-</style>
-</th:block>
 
-<div layout:fragment="content">
-	<form action="@{'/boardCons/' + ${boardCons.number}}" role="form" method="get" th:object="${boardCons}">
-		<table class="table">
+<body>
+<div layout:fragment="content" class="content-wrapper">
+	<form action="@{'/boardCons/boardConsList' + ${boardCons.number}}" role="form" method="get" th:object="${boardCons}">
+		<table class="table-container">
 			<thead>
 			  <tr>
 			  	<td>번호</td>
 			  	<td>제목</td>
 			  	<td>작성자</td>
 			  	<td>날짜</td>
+			  	<td>답변여부</td>
 			  </tr>
 			  </thead>
 			  <tbody>
-			  	<tr th:each="board, status:${boardCons}">
-			  		<td th:text="${board.cd}"></td>
-			  		<td><a href="javascript:checkName();" th:text="${board.title}"></a></td>
+			  	<tr th:each="board, status: ${boardCons.getContent()}">
+			  		<td th:text="${board.cd}" ></td>
+			  		<td><span th:onclick="checkName([[${board.cd}]])" th:text="${board.title}"></span></td>
 			  		<td th:text="${board.name}"></td>
-					<td th:text="${board.regDt}"></td>
+					<td th:text="${board.reg_dt}"></td>
+					<td th:if="${board.res_yn == 'Y'}">답변완료</td>
+					<td th:unless="${board.res_yn == 'Y'}">미답변</td>
 			  	</tr>
 			  	
 			  </tbody>
 			  
 		</table>
-	</form>
-	<button type="button" class="btn btn-primary" onclick="location.href='/boardCons/connConsForm'">상담신청하기</button>
+		<div th:with="start=${(boardCons.number/ maxPage) * maxPage + 1}, end=(${(boardCons.totalPages == 0) ? 1 : (start + (maxPage - 1) < boardCons.totalPages ? start + (maxPage - 1) : boardCons.totalPages)})">
+    <ul class="pagination justify-content-center">
+        <li class="page-boardCons" th:classappend="${boardCons.first} ? 'disabled':''">
+            <a th:onclick="'javascript:page(' + ${boardCons.number - 1} + ')'"
+               aria-label="Previous" class="page-link">
+                <span aria-hidden="true">Previous</span>
+            </a>
+        </li>
+        <li class="page-boardCons" th:each="page: ${#numbers.sequence(start, end)}"
+            th:classappend="${boardCons.number eq page-1} ? 'active' : ''">
+            <a th:onclick="'javascript:page(' + ${page - 1} + ')'"
+               class="page-link"> [[${page}]]</a>
+        </li>
+        <li class="page-boardCons" th:classappend="${boardCons.last} ? 'disabled':''">
+            <a th:onclick="'javascript:page(' + ${boardCons.number + 1} + ')'"
+               aria-label="Next" class="page-link">
+                <span aria-hidden="true">Next</span>
+            </a>
+        </li>
+    </ul>
 </div>
+<input type="hidden" th:name="${_csrf.parameterName}"
+			th:value="${_csrf.token}">
+	</form>
+	<button type="button" class="btn btn-primary" onclick="location.href='/boardCons/boardConsForm'">상담신청하기</button>
+</div>
+</body>
+
 
 </html>

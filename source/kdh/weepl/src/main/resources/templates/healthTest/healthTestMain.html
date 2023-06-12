@@ -1,27 +1,60 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{layouts/layout1}">
+	layout:decorate="~{layouts/basicLayout}">
 
 <th:block layout:fragment="css">
 	<style>
 	.txt-s2{
-	display: block;
+   display: block;
     font-weight: 500;
     font-size: 32px;
     color: #333;
     line-height: 1.1;
-	
-	}
-	.check-paper-type {
+   
+   }
+   ul{
+    list-style:none;
+   }
+   .check-paper-type {
     overflow: hidden;
 }
-.check-paper-type > ul > li {
-    width: 100%;
-    padding: 5px 0;
+.check-paper-type > ul {
+    display: flex;
+    flex-wrap: wrap;
 }
-	.inner{
-	min-width: auto;
+
+.check-paper-type > ul > li {
+    width: 50%;
+    padding: 20px;
+}
+
+.check-paper-type > ul > li > .item {
+    display: block;
+}
+
+.check-paper-type > ul > li > .item .label-content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    width: 200px;
+    height: 100px;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+.check-paper-type > ul > li > .item .label-content .item-title {
+    position: relative;
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    padding-left: 80px;
+    
+}
+   .inner{
+   min-width: auto;
 }
 .text-center {
     text-align: center !important;
@@ -31,6 +64,35 @@ label {
     -moz-user-select: none;
     -ms-user-select: none;
     cursor: pointer;
+}
+.check-paper-type > ul > li > .item input[type="radio"] {
+    border: 0;
+    clip: rect(0, 0, 0, 0);
+    height: auto;
+    margin: 0;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+    white-space: nowrap;
+}
+
+.check-paper-type > ul > li > .item input[type="radio"]:checked + .label-content:before {
+    content: "";
+    display: block;
+    position: absolute;
+    left: -1px;
+    right: -1px;
+    top: -1px;
+    bottom: -1px;
+    border: 2px solid #0092d7;
+    border-radius: 10px;
+    z-index: 1;
+}
+
+.check-paper-type > ul > li > .item input[type="radio"]:checked + .label-content .item-title {
+	text-align: center;
+    color: #0092d7;
 }
 	</style>
 
@@ -67,15 +129,15 @@ label {
 								<label class="item">
 									<input type="radio" name="major_div" value="applyTest01">
 									<div class="label-content">
-									<strong>맞춤형 1:1검사</strong>
+									<strong class="item-title">맞춤형 1:1검사</strong>
 									</div>
 								</label>
 							</li>
 							<li class="list2">
-								<label>
+								<label class="item">
 									<input type="radio" name="major_div" value="applyTest02">
 									<div class="label-content">
-									<strong>상황별검사</strong>
+									<strong class="item-title">상황별검사</strong>
 									</div>
 								</label>
 							</li>

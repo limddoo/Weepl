@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-layout:decorate="~{layouts/layout1}">
+layout:decorate="~{layouts/basicLayout}">
 
 <th:block layout:fragment="css">
 	<style>
@@ -38,26 +38,27 @@ layout:decorate="~{layouts/layout1}">
 		$("#totalSum").val(sum);
 		var get_sum = $("#totalSum").val();
 			
-			if (get_sum <= 15)
+			if (get_sum <= 10)
 				$("#totalStat").val('정상');
-			else if (get_sum >= 16 && get_sum <= 24)
+			else if (get_sum >= 11 && get_sum <= 17)
 				$("#totalStat").val('경도');
-			else if (get_sum >= 25 && get_sum <= 32)
+			else if (get_sum >= 18 && get_sum <= 26)
 				$("#totalStat").val('중증도');
-			else if (get_sum >= 33)
+			else if (get_sum >= 27)
 				$("#totalStat").val('심각');
 			
 			$("#testForm").submit();
 	}
+}
 </script>
 </th:block>
 
 	<div layout:fragment="content">
 		<div class="inner">
-		  <form id="testForm" action="testResult" method="post">
+		  <form id="testForm" action="/mhTest/testResult" method="post">
 		  	<input type="hidden" id="totalSum" name="testSum">
 		  	<input type="hidden" id="testName" name="testName" value="교정된 정신증 고위험군 선별도구">
-		  	<input type="hidden" id="testStat" name="testStat" value="15 이하: 정상, 16~24: 경도, 25~32: 중증도, 33 이상: 심각">
+		  	<input type="hidden" id="testStat" name="testStat" value="15 이하: 정상, 16~24: 경도, 25~30: 중증도, 31 이상: 심각">
 		  	<input type="hidden" id="totalStat" name = "totalStat">
 		  	<input type="hidden" th:value="${major_div}" name="majorDiv">
 		  	<input type="hidden" th:value="${mid_div}" name="midDiv">

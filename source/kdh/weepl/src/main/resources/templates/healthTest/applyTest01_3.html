@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-layout:decorate="~{layouts/layout1}">
+layout:decorate=~{layouts/basicLayout}>
 
 <th:block layout:fragment="css">
 	<style>
@@ -54,7 +54,7 @@ layout:decorate="~{layouts/layout1}">
 
 	<div layout:fragment="content">
 		<div class="inner">
-		  <form id="testForm" action="testResult" method="post">
+		  <form id="testForm" action="/mhTest/testResult" method="post">
 		  	<input type="hidden" id="totalSum" name="testSum">
 		  	<input type="hidden" id="testName" name="testName" value="청소년 도박문제 자가점검">
 		  	<input type="hidden" id="testStat" name="testStat" value="10 이하: 정상, 11~17: 경도, 18~26: 중증도, 27 이상: 심각">

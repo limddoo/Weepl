@@ -12,8 +12,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+import com.weepl.handler.AccountLoginFailureHandler;
+import com.weepl.handler.AccountLoginSuccessHandler;
+import com.weepl.repository.MemberRepository;
 import com.weepl.service.MemberService;
-
 
 @Configuration
 @EnableWebSecurity
@@ -22,41 +24,44 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	MemberService memberService;
 
-	@Override
+	@Autowired
+	MemberRepository memberRepository;
+
 	protected void configure(HttpSecurity http) throws Exception {
-		http.formLogin().loginPage("/members/login") // 로그인 페이지 url을 설정
-				.defaultSuccessUrl("/") // 로그인 성공 시 이동할 url
-				.usernameParameter("id") // 로그인 시 사용할 파라미터 이름으로 id를 지정
+		http.formLogin().loginPage("/members/login")
+				.defaultSuccessUrl("/")
+				.usernameParameter("id")
 				.passwordParameter("pwd")
-				.failureUrl("/members/login/error") // 로그인 실패 시 이동할 url을 설정
-				.and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/members/logout")) // 로그아웃 url을 설정
-				.logoutSuccessUrl("/") // 로그아웃 성공 시 이동할 url을 설정
-		;
-		
-		http.authorizeRequests() 
-			.mvcMatchers("/","/members/**", "/boardCons/**", "/healthTest/**").permitAll()
-			.mvcMatchers("admin/**").hasRole("ADMIN")
-			.anyRequest().authenticated()
-		;
-		
-		http.exceptionHandling()
-			.authenticationEntryPoint(new CustomAuthenticationEntryPoint())
-		;
+				.successHandler(new AccountLoginSuccessHandler(memberRepository))
+				.failureUrl("/members/login/error")
+				.failureHandler(new AccountLoginFailureHandler()).and().logout()
+				.logoutRequestMatcher(new AntPathRequestMatcher("/members/logout"))
+				.logoutSuccessUrl("/");
+
+		http.authorizeRequests()
+				.mvcMatchers("/admin/**").hasRole("ADMIN")
+				.mvcMatchers("/mypage/**").hasAnyRole("CLIENT", "COUNSELOR")
+				.mvcMatchers("/sweetboard/**").hasAnyRole("COUNSELOR", "ADMIN")
+				.mvcMatchers("/", "/members/**", "/ws/**", "/cons/**", "/board/**", "/boardCons/**", "/mhinfo/**",
+							"/weeNetwork/**", "/mhTest/**").permitAll()
+				.anyRequest().authenticated();
+
+		http.exceptionHandling() // 인증되지 않은 사용자가 리소스에 접근하였을 때 수행되는 핸들러 등록
+//	      .authenticationEntryPoint(new CustomAuthenticationEntryPoint())
+//	      .accessDeniedHandler(new CustomAccessDeniedHandler()); 
+				.accessDeniedPage("/error_user");
 	}
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
-	
-	@Override
+
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(memberService)
-		.passwordEncoder(passwordEncoder());
+		auth.userDetailsService(memberService).passwordEncoder(passwordEncoder());
 	}
-	
-	@Override
+
 	public void configure(WebSecurity web) throws Exception {
-		web.ignoring().antMatchers("/css/**","/js/**","/img/**"); // static 디렉토리 하위 파일은 인증을 무시하도록 설정
+		web.ignoring().antMatchers("/css/**", "/js/**", "/img/**", "/wee/**", "/images/**", "/error");
 	}
 }

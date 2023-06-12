@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/chatLayout}">
+
+<head>
+<meta charset='utf-8' />
+<meta name="_csrf_header" th:content="${_csrf.headerName}">
+<meta name="_csrf" th:content="${_csrf.token}">
+<script
+	src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.7/index.global.min.js'></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"
+	integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+	crossorigin="anonymous"></script>
+
+<!-- 사용자 CSS 추가 -->
+<th:block layout:fragment="css">
+	<style>
+	* {
+	margin: 0;
+    padding: 0;
+    text-decoration: none;
+    box-sizing: border-box;
+	}
+.content{
+	margin:0 auto; 
+}
+
+.input-group {
+	margin-bottom: 15px
+}
+
+.img-div {
+	margin-bottom: 10px
+}
+
+.fieldError {
+	color: #bd2130;
+}
+#reservationForm{
+	margin:0 auto;
+}
+</style>
+</th:block>
+</head>
+
+<div layout:fragment="content">
+<div id="reservationForm">
+	<form role="form" th:action method="post" enctype="utf-8"
+		th:object="${reserveApplyDto}">
+		<input type="hidden" th:field="*{reserveStatus}"> <input
+			type="hidden" th:field="*{reserveScheduleCd}"> <input
+			type="hidden" th:field="*{name}">
+		<p class="h2">상담예약</p>
+		<input type="hidden" th:field="*{reserveApplyCd}">
+
+		<div class="input-group">
+			<div class="input-group-prepend">
+				<span class="input-group-text">제목</span>
+			</div>
+			<input type="text" th:field="*{reserveTitle}" class="form-control"
+				placeholder="제목을 입력해주세요">
+		</div>
+		<p th:if="${#fields.hasErrors('reserveApplyCd')}"
+			th:errors="*{reserveApplyCd}" class="fieldError">Incorrect data</p>
+
+		<div class="input-group">
+			<div class="input-group-prepend">
+				<span class="input-group-text">내용</span>
+			</div>
+			<textarea class="form-control" aria-label="With textarea"
+				th:field="*{consReqContent}" placeholder="내용을 입력해주세요"></textarea>
+		</div>
+		<p th:if="${#fields.hasErrors('consReqContent')}"
+			th:errors="*{consReqContent}" class="fieldError">Incorrect data</p>
+
+
+		<div th:if="${#strings.isEmpty(reserveApplyDto.reserveApplyCd)}"
+			style="text-align: center">
+			<button id="submit_btn" class="btn btn-primary">등록</button>
+			<button th:onclick="window.close()" class="btn btn-primary">닫기</button>
+		</div>
+
+		<div th:unless="${#strings.isEmpty(reserveApplyDto.reserveApplyCd)}"
+			style="text-align: center">
+
+			<button id="cancel_btn" class="btn btn-primary">예약 취소</button>
+		</div>
+
+		<input type="hidden" th:name="${_csrf.parameterName}"
+			th:value="${_csrf.token}">
+	</form>
+	</div>
+</div>
+<!-- 사용자 스크립트 추가 -->
+<th:block layout:fragment="script">
+	<script th:inline="javascript">
+$(document).ready(function(){
+var errorMessage = [[${errorMessage}]]; <!--등록 시 실패 메시지를 받아서 공지등록 재진입 시 alert를 통해서 실패 사유를 보여준다.-->
+if(errorMessage == "나의 예약 내용입니다."){
+alert(errorMessage);
+}
+if(errorMessage == "예약이 불가능합니다."){
+	alert(errorMessage);
+	window.close();
+}
+
+$("#submit_btn").on("click", (e) => {
+    submit();
+});
+
+$("#cancel_btn").on("click", (e) => { 
+	cancel();
+});
+
+});
+
+function cancel(){
+	var header = $("meta[name='_csrf_header']").attr('content');
+	var token = $("meta[name='_csrf']").attr('content');
+
+	$.ajax({
+	    method: "GET",
+	    url: "/mypage/cancelReservation",
+	    
+	    headers : { // Http header
+			"Content-Type" : "application/json",
+			"X-HTTP-Method-Override" : "POST"
+		},
+	    data :{"reserveScheduleCd":$("#reserveScheduleCd").val()},
+	    beforeSend: function(xhr){
+	        xhr.setRequestHeader(header, token);
+	        var result = confirm("예약을 취소 하시겠습니까?");
+	        if(result == true){
+				alert("예약취소가 완료되었습니다");
+			}
+	        else{
+				return;
+			}
+		},
+	    success: function(){
+	    	opener.location.reload();
+	    },
+	    complete :function(){
+	    	window.close()//모든 과정 완료 후 창이 자동으로 꺼짐
+	    },
+	    error : function(request, status, error) { // 결과 에러 콜백함수
+			console.log(error)
+		}
+	});
+}
+
+function submit(){
+	var header = $("meta[name='_csrf_header']").attr('content');
+	var token = $("meta[name='_csrf']").attr('content');
+	var reserveApplyInfo = {
+	  	name : $("#name").val(),
+	  	reserveScheduleCd: $("#reserveScheduleCd").val(), 
+		reserveStatus : $("#reserveStatus").val(),
+		reserveTitle : $("#reserveTitle").val(),
+		consReqContent : $("#consReqContent").val(),
+    }  
+	
+$.ajax({
+    type: "POST",
+    url: "/reservation/applyReservation",
+    async : true,
+    headers : { // Http header
+		"Content-Type" : "application/json",
+		"X-HTTP-Method-Override" : "POST"
+	},
+    data : JSON.stringify(reserveApplyInfo), //{Object : object}형식을 {String : String}으로 변환
+    beforeSend: function(xhr){
+        xhr.setRequestHeader(header, token);
+        var result = confirm("예약 등록 하시겠습니까?");
+        if(result == true){
+			alert("예약이 완료되었습니다");
+		}
+        else{
+        	alert("취소하셨습니다");
+			return;
+		}
+	},
+    success: opener.location.reload(),
+    complete : window.close(),//모든 과정 완료 후 창이 자동으로 꺼짐
+    error : function(request, status, error) { // 결과 에러 콜백함수
+		console.log(error)
+	}
+});
+}
+</script>
+</th:block>
+</html>

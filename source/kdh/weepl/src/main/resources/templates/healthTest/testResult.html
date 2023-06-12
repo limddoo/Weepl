@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{layouts/layout1}">
+	layout:decorate="~{layouts/basicLayout}">
 <head>
 <meta charset="UTF-8">
 <meta name="_csrf" th:content="${_csrf.token}">
@@ -27,10 +27,9 @@ li {
 			var header = $("meta[name='_csrf_header']").attr('content');
 			var token = $("meta[name='_csrf']").attr('content');
 			$.ajax({
-				url : "/healthTest/newResult",
+				url : "/mhTest/newResult",
 				type : "POST",
 				data : {
-
 					"major_div" : $("#major_div").val(),
 					"mid_div" : $("#mid_div").val(),
 					"minor_div" : $("#minor_div").val(),

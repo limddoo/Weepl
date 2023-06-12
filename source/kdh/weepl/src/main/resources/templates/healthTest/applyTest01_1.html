@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{layouts/layout1}">
+	layout:decorate="~{layouts/basicLayout}">
 
 <th:block layout:fragment="css">
 	<style>
@@ -13,10 +13,9 @@
 	text-align: center !important;
 }
 
-.item {
-	background-color: #0092d7;
-	color: #fff;
-}
+ ul{
+    list-style:none;
+   }
 </style>
 
 </th:block>
@@ -56,7 +55,7 @@
 
 <div layout:fragment="content">
 	<div class="inner">
-		<form id="testForm" action="testResult" method="post">
+		<form id="testForm" action="/mhTest/testResult" method="post">
 			<input type="hidden" id="totalSum" name="testSum"> <input
 				type="hidden" id="testName" name="testName" value="우울감"> <input
 				type="hidden" id="testStat" name="testStat"
