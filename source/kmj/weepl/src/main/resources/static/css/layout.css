@@ -4,6 +4,11 @@ html {
 	margin: 0;
 }
 
+.header {
+	position: relative;
+	z-index: 999;
+}
+
 body {
 	min-height: 100%;
 	padding-bottom: 40px;
@@ -14,21 +19,32 @@ body {
 	left: 0;
 	right: 0;
 	bottom: 0;
-	height: 10px;
 	width: 100%;
 	padding: 15px 0;
 	text-align: center;
 }
 
+.sidebar {
+	float: left;
+}
+
 .content {
+	float: left;
+	margin-top: 20px;
+	margin-left: 20px;
+	margin-right: 200px;
 	display: flex;
 	justify-content: center;
 	align-items: flex-start;
+	position: relative;
+	z-index: 1;
 }
 
 .content-wrapper {
 	width: 1000px;
 	margin-left: 200px;
+	position: relative;
+	z-index: 2;
 }
 
 .input-div {
@@ -45,8 +61,4 @@ body {
 	text-indent: initial;
 	border-spacing: 2px;
 	border-color: gray;
-}
-
-.sidebar {
-	float: left;
 }
