@@ -11,8 +11,13 @@ layout:decorate="~{layouts/basicLayout}">
  ul{
     list-style:none;
    }
+ 
  .checkType-list{
  	overflow: hidden;
+ 	display: flex;
+ 	flex-wrap: wrap;
+    margin: 10px;
+    padding: 3px;
  
  }
  .checkType-list > li {
@@ -39,7 +44,6 @@ layout:decorate="~{layouts/basicLayout}">
     align-items: center;
     background-color: #fff;
     word-break: keep-all;
-    
 }
 
 .checkType-list > li > .item input[type="checkbox"], .checkType-list > li > .item input[type="radio"] {
@@ -74,7 +78,6 @@ layout:decorate="~{layouts/basicLayout}">
     background-color: #eee;
     border-radius: 100%;
     margin-right: 15px;
-    box-sizing: border-box;
 }
 
 .checkType-list > li > .item input[type="checkbox"]:checked + .item-content:after, .checkType-list > li > .item input[type="radio"]:checked + .item-content:after {
@@ -93,7 +96,7 @@ layout:decorate="~{layouts/basicLayout}">
     background-image: url(https://maro.imhc.or.kr/user/images/common/icon_check_active.png);
     background-color: #0092d7;
 }
- 
+
 </style>
 
 </th:block>
