@@ -8,9 +8,92 @@ layout:decorate="~{layouts/basicLayout}">
 .inner{
 	min-width: auto;
 }
-.item {
+ul{
+    list-style:none;
+   }
+ .checkType-list{
+ 	overflow: hidden;
+ 	display: flex;
+ 	flex-wrap: wrap;
+    margin: 10px;
+    padding: 3px;
+ 
+ }
+ .checkType-list > li {
+    width:250px;
+    padding: 10px;
+    
+}
+
+.checkType-list > li > .item {
+    display: block;
+    cursor: pointer;
+    height: 100%;
+    
+} 
+.checkType-list > li > .item .item-content {
+    position: relative;
+    height: 100px;
+    width: 200px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 22px 20px;
+    min-height: 90px;
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    word-break: keep-all;
+}
+
+.checkType-list > li > .item input[type="checkbox"], .checkType-list > li > .item input[type="radio"] {
+    border: 0;
+    clip: rect(0, 0, 0, 0);
+    height: auto;
+    margin: 0;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+    white-space: nowrap;
+}
+
+.checkType-list > li > .item .item-content .item-name {
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+    color: #333;
+    line-height: 1.3;
+}
+
+.checkType-list > li > .item .item-content .item-name:before {
+    content: "";
+    flex: 0 0 auto;
+    display: block;
+    width: 30px;
+    height: 30px;
+    background-image: url(https://maro.imhc.or.kr/user/images/common/icon_check.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: #eee;
+    border-radius: 100%;
+    margin-right: 15px;
+}
+
+.checkType-list > li > .item input[type="checkbox"]:checked + .item-content:after, .checkType-list > li > .item input[type="radio"]:checked + .item-content:after {
+    content: "";
+    display: block;
+    border: 2px solid #0092d7;
+    position: absolute;
+    left: -1px;
+    top: -1px;
+    right: -1px;
+    bottom: -1px;
+    border-radius: inherit;
+}
+
+.checkType-list > li > .item input[type="checkbox"]:checked + .item-content .item-name:before, .checkType-list > li > .item input[type="radio"]:checked + .item-content .item-name:before {
+    background-image: url(https://maro.imhc.or.kr/user/images/common/icon_check_active.png);
     background-color: #0092d7;
-    color: #fff;
 }
 </style>
 </th:block>
@@ -46,20 +129,20 @@ layout:decorate="~{layouts/basicLayout}">
 		<input type="hidden" th:value="${mid_div}" name="midDiv">
 		<strong th:text="${mid_div}"></strong>
 			<div>
-				<ul>
+				<ul class="checkType-list">
 					<li>
 					  <label for="test_sq_1" class="item">
 					   <input type="radio" id="test_sq_1" name="test_sq[]" value="applyTest01_8"/>
-					   <div>
-					   	<strong>조기 정신증 검사 (K-ESI)</strong>
+					   <div class="item-content">
+					   	<strong class="item-name">조기 정신증 검사 (K-ESI)</strong>
 					   </div>
 					  </label>
 					</li>
 					<li>
 					  <label for="test_sq_2" class="item">
 					   <input type="radio" id="test_sq_2" name="test_sq[]" value="applyTest01_9"/>
-					   <div>
-					   	<strong>교정된 정신증 고위험군 선별도구 (mKPQ-16)</strong>
+					   <div class="item-content">
+					   	<strong class="item-name">교정된 정신증 고위험군 선별도구 (mKPQ-16)</strong>
 					   </div>
 					  </label>
 					</li>

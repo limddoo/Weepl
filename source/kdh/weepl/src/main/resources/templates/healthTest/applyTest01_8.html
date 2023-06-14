@@ -124,13 +124,13 @@ layout:decorate="~{layouts/basicLayout}">
 		$("#totalSum").val(sum);
 		var get_sum = $("#totalSum").val();
 			
-			if (get_sum <= 10)
+			if (get_sum <= 15)
 				$("#totalStat").val('정상');
-			else if (get_sum >= 11 && get_sum <= 17)
+			else if (get_sum >= 16 && get_sum <= 24)
 				$("#totalStat").val('경도');
-			else if (get_sum >= 18 && get_sum <= 26)
+			else if (get_sum >= 25 && get_sum <= 30)
 				$("#totalStat").val('중증도');
-			else if (get_sum >= 27)
+			else if (get_sum >= 31)
 				$("#totalStat").val('심각');
 			
 			$("#testForm").submit();
@@ -153,37 +153,37 @@ layout:decorate="~{layouts/basicLayout}">
 		  			<ul class="chkPointList">
 		  				<li>
 		  					<div class="item">
-		  						<strong>주변에 일어나는 일을 확실하고 명료하게 이해하기가 어렵다</strong>
+		  						<strong class="itemName">주변에 일어나는 일을 확실하고 명료하게 이해하기가 어렵다</strong>
 		  						<ul class="itemList">
 		  							<li>
-		  							<label for= "test_ques_val_1_1">
+		  							<label for= "test_ques_val_1_1" class="itemBox">
 		  								<input type="radio" id="test_ques_val_1_1" name="test_ques_val_1" value="1"/>
-		  								<div>
-		  							  	   <p>전혀 그렇지 않다</p>
+		  								<div class="itemContent">
+		  							  	   <p class="itemOption">전혀 그렇지 않다</p>
 		  								</div>
 		  							</label>
 		  							</li>
 		  							<li>
-		  							<label for="test_ques_val_1_2">
+		  							<label for="test_ques_val_1_2" class="itemBox">
 		  								<input type="radio" id="test_ques_val_1_2" name="test_ques_val_1" value="2"/>
-		  								<div>
-		  							  	   <p>그렇지 않다</p>
+		  								<div class="itemContent">
+		  							  	   <p class="itemOption">그렇지 않다</p>
 		  								</div>
 		  							</label>
 		  							</li>
 		  							<li>
-		  							<label for="test_ques_val_1_3">
+		  							<label for="test_ques_val_1_3" class="itemBox">
 		  								<input type="radio" id="test_ques_val_1_3" name="test_ques_val_1" value="3"/>
-		  								<div>
-		  							  	   <p>그렇다</p>
+		  								<div class="itemContent">
+		  							  	   <p class="itemOption">그렇다</p>
 		  								</div>
 		  							</label>
 		  							</li>
 		  							<li>
-		  							<label for="test_ques_val_1_4">
+		  							<label for="test_ques_val_1_4" class="itemBox">
 		  								<input type="radio" id="test_ques_val_1_4" name="test_ques_val_1" value="4"/>
-		  								<div>
-		  							  	   <p>매우 그렇다</p>
+		  								<div class="itemContent">
+		  							  	   <p class="itemOption">매우 그렇다</p>
 		  								</div>
 		  							</label>
 		  							</li>
@@ -192,37 +192,37 @@ layout:decorate="~{layouts/basicLayout}">
 		  				</li>
 		  				<li>
 		  					<div class="item">
-		  						<strong>가끔 내 청력이 너무 민감해지면서 보통 소리들이 매우 크고 날카롭게 들릴 때가 있다</strong>
+		  						<strong class="itemName">가끔 내 청력이 너무 민감해지면서 보통 소리들이 매우 크고 날카롭게 들릴 때가 있다</strong>
 		  						<ul class="itemList">
 		  							<li>
-		  							<label for="test_ques_val_2_1">
+		  							<label for="test_ques_val_2_1" class="itemBox">
 		  								<input type="radio" id="test_ques_val_2_1" name="test_ques_val_2" value="1"/>
-		  								<div>
-		  							  	   <p>전혀 그렇지 않다</p>
+		  								<div class="itemContent">
+		  							  	   <p class="itemOption">전혀 그렇지 않다</p>
 		  								</div>
 		  							</label>
 		  							</li>
 		  							<li>
-		  							<label for="test_ques_val_2_2">
+		  							<label for="test_ques_val_2_2" class="itemBox">
 		  								<input type="radio" id="test_ques_val_2_2" name="test_ques_val_2" value="2"/>
-		  								<div>
-		  							  	   <p>그렇지 않다</p>
+		  								<div class="itemContent">
+		  							  	   <p class="itemOption">그렇지 않다</p>
 		  								</div>
 		  							</label>
 		  							</li>
 		  							<li>
-		  							<label for="test_ques_val_2_3">
+		  							<label for="test_ques_val_2_3" class="itemBox">
 		  								<input type="radio" id="test_ques_val_2_3" name="test_ques_val_2" value="3"/>
-		  								<div>
-		  							  	   <p>그렇다</p>
+		  								<div class="itemContent">
+		  							  	   <p class="itemOption">그렇다</p>
 		  								</div>
 		  							</label>
 		  							</li>
 		  							<li>
-		  							<label for="test_ques_val_2_4">
+		  							<label for="test_ques_val_2_4" class="itemBox">
 		  								<input type="radio" id="test_ques_val_2_4" name="test_ques_val_2" value="4"/>
-		  								<div>
-		  							  	   <p>매우 그렇다</p>
+		  								<div class="itemContent">
+		  							  	   <p class="itemOption">매우 그렇다</p>
 		  								</div>
 		  							</label>
 		  							</li>
@@ -231,37 +231,37 @@ layout:decorate="~{layouts/basicLayout}">
 		  				</li>
 		  				<li>
 		  					<div class="item">
-		  						<strong>나는 가끔 다른사람들에게는 안 보이는 어떤 것들을 눈으로 볼 수 있다</strong>
+		  						<strong class="itemName">나는 가끔 다른사람들에게는 안 보이는 어떤 것들을 눈으로 볼 수 있다</strong>
 		  						<ul class="itemList">
 		  							<li>
-		  							<label for="test_ques_val_3_1">
+		  							<label for="test_ques_val_3_1" class="itemBox">
 		  								<input type="radio" id="test_ques_val_3_1" name="test_ques_val_3" value="1"/>
-		  								<div>
-		  							  	   <p>전혀 그렇지 않다</p>
+		  								<div class="itemContent">
+		  							  	   <p class="itemOption">전혀 그렇지 않다</p>
 		  								</div>
 		  							</label>
 		  							</li>
 		  							<li>
-		  							<label for="test_ques_val_3_2">
+		  							<label for="test_ques_val_3_2" class="itemBox">
 		  								<input type="radio" id="test_ques_val_3_2" name="test_ques_val_3" value="2"/>
-		  								<div>
-		  							  	   <p>그렇지 않다</p>
+		  								<div class="itemContent">
+		  							  	   <p class="itemOption">그렇지 않다</p>
 		  								</div>
 		  							</label>
 		  							</li>
 		  							<li>
-		  							<label for="test_ques_val_3_3">
+		  							<label for="test_ques_val_3_3" class="itemBox">
 		  								<input type="radio" id="test_ques_val_3_3" name="test_ques_val_3" value="3"/>
-		  								<div>
-		  							  	   <p>그렇다</p>
+		  								<div class="itemContent">
+		  							  	   <p class="itemOption">그렇다</p>
 		  								</div>
 		  							</label>
 		  							</li>
 		  							<li>
-		  							<label for="test_ques_val_3_4">
+		  							<label for="test_ques_val_3_4" class="itemBox">
 		  								<input type="radio" id="test_ques_val_3_4" name="test_ques_val_3" value="4"/>
-		  								<div>
-		  							  	   <p>매우 그렇다</p>
+		  								<div class="itemContent">
+		  							  	   <p class="itemOption">매우 그렇다</p>
 		  								</div>
 		  							</label>
 		  							</li>
@@ -271,37 +271,37 @@ layout:decorate="~{layouts/basicLayout}">
 		  				
 		  				<li>
 		  					<div class="item">
-		  						<strong>그럴 리가 없는데 가끔 어떤 사건이나 방송들이 나와 연관이 있는 것 같다</strong>
+		  						<strong class="itemName">그럴 리가 없는데 가끔 어떤 사건이나 방송들이 나와 연관이 있는 것 같다</strong>
 		  						<ul class="itemList">
 		  							<li>
-		  							<label for="test_ques_val_4_1">
+		  							<label for="test_ques_val_4_1" class="itemBox">
 		  								<input type="radio" id="test_ques_val_4_1" name="test_ques_val_4" value="1"/>
-		  								<div>
-		  							  	   <p>전혀 그렇지 않다</p>
+		  								<div class="itemContent">
+		  							  	   <p class="itemOption">전혀 그렇지 않다</p>
 		  								</div>
 		  							</label>
 		  							</li>
 		  							<li>
-		  							<label for="test_ques_val_4_2">
+		  							<label for="test_ques_val_4_2" class="itemBox">
 		  								<input type="radio" id="test_ques_val_4_2" name="test_ques_val_4" value="2"/>
-		  								<div>
-		  							  	   <p>그렇지 않다</p>
+		  								<div class="itemContent">
+		  							  	   <p class="itemOption">그렇지 않다</p>
 		  								</div>
 		  							</label>
 		  							</li>
 		  							<li>
-		  							<label for="test_ques_val_4_3">
+		  							<label for="test_ques_val_4_3" class="itemBox">
 		  								<input type="radio" id="test_ques_val_4_3" name="test_ques_val_4" value="3"/>
-		  								<div>
-		  							  	   <p>그렇다</p>
+		  								<div class="itemContent">
+		  							  	   <p class="itemOption">그렇다</p>
 		  								</div>
 		  							</label>
 		  							</li>
 		  							<li>
-		  							<label for="test_ques_val_4_4">
+		  							<label for="test_ques_val_4_4" class="itemBox">
 		  								<input type="radio" id="test_ques_val_4_4" name="test_ques_val_4" value="4"/>
-		  								<div>
-		  							  	   <p>매우 그렇다</p>
+		  								<div class="itemContent">
+		  							  	   <p class="itemOption">매우 그렇다</p>
 		  								</div>
 		  							</label>
 		  							</li>
@@ -310,37 +310,37 @@ layout:decorate="~{layouts/basicLayout}">
 		  				</li>
 		  				<li>
 		  					<div class="item">
-		  						<strong>사람들이 말을 길게 하면 말뜻을 정확히 이해하기 어렵다</strong>
+		  						<strong class="itemName">사람들이 말을 길게 하면 말뜻을 정확히 이해하기 어렵다</strong>
 		  						<ul class="itemList">
 		  							<li>
-		  							<label for="test_ques_val_5_1">
+		  							<label for="test_ques_val_5_1" class="itemBox">
 		  								<input type="radio" id="test_ques_val_5_1" name="test_ques_val_5" value="1"/>
-		  								<div>
-		  							  	   <p>전혀 그렇지 않다</p>
+		  								<div class="itemContent">
+		  							  	   <p class="itemOption">전혀 그렇지 않다</p>
 		  								</div>
 		  							</label>
 		  							</li>
 		  							<li>
-		  							<label for="test_ques_val_5_2">
+		  							<label for="test_ques_val_5_2" class="itemBox">
 		  								<input type="radio" id="test_ques_val_5_2" name="test_ques_val_5" value="2"/>
-		  								<div>
-		  							  	   <p>그렇지 않다</p>
+		  								<div class="itemContent">
+		  							  	   <p class="itemOption">그렇지 않다</p>
 		  								</div>
 		  							</label>
 		  							</li>
 		  							<li>
-		  							<label for="test_ques_val_5_3">
+		  							<label for="test_ques_val_5_3" class="itemBox">
 		  								<input type="radio" id="test_ques_val_5_3" name="test_ques_val_5" value="3"/>
-		  								<div>
-		  							  	   <p>그렇다</p>
+		  								<div class="itemContent">
+		  							  	   <p class="itemOption">그렇다</p>
 		  								</div>
 		  							</label>
 		  							</li>
 		  							<li>
-		  							<label for="test_ques_val_5_4">
+		  							<label for="test_ques_val_5_4" class="itemBox">
 		  								<input type="radio" id="test_ques_val_5_4" name="test_ques_val_5" value="4"/>
-		  								<div>
-		  							  	   <p>매우 그렇다</p>
+		  								<div class="itemContent">
+		  							  	   <p class="itemOption">매우 그렇다</p>
 		  								</div>
 		  							</label>
 		  							</li>
@@ -349,37 +349,37 @@ layout:decorate="~{layouts/basicLayout}">
 		  				</li>
 		  				<li>
 		  					<div class="item">
-		  						<strong>뭔가를 분명히 들었는데도 내가 혹시 상상한 것이 아닌가 하는 의심이 가끔 든다</strong>
+		  						<strong class="itemName">뭔가를 분명히 들었는데도 내가 혹시 상상한 것이 아닌가 하는 의심이 가끔 든다</strong>
 		  						<ul class="itemList">
 		  							<li>
-		  							<label for="test_ques_val_6_1">
+		  							<label for="test_ques_val_6_1" class="itemBox">
 		  								<input type="radio" id="test_ques_val_6_1" name="test_ques_val_6" value="1"/>
-		  								<div>
-		  							  	   <p>전혀 그렇지 않다</p>
+		  								<div class="itemContent">
+		  							  	   <p class="itemOption">전혀 그렇지 않다</p>
 		  								</div>
 		  							</label>
 		  							</li>
 		  							<li>
-		  							<label for="test_ques_val_6_2">
+		  							<label for="test_ques_val_6_2" class="itemBox">
 		  								<input type="radio" id="test_ques_val_6_2" name="test_ques_val_6" value="2"/>
-		  								<div>
-		  							  	   <p>그렇지 않다</p>
+		  								<div class="itemContent">
+		  							  	   <p class="itemOption">그렇지 않다</p>
 		  								</div>
 		  							</label>
 		  							</li>
 		  							<li>
-		  							<label for="test_ques_val_6_3">
+		  							<label for="test_ques_val_6_3" class="itemBox">
 		  								<input type="radio" id="test_ques_val_6_3" name="test_ques_val_6" value="3"/>
-		  								<div>
-		  							  	   <p>그렇다</p>
+		  								<div class="itemContent">
+		  							  	   <p class="itemOption">그렇다</p>
 		  								</div>
 		  							</label>
 		  							</li>
 		  							<li>
-		  							<label for="test_ques_val_6_4">
+		  							<label for="test_ques_val_6_4" class="itemBox">
 		  								<input type="radio" id="test_ques_val_6_4" name="test_ques_val_6" value="4"/>
-		  								<div>
-		  							  	   <p>매우 그렇다</p>
+		  								<div class="itemContent">
+		  							  	   <p class="itemOption">매우 그렇다</p>
 		  								</div>
 		  							</label>
 		  							</li>
@@ -388,37 +388,37 @@ layout:decorate="~{layouts/basicLayout}">
 		  				</li>
 		  				<li>
 		  					<div class="item">
-		  						<strong>테이블이나 의자 같은 평범한 물체가 가끔 이상하게 보일 때가 있다</strong>
+		  						<strong class="itemName">테이블이나 의자 같은 평범한 물체가 가끔 이상하게 보일 때가 있다</strong>
 		  						<ul class="itemList">
 		  							<li>
-		  							<label for="test_ques_val_7_1">
+		  							<label for="test_ques_val_7_1" class="itemBox">
 		  								<input type="radio" id="test_ques_val_7_1" name="test_ques_val_7" value="1"/>
-		  								<div>
-		  							  	   <p>전혀 그렇지 않다</p>
+		  								<div class="itemContent">
+		  							  	   <p class="itemOption">전혀 그렇지 않다</p>
 		  								</div>
 		  							</label>
 		  							</li>
 		  							<li>
-		  							<label for="test_ques_val_7_2">
+		  							<label for="test_ques_val_7_2" class="itemBox">
 		  								<input type="radio" id="test_ques_val_7_2" name="test_ques_val_7" value="2"/>
-		  								<div>
-		  							  	   <p>그렇지 않다</p>
+		  								<div class="itemContent">
+		  							  	   <p class="itemOption">그렇지 않다</p>
 		  								</div>
 		  							</label>
 		  							</li>
 		  							<li>
-		  							<label for="test_ques_val_7_3">
+		  							<label for="test_ques_val_7_3" class="itemBox">
 		  								<input type="radio" id="test_ques_val_7_3" name="test_ques_val_7" value="3"/>
-		  								<div>
-		  							  	   <p>그렇다</p>
+		  								<div class="itemContent">
+		  							  	   <p class="itemOption">그렇다</p>
 		  								</div>
 		  							</label>
 		  							</li>
 		  							<li>
-		  							<label for="test_ques_val_7_4">
+		  							<label for="test_ques_val_7_4" class="itemBox">
 		  								<input type="radio" id="test_ques_val_7_4" name="test_ques_val_7" value="4"/>
-		  								<div>
-		  							  	   <p>매우 그렇다</p>
+		  								<div class="itemContent">
+		  							  	   <p class="itemOption">매우 그렇다</p>
 		  								</div>
 		  							</label>
 		  							</li>
@@ -427,37 +427,37 @@ layout:decorate="~{layouts/basicLayout}">
 		  				</li>
 		  				<li>
 		  					<div class="item">
-		  						<strong>가끔 나에 대한 음모(모함)가 있다는 느낌이 든다</strong>
+		  						<strong class="itemName">가끔 나에 대한 음모(모함)가 있다는 느낌이 든다</strong>
 		  						<ul class="itemList">
 		  							<li>
-		  							<label for="test_ques_val_8_1">
+		  							<label for="test_ques_val_8_1" class="itemBox">
 		  								<input type="radio" id="test_ques_val_8_1" name="test_ques_val_8" value="1"/>
-		  								<div>
-		  							  	   <p>전혀 그렇지 않다</p>
+		  								<div class="itemContent">
+		  							  	   <p class="itemOption">전혀 그렇지 않다</p>
 		  								</div>
 		  							</label>
 		  							</li>
 		  							<li>
-		  							<label for="test_ques_val_8_2">
+		  							<label for="test_ques_val_8_2" class="itemBox">
 		  								<input type="radio" id="test_ques_val_8_2" name="test_ques_val_8" value="2"/>
-		  								<div>
-		  							  	   <p>그렇지 않다</p>
+		  								<div class="itemContent">
+		  							  	   <p class="itemOption">그렇지 않다</p>
 		  								</div>
 		  							</label>
 		  							</li>
 		  							<li>
-		  							<label for="test_ques_val_8_3">
+		  							<label for="test_ques_val_8_3" class="itemBox">
 		  								<input type="radio" id="test_ques_val_8_3" name="test_ques_val_8" value="3"/>
-		  								<div>
-		  							  	   <p>그렇다</p>
+		  								<div class="itemContent">
+		  							  	   <p class="itemOption">그렇다</p>
 		  								</div>
 		  							</label>
 		  							</li>
 		  							<li>
-		  							<label for="test_ques_val_8_4">
+		  							<label for="test_ques_val_8_4" class="itemBox">
 		  								<input type="radio" id="test_ques_val_8_4" name="test_ques_val_8" value="4"/>
-		  								<div>
-		  							  	   <p>매우 그렇다</p>
+		  								<div class="itemContent">
+		  							  	   <p class="itemOption">매우 그렇다</p>
 		  								</div>
 		  							</label>
 		  							</li>
@@ -466,37 +466,37 @@ layout:decorate="~{layouts/basicLayout}">
 		  				</li>
 		  				<li>
 		  					<div class="item">
-		  						<strong>나는 가끔 다른 사람들에 대한 못된 평을 한다</strong>
+		  						<strong class="itemName">나는 가끔 다른 사람들에 대한 못된 평을 한다</strong>
 		  						<ul class="itemList">
 		  							<li>
-		  							<label for="test_ques_val_9_1">
+		  							<label for="test_ques_val_9_1" class="itemBox">
 		  								<input type="radio" id="test_ques_val_9_1" name="test_ques_val_9" value="1"/>
-		  								<div>
-		  							  	   <p>전혀 그렇지 않다</p>
+		  								<div class="itemContent">
+		  							  	   <p class="itemOption">전혀 그렇지 않다</p>
 		  								</div>
 		  							</label>
 		  							</li>
 		  							<li>
-		  							<label for="test_ques_val_9_2">
+		  							<label for="test_ques_val_9_2" class="itemBox">
 		  								<input type="radio" id="test_ques_val_9_2" name="test_ques_val_9" value="2"/>
-		  								<div>
-		  							  	   <p>그렇지 않다</p>
+		  								<div class="itemContent">
+		  							  	   <p class="itemOption">그렇지 않다</p>
 		  								</div>
 		  							</label>
 		  							</li>
 		  							<li>
-		  							<label for="test_ques_val_9_3">
+		  							<label for="test_ques_val_9_3" class="itemBox">
 		  								<input type="radio" id="test_ques_val_9_3" name="test_ques_val_9" value="3"/>
-		  								<div>
-		  							  	   <p>그렇다</p>
+		  								<div class="itemContent">
+		  							  	   <p class="itemOption">그렇다</p>
 		  								</div>
 		  							</label>
 		  							</li>
 		  							<li>
-		  							<label for="test_ques_val_9_4">
+		  							<label for="test_ques_val_9_4" class="itemBox">
 		  								<input type="radio" id="test_ques_val_9_4" name="test_ques_val_9" value="4"/>
-		  								<div>
-		  							  	   <p>매우 그렇다</p>
+		  								<div class="itemContent">
+		  							  	   <p class="itemOption">매우 그렇다</p>
 		  								</div>
 		  							</label>
 		  							</li>
@@ -505,37 +505,37 @@ layout:decorate="~{layouts/basicLayout}">
 		  				</li>
 		  				<li>
 		  					<div class="item">
-		  						<strong>나는 종종 매우 평범한 말의 의미를 곰곰이 생각해야 한다</strong>
+		  						<strong class="itemName">나는 종종 매우 평범한 말의 의미를 곰곰이 생각해야 한다</strong>
 		  						<ul class="itemList">
 		  							<li>
-		  							<label for="test_ques_val_10_1">
+		  							<label for="test_ques_val_10_1" class="itemBox">
 		  								<input type="radio" id="test_ques_val_10_1" name="test_ques_val_10" value="1"/>
-		  								<div>
-		  							  	   <p>전혀 그렇지 않다</p>
+		  								<div class="itemContent">
+		  							  	   <p class="itemOption">전혀 그렇지 않다</p>
 		  								</div>
 		  							</label>
 		  							</li>
 		  							<li>
-		  							<label for="test_ques_val_10_2">
+		  							<label for="test_ques_val_10_2" class="itemBox">
 		  								<input type="radio" id="test_ques_val_10_2" name="test_ques_val_10" value="2"/>
-		  								<div>
-		  							  	   <p>그러지 않다</p>
+		  								<div class="itemContent">
+		  							  	   <p class="itemOption">그러지 않다</p>
 		  								</div>
 		  							</label>
 		  							</li>
 		  							<li>
-		  							<label for="test_ques_val_10_3">
+		  							<label for="test_ques_val_10_3" class="itemBox">
 		  								<input type="radio" id="test_ques_val_10_3" name="test_ques_val_10" value="3"/>
-		  								<div>
-		  							  	   <p>그렇다</p>
+		  								<div class="itemContent">
+		  							  	   <p class="itemOption">그렇다</p>
 		  								</div>
 		  							</label>
 		  							</li>
 		  							<li>
-		  							<label for="test_ques_val_10_4">
+		  							<label for="test_ques_val_10_4" class="itemBox">
 		  								<input type="radio" id="test_ques_val_10_4" name="test_ques_val_10" value="4"/>
-		  								<div>
-		  							  	   <p>매우 그렇다</p>
+		  								<div class="itemContent">
+		  							  	   <p class="itemOption">매우 그렇다</p>
 		  								</div>
 		  							</label>
 		  							</li>
