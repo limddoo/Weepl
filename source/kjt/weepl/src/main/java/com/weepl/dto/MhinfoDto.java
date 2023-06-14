@@ -1,5 +1,7 @@
 package com.weepl.dto;
 
+import java.time.LocalDateTime;
+
 import com.querydsl.core.annotations.QueryProjection;
 
 import lombok.Getter;
@@ -11,6 +13,7 @@ public class MhinfoDto {
 	private String title;
 	private String content;
 	private int likeCnt;
+	private LocalDateTime regDt;
 	
 //	Mhinfo existsByTitle(String title);
 }

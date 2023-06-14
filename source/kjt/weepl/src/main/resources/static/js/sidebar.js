@@ -8,7 +8,7 @@ $(document).ready(function() {
         selected.classList.add('active');
     } else {
         current = location.pathname.split("/").slice(-2)[0].replace(/^\/|\/$/g, '');
-        if (current.includes('board')) {
+        if (current.includes('board') || current.includes('Board')) {
             $('.active').removeClass('active');
             var consList = document.getElementById('consList');
             if (consList != null) {

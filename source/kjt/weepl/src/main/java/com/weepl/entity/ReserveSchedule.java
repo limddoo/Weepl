@@ -7,10 +7,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.weepl.dto.ReserveApplyDto;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-
 @Entity
 @Table
 @Getter
@@ -32,8 +33,12 @@ public class ReserveSchedule {
 		ReserveSchedule rs = new ReserveSchedule();
 		rs.setReserveDate(reserveDate);
 		rs.setReserveTime(reserveTime);
-		rs.setStatus("예약가능");
-		
+		rs.setStatus("예약가능");	
 		return rs;
+	}
+	
+	public void updateReserveSchedule(Long reserveScheduleCd, String status) {
+		this.cd = reserveScheduleCd;
+		this.status = status;
 	}
 }

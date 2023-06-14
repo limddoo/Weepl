@@ -40,9 +40,9 @@ public class BoardConsReply extends BaseEntity {
 	@Column(nullable=false)
 	private String content; //내용
 	
-	public static BoardConsReply createBoardReply(BoardConsReplyDto boardConsReplyDto) {
+	public static BoardConsReply createBoardReply(BoardConsReplyDto boardConsReplyDto, BoardCons savedBoardCons) {
 		BoardConsReply boardConsReply = new BoardConsReply();
-		boardConsReply.setBoardCons(boardConsReplyDto.getBoardCons());
+		boardConsReply.setBoardCons(savedBoardCons);
 		boardConsReply.setContent(boardConsReplyDto.getContent());
 		
 		return boardConsReply;

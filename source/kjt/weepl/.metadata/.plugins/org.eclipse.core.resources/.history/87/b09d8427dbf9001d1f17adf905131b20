@@ -1,0 +1,10 @@
+package com.weepl.repository;
+
+import org.springframework.stereotype.Repository;
+
+import com.weepl.entity.MemberRestrict;
+
+@Repository
+public interface MemberRestrictRepository extends JpaRepository<MemberRestrict, Long>{
+
+}

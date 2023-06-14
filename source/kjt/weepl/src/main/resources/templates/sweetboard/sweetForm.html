@@ -6,6 +6,7 @@
 <!-- 사용자 스크립트 추가 -->
 <th:block layout:fragment="script">
 	<script th:inline="javascript">
+	
 	$(document).ready(function(){
 		var errorMessage = [[${errorMessage}]]; <!-- 실패 메시지를 받아서 상품 등록 재진입 시 alert를 통해서 실패 사유를 보여준다.-->
 		if(errorMessage != null){
@@ -74,10 +75,10 @@
 		<input type="hidden" th:field="*{cd}">
 		<div class="form-group">
 			<select th:field="*{board_div}" class="custom-select">
-				<option value="SCHOOL_TASK">학교업무 공유게시판</option>
-				<option value="CONSULTING">상담전문성 공유게시판</option>
-				<option value="FORM">서식 공유게시판</option>
-				<option value="FREETALK">자유게시판</option>
+				<option value="학교업무 공유게시판">학교업무 공유게시판</option>
+				<option value="상담 전문성 공유게시판">상담 전문성 공유게시판</option>
+				<option value="서식 공유게시판">서식 공유게시판</option>
+				<option value="자유게시판">자유게시판</option>
 			</select>
 		</div>
 

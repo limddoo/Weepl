@@ -21,32 +21,35 @@ import lombok.RequiredArgsConstructor;
 public class ConsController {
     private final ConsService consService;
     
+    // 상담 안내 페이지
     @GetMapping(value="/consInfo")
     public String consInfo() {
     	return "cons/consInfo";
     }
     
+    // 비대면 상담을 위한 채팅방 생성(Ajax)
     @GetMapping(value="/createRoom")
     @ResponseBody
-    public HashMap<String, String> createRoom(String name) {
-    	HashMap<String, String> map = new HashMap<>();
-    	ChatRoom room = consService.createRoom(name);
-    	map.put("roomId", room.getRoomId());
+    public void createRoom(String name, Long reserveApplyCd) {
+    	consService.createRoom(name, reserveApplyCd);
+    }
+    
+    // 비대면 상담 참여를 위한 채팅방 검색(Ajax)
+    @GetMapping(value="/findRoom")
+    @ResponseBody
+    public HashMap<String, Long> findRoom(String name, Long reserveApplyCd) {
+    	HashMap<String, Long> map = new HashMap<>();
+    	
+    	map.put("roomId", consService.findChatRoom(name, reserveApplyCd));
         return map;
     }
     
-    @GetMapping(value="/findRoom")
+    // 상담종료후 상태 갱신
+    @GetMapping(value="/endCons")
     @ResponseBody
-    public HashMap<String, String> findRoom(String name) {
-    	HashMap<String, String> map = new HashMap<>();
-    	
-    	map.put("roomId", consService.findChatRoom(name));
-        return map;
+    public void endCons(Long reserveApplyCd) {
+    	System.out.println("상담을 종료합니다.");
+    	consService.endCons(reserveApplyCd);
     }
 
-    @GetMapping
-    @ResponseBody
-    public List<ChatRoom> findAllRoom() {
-        return consService.findAllRoom();
-    }
 }

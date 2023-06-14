@@ -6,7 +6,7 @@
 <th:block layout:fragment="script">
 	<script th:inline="javascript">
 		$(document).ready(function(){
-			var errorMessage = [[${errorMessage}]]; <!--상품등록 시 실패 메시지를 받아서 상품등록 재진입 시 alert를 통해서 실패 사유를 보여준다.-->
+			var errorMessage = [[${errorMessage}]];
 			if(errorMessage != null){
 				alert(errorMessage);
 			}
@@ -114,7 +114,7 @@ ${status.index+1}"></label>
 		<div th:unless="${#strings.isEmpty(mhinfoFormDto.cd)}"
 			style="text-align: center">
 			<button
-				th:formaction="@{'/mhinfo/admin/mhinfo/' + ${mhinfoFormDto.cd} }"
+				th:formaction="@{'/mhinfo/admin/mhinfo/update' + ${mhinfoFormDto.cd} }"
 				type="submit" class="btn btn-primary">수정</button>
 		</div>
 

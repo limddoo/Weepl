@@ -7,11 +7,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.stereotype.Repository;
 
+import com.weepl.dto.NoticeDto;
 import com.weepl.entity.Notice;
 
 @Repository
 public interface NoticeRepository extends JpaRepository<Notice, Long>, QuerydslPredicateExecutor<Item>, NoticeRepositoryCustom {
 	List findAll();
 	List<Notice> findBytitle(String title);
-	
+	 List<NoticeDto> findAllByOrderByRegDtDesc();
 }

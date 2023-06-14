@@ -55,7 +55,7 @@
 	<button type="button" class="btn btn-primary"
 		onclick="location.href='/mypage/myConsList'">리스트로 돌아가기</button>
 	<button type="button" class="btn btn-primary"
-		th:onclick="|location.href='/boardCons/consDel/' + ${boardCons.cd}|">삭제하기</button>
+		th:onclick="|location.href='/mypage/myConsDel/' + ${boardCons.cd}|">삭제하기</button>
 	<form action="/boardCons/replyBoardCons" role="form" method="post"
 		th:object="${boardConsReply}" th:if="${boardCons.res_yn == 'N'}"  sec:authorize="hasRole('ROLE_ADMIN')">
 		<input type="hidden" th:field="*{boardCons}">

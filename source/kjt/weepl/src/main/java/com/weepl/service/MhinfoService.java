@@ -12,8 +12,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.weepl.dto.BoardImgDto;
+import com.weepl.dto.MhinfoDto;
 import com.weepl.dto.MhinfoFormDto;
 import com.weepl.dto.MhinfoSearchDto;
+import com.weepl.dto.NoticeDto;
 import com.weepl.entity.BoardImg;
 import com.weepl.entity.Mhinfo;
 import com.weepl.repository.BoardImgRepository;
@@ -71,20 +73,6 @@ public class MhinfoService {
 		mhinfoRepository.deleteById(mhinfoCd);
 	}
 	
-	public Long updateMhinfo(MhinfoFormDto mhinfoFormDto, List<MultipartFile> boardImgFileList) throws Exception {
-	    Mhinfo mhinfo = mhinfoRepository.findById(mhinfoFormDto.getCd())
-	            .orElseThrow(EntityNotFoundException::new);
-	    mhinfo.updateMhinfo(mhinfoFormDto);
-	    
-	    mhinfo.setMhinfoCate(mhinfoFormDto.getMhinfoCate()); // mhinfoCate 값을 설정해줍니다.
-	    
-	    List<Long> boardImgCds = mhinfoFormDto.getBoardImgCds();
-	    for(int i=0; i<boardImgFileList.size(); i++) {
-	        boardImgService.updateBoardImg(boardImgCds.get(i), boardImgFileList.get(i));
-	    }
-	    return mhinfo.getCd();
-	}
-	
 	@Transactional(readOnly = true)
 	public MhinfoFormDto getMhinfoDtl(Long mhinfoCd) {
 		List<BoardImg> boardImgList = boardImgRepository.findByMhinfoCdOrderByCdAsc(mhinfoCd);
@@ -101,7 +89,19 @@ public class MhinfoService {
 		return mhinfoFormDto;
 	}
 	
-	
+	public Long updateMhinfo(MhinfoFormDto mhinfoFormDto, List<MultipartFile> boardImgFileList) throws Exception {
+	    Mhinfo mhinfo = mhinfoRepository.findById(mhinfoFormDto.getCd())
+	            .orElseThrow(EntityNotFoundException::new);
+	    mhinfo.updateMhinfo(mhinfoFormDto);
+	    
+	    mhinfo.setMhinfoCate(mhinfoFormDto.getMhinfoCate()); // mhinfoCate 값을 설정해줍니다.
+	    
+	    List<Long> boardImgCds = mhinfoFormDto.getBoardImgCds();
+	    for(int i=0; i<boardImgFileList.size(); i++) {
+	        boardImgService.updateBoardImg(boardImgCds.get(i), boardImgFileList.get(i));
+	    }
+	    return mhinfo.getCd();
+	}
 	
 	@Transactional(readOnly = true)
     public Page<Mhinfo> getMhinfoPage(MhinfoSearchDto mhinfoSearchDto, Pageable pageable){
@@ -118,5 +118,36 @@ public class MhinfoService {
 		return mhinfoRepository.updateLikes(mhinfoCd);
 	}
 
-	
+	public List<MhinfoDto> getMainMhinfoList() {
+	    List<MhinfoDto> mainMhinfoList = new ArrayList<>();
+	    
+	    // TODO: 최신 글 다섯 개를 가져오는 로직 구현
+	    
+	    // 예시: 임시로 공지사항 데이터를 생성하여 반환
+	    for (int i = 1; i <= 5; i++) {
+	    	MhinfoDto mhinfo = new MhinfoDto();
+	    	mhinfo.setCd(mhinfo.getCd());
+	    	mhinfo.setTitle(mhinfo.getTitle());
+	    	mhinfo.setRegDt(mhinfo.getRegDt());
+	        mainMhinfoList.add(mhinfo);
+	    }
+	    
+	    return mainMhinfoList;
+	}
+
+	public List<MhinfoDto> getMhinfoList() {
+	    List<MhinfoDto> MainMhinfoList = mhinfoRepository.findAllByOrderByRegDtDesc();
+	    List<MhinfoDto> mhinfoList = new ArrayList<>();
+	    
+	    int count = 0;
+	    for (MhinfoDto mhinfo : MainMhinfoList) {
+	        mhinfoList.add(mhinfo);
+	        count++;
+	        if (count >= 5) {
+	            break;
+	        }
+	    }
+	    
+	    return mhinfoList;
+	}
 }

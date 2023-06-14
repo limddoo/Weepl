@@ -151,5 +151,25 @@ public class NoticeService {
 		LOGGER.info("noticeAttachDto의 값은 : {}",noticeAttachDto);
 		return noticeAttachDto;
 	}
+
+
+	public List<NoticeDto> getNoticeList() {
+    List<NoticeDto> mainNoticeList = noticeRepository.findAllByOrderByRegDtDesc();
+
+    List<NoticeDto> noticeList = new ArrayList<>();
+    int count = 0;
+    for (NoticeDto notice : mainNoticeList) {
+        noticeList.add(notice);
+        count++;
+        if (count >= 5) {
+            break;
+        }
+    }
+
+    return noticeList;
+}
+
+
 	
+
 }

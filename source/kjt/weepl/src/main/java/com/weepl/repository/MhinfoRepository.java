@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 
+import com.weepl.dto.MhinfoDto;
 import com.weepl.entity.Mhinfo;
 
 public interface MhinfoRepository extends JpaRepository<Mhinfo, Long>, QuerydslPredicateExecutor<Mhinfo>, MhinfoRepositoryCustom{
@@ -23,4 +24,5 @@ public interface MhinfoRepository extends JpaRepository<Mhinfo, Long>, QuerydslP
 	
 	@Query("SELECT m.cd FROM Mhinfo m ORDER BY m.cd ASC")
 	List<Long> findAllMhinfoCds();
+	List<MhinfoDto> findAllByOrderByRegDtDesc();
 }

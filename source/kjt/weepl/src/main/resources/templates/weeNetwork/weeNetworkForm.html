@@ -126,9 +126,11 @@
 					if (status === "OK") {
 						var address = result[0].road_address
 								|| result[0].address;
-						divAddress.innerText = address.address_name;
-						divResult.innerText = "위도: " + result[0].y + ", 경도: "
-								+ result[0].x;
+						// divAddress.innerText = address.address_name;
+						$('#lati').val(result[0].y);
+						$('#longi').val(result[0].x);
+						// divResult.innerText = "위도: " + result[0].y + ", 경도: "
+						// 		+ result[0].x;
 					} else if (status === "ZERO_RESULT") {
 						divAddress.innerText = "";
 						divResult.innerText = "검색 결과가 없습니다.";

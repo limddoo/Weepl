@@ -1,0 +1,25 @@
+package com.weepl.repository;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import com.weepl.entity.Member;
+import com.weepl.entity.MemberRestrict;
+
+@Repository
+public interface MemberRepository extends JpaRepository<Member, Long> {
+	Member findByEmail(String email);
+	Member findById(String id);
+	
+	Member save(Member member);
+	
+	void delete(MemberRestrict memberRestrict);
+	
+	Optional<Member> findMemberByCd(Long cd);
+	Optional<Member> findByName(String name);
+	List<Member> findAll();
+	
+}

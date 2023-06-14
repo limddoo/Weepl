@@ -12,8 +12,9 @@ import lombok.ToString;
 @Setter
 @ToString
 public class BoardConsReplyDto {
-	private BoardCons boardCons;
+	private Long boardConsCd;
 	
-	@NotBlank(message="내용을 입력해주세요")
+	@NotBlank(message="내용을 입력해 주세요.")
 	private String content;
+	
 }

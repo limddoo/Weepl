@@ -12,5 +12,7 @@ public interface BoardAttachRepository extends JpaRepository<BoardAttach, Long> 
 	List<BoardAttach> findByNotice_NoticeCdOrderByCdAsc(Long noticeCd);
 	
 	List<BoardAttach> findByCdOrderByCdAsc(Long cd);
+	
+	List<BoardAttach> findBySweetBoardCdOrderByCdAsc(Long cd);
 
 }

@@ -108,8 +108,6 @@
 		<item key="SmartImportRootWizardPage.STORE_NESTED_PROJECTS" value="true"/>
 		<item key="SmartImportRootWizardPage.STORE_CONFIGURE_NATURES" value="true"/>
 		<list key="org.eclipse.ui.internal.wizards.datatransfer.SmartImportRootWizardPage.knownSources">
-			<item value="C:\workspace\weepl"/>
-			<item value="D:\workspace"/>
 			<item value="D:\workspace\weepl"/>
 			<item value="C:\Users\BIG503-13\Desktop\Programming\Wee-Project\source\lsj\weepl"/>
 		</list>

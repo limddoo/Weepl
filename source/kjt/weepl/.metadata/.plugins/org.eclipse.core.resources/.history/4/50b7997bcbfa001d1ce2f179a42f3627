@@ -1,0 +1,5 @@
+package com.weepl.repository;
+
+public class MemberRepositoryCustomImpl {
+
+}

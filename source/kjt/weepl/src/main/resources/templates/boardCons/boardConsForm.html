@@ -33,13 +33,13 @@
 </th:block>
 <div layout:fragment="content" class="content-wrapper">
 	<div class="input-div">
-		<form action="/boardCons/consForm" role="form" method="post"
+		<form action="/boardCons/boardConsForm" role="form" method="post"
 			th:object="${boardConsFormDto}">
 
 			<p class="h2">게시판 상담 신청</p>
 
-			<input type="hidden" th:field="*{cd}"> 
-			<input type="hidden" th:field="*{memberCd}">
+			<input type="hidden" th:field="*{cd}"> <input type="hidden"
+				th:field="*{memberCd}">
 			<div class="input-group">
 				<div class="input-group-prepend">
 					<span class="input-group-text">제목</span>
@@ -103,12 +103,12 @@
 
 			<div th:if="${#strings.isEmpty(boardConsFormDto.memberCd)}"
 				style="text-align: center">
-				<button th:formaction="@{/boardCons/consForm}" type="submit"
+				<button th:formaction="@{/boardCons/boardConsForm}" type="submit"
 					class="btn btn-primary">게시판 비회원 상담 신청</button>
 			</div>
 			<div th:unless="${#strings.isEmpty(boardConsFormDto.memberCd)}"
 				style="text-align: center">
-				<button th:formaction="@{/boardCons/consForm}" type="submit"
+				<button th:formaction="@{/boardCons/boardConsForm}" type="submit"
 					class="btn btn-primary">게시판 상담 신청</button>
 			</div>
 			<input type="hidden" th:name="${_csrf.parameterName}"
