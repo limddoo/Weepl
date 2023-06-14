@@ -10,9 +10,24 @@
 	display: flex;
   	justify-content: center;
 }
+
+.subview {
+	margin-top: 80px;
+	height: 650px;
+}
+
+.button-style {
+	margin-left: 190px;
+}
+
 #schArea {
+	border: 1px;
+	border-style: solid;
 	margin-top: 20px;
-	width: 600px;
+	margin-bottom: 20px;
+	width: 500px;
+	height: 300px;
+	overflow: auto;
 }
 
 .sch {
@@ -47,20 +62,20 @@
 		<div class="subview">
 			<h3>비대면상담 일정추가</h3>
 			<div class="input-group">
-				<label for="startDate"> 시작일 </label>
+				<label class="input-label" for="startDate"> 시작일 </label>
 				<input type="date" id="startDate" onchange="setEndDate()" class="input-short"><br>
 			</div>
 			<div class="input-group">
-				<label for="endDate"> 종료일 </label>
+				<label class="input-label" for="endDate"> 종료일 </label>
 				<input type="date" id="endDate" onchange="getSchList()" class="input-short"><br>
 			</div>
 			<div class="input-group">
-				<label for="endDate"> 상담시간 </label>
+				<label class="input-label" for="endDate"> 상담시간 </label>
 				<input type="checkbox" id="am" value="10:00" checked>오전 10시
 				<input type="checkbox" id="pm" value="15:00">오후 3시
 			</div>
 			<div id="schArea"></div>
-			<button onclick="setSch()">일정 추가</button>
+			<button onclick="setSch()" class="button-style">일정 추가</button>
 		</div>
 		
 		<form action="/admin/ucSchCreate" role="form" method="post"

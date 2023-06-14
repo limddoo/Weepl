@@ -38,6 +38,8 @@
 	</th:block>
 
 	<div layout:fragment="content" class="content-wrapper">
+		<div class="subview">
+		<h3>비대면상담 내역</h3>
 		<form action="/admin/chattingForm" role="form" method="get"
 			th:object="${searchDto}">
 			<table class="table-container">
@@ -49,7 +51,7 @@
 						<th>상담일</th>
 						<th>상담시간</th>
 						<th>신청상태</th>
-						<th>-</th>
+						<th>-엥-</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -60,7 +62,7 @@
 						<td th:text="${reserveApply.reserveSchedule.reserveDate}"></td>
 						<td th:text="${reserveApply.reserveSchedule.reserveTime}"></td>
 						<td th:text="${reserveApply.reserveStatus}"></td>
-						<td><input type="button" value="상담 내역 출력" th:onclick="openCompConsContent([[${reserveApply.reserveApplyCd}]]);"></td>
+						<td><input type="button" class="button-style" value="상담 내역 출력" th:onclick="openCompConsContent([[${reserveApply.reserveApplyCd}]]);"></td>
 						</th:block>
 					</tr>
 				</tbody>
@@ -71,6 +73,7 @@
 			<input type="hidden" th:name="${_csrf.parameterName}"
 				th:value="${_csrf.token}">
 		</form>
+		</div>
 	</div>
 
 
