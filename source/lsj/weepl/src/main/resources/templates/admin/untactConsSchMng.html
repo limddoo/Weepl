@@ -9,6 +9,12 @@
 	color: #bd2130;
 }
 
+
+#calendar {
+	max-width: 900px;
+	margin: 0 auto;
+}
+
 #schArea {
 	margin-top: 20px;
 	width: 600px;
@@ -197,14 +203,7 @@
 						});
 					}
 				},
-				eventChange:  function changeEventColor(){
-					
-					}, //미완성
-				eventDisplay:'block',
-
-				events : [
-
-				],		 
+				eventDisplay:'block'	 
 			});
 			calendar.render();	
 				for(var i =0; i<result.length;i++){
@@ -228,7 +227,8 @@
 </head>
 <body>
 	<div layout:fragment="content" class="content-wrapper">
-		<div id='calendar'></div>
+		<div class="">
+			<div id='calendar'></div>
 		<div>
 			시작일:<input type="date" id="startDate" onchange="setEndDate()">
 			종료일:<input type="date" id="endDate" onchange="getSchList()">
@@ -239,6 +239,7 @@
 		<button onclick="setSch()">일정 추가</button>
 		<form action="/admin/ucSchCreate" role="form" method="post"
 			name="schForm" id="schForm"></form>
+		</div>
 	</div>
 </body>
 </html>

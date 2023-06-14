@@ -70,7 +70,7 @@ public class NoticeRepositoryCustomImpl implements NoticeRepositoryCustom{ //인
 			.selectFrom(QNotice.notice) //데이터를 조회하기 위해서 QNotice의 notice를 지정한다.
 			.where(regDtsAfter(noticeSearchDto.getSearchDateType()),  //BooleanExpression 반환하는 조건문들을 넣어준다
 					searchByLike(noticeSearchDto.getSearchBy(), noticeSearchDto.getSearchQuery())) //컴마 단위로 넣어줄 경우 and조건으로 인식
-			.orderBy(QNotice.notice.noticeCd.desc())
+			.orderBy(QNotice.notice.cd.desc())
 			.offset(pageable.getOffset()) //데이터를 가지고 올 시작 인덱스를 지정한다.
 			.limit(pageable.getPageSize()) //한번에 가지고 올 최대 개수를 지정한다.
 			.fetchResults(); //조회한 리스트 및 전체 개수를 포함하는 QueryResult를 반환한다. 상품 데이터 리스트 조회 및 상품 데이터 전체 개수를 조회하는 2번의 쿼리문이 실행된다.

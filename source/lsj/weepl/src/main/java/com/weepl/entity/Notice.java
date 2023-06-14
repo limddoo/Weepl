@@ -27,7 +27,7 @@ public class Notice extends BaseEntity{
 	@Id
 	@Column(name="notice_cd")
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private Long noticeCd; //공지사항 고유번호
+	private Long cd; //공지사항 고유번호
 	
 	@Column(nullable=false, length=200)
 	private String title; //제목
@@ -52,7 +52,7 @@ public class Notice extends BaseEntity{
 	}
 	
 	public void updateNotice(NoticeFormDto noticeFormDto) {
-		this.noticeCd = noticeFormDto.getNoticeCd();
+		this.cd = noticeFormDto.getCd();
 		this.title = noticeFormDto.getTitle();
 		this.content = noticeFormDto.getContent();
 	}

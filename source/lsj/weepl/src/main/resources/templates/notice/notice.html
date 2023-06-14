@@ -15,7 +15,7 @@
 			var searchDateType = $("#searchDateType").val();
 			var searchBy = $("#searchBy").val();
 			var searchQuery = $("#searchQuery").val();
-			location.href = "/board/notices/" + page + "?searchDateType="
+			location.href = "/board/notice/" + page + "?searchDateType="
 					+ searchDateType + "&searchBy=" + searchBy + "&searchQuery=" + searchQuery;
 		}
 	</script>
@@ -30,7 +30,7 @@ select {
 </style>
 </th:block>
 <div layout:fragment="content">
-	<form th:action="@{'/board/notices/' + ${notices.number}}" role="form"
+	<form th:action="@{'/board/notice/' + ${notices.number}}" role="form"
 		method="get" th:object="${notices}">
 		<table class="table">
 			<thead>
@@ -45,13 +45,13 @@ select {
 			</thead>
 			<tbody>
 				<tr th:each="notice, status: ${notices.getContent()}">
-					<td th:text="${notice.noticeCd}"></td>
-					<td><a th:href="'/board/noticedtl/'+${notice.noticeCd}"
+					<td th:text="${notice.cd}"></td>
+					<td><a th:href="'/board/noticedtl/'+${notice.cd}"
 						th:text="${notice.title}"></a></td>
 					<td th:text="${notice.createdBy}"></td>
 					<td th:text="${#temporals.format(notice.regDt, 'yyyy-MM-dd hh:mm')}"></td>
-					<td sec:authorize="hasAnyAuthority('ROLE_ADMIN')"><a th:href="'/board/admin/noticedtl/'+${notice.noticeCd}" th:text="수정"></a></td>
-					<td sec:authorize="hasAnyAuthority('ROLE_ADMIN')"><a th:href="'/board/notice/delete/'+${notice.noticeCd}" th:text="삭제"></a></td>
+					<td sec:authorize="hasAnyAuthority('ROLE_ADMIN')"><a th:href="'/board/admin/noticedtl/'+${notice.cd}" th:text="수정"></a></td>
+					<td sec:authorize="hasAnyAuthority('ROLE_ADMIN')"><a th:href="'/board/notice/delete/'+${notice.cd}" th:text="삭제"></a></td>
 				</tr>
 			</tbody>
 		</table>

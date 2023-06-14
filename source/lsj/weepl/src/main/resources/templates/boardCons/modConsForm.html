@@ -23,7 +23,7 @@ layout:decorate="~{layouts/consLayout}">
 </th:block>
 <div layout:fragment="content" class="content-wrapper">
 	<form action="/boardCons/modBoardCons" role="form" method="post" th:object="${boardConsFormDto}">
-		<p class="h2">게시판 상담 수정</p>
+		<h3>게시판 상담 수정</h3>
 			<input type="hidden" th:field="*{cd}">
 			<div class="input-group">
 			<div class="input-group-prepend">

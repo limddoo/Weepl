@@ -85,13 +85,17 @@ body {
 						left : 'prev',
 						center : 'title',
 						right : 'next'
-					},				
+					},
 					navLinks : true, 
 					businessHours : true, 
 					editable : false,
 					selectable : true,
 					timeZone:false,
 					locale : "ko",
+					dateClick: function(info) { // 날짜 클릭 이벤트를 막고싶었지만 플러그인 설치 문제로 실패
+					    alert('Date: ' + info.dateStr);
+					    alert('Resource ID: ' + info.resource.id);
+					  },
 					eventDisplay:'block',			
 					eventClick : function(info) {	
 						const name = [[${#authentication.principal.username}]];
