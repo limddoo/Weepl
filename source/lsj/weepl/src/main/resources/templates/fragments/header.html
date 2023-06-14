@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
@@ -7,26 +6,23 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="">
-</head>
 
+</head>
 
 <body>
 	<header class="header">
 	<link th:href="@{/css/header.css}" rel="stylesheet">
+	<script type="text/javascript" src="/js/header.js"></script>
 		<div class="container">
-			<div class="">
-				<div class="">
-					<a class="" id="" href="#">Subscribe</a>
+	
+				<div class="logodiv">
+					<a class="" href="/"><img class="logo" src="/img/logo1.png"/></a>
 				</div>
-				
-				<div class="">
-					<a class="" href="/">Weepl</a>
-				</div>
-			</div>
+		
 			
-			<div class="">		
+				<nav>		
 					<ul class="menu">
-						<li class=""><a class="" href="/board/notice">서울 위(Wee)</a>
+						<li><a href="/board/notice">서울 위(Wee)</a>
 							<ul class="depth_1">
 								<li><a href="">Wee프로젝트</a></li>
 								<li><a href="">서울Wee센터</a></li>
@@ -34,21 +30,21 @@
 								<li><a href="">서울Weepl상징</a></li>
 							</ul>
 						</li>
-						<li class=""><a class="" href="/cons/consInfo">상담신청</a>
+						<li><a href="/cons/consInfo">상담신청</a>
 							<ul class="depth_1">
 								<li><a href="">이용안내</a></li>
 								<li><a href="">비대면 상담신청</a></li>
 								<li><a href="">게시판 상담</a></li>
 							</ul>
 						</li>
-						<li class=""><a class="" href="/mhTest/testMain">마음건강검사</a>
+						<li><a href="/mhTest/testMain">마음건강검사</a>
 							<ul class="depth_1">
 								<li><a href="">맞춤형 마음건강검사</a></li>
 								<li><a href="">연령별 마음건강검사</a></li>
 								<li><a href="">상황별 마음건강검사</a></li>
 							</ul>
 						</li>
-						<li class=""><a class="" href="/mhinfo/mhinfos">마음건강정보</a>
+						<li><a href="/mhinfo/mhinfos">마음건강정보</a>
 							<ul class="depth_1">
 								<li><a href="">추천글</a></li>
 								<li><a href="">대인관계</a></li>
@@ -58,14 +54,14 @@
 								<li><a href="">일탈</a></li>
 							</ul>
 						</li>
-						<li class=""><a class="" href="/weeNetwork">Wee-Network</a>
+						<li><a href="/weeNetwork">Wee-Network</a>
 							<ul class="depth_1">
 								<li><a href="">Wee-Network소개</a></li>
 								<li><a href="">Wee-Network기관찾기</a></li>
 								<li><a href="">공지사항</a></li>
 							</ul>
 						</li>
-						<li class=""><a class="" href="/sweetboard/list">스윗(SWeeT)</a>
+						<li sec:authorize="hasAnyRole('ROLE_COUNSELOR', 'ROLE_ADMIN')"><a href="/sweetboard/list">스윗(SWeeT)</a>
 							<ul class="depth_1">
 								<li><a href="">학교업무</a></li>
 								<li><a href="">상담게시판</a></li>
@@ -73,8 +69,9 @@
 								<li><a href="">자유게시판</a></li>
 							</ul>
 						</li>
+					
 					</ul>
-			</div>
+			</nav>
 			
 			<div class="" id="">
 				<span class="" sec:authorize="isAnonymous()"><a	class="" href="/members/beforeRegister">회원가입</a></span> 
@@ -83,6 +80,9 @@
 				<span class="" sec:authorize="hasAnyRole('ROLE_COUNSELOR', 'ROLE_CLIENT')"><a class="" href="/mypage/connMypageForm">마이페이지</a></span> 
 				<span class="" sec:authorize="isAuthenticated()"><a	class="" href="/members/logout">로그아웃</a></span>
 			</div>
+		
+	</div>
+	<div id="hiddenContainer">
 		
 	</div>
 	</header>
