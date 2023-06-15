@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.EntityNotFoundException;
 
+import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -36,7 +37,7 @@ public class NoticeService {
 	private final BoardImgRepository boardImgRepository;
 	private final BoardAttachService boardAttachService;
 	private final BoardAttachRepository boardAttachRepository;
-	
+	private static ModelMapper modelMapper = new ModelMapper();
 	/*
 	 * public Notice saveNotice(Notice notice) { return
 	 * noticeRepository.save(notice); }
@@ -154,22 +155,18 @@ public class NoticeService {
 
 
 	public List<NoticeDto> getNoticeList() {
-    List<NoticeDto> mainNoticeList = noticeRepository.findAllByOrderByRegDtDesc();
-
-    List<NoticeDto> noticeList = new ArrayList<>();
-    int count = 0;
-    for (NoticeDto notice : mainNoticeList) {
-        noticeList.add(notice);
-        count++;
-        if (count >= 5) {
-            break;
-        }
-    }
-
-    return noticeList;
-}
-
-
-	
-
+	    List<NoticeDto> mainNoticeList = noticeRepository.getNoticeList();
+	    List<NoticeDto> customNotices = new ArrayList<>();
+	    int count = 0;
+	    for (NoticeDto notice : mainNoticeList) {
+	        // ModelMapper를 사용하여 Notice를 NoticeDto로 변환하여 리스트에 추가
+	        customNotices.add(modelMapper.map(notice, NoticeDto.class));
+	        count++;
+	        if (count >= 5) {
+	            break;
+	        }
+	    }
+	    System.out.println(customNotices);
+	    return customNotices;
+	}
 }

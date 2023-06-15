@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.EntityNotFoundException;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -15,7 +16,6 @@ import com.weepl.dto.BoardImgDto;
 import com.weepl.dto.MhinfoDto;
 import com.weepl.dto.MhinfoFormDto;
 import com.weepl.dto.MhinfoSearchDto;
-import com.weepl.dto.NoticeDto;
 import com.weepl.entity.BoardImg;
 import com.weepl.entity.Mhinfo;
 import com.weepl.repository.BoardImgRepository;
@@ -31,6 +31,7 @@ public class MhinfoService {
 	private final MhinfoRepository mhinfoRepository;
 	private final BoardImgService boardImgService;
 	private final BoardImgRepository boardImgRepository; 
+	private static ModelMapper modelMapper = new ModelMapper();
 	
 	public Long findNextAvailableMhinfoCd() {
 		List<Long> mhinfoCds = mhinfoRepository.findAllMhinfoCds();
@@ -136,18 +137,18 @@ public class MhinfoService {
 	}
 
 	public List<MhinfoDto> getMhinfoList() {
-	    List<MhinfoDto> MainMhinfoList = mhinfoRepository.findAllByOrderByRegDtDesc();
-	    List<MhinfoDto> mhinfoList = new ArrayList<>();
+	    List<MhinfoDto> MainMhinfoList = mhinfoRepository.getMhinfoList();
+	    List<MhinfoDto>customMhinfos = new ArrayList<>();
 	    
 	    int count = 0;
 	    for (MhinfoDto mhinfo : MainMhinfoList) {
-	        mhinfoList.add(mhinfo);
+	        customMhinfos.add(modelMapper.map(mhinfo, MhinfoDto.class));
 	        count++;
 	        if (count >= 5) {
 	            break;
 	        }
 	    }
 	    
-	    return mhinfoList;
+	    return customMhinfos;
 	}
 }

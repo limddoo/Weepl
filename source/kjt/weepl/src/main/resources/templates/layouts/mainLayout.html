@@ -7,137 +7,7 @@
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <link th:href="@{/css/layout1.css}" rel="stylesheet">
-<style>
-
- .slide-container {
-        overflow: hidden;
-    }
-.Icon ul {
-	display: flex;
-	justify-content: center; /* 아이콘을 가로 중앙으로 정렬 */
-	list-style: none;
-	padding: 0;
-	gap: 150px; /* 아이콘 사이의 간격 조정 */
-}
-
-.Icon ul li {
-	text-align: center;
-}
-.Vtxt {
-	text-align: center;
-}
-#main_slide {
-    max-width: 1200px; /* 원하는 너비로 설정 */
-    margin: 0 auto; /* 가운데 정렬을 위해 margin 설정 */
-    overflow: hidden; /* 추가된 부분 */
-    
-}
-
-.Vimg {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  height: 540px;
-  width: 50%;
-  flex-grow: 0;
-  flex-shrink: 0;
-}
-
-.Vimg_inner {
-  max-width: 100%;
-  max-height: 100%;
-  margin: auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding-left: 30px;
-}
-
-.Vimg_inner img {
-  width: auto;
-  height: auto;
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
-}
-
-.Icon li a {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	text-decoration: none;
-	color: inherit;
-}
-
-.Icon li img {
-	margin-bottom: 10px;
-}
-
-.mBG01 {
-	margin: 0 auto;
-	overflow: hidden;
-	background: #d5efee;
-	background: linear-gradient(-40deg, #f3fef5 10%, #b8e0e6);
-	background: -webkit-linear-gradient(-40deg, #f3fef5 10%, #b8e0e6);
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	width: 100vw;
-	height: 540px;
-	margin-bottom: 40px;
-	position: relative;
-}
-
-.Vimg_inner iframe {
-	width: 680px;
-	height: 380px;
-}
-
-.mainPOP_new {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	flex-wrap: wrap;
-}
-
-.vwrap {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
-
-
-
-	.slide_buttons {
-		position: absolute;
-		bottom: 20px;
-		left: 50%;
-		transform: translateX(-50%);
-		z-index: 1;
-	}
-
-	.Icon {
-		position: absolute;
-		bottom: 0;
-		left: 50%;
-		transform: translateX(-50%);
-		z-index: 1;
-	}
-	
-	.iconFooterWrapper {
-  position: relative;
-}
-
-.mBG02 {
-  margin-top: 40px; /* 아이콘과 푸터 사이의 간격 조절 */
-}
-
-footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-}
-</style>
+<link th:href="@{/css/main.css}" rel="stylesheet">
 </head>
 <body>
 	<div th:replace="fragments/header::header"></div>
@@ -148,17 +18,17 @@ footer {
 				<div id="main">
 					<div class="content">
 						<div class="mBG01">
-						<div class="slide_buttons">
-			<!-- 슬라이드 버튼 -->
-			<button onclick="showSlide(0)"><</button>
-			<button onclick="showSlide(1)">></button>
-			<!-- 재생/일시정지 버튼 -->
-									<button id="play_pause_button" onclick="toggleSlideShow()">
-  <img id="play_pause_image" src="/img/main/stop.png" alt="재생 버튼">
-</button>
-		</div>
+							<div class="slide_buttons">
+								<!-- 슬라이드 버튼 -->
+								<button onclick="showSlide(0)" style="background-image: url('/img/main/left-right.png'); width: 31px; height: 31px; color: grey;"><</button>
+								<button onclick="showSlide(1)" style="background-image: url('/img/main/left-right.png'); width: 31px; height: 31px; color: grey;">></button>
+								<!-- 재생/일시정지 버튼 -->
+								<button id="play_pause_button" onclick="toggleSlideShow()">
+									<img id="play_pause_image" src="/img/main/stop.png" alt="재생 버튼">
+								</button>
+							</div>
 							<div class="mainPOP_new">
-								<div class="vwrap" id="main_slide">
+								<div class="vwrap" id="main_slide" >
 
 									<div class="Vimg" id="popLink1"
 										style="width: 1250px; height: 600px; padding: 30px;">
@@ -184,64 +54,84 @@ footer {
 												src="/img/main/vimg_tree.gif"></a>
 										</div>
 									</div>
-									
-
-									
 								</div>
 							</div>
 						</div>
 
 						<div class="mBG02">
 							<div class="Icon">
-							<div class="iconContentWrapper">
-								<ul>
-									<li class="i01"><a href="/cons/consInfo"> <img
-											src="/img/main/i01.svg" alt="아이콘" />
-											<p>이용안내</p>
-									</a></li>
-									<li class="i02"><a href="/mhTest/testMain"> <img
-											src="/img/main/i02.svg" alt="아이콘" />
-											<p>마음건강검사</p>
-									</a></li>
-									<li class="i03"><a href="/boardCons/boardConsList"> <img
-											src="/img/main/i03.svg" alt="아이콘" />
-											<p>온라인 상담실</p>
-									</a></li>
-									<li class="i04"><a href="/members/login"> <img
-											src="/img/main/i04.svg" alt="아이콘" />
-											<p>상담예약</p>
-									</a></li>
+								<div class="iconContentWrapper">
+									<ul>
+										<li class="i01"><a href="/cons/consInfo"> <img
+												src="/img/main/i01.svg" alt="아이콘" />
+												<p>이용안내</p>
+										</a></li>
+										<li class="i02"><a href="/mhTest/testMain"> <img
+												src="/img/main/i02.svg" alt="아이콘" />
+												<p>마음건강검사</p>
+										</a></li>
+										<li class="i03"><a href="/boardCons/boardConsList"> <img
+												src="/img/main/i03.svg" alt="아이콘" />
+												<p>온라인 상담실</p>
+										</a></li>
+										<li class="i04"><a href="/members/login"> <img
+												src="/img/main/i04.svg" alt="아이콘" />
+												<p>상담예약</p>
+										</a></li>
 
-								</ul>
+									</ul>
+								</div>
 							</div>
-							
+						</div>
+						<div class="mBG03">
+							<section class="notice">
+								<div class="notice_inner">
+									<div class="notice_left">
+										<div class="notice_left_box" style="margin-top: 20px;">
+											<div class="notice_header">
+												<h2 class="inline">공지사항</h2>
+												<a href="/board/notice" class="inline" style="color: black;">+more</a>
+											</div>
 
-    <section class="notice">
-		<div class="notice_inner">
-			<div class="notice_left">
-				<h2>공지사항</h2>
-				<a href="/notices/lists"> +more </a>
-				<div class="notice_left_box">
-					<th:block th:each="List: ${noticeList}">
-						<a th:href="@{/board/noticedtl/{noticeCd}(noticeCd=${List.noticeCd})}"> 
-					</th:block>
-				</div>
-			</div>
-			<div class="notice_right">
-				<h2>마음건강정보</h2>
-				<a href="/mhinfo/mhinfos"> +more </a>
-				<div class="notice_right_box">
-					<th:block th:each="List: ${mhinfoList}">
-						<a th:href="@{/mhinfo/mhinfo/{mhinfo.cd}(mhinfo.cd=${List.cd})}"> 
-					</th:block>
-				</div>
-			</div>
-		</div>
-	</section>
+											<th:block th:each="notice : ${noticeList}">
+												<div class="notice_item">
+													<span> <a
+														th:href="@{/board/noticedtl/{noticeCd}(noticeCd=${notice.noticeCd})}"
+														style="color: black;"
+														th:text="${notice.title}"></a>
+													</span> <span style="pointer-events: none;"
+														th:text="${#temporals.format(notice.regDt, 'yyyy-MM-dd')}"></span>
+												</div>
+											</th:block>
+										</div>
+									</div>
+
+									<div class="notice_right">
+										<div class="notice_right_box" style="margin-top: 20px;">
+											<div class="mhinfo_header">
+												<h2 class="inline">마음건강정보</h2>
+												<a href="/mhinfo/mhinfos" class="inline" style="color: black;">+more</a>
+											</div>
+											<th:block th:each="mhinfo : ${mhinfoList}">
+												<div class="notice_item">
+													<span> <a
+														th:href="@{/mhinfo/mhinfo/{mhinfo.cd}(mhinfo.cd=${mhinfo.cd})}"
+														style="color: black;"
+														th:text="${mhinfo.title}"></a>
+													</span> <span style="pointer-events: none;"
+														th:text="${#temporals.format(mhinfo.regDt, 'yyyy-MM-dd')}"></span>
+												</div>
+											</th:block>
+										</div>
+									</div>
+								</div>
+							</section>
 						</div>
 					</div>
-					</div>
+
+
 				</div>
+
 			</div>
 		</div>
 	</div>
@@ -253,84 +143,116 @@ footer {
 </body>
 
 <script>
-const slides = document.querySelectorAll('#main_slide .Vimg');
-const prevButton = document.getElementById('prev_slide');
-const nextButton = document.getElementById('next_slide');
-const playPauseButton = document.getElementById('play_pause_button');
-const playPauseImage = document.getElementById('play_pause_image');
+  const slides = document.querySelectorAll('#main_slide .Vimg');
+  const prevButton = document.getElementById('prev_slide');
+  const nextButton = document.getElementById('next_slide');
+  const playPauseButton = document.getElementById('play_pause_button');
+  const playPauseImage = document.getElementById('play_pause_image');
 
-let currentSlide = 0;
-let isSlideShowRunning = true;
-let slideInterval = setInterval(() => {
-  if (isSlideShowRunning) {
-    slideTo('next');
-  }
-}, 5000);
-
-function showSlide(n) {
-  slides.forEach((slide, index) => {
-    if (index === n) {
-      slide.style.display = 'flex';
-    } else {
-      slide.style.display = 'none';
+  let currentSlide = 0;
+  let isSlideShowRunning = true;
+  let slideInterval = setInterval(() => {
+    if (isSlideShowRunning) {
+      slideTo('next');
     }
+  }, 5000);
+
+  // 슬라이드가 시작되기 전에 이전 페이지의 내용을 숨기는 함수
+  function hidePreviousPage() {
+    const previousPage = document.querySelector('.slide-container .page:nth-child(1)');
+    if (previousPage) {
+      previousPage.style.display = 'none';
+    }
+  }
+
+  // 슬라이드가 시작된 후에 다음 페이지의 내용을 보이게 하는 함수
+  function showNextPage() {
+    const nextPage = document.querySelector('.slide-container .page:nth-child(2)');
+    if (nextPage) {
+      nextPage.style.display = 'block';
+    }
+  }
+
+  
+  // 페이지 로드 시 슬라이드 초기화
+	document.addEventListener('DOMContentLoaded', function() {
+  hidePreviousPage(); // 이전 페이지 숨김
+  setTimeout(showNextPage, 1000); // 1초 후에 다음 페이지 보이기 (원하는 시간으로 조정)
+  
+  const storedSlideIndex = localStorage.getItem('currentSlideIndex');
+  if (storedSlideIndex !== null) {
+    currentSlide = parseInt(storedSlideIndex);
+  }
+
+  
+  initializeSlides();
+  showSlide(currentSlide);
+});
+
+
+  function storeCurrentSlideIndex() {
+    localStorage.setItem('currentSlideIndex', currentSlide.toString());
+  }
+
+  function showSlide(n) {
+    slides.forEach((slide, index) => {
+      if (index === n) {
+        slide.style.display = 'flex';
+      } else {
+        slide.style.display = 'none';
+      }
+    });
+  }
+
+  function toggleSlideShow() {
+    if (isSlideShowRunning) {
+      clearInterval(slideInterval);
+      playPauseImage.src = '/img/main/play.png';
+      isSlideShowRunning = false;
+    } else {
+      slideInterval = setInterval(() => {
+        showSlide((currentSlide + 1) % slides.length);
+      }, 5000);
+      playPauseImage.src = '/img/main/stop.png';
+      isSlideShowRunning = true;
+    }
+  }
+
+  function slideTo(direction) {
+    slides[currentSlide].style.display = 'none';
+
+    if (direction === 'prev') {
+      currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+    } else {
+      currentSlide = (currentSlide + 1) % slides.length;
+    }
+
+    slides[currentSlide].style.display = 'flex';
+  }
+
+  prevButton.addEventListener('click', () => {
+    slideTo('prev');
+    storeCurrentSlideIndex(); // 슬라이드 전환 시 인덱스 저장
   });
-}
 
-function toggleSlideShow() {
-  if (isSlideShowRunning) {
-    clearInterval(slideInterval);
-    playPauseImage.src = '/img/main/play.png';
-    isSlideShowRunning = false;
-  } else {
-    slideInterval = setInterval(() => {
-      showSlide((currentSlide + 1) % slides.length);
-    }, 5000);
-    playPauseImage.src = '/img/main/stop.png';
-    isSlideShowRunning = true;
+  nextButton.addEventListener('click', () => {
+    slideTo('next');
+    storeCurrentSlideIndex(); // 슬라이드 전환 시 인덱스 저장
+  });
+
+  playPauseButton.addEventListener('click', () => {
+    toggleSlideShow();
+  });
+
+  function initializeSlides() {
+    slides.forEach((slide, index) => {
+      if (index === 0) {
+        slide.style.display = 'flex';
+      } else {
+        slide.style.display = 'none';
+      }
+    });
   }
-}
-
-function slideTo(direction) {
-  slides[currentSlide].style.display = 'none';
-
-  if (direction === 'prev') {
-    currentSlide = (currentSlide - 1 + slides.length) % slides.length;
-  } else {
-    currentSlide = (currentSlide + 1) % slides.length;
-  }
-
-  slides[currentSlide].style.display = 'flex';
-}
-
-prevButton.addEventListener('click', () => {
-  slideTo('prev');
-});
-
-nextButton.addEventListener('click', () => {
-  slideTo('next');
-});
-
-playPauseButton.addEventListener('click', () => {
-  toggleSlideShow();
-});
-
-
-
-function initializeSlides() {
-	  slides.forEach((slide, index) => {
-	    if (index === 0) {
-	      slide.style.display = 'flex';
-	    } else {
-	      slide.style.display = 'none';
-	    }
-	  });
-	}
-
-	// 슬라이드 초기화
-	initializeSlides();
-	showSlide(currentSlide);
-	
-	
 </script>
+
 </html>
