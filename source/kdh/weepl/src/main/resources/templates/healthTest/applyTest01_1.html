@@ -6,7 +6,11 @@
 <th:block layout:fragment="css">
 	<style>
 .inner {
-	min-width: auto;
+	width: 100%;
+    max-width: 1310px;
+    padding: 0 15px;
+    margin: 0 auto;
+    text-align:center;
 }
 
 .text-center {
@@ -15,6 +19,7 @@
 
  ul{
     list-style:none;
+    padding:0;
    }
  .checkPointArea {
     background: #f6f6f6;
@@ -26,8 +31,9 @@
     counter-reset: checkPoint-list;
 }
 .chkPointList > li {
+	
 	background-color:#fff;
-    padding: 15px;
+    padding: 30px;
     border-radius: 8px;
     box-shadow: 3px 3px 15px 0px rgba(0, 0, 0, 0.1);
     margin-bottom: 15px;
@@ -45,10 +51,27 @@
     align-items: center;
     line-height: 1.1;
 }
+.chkPointList > li > .item .itemName:before {
+    content: "";
+    display: block;
+    counter-increment: checkPoint-list;
+    content: counter(checkPoint-list);
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    font-weight: 500;
+    color: #fff;
+    background: #0092d7;
+    border-radius: 10px;
+    box-shadow: 3px 4px 15px 0px rgba(0, 146, 215, 0.2);
+    margin-right: 18px;
+    flex: 0 0 auto;
+    }
 .chkPointList > li > .item .itemList{
 	display: flex;
     flex-wrap: wrap;
-    margin:-3px;
+    margin:-10px;
 	
 }
 .chkPointList > li > .item .itemList > li{
@@ -152,6 +175,7 @@
 				type="hidden" th:value="${minor_div}" name="minorDiv">
 			<div class="checkPointArea">
 				<div class="inner">
+					<div class="chkPointTitle"><h1>우울감 (PHQ_9)</h1></div>
 					<ul class="chkPointList">
 						<li>
 							<div class="item">
@@ -365,7 +389,7 @@
 						</li>
 						<li>
 							<div class="item">
-								<strong>신문을 읽거나 텔레비전 보는 것과 같은 일에 집중하는 것이 어렵다</strong>
+								<strong class="itemName">신문을 읽거나 텔레비전 보는 것과 같은 일에 집중하는 것이 어렵다</strong>
 								<ul class="itemList">
 									<li><label for="test_ques_val_7_1" class="itemBox"> <input
 											type="radio" id="test_ques_val_7_1" name="test_ques_val_7"

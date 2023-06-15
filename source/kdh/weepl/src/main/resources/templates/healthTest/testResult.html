@@ -9,8 +9,16 @@
 </head>
 <th:block layout:fragment="css">
 	<style>
+ ul{
+    list-style:none;
+    padding:0;
+   }	
 li {
 	list-style-type: none;
+}
+.inner{
+	min-width: auto;
+   text-align:center;
 }
 </style>
 
@@ -60,17 +68,17 @@ li {
 				<strong>마음건강 검사 결과</strong>
 			</h1>
 
-			<input type="hidden" id="mid_div" th:value="${mid_div}"> <input
-				type="hidden" id="major_div" th:value="${major_div}"> <input
-				type="hidden" id="minor_div" th:value="${minor_div}">
-			<h4 th:text="'검사 유형: ' + ${major_div}"></h4>
-			<h3 th:text="'진행한 검사:' + ${minor_div}"></h3>
-			<input type="hidden" id="result_content"
-				th:value="'점수:' + ${testSum} + '(' + ${totalStat} + ')'">
+			<input type="hidden" id="mid_div" th:value="${mid_div}"> 
+			<input type="hidden" id="major_div" th:value="${major_div}"> 
+			<input type="hidden" id="minor_div" th:value="${minor_div}">
+			
+			<input type="hidden" id="result_content" th:value="'점수:' + ${testSum} + '(' + ${totalStat} + ')'">
 
 
 			<div id="test" class="chkResult">
-				<ul>
+				<ul class="chkResultList">
+					<h4 th:text="'검사 유형: ' + ${major_div}"></h4>
+					<h3 th:text="'진행한 검사:' + ${minor_div}"></h3>
 					<li style="font-size: 35px;"
 						th:text="'총 점수: '+ ${testSum}+'점' + '('+${totalStat}+')'"></li>
 					<li th:text="${testStat}"></li>

@@ -6,7 +6,11 @@ layout:decorate="~{layouts/basicLayout}">
 <th:block layout:fragment="css">
 	<style>
 .inner {
-	min-width: auto;
+	width: 100%;
+    max-width: 1310px;
+    padding: 0 15px;
+    margin: 0 auto;
+    text-align:center;
 }
 
 .text-center {
@@ -15,6 +19,7 @@ layout:decorate="~{layouts/basicLayout}">
 
  ul{
     list-style:none;
+    padding:0;
    }
  .checkPointArea {
     background: #f6f6f6;
@@ -45,6 +50,23 @@ layout:decorate="~{layouts/basicLayout}">
     align-items: center;
     line-height: 1.1;
 }
+.chkPointList > li > .item .itemName:before {
+    content: "";
+    display: block;
+    counter-increment: checkPoint-list;
+    content: counter(checkPoint-list);
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    font-weight: 500;
+    color: #fff;
+    background: #0092d7;
+    border-radius: 10px;
+    box-shadow: 3px 4px 15px 0px rgba(0, 146, 215, 0.2);
+    margin-right: 18px;
+    flex: 0 0 auto;
+    }
 .chkPointList > li > .item .itemList{
 	display: flex;
     flex-wrap: wrap;
@@ -150,6 +172,7 @@ layout:decorate="~{layouts/basicLayout}">
 		  	<input type="hidden" th:value="${minor_div}" name="minorDiv">
 		  	<div class="checkPointArea">
 		  		<div class="inner">
+		  			<div class="chkPointTitle"><h1>교정된 정신증 고위험군 선별도구(mKPQ-16)</h1></div>
 		  			<ul class="chkPointList">
 		  				<li>
 		  					<div class="item">

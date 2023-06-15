@@ -7,10 +7,16 @@ layout:decorate="~{layouts/basicLayout}">
 <style>
 .inner{
 	min-width: auto;
+	text-align:center;
 }
 ul{
     list-style:none;
+    padding:0;
    }
+ .checkType-list-wrap{
+ 	overflow: hidden;
+ 	display: inline-block;
+ }
  .checkType-list{
  	overflow: hidden;
  	display: flex;
@@ -130,7 +136,7 @@ ul{
 		<strong th:text="${mid_div}"></strong>
 			<p>진행할 검사를 선택해주세요.</p>
 			
-			<div>
+			<div class="checkType-list-wrap">
 				<ul class="checkType-list">
 					<li>
 					  <label for="test_sq_1" class="item">

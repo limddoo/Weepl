@@ -5,23 +5,31 @@ layout:decorate="~{layouts/basicLayout}">
 
 <th:block layout:fragment="css">
 <style>
-.inner{
-	min-width: auto;
+.inner {
+    min-width: auto;
+    text-align: center;
 }
+
  ul{
     list-style:none;
+    padding:0;
    }
- 
+ .checkType-list-wrap{
+ 	width: 850px;
+ 	text-align: center;
+ 	margin:auto;
+ }
  .checkType-list{
  	overflow: hidden;
  	display: flex;
  	flex-wrap: wrap;
     margin: 10px;
     padding: 3px;
+    margin:auto;
  
  }
  .checkType-list > li {
-    width: 33.3%;
+    width: 270px;;
     padding: 10px;
     
 }
@@ -35,7 +43,7 @@ layout:decorate="~{layouts/basicLayout}">
 .checkType-list > li > .item .item-content {
     position: relative;
     height: 100px;
-    width: 200px;
+    width: 250px;
     border: 1px solid #ddd;
     border-radius: 10px;
     padding: 22px 20px;
@@ -182,7 +190,7 @@ layout:decorate="~{layouts/basicLayout}">
 					  <label for="minor_div_6" class="item">
 					   <input type="checkbox" id="minor_div_6" name="minor_div[]" value="applyTest01_6"  onclick="clickCheck(this)"/>
 					   <div class="item-content">
-					   	<strong class="item-name">우울증 척도 (CES-D)</strong>
+					   	<strong class="item-name">우울증 척도(CES-D)</strong>
 					   </div>
 					  </label>
 					</li>
