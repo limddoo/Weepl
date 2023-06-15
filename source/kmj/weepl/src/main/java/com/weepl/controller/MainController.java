@@ -11,4 +11,19 @@ public class MainController {
 		
 		return "main";
 	}
+	
+	@GetMapping(value = "/siteMap")
+	public String siteMap(){
+		return "/etc/siteMap";
+	}
+	
+	@GetMapping(value = "/weeProjectInfo")
+	public String weeProjectInfo(){
+		return "/etc/weeProjectInfo";
+	}
+	
+	@GetMapping(value = "/weeSymbol")
+	public String weeSymbol(){
+		return "/etc/weeSymbol";
+	}
 }

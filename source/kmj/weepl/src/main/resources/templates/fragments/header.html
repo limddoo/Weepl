@@ -22,12 +22,11 @@
 			
 				<nav>		
 					<ul id="menu">
-						<li><a href="">서울 위(Wee)</a>
+						<li><a href="/weeProjectInfo">서울 위(Wee)</a>
 							<ul class="depth_1">
-								<li><a href="">Wee프로젝트</a></li>
-								<li><a href="">서울Wee센터</a></li>
+								<li><a href="/weeProjectInfo">Wee프로젝트</a></li>
 								<li><a href="/board/notice">공지사항</a></li>
-								<li><a href="">서울Weepl상징</a></li>
+								<li><a href="/weeSymbol">서울Weepl상징</a></li>
 							</ul>
 						</li>
 						<li><a href="/cons/consInfo">상담신청</a>
@@ -40,25 +39,16 @@
 						<li><a href="/mhTest/testMain">마음건강검사</a>
 							<ul class="depth_1">
 								<li><a href="">맞춤형 마음건강검사</a></li>
-								<li><a href="">연령별 마음건강검사</a></li>
 								<li><a href="">상황별 마음건강검사</a></li>
 							</ul>
 						</li>
 						<li><a href="/mhinfo/mhinfos">마음건강정보</a>
-							<ul class="depth_1">
-								<li><a href="">추천글</a></li>
-								<li><a href="">대인관계</a></li>
-								<li><a href="">학교생활</a></li>
-								<li><a href="">마음건강</a></li>
-								<li><a href="">위기</a></li>
-								<li><a href="">일탈</a></li>
-							</ul>
+							
 						</li>
 						<li><a href="/weeNetwork">Wee-Network</a>
 							<ul class="depth_1">
 								<li><a href="">Wee-Network소개</a></li>
-								<li><a href="">Wee-Network기관찾기</a></li>
-								<li><a href="">공지사항</a></li>
+								<li><a href="">Wee-Network기관찾기</a></li>						
 							</ul>
 						</li>
 						<li sec:authorize="hasAnyRole('ROLE_COUNSELOR', 'ROLE_ADMIN')"><a href="/sweetboard/list">스윗(SWeeT)</a>
@@ -74,17 +64,17 @@
 			</nav>
 			
 			<div class="headerRight" id="">
-				<span id="header1" sec:authorize="isAnonymous()"><a	class="" href="/members/beforeRegister">회원가입</a></span>
+				<span id="header1" sec:authorize="isAnonymous()"><a href="/members/beforeRegister">회원가입</a></span>
 				<span class="forBorder" sec:authorize="isAnonymous()"></span> 
-				<span id="header2" sec:authorize="isAnonymous()"><a	class="" href="/members/login">로그인</a></span>
+				<span id="header2" sec:authorize="isAnonymous()"><a href="/members/login">로그인</a></span>
 				<span class="forBorder" sec:authorize="isAnonymous()"></span> 
-				<span id="header3" sec:authorize="hasRole('ROLE_ADMIN')"><a	class="" href="/admin/memberList">관리자</a></span>
+				<span id="header3" sec:authorize="hasRole('ROLE_ADMIN')"><a href="/admin/memberList">관리자</a></span>
 				<span class="forBorder" sec:authorize="hasRole('ROLE_ADMIN')"></span>  
-				<span id="header4" sec:authorize="hasAnyRole('ROLE_COUNSELOR', 'ROLE_CLIENT')"><a class="" href="/mypage/connMypageForm">마이페이지</a></span>
+				<span id="header4" sec:authorize="hasAnyRole('ROLE_COUNSELOR', 'ROLE_CLIENT')"><a href="/mypage/connMypageForm">마이페이지</a></span>
 				<span class="forBorder" sec:authorize="hasAnyRole('ROLE_COUNSELOR', 'ROLE_CLIENT')"></span>  
-				<span id="header5" sec:authorize="isAuthenticated()"><a	class="" href="/members/logout">로그아웃</a></span>
+				<span id="header5" sec:authorize="isAuthenticated()"><a href="/members/logout">로그아웃</a></span>
 				<span class="forBorder" sec:authorize="isAuthenticated()"></span> 
-				<span id="header6"><a class="" href="#">사이트맵</a></span>
+				<span id="header6"><a href="/siteMap">사이트맵</a></span>
 			</div>
 		
 	</div>

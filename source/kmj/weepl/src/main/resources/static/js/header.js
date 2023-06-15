@@ -10,6 +10,6 @@ $(document).ready(function(){
 	$("#menu").mouseleave(function(){
 		 $("#hiddenContainer").attr("style","display:none; backgroundColor:transparent; z-index:-1");
 		menu.style.borderBottom = "";
-		$(".depth_1").stop().slideUp(300);
+		$(".depth_1").stop().slideUp(100);
 	})
 	})
