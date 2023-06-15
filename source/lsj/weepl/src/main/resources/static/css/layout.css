@@ -21,7 +21,7 @@ body {
   width: 150px;
   height: 32px;
   font-size: 15px;
-  border: 1;
+  border: 2px;
   border-style: solid;
   border-radius: 5px;
   border-color: #4c4c4e;
@@ -78,7 +78,7 @@ body {
 .table-container {
 	table-layout: fixed;
 	width: 90%;
-	margin-left: 5rem;
+	margin-left: 5%;
 	margin-bottom: 2rem;
 	color: #212529;
 	border-collapse: collapse;

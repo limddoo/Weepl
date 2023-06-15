@@ -10,11 +10,29 @@
 		}
 		
 		.table-container {
+			height: 90%;
 			overflow-y: scroll;
 		}
 		
 		.table-container thead th {
 			position: sticky;
+		}
+		
+		.select-div {
+			margin-left:89%;
+			margin-bottom: 10px;	
+		}
+		
+		.input-select {
+			border: 2px;
+			border-style: solid;
+			border-radius: 5px;
+			border-color: #4c4c4e;
+			outline: none;
+			padding-left: 10px;
+			padding-right: 10px;
+			padding-top: 5px;
+			padding-bottom: 5px;
 		}
 </style>
 </th:block>
@@ -47,12 +65,31 @@ function new_window(reserveDate, reserveTime, reserveApplyCd) {
 	popupWindow.moveTo(800,100);
   }
   
+function openCompConsContent(reserveApplyCd) {
+	popupWindow = window.open(
+			"/admin/compCons/"+reserveApplyCd,
+			"비대면 상담 내용",
+			"resizeable"
+		);
+	popupWindow.resizeTo(500,800);
+	popupWindow.onresize = (_=>{
+		popupWindow.resizeTo(500,800);
+	});
+	popupWindow.moveTo(800,100);
+}
 </script>
 </th:block>
 <div layout:fragment="content" class="content-wrapper">
 <div class="subview">
-<h3>비대면상담 진행</h3>
+<h3>비대면상담 내역</h3>
 	<form action="/admin/chattingForm" role="form" method="get">
+		<div class="select-div">
+			<select class="input-select" style="width: auto;">
+				<option value="all">전체</option>
+				<option value="1w">예약완료</option>
+				<option value="1d">상담완료</option>
+			</select>
+		</div>
 		<table class="table-container">
 			<thead>
 				<tr>
@@ -62,7 +99,8 @@ function new_window(reserveDate, reserveTime, reserveApplyCd) {
 					<th>상담일</th>
 					<th>상담시간</th>
 					<th>신청상태</th>
-					<th>-</th>
+					<th>상담진행</th>
+					<th>출력</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -73,9 +111,15 @@ function new_window(reserveDate, reserveTime, reserveApplyCd) {
 					<td th:text="${reserveApply.reserveSchedule.reserveDate}"></td>
 					<td th:text="${reserveApply.reserveSchedule.reserveTime}"></td>
 					<td th:text="${reserveApply.reserveStatus}"></td>
-					<td><input type="button" value="비대면 상담 시작" class="button-style"
+					<td>
+						<input type="button" value="비대면 상담 시작" class="button-style"
 						th:disabled="!${reserveApply.reserveStatus == '예약완료'}"
 						th:onclick="new_window([[${reserveApply.reserveSchedule.reserveDate}]],[[${reserveApply.reserveSchedule.reserveTime}]],[[${reserveApply.reserveApplyCd}]])">
+					</td>
+					<td>
+						<input type="button" class="button-style" value="상담 내역 출력"
+						th:disabled="!${reserveApply.reserveStatus == '상담완료'}"
+						th:onclick="openCompConsContent([[${reserveApply.reserveApplyCd}]]);">
 					</td>
 					</th:block>
 				</tr>
