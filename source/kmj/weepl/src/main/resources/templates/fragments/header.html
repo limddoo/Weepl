@@ -6,12 +6,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="">
-
 </head>
 
 <body>
 	<header class="header">
 	<link th:href="@{/css/header.css}" rel="stylesheet">
+	
 	<script type="text/javascript" src="/js/header.js"></script>
 		<div class="container">
 	
@@ -21,12 +21,12 @@
 		
 			
 				<nav>		
-					<ul class="menu">
-						<li><a href="/board/notice">서울 위(Wee)</a>
+					<ul id="menu">
+						<li><a href="">서울 위(Wee)</a>
 							<ul class="depth_1">
 								<li><a href="">Wee프로젝트</a></li>
 								<li><a href="">서울Wee센터</a></li>
-								<li><a href="">공지사항</a></li>
+								<li><a href="/board/notice">공지사항</a></li>
 								<li><a href="">서울Weepl상징</a></li>
 							</ul>
 						</li>
@@ -73,12 +73,18 @@
 					</ul>
 			</nav>
 			
-			<div class="" id="">
-				<span class="" sec:authorize="isAnonymous()"><a	class="" href="/members/beforeRegister">회원가입</a></span> 
-				<span class="" sec:authorize="isAnonymous()"><a	class="" href="/members/login">로그인</a></span>
-				<span class="" sec:authorize="hasRole('ROLE_ADMIN')"><a	class="" href="/admin/memberList">관리자페이지</a></span> 
-				<span class="" sec:authorize="hasAnyRole('ROLE_COUNSELOR', 'ROLE_CLIENT')"><a class="" href="/mypage/connMypageForm">마이페이지</a></span> 
-				<span class="" sec:authorize="isAuthenticated()"><a	class="" href="/members/logout">로그아웃</a></span>
+			<div class="headerRight" id="">
+				<span id="header1" sec:authorize="isAnonymous()"><a	class="" href="/members/beforeRegister">회원가입</a></span>
+				<span class="forBorder" sec:authorize="isAnonymous()"></span> 
+				<span id="header2" sec:authorize="isAnonymous()"><a	class="" href="/members/login">로그인</a></span>
+				<span class="forBorder" sec:authorize="isAnonymous()"></span> 
+				<span id="header3" sec:authorize="hasRole('ROLE_ADMIN')"><a	class="" href="/admin/memberList">관리자</a></span>
+				<span class="forBorder" sec:authorize="hasRole('ROLE_ADMIN')"></span>  
+				<span id="header4" sec:authorize="hasAnyRole('ROLE_COUNSELOR', 'ROLE_CLIENT')"><a class="" href="/mypage/connMypageForm">마이페이지</a></span>
+				<span class="forBorder" sec:authorize="hasAnyRole('ROLE_COUNSELOR', 'ROLE_CLIENT')"></span>  
+				<span id="header5" sec:authorize="isAuthenticated()"><a	class="" href="/members/logout">로그아웃</a></span>
+				<span class="forBorder" sec:authorize="isAuthenticated()"></span> 
+				<span id="header6"><a class="" href="#">사이트맵</a></span>
 			</div>
 		
 	</div>
