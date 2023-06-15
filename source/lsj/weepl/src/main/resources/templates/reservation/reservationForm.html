@@ -77,7 +77,7 @@
 
 		<div th:if="${#strings.isEmpty(reserveApplyDto.reserveApplyCd)}"
 			style="text-align: center">
-			<button id="submit_btn" class="btn btn-primary">등록</button>
+			<button id="submit_btn" class="btn btn-primary" disabled>등록</button>
 			<button th:onclick="window.close()" class="btn btn-primary">닫기</button>
 		</div>
 

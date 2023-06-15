@@ -12,6 +12,7 @@
 		<style>
 .content {
 	width: 90%;
+	height: 90%;
 }
 
 ul {
@@ -23,21 +24,14 @@ li {
 	list-style-type: none;
 }
 
-.btnDiv {
-	display: inline-block;
-	width: 100%;
-}
-
 .listDiv {
-	width: 100%;
-}
-h3 {
-	display: inline-block;
+	height: 450px;
+	overflow: auto;
 }
 
-button {
-	border-radius: 5px;
-	float: right;
+.button-style {
+	margin-top: 10px;
+	display: inline-block;
 }
 </style>
 	</th:block>
@@ -60,7 +54,7 @@ button {
 	        const a = document.createElement('a');
 	        a.style.display = 'none';
 	        a.href = url;
-	        a.download = '비대면 상담 채팅내용';
+	        a.download = '비대면 상담 내용';
 	        document.body.appendChild(a);
 	        
 	        a.click();
@@ -73,14 +67,15 @@ button {
 	</script>
 	</th:block>
 	<div layout:fragment="content">
-		<div class="btnDiv">
-			<h3>상담 내역</h3>
-			<button class="clickBtn" onclick="Download()">다운로드</button>
-		</div>
-		<div class="listDiv">
-			<ul th:each="compCons : ${compConsList}" class="ulClass">
-				<li th:text="${compCons}"></li>
-			</ul>
+		<div class="subview">
+			<h3>비대면 상담 내용</h3>
+			<div class="listDiv">
+				<ul th:each="compCons : ${compConsList}" class="ulClass">
+					<li th:text="${compCons}"></li>
+				</ul>
+			</div>
+			<button class="button-style" onclick="Download()" style="margin-left: 4.5rem;">다운로드</button>
+			<button class="button-style" onclick="window.close()" style="margin-left: 1.2rem;">창닫기</button>
 		</div>
 
 	</div>
