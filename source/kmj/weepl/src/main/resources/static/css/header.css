@@ -16,6 +16,17 @@
 	font-style: normal;
 }
 
+@keyframes fadeInDown {
+        0% {
+            opacity: 0;
+            transform: translate3d(0, -100%, 0);
+        }
+        to {
+            opacity: 1;
+            transform: translateZ(0);
+        }
+    }
+
 * {
 	margin: 0;
 	padding: 0;
@@ -149,5 +160,5 @@ nav {
 	position: absolute;
 	display: none;
 	z-index: -1;
-	animation:fadeInDown 1s;
+	animation:fadeInDown 0.4s;
 }
