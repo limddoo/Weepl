@@ -8,6 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.OnDelete;
@@ -20,7 +21,7 @@ import lombok.Data;
 @Data
 public class BoardImg extends BaseEntity{
 
-		@Id
+	@Id
 	@Column(name="board_img_cd")
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long cd;
@@ -37,6 +38,7 @@ public class BoardImg extends BaseEntity{
 	
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="notice_cd")
+	@OnDelete(action= OnDeleteAction.CASCADE)
 	private Notice notice;
 	
 	@ManyToOne(fetch = FetchType.LAZY)

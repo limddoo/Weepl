@@ -98,6 +98,11 @@ public class WeeNetworkController {
 	public String weeNetwork(Model model) throws JsonProcessingException {
 	    return "weeNetwork/weeNetworkView";
 	}
+	
+	@GetMapping("/weeNetworkInfo")
+	public String weeNetwork(){
+	    return "weeNetwork/weeNetworkInfo";
+	}
 
 	@GetMapping("/admin/new")
 	public String weeNetworkForm(Model model) {

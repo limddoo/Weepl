@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+layout:decorate="~{layouts/basicLayout}">
+
+<th:block layout:fragment="css">
+<style>
+.inner{
+	min-width: auto;
+}
+.item {
+    background-color: #0092d7;
+    color: #fff;
+}
+</style>
+
+</th:block>
+<th:block layout:fragment="script">
+	<script>
+		var testForm = null;
+		$(document).ready(function(){
+			testForm = $("#testForm");
+			
+		});
+		function clickCheck(target) {
+		    document.querySelectorAll(`input[type=checkbox]`)
+		        .forEach(el => el.checked = false);
+
+		    target.checked = true;
+		}
+		var fnTestFormValidation = function(){
+			if(! $('input[name^=minor_div]:checked').val()){
+				alert("필수선택 항목입니다.");
+				return false;
+			}else{
+			
+			var el_applyTest = testForm.find("input[name^=minor_div]:checked")
+			testForm.prop("action", el_applyTest.val());
+			}
+			
+		}
+		
+	</script>
+</th:block>
+<div layout:fragment="content">
+	<div class = "inner">
+	<div>
+		<h1 th:text="${major_div}"></h1>
+	</div>
+		<form id="testForm" action="about:blank" method="get" onsubmit="return fnTestFormValidation();">
+		<input type="hidden" th:value="${major_div}" name="majorDiv">
+			<p>진행할 검사를 선택해주세요.</p>
+			
+			<div>
+				<ul>
+					<li>
+					  <label for="minor_div_1" class="item">
+					   <input type="checkbox" id="minor_div_1" name="minor_div[]" value="applyTest01_1"  onclick="clickCheck(this)"/>
+					   <div>
+					   	<strong>우울감(PHQ_9)</strong>
+					   </div>
+					  </label>
+					</li>
+					<li>
+					  <label for="minor_div_2" class="item">
+					   <input type="checkbox" id="minor_div_2" name="minor_div[]" value="applyTest01_2"  onclick="clickCheck(this)"/>
+					   <div>
+					   	<strong>스마트폰 과의존 척도</strong>
+					   </div>
+					  </label>
+					</li>
+					<li>
+					  <label for="minor_div_3" class="item">
+					   <input type="checkbox" id="minor_div_3" name="minor_div[]" value="applyTest01_3"  onclick="clickCheck(this)"/>
+					   <div>
+					   	<strong>청소년 도박문제 자가점검 (CAGI)</strong>
+					   </div>
+					  </label>
+					</li>
+					<li>
+					  <label for="minor_div_4" class="item">
+					   <input type="checkbox" id="minor_div_4" name="minor_div[]" value="applyTest01_4"  onclick="clickCheck(this)"/>
+					   <div>
+					   	<strong>범불안장애 척도 (GAD-7)</strong>
+					   </div>
+					  </label>
+					</li>
+					<li>
+					  <label for="minor_div_5" class="item">
+					   <input type="checkbox" id="minor_div_5" name="minor_div[]" value="applyTest01_5"  onclick="clickCheck(this)"/>
+					   <div>
+					   	<strong>스트레스 대처반응척도 (K-CSI)</strong>
+					   </div>
+					  </label>
+					</li>
+					<li>
+					  <label for="minor_div_6" class="item">
+					   <input type="checkbox" id="minor_div_6" name="minor_div[]" value="applyTest01_6"  onclick="clickCheck(this)"/>
+					   <div>
+					   	<strong>우울증 척도 (CES-D)</strong>
+					   </div>
+					  </label>
+					</li>
+					<li>
+					  <label for="minor_div_7" class="item">
+					   <input type="checkbox" id="minor_div_7" name="minor_div[]" value="applyTest01_7"  onclick="clickCheck(this)"/>
+					   <div>
+					   	<strong>스트레스 지각척도 (PSS)</strong>
+					   </div>
+					  </label>
+					</li>
+					<li>
+					  <label for="minor_div_8" class="item">
+					   <input type="checkbox" id="minor_div_8" name="minor_div[]" value="applyTest01_8"  onclick="clickCheck(this)"/>
+					   <div>
+					   	<strong>조기 정신증 검사 (K-ESI)</strong>
+					   </div>
+					  </label>
+					</li>
+					<li>
+					  <label for="minor_div_9" class="item">
+					   <input type="checkbox" id="minor_div_9" name="minor_div[]" value="applyTest01_9"  onclick="clickCheck(this)"/>
+					   <div>
+					   	<strong>교정된 정신증 고위험군 선별도구 (mKPQ-16)</strong>
+					   </div>
+					  </label>
+					</li>
+				</ul>
+			</div>
+			<div>
+				<button type="submit" class="btn btn-primary">
+				<span>검사 시작</span>
+				</button>
+			</div>
+		</form>
+	 </div>
+</div>
+</html>

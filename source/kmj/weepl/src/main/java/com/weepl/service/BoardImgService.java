@@ -73,7 +73,7 @@ public class BoardImgService {
 	public void deleteBoardImg(Long noticeCd) throws Exception {
 		LOGGER.info("deleteBoardImg 메소드 호출");
 		LOGGER.info("noticeCd값은 : {}", noticeCd);
-		List<BoardImg> savedBoardImg = boardImgRepository.findByNotice_NoticeCdOrderByCdAsc(noticeCd);
+		List<BoardImg> savedBoardImg = boardImgRepository.findByNotice_CdOrderByCdAsc(noticeCd);
 		LOGGER.info("savedBoardImg의 크기는 : {}",savedBoardImg.size());
 		for(int i =0; i<savedBoardImg.size(); i++) {
 			BoardImg boardImg = savedBoardImg.get(i);

@@ -1,6 +1,8 @@
 package com.weepl.controller;
 
 import java.io.FileInputStream;
+import java.io.IOException;
+import java.net.URLEncoder;
 import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
@@ -26,6 +28,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -86,10 +89,6 @@ public class SweetBoardController {
 		if (bindingResult.hasErrors()) {
 			return "sweetboard/sweetForm";
 		}
-		if (boardImgFileList.get(0).isEmpty() && sweetBoardDto.getCd() == null) {
-			model.addAttribute("errorMessage", "이미지를 하나 이상 등록해주세요.");
-			return "sweetboard/sweetForm";
-		}
 		try {
 			sweetBoardService.saveSweetBoard(userId, sweetBoardDto, boardImgFileList, boardAttachFileList);
 		} catch (Exception e) {
@@ -107,9 +106,8 @@ public class SweetBoardController {
 		
 		model.addAttribute("sweetBoardDto", sweetBoardDto);
 		model.addAttribute("sweetCommentDtoList", sweetCommentDtoList);
-		System.out.println(sweetCommentDtoList);
 		
-		return "sweetboard/sweetDetail";
+		return "sweetboard/sweetDtl";
 	}
 	
 	// 게시글 수정하는 화면
@@ -129,10 +127,13 @@ public class SweetBoardController {
 	// 첨부파일 다운로드
 	@SuppressWarnings("rawtypes")
 	@GetMapping(value="/dtl/download/{cd}")
-	public ResponseEntity attachDownload(@PathVariable("cd") Long cd, Model model) {
+	public ResponseEntity attachDownload(@PathVariable("cd") Long cd, Model model, @RequestHeader("User-Agent") String userAgent) throws IOException {
 		StringBuilder filePath = new StringBuilder("D:");
 		filePath.append(sweetBoardService.downloadBoardAttach(cd).getAttachUrl());
-		StringBuilder fileName = new StringBuilder(sweetBoardService.downloadBoardAttach(cd).getOriAttachName());
+		// 한글파일 깨짐방지
+		String downloadName = encodeFileName(sweetBoardService.downloadBoardAttach(cd).getOriAttachName(), userAgent);
+		
+		StringBuilder fileName = new StringBuilder(downloadName);
 		
 		try {
 			InputStreamResource resource = new InputStreamResource(new FileInputStream(filePath.toString()));
@@ -150,15 +151,13 @@ public class SweetBoardController {
 	// 게시글 수정
 	@PostMapping(value = "/mod/{cd}")
 	public String sweetBoardMod(@Valid SweetBoardDto sweetBoardDto, BindingResult bindingResult,
-			@RequestParam("boardImgFile") List<MultipartFile> boardImgFileList, List<MultipartFile> boardAttachFileList, Model model) {
+			@RequestParam("boardImgFile") List<MultipartFile> boardImgFileList, @RequestParam("boardAttachFile") List<MultipartFile> boardAttachFileList, Model model) {
 		if (bindingResult.hasErrors()) {
 			return "sweetboard/sweetForm";
 		}
-		if (boardImgFileList.get(0).isEmpty() && sweetBoardDto.getCd() == null) {
-			model.addAttribute("errorMessage", "이미지를 하나 이상 등록해주세요");
-			return "sweetboard/sweetForm";
-		}
 		try {
+			System.out.println("추가될 첨부파일 리스트: "+boardAttachFileList);
+			System.out.println("삭제될 첨부파일 리스트: "+sweetBoardDto.getBoardAttachCds());
 			sweetBoardService.updateSweetBoard(sweetBoardDto, boardImgFileList, boardAttachFileList);
 		} catch (Exception e) {
 			model.addAttribute("errorMessage", "글을 수정하는 과정에서 에러가 발생하였습니다.");
@@ -192,7 +191,6 @@ public class SweetBoardController {
 		HashMap<String, List<SweetCommentDto>> map = new HashMap<>(); 
 		
 		List<SweetCommentDto> sweetCommentDtoList = sweetCommentService.getSweetComment(cd);
-		System.out.println(sweetCommentDtoList);
 		map.put("sweetCommentDtoList", sweetCommentDtoList);
 		return map;	
 	}
@@ -227,5 +225,18 @@ public class SweetBoardController {
 		result.put("nickName", nickName);
 		
 		return result;
+	}
+	
+	// 한글파일 깨짐방지 파일명 인코딩
+	private String encodeFileName(String fileName, String userAgent) throws IOException {
+		String downloadName = null;
+		if (userAgent.contains("Trident")) {
+			downloadName = URLEncoder.encode(fileName, "UTF-8").replaceAll("\\+", " ");
+		} else if (userAgent.contains("Edge")) {
+			downloadName = URLEncoder.encode(fileName, "UTF-8");
+		} else {
+			downloadName = new String(fileName.getBytes("UTF-8"), "ISO-8859-1");
+		}
+		return downloadName;
 	}
 }

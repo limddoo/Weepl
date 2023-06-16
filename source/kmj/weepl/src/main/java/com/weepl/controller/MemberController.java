@@ -102,6 +102,8 @@ public class MemberController {
 			model.addAttribute("loginErrorMsg", "아이디 또는 비밀번호를 확인해주세요");
 		} else if ("locked".equals(cause)) {
 			model.addAttribute("loginErrorMsg", "탈퇴처리한 회원입니다.");
+		} else if ("restricted".equals(cause)) {
+			model.addAttribute("loginErrorMsg", "이용이 제한된 회원입니다.");
 		}
 
 		return "/member/memberLoginForm";

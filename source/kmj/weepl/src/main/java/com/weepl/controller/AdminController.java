@@ -192,22 +192,6 @@ public class AdminController {
 		return map;
 	}
 	
-	// 완료된 비대면 상담 내역 리스트
-	@GetMapping(value="/getCompConsList")
-	public String getCompConsList(SearchDto searchDto, @PathVariable("page") Optional<Integer> page, Model model) {
-		int pageNumber = page.orElse(0);
-		if (pageNumber < 0) {
-			pageNumber = 0;
-		}
-		Pageable pageable = PageRequest.of(pageNumber, 5);
-		Page<ReserveApply> compConsList = adminService.getCompConsList(searchDto, pageable);
-		
-		model.addAttribute("searchDto", searchDto);
-		model.addAttribute("compConsList", compConsList);
-		
-		return "/admin/consCompList";
-	}
-	
 	// 비대면 상담 내용(팝업창 - 텍스트 파일로 저장)
 	@GetMapping(value="/compCons/{reserveApplyCd}")
 	public String getCompCons(@PathVariable("reserveApplyCd") Long reserveApplyCd, Model model) {
