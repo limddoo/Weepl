@@ -13,8 +13,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.weepl.dto.BoardAttachDto;
 import com.weepl.dto.BoardImgDto;
+import com.weepl.dto.SearchDto;
 import com.weepl.dto.SweetBoardDto;
-import com.weepl.dto.SweetSearchDto;
 import com.weepl.entity.BoardAttach;
 import com.weepl.entity.BoardImg;
 import com.weepl.entity.Member;
@@ -63,16 +63,18 @@ public class SweetBoardService {
 
 		// 첨부파일 등록
 		for (int i = 0; i < boardAttachFileList.size(); i++) {
-			BoardAttach boardAttach = new BoardAttach();
-			boardAttach.setSweetBoard(sweetBoard);
-			boardAttachService.saveBoardAttach(boardAttach, boardAttachFileList.get(i));
+			if(! boardAttachFileList.get(i).isEmpty()) {
+				BoardAttach boardAttach = new BoardAttach();
+				boardAttach.setSweetBoard(sweetBoard);
+				boardAttachService.saveBoardAttach(boardAttach, boardAttachFileList.get(i));
+			}
 		}
 		return sweetBoard.getCd();
 	}
 
 	// 게시글 페이징
 	@Transactional(readOnly = true)
-	public Page<SweetBoard> getSweetBoardPage(SweetSearchDto sweetSearchDto, Pageable pageable) {
+	public Page<SweetBoard> getSweetBoardPage(SearchDto sweetSearchDto, Pageable pageable) {
 		return sweetBoardRepository.getSweetBoardPage(sweetSearchDto, pageable);
 	}
 
@@ -118,10 +120,20 @@ public class SweetBoardService {
 		for (int i = 0; i < boardImgFileList.size(); i++) {
 			boardImgService.updateBoardImg(boardImgCds.get(i), boardImgFileList.get(i));
 		}
-		// 첨부파일 수정
+		// 삭제하려는 첨부파일은 삭제
 		List<Long> boardAttachCds = sweetBoardDto.getBoardAttachCds();
+		for (int i = 0; i < boardAttachCds.size(); i++) {
+			if(boardAttachCds.get(i) != null) {
+				boardAttachService.updateBoardAttach(boardAttachCds.get(i));
+			}
+		}
+		// 추가된 첨부파일 등록
 		for (int i = 0; i < boardAttachFileList.size(); i++) {
-			boardAttachService.updateBoardAttach(boardAttachCds.get(i), boardAttachFileList.get(i));
+			if(! boardAttachFileList.get(i).isEmpty()) {
+				BoardAttach boardAttach = new BoardAttach();
+				boardAttach.setSweetBoard(sweetBoard);
+				boardAttachService.saveBoardAttach(boardAttach, boardAttachFileList.get(i));
+			}
 		}
 		return sweetBoard.getCd();
 	}

@@ -1,110 +1,17 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-layout:decorate="~{layouts/basicLayout}">
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layouts/healthTestLayout}">
 
 <th:block layout:fragment="css">
 <style>
-.inner {
-    min-width: auto;
-    text-align: center;
+.inner{
+	min-width: auto;
 }
-
- ul{
-    list-style:none;
-    padding:0;
-   }
- .checkType-list-wrap{
- 	width: 850px;
- 	text-align: center;
- 	margin:auto;
- }
- .checkType-list{
- 	overflow: hidden;
- 	display: flex;
- 	flex-wrap: wrap;
-    margin: 10px;
-    padding: 3px;
-    margin:auto;
- 
- }
- .checkType-list > li {
-    width: 270px;;
-    padding: 10px;
-    
-}
-
-.checkType-list > li > .item {
-    display: block;
-    cursor: pointer;
-    height: 100%;
-    
-} 
-.checkType-list > li > .item .item-content {
-    position: relative;
-    height: 100px;
-    width: 250px;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    padding: 22px 20px;
-    min-height: 90px;
-    display: flex;
-    align-items: center;
-    background-color: #fff;
-    word-break: keep-all;
-}
-
-.checkType-list > li > .item input[type="checkbox"], .checkType-list > li > .item input[type="radio"] {
-    border: 0;
-    clip: rect(0, 0, 0, 0);
-    height: auto;
-    margin: 0;
-    overflow: hidden;
-    padding: 0;
-    position: absolute;
-    width: 1px;
-    white-space: nowrap;
-}
-
-.checkType-list > li > .item .item-content .item-name {
-    display: flex;
-    align-items: center;
-    font-size: 18px;
-    color: #333;
-    line-height: 1.3;
-}
-
-.checkType-list > li > .item .item-content .item-name:before {
-    content: "";
-    flex: 0 0 auto;
-    display: block;
-    width: 30px;
-    height: 30px;
-    background-image: url(https://maro.imhc.or.kr/user/images/common/icon_check.png);
-    background-repeat: no-repeat;
-    background-position: center;
-    background-color: #eee;
-    border-radius: 100%;
-    margin-right: 15px;
-}
-
-.checkType-list > li > .item input[type="checkbox"]:checked + .item-content:after, .checkType-list > li > .item input[type="radio"]:checked + .item-content:after {
-    content: "";
-    display: block;
-    border: 2px solid #0092d7;
-    position: absolute;
-    left: -1px;
-    top: -1px;
-    right: -1px;
-    bottom: -1px;
-    border-radius: inherit;
-}
-
-.checkType-list > li > .item input[type="checkbox"]:checked + .item-content .item-name:before, .checkType-list > li > .item input[type="radio"]:checked + .item-content .item-name:before {
-    background-image: url(https://maro.imhc.or.kr/user/images/common/icon_check_active.png);
+.item {
     background-color: #0092d7;
+    color: #fff;
 }
-
 </style>
 
 </th:block>
@@ -144,77 +51,77 @@ layout:decorate="~{layouts/basicLayout}">
 		<input type="hidden" th:value="${major_div}" name="majorDiv">
 			<p>진행할 검사를 선택해주세요.</p>
 			
-			<div class="checkType-list-wrap">
-				<ul class="checkType-list">
+			<div>
+				<ul>
 					<li>
 					  <label for="minor_div_1" class="item">
 					   <input type="checkbox" id="minor_div_1" name="minor_div[]" value="applyTest01_1"  onclick="clickCheck(this)"/>
-					   <div class="item-content">
-					   	<strong class="item-name">우울감(PHQ_9)</strong>
+					   <div>
+					   	<strong>우울감(PHQ_9)</strong>
 					   </div>
 					  </label>
 					</li>
 					<li>
 					  <label for="minor_div_2" class="item">
 					   <input type="checkbox" id="minor_div_2" name="minor_div[]" value="applyTest01_2"  onclick="clickCheck(this)"/>
-					   <div  class="item-content">
-					   	<strong class="item-name">스마트폰 과의존 척도</strong>
+					   <div>
+					   	<strong>스마트폰 과의존 척도</strong>
 					   </div>
 					  </label>
 					</li>
 					<li>
 					  <label for="minor_div_3" class="item">
 					   <input type="checkbox" id="minor_div_3" name="minor_div[]" value="applyTest01_3"  onclick="clickCheck(this)"/>
-					   <div class="item-content">
-					   	<strong class="item-name">청소년 도박문제 자가점검 (CAGI)</strong>
+					   <div>
+					   	<strong>청소년 도박문제 자가점검 (CAGI)</strong>
 					   </div>
 					  </label>
 					</li>
 					<li>
 					  <label for="minor_div_4" class="item">
 					   <input type="checkbox" id="minor_div_4" name="minor_div[]" value="applyTest01_4"  onclick="clickCheck(this)"/>
-					   <div class="item-content">
-					   	<strong class="item-name">범불안장애 척도 (GAD-7)</strong>
+					   <div>
+					   	<strong>범불안장애 척도 (GAD-7)</strong>
 					   </div>
 					  </label>
 					</li>
 					<li>
 					  <label for="minor_div_5" class="item">
 					   <input type="checkbox" id="minor_div_5" name="minor_div[]" value="applyTest01_5"  onclick="clickCheck(this)"/>
-					   <div class="item-content">
-					   	<strong class="item-name">스트레스 대처반응척도 (K-CSI)</strong>
+					   <div>
+					   	<strong>스트레스 대처반응척도 (K-CSI)</strong>
 					   </div>
 					  </label>
 					</li>
 					<li>
 					  <label for="minor_div_6" class="item">
 					   <input type="checkbox" id="minor_div_6" name="minor_div[]" value="applyTest01_6"  onclick="clickCheck(this)"/>
-					   <div class="item-content">
-					   	<strong class="item-name">우울증 척도(CES-D)</strong>
+					   <div>
+					   	<strong>우울증 척도 (CES-D)</strong>
 					   </div>
 					  </label>
 					</li>
 					<li>
 					  <label for="minor_div_7" class="item">
 					   <input type="checkbox" id="minor_div_7" name="minor_div[]" value="applyTest01_7"  onclick="clickCheck(this)"/>
-					   <div class="item-content">
-					   	<strong class="item-name">스트레스 지각척도 (PSS)</strong>
+					   <div>
+					   	<strong>스트레스 지각척도 (PSS)</strong>
 					   </div>
 					  </label>
 					</li>
 					<li>
 					  <label for="minor_div_8" class="item">
 					   <input type="checkbox" id="minor_div_8" name="minor_div[]" value="applyTest01_8"  onclick="clickCheck(this)"/>
-					   <div class="item-content">
-					   	<strong class="item-name">조기 정신증 검사 (K-ESI)</strong>
+					   <div>
+					   	<strong>조기 정신증 검사 (K-ESI)</strong>
 					   </div>
 					  </label>
 					</li>
 					<li>
 					  <label for="minor_div_9" class="item">
 					   <input type="checkbox" id="minor_div_9" name="minor_div[]" value="applyTest01_9"  onclick="clickCheck(this)"/>
-					   <div class="item-content">
-					   	<strong class="item-name">교정된 정신증 고위험군 선별도구 (mKPQ-16)</strong>
+					   <div>
+					   	<strong>교정된 정신증 고위험군 선별도구 (mKPQ-16)</strong>
 					   </div>
 					  </label>
 					</li>

@@ -1,65 +1,27 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{layouts/basicLayout}">
+    layout:decorate="~{layouts/healthTestLayout}">
 
 <th:block layout:fragment="css">
 	<style>
 	.txt-s2{
-   display: block;
+	display: block;
     font-weight: 500;
     font-size: 32px;
     color: #333;
     line-height: 1.1;
-   
-   }
-   ul{
-    list-style:none;
-    padding:0;
-   }
-   .check-paper-type {
+	
+	}
+	.check-paper-type {
     overflow: hidden;
-   display: inline-block;
-    
 }
-.check-paper-type > ul {
-    display: flex;
-    flex-wrap: wrap;
-}
-
 .check-paper-type > ul > li {
-    width: 250px;
-    padding:20px;
+    width: 100%;
+    padding: 5px 0;
 }
-
-.check-paper-type > ul > li > .item {
-    display: block;
-    width:50%;
-}
-
-.check-paper-type > ul > li > .item .label-content {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    width: 200px;
-    height: 100px;
-    align-items: center;
-    justify-content: center;
-    
-}
-.check-paper-type > ul > li > .item .label-content .item-title {
-    position: relative;
-    font-size: 24px;
-    font-weight: bold;
-    color: #333;
-    text-align: center;
-    
-}
-   .inner{
-   min-width: auto;
-   text-align:center;
+	.inner{
+	min-width: auto;
 }
 .text-center {
     text-align: center !important;
@@ -69,35 +31,6 @@ label {
     -moz-user-select: none;
     -ms-user-select: none;
     cursor: pointer;
-}
-.check-paper-type > ul > li > .item input[type="radio"] {
-    border: 0;
-    clip: rect(0, 0, 0, 0);
-    height: auto;
-    margin: 0;
-    overflow: hidden;
-    padding: 0;
-    position: absolute;
-    width: 1px;
-    white-space: nowrap;
-}
-
-.check-paper-type > ul > li > .item input[type="radio"]:checked + .label-content:before {
-    content: "";
-    display: block;
-    position: absolute;
-    left: -1px;
-    right: -1px;
-    top: -1px;
-    bottom: -1px;
-    border: 2px solid #0092d7;
-    border-radius: 10px;
-    z-index: 1;
-}
-
-.check-paper-type > ul > li > .item input[type="radio"]:checked + .label-content .item-title {
-	
-    color: #0092d7;
 }
 	</style>
 
@@ -134,15 +67,15 @@ label {
 								<label class="item">
 									<input type="radio" name="major_div" value="applyTest01">
 									<div class="label-content">
-									<strong class="item-title">맞춤형 1:1검사</strong>
+									<strong>맞춤형 1:1검사</strong>
 									</div>
 								</label>
 							</li>
 							<li class="list2">
-								<label class="item">
+								<label>
 									<input type="radio" name="major_div" value="applyTest02">
 									<div class="label-content">
-									<strong class="item-title">상황별검사</strong>
+									<strong>상황별검사</strong>
 									</div>
 								</label>
 							</li>

@@ -1,6 +1,8 @@
 package com.weepl.controller;
 
 import java.io.FileInputStream;
+import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,12 +27,13 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.weepl.dto.NoticeFormDto;
-import com.weepl.dto.NoticeSearchDto;
+import com.weepl.dto.SearchDto;
 import com.weepl.entity.Notice;
 import com.weepl.service.NoticeService;
 
@@ -46,7 +49,7 @@ public class NoticeController {
 	
 	//공지사항 리스트
 	@GetMapping(value= {"/notice","/notice/{page}"}) //페이지 번호가 없는 경우와 있는 경우 2가지 매핑
-	public String manageNotice(NoticeSearchDto noticeSearchDto, @PathVariable("page") Optional<Integer> page, Model model) {
+	public String manageNotice(SearchDto noticeSearchDto, @PathVariable("page") Optional<Integer> page, Model model) {
 		
 		//PageRequest.of 메소드를 통해 Pageable객체 생성. 해당 페이지 조회, 페이지 번호가 없으면 0페이지에서 3개 조회
 		Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 10); 
@@ -81,7 +84,7 @@ public class NoticeController {
 	@GetMapping(value="/noticedtl/{noticeCd}")
 	public String noticeDtl(Model model, @PathVariable("noticeCd") Long noticeCd) {
 		NoticeFormDto noticeFormDto = noticeService.getNoticeDtl(noticeCd);
-		model.addAttribute("notice", noticeFormDto);
+		model.addAttribute("noticeFormDto", noticeFormDto);
 		return "notice/noticeDtl";
 	}
 	
@@ -120,17 +123,17 @@ public class NoticeController {
 	//첨부파일 다운로드
 	@SuppressWarnings("rawtypes")
 	@RequestMapping(value={"/notice/download/{attachCd}", "/notice/download/"})
-	public ResponseEntity downloadAttach(@PathVariable("attachCd") Long attachCd) {
+	public ResponseEntity downloadAttach(@PathVariable("attachCd") Long attachCd, @RequestHeader("User-Agent") String userAgent) throws IOException {
 	
 		StringBuilder filePath = new StringBuilder("D:");
 		filePath.append(noticeService.downloadNoticeAttach(attachCd).getAttachUrl());
+		// 한글파일 깨짐방지
+		String downloadName = encodeFileName(noticeService.downloadNoticeAttach(attachCd).getOriAttachName(), userAgent);
 		
-		StringBuilder fileName = new StringBuilder(noticeService.downloadNoticeAttach(attachCd).getOriAttachName());
+		StringBuilder fileName = new StringBuilder(downloadName);
 		
 		try {
 		InputStreamResource resource = new InputStreamResource(new FileInputStream(filePath.toString()));
-		LOGGER.info("filePath의 값은 {}", filePath);
-		LOGGER.info("fileName의 값은 {}", fileName);
 		//model.addAttribute("notice", noticeService.downloadNoticeAttach(attachCd));
 		return ResponseEntity.ok()
 	            .contentType(MediaType.APPLICATION_OCTET_STREAM)
@@ -152,6 +155,8 @@ public class NoticeController {
 		}
 		
 		try {
+			System.out.println("추가될 이미지 리스트: "+boardImgFileList);
+			System.out.println("수정될 이미지 리스트: "+noticeFormDto.getBoardImgCds());
 			noticeService.updateNotice(noticeFormDto, boardImgFileList, boardAttachFileList);
 		}
 		catch(Exception e) {
@@ -174,5 +179,18 @@ public class NoticeController {
 			e.printStackTrace();
 		}
 		return "redirect:/board/notice";
+	}
+	
+	// 한글파일 깨짐방지 파일명 인코딩
+	private String encodeFileName(String fileName, String userAgent) throws IOException {
+		String downloadName = null;
+		if(userAgent.contains("Trident")) {
+			downloadName = URLEncoder.encode(fileName, "UTF-8").replaceAll("\\+", " ");
+		} else if(userAgent.contains("Edge")) {
+			downloadName = URLEncoder.encode(fileName, "UTF-8");
+		} else {
+			downloadName = new String(fileName.getBytes("UTF-8"),"ISO-8859-1");
+		}
+		return downloadName;
 	}
 }

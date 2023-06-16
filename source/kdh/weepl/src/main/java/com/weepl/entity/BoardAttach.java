@@ -16,7 +16,7 @@ import org.hibernate.annotations.OnDeleteAction;
 import lombok.Data;
 
 @Entity
-@Table(name="boardattach")
+@Table(name="board_attach")
 @Data
 public class BoardAttach extends BaseEntity{
 

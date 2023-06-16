@@ -14,7 +14,7 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.weepl.constant.MhinfoCate;
-import com.weepl.dto.MhinfoSearchDto;
+import com.weepl.dto.SearchDto;
 import com.weepl.entity.Mhinfo;
 import com.weepl.entity.QMhinfo;
 
@@ -53,7 +53,7 @@ public class MhinfoRepositoryCustomImpl implements MhinfoRepositoryCustom {
 	}
 
 	@Override
-	public Page<Mhinfo> getMhinfoPage(MhinfoSearchDto mhinfoSearchDto, Pageable pageable) {
+	public Page<Mhinfo> getMhinfoPage(SearchDto mhinfoSearchDto, Pageable pageable) {
 	    BooleanExpression categoryExpression = null;
 	    if (mhinfoSearchDto.getSearchByCate() != null) {
 	        categoryExpression = searchByCate(mhinfoSearchDto.getSearchByCate(), mhinfoSearchDto.getSearchQuery());

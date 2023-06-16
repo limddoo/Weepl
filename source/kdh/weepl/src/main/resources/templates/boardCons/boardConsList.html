@@ -3,10 +3,10 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{layouts/consLayout}">
 <head>
-    <meta charset="UTF-8">
-    <meta name="_csrf" th:content="${_csrf.token}">
-	<meta name="_csrf_header" th:content="${_csrf.headerName}">
-    <title>게시판 상담</title>
+<meta charset="UTF-8">
+<meta name="_csrf" th:content="${_csrf.token}">
+<meta name="_csrf_header" th:content="${_csrf.headerName}">
+<title>게시판 상담</title>
 </head>
 <!-- 사용자 스크립트 추가 -->
 <th:block layout:fragment="script">
@@ -80,57 +80,65 @@
 </th:block>
 
 <body>
-<div layout:fragment="content" class="content-wrapper">
-	<form action="@{'/boardCons/boardConsList' + ${boardCons.number}}" role="form" method="get" th:object="${boardCons}">
-		<table class="table-container">
-			<thead>
-			  <tr>
-			  	<td>번호</td>
-			  	<td>제목</td>
-			  	<td>작성자</td>
-			  	<td>날짜</td>
-			  	<td>답변여부</td>
-			  </tr>
-			  </thead>
-			  <tbody>
-			  	<tr th:each="board, status: ${boardCons.getContent()}">
-			  		<td th:text="${board.cd}" ></td>
-			  		<td><span th:onclick="checkName([[${board.cd}]])" th:text="${board.title}"></span></td>
-			  		<td th:text="${board.name}"></td>
-					<td th:text="${board.reg_dt}"></td>
-					<td th:if="${board.res_yn == 'Y'}">답변완료</td>
-					<td th:unless="${board.res_yn == 'Y'}">미답변</td>
-			  	</tr>
-			  	
-			  </tbody>
-			  
-		</table>
-		<div th:with="start=${(boardCons.number/ maxPage) * maxPage + 1}, end=(${(boardCons.totalPages == 0) ? 1 : (start + (maxPage - 1) < boardCons.totalPages ? start + (maxPage - 1) : boardCons.totalPages)})">
-    <ul class="pagination justify-content-center">
-        <li class="page-boardCons" th:classappend="${boardCons.first} ? 'disabled':''">
-            <a th:onclick="'javascript:page(' + ${boardCons.number - 1} + ')'"
-               aria-label="Previous" class="page-link">
-                <span aria-hidden="true">Previous</span>
-            </a>
-        </li>
-        <li class="page-boardCons" th:each="page: ${#numbers.sequence(start, end)}"
-            th:classappend="${boardCons.number eq page-1} ? 'active' : ''">
-            <a th:onclick="'javascript:page(' + ${page - 1} + ')'"
-               class="page-link"> [[${page}]]</a>
-        </li>
-        <li class="page-boardCons" th:classappend="${boardCons.last} ? 'disabled':''">
-            <a th:onclick="'javascript:page(' + ${boardCons.number + 1} + ')'"
-               aria-label="Next" class="page-link">
-                <span aria-hidden="true">Next</span>
-            </a>
-        </li>
-    </ul>
-</div>
-<input type="hidden" th:name="${_csrf.parameterName}"
-			th:value="${_csrf.token}">
-	</form>
-	<button type="button" class="btn btn-primary" onclick="location.href='/boardCons/boardConsForm'">상담신청하기</button>
-</div>
+	<div layout:fragment="content" class="content-wrapper">
+		<div class="subview">
+			<h3>게시판 상담</h3>
+			<form action="@{'/boardCons/boardConsList' + ${boardCons.number}}"
+				role="form" method="get" th:object="${boardCons}">
+				<table class="table-container">
+					<thead>
+						<tr>
+							<td>번호</td>
+							<td>제목</td>
+							<td>작성자</td>
+							<td>날짜</td>
+							<td>답변여부</td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="board, status: ${boardCons.getContent()}">
+							<td th:text="${board.cd}"></td>
+							<td><span th:onclick="checkName([[${board.cd}]])"
+								th:text="${board.title}"></span></td>
+							<td th:text="${board.name}"></td>
+							<td th:text="${board.reg_dt}"></td>
+							<td th:if="${board.res_yn == 'Y'}">답변완료</td>
+							<td th:unless="${board.res_yn == 'Y'}">미답변</td>
+						</tr>
+
+					</tbody>
+
+				</table>
+				<div
+					th:with="start=${(boardCons.number/ maxPage) * maxPage + 1}, end=(${(boardCons.totalPages == 0) ? 1 : (start + (maxPage - 1) < boardCons.totalPages ? start + (maxPage - 1) : boardCons.totalPages)})">
+					<ul class="pagination justify-content-center">
+						<li class="page-boardCons"
+							th:classappend="${boardCons.first} ? 'disabled':''"><a
+							th:onclick="'javascript:page(' + ${boardCons.number - 1} + ')'"
+							aria-label="Previous" class="page-link"> <span
+								aria-hidden="true">Previous</span>
+						</a></li>
+						<li class="page-boardCons"
+							th:each="page: ${#numbers.sequence(start, end)}"
+							th:classappend="${boardCons.number eq page-1} ? 'active' : ''">
+							<a th:onclick="'javascript:page(' + ${page - 1} + ')'"
+							class="page-link"> [[${page}]]</a>
+						</li>
+						<li class="page-boardCons"
+							th:classappend="${boardCons.last} ? 'disabled':''"><a
+							th:onclick="'javascript:page(' + ${boardCons.number + 1} + ')'"
+							aria-label="Next" class="page-link"> <span aria-hidden="true">Next</span>
+						</a></li>
+					</ul>
+				</div>
+				<input type="hidden" th:name="${_csrf.parameterName}"
+					th:value="${_csrf.token}">
+			</form>
+			<button type="button" class="btn btn-primary"
+				onclick="location.href='/boardCons/boardConsForm'">상담신청하기</button>
+		</div>
+
+	</div>
 </body>
 
 

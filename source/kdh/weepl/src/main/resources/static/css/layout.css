@@ -1,0 +1,221 @@
+html {
+	position: relative;
+	min-height: 100%;
+	margin: 0;
+}
+
+.header {
+	position: relative;
+	z-index: 999;
+}
+
+body {
+	padding-bottom: 40px;
+}
+
+.input-group {
+	margin: 20px;
+}
+
+.input-short {
+  width: 150px;
+  height: 32px;
+  font-size: 15px;
+  border: 2px;
+  border-style: solid;
+  border-radius: 5px;
+  border-color: #4c4c4e;
+  outline: none;
+  padding-left: 10px;
+}
+
+.input-long {
+  width: 400px;
+  height: 32px;
+  font-size: 15px;
+  border: 1;
+  border-style: solid;
+  border-radius: 5px;
+  border-color: #4c4c4e;
+  outline: none;
+  padding-left: 10px;
+}
+
+.footer {
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	width: 100%;
+	padding: 15px 0;
+	text-align: center;
+}
+
+.sidebar {
+	float: left;
+}
+
+.content {
+	float: left;
+	margin-top: 20px;
+	margin-left: 20px;
+	margin-right: 200px;
+	display: flex;
+	justify-content: center;
+	align-items: flex-start;
+	position: relative;
+	z-index: 1;
+}
+
+.content-wrapper {
+	min-height: 800px;
+	margin-left: 200px;
+	margin-right:0;
+	position: relative;
+	z-index: 2;
+}
+
+.table-container {
+	table-layout: fixed;
+	width: 90%;
+	margin-left: 5%;
+	margin-bottom: 2rem;
+	color: #212529;
+	border-collapse: collapse;
+	box-sizing: border-box;
+	text-indent: initial;
+	border-spacing: 2px;
+	border-color: gray;
+	border-top: 1px solid #333;
+}
+
+
+.table-container thead th {
+	padding: 10px;
+	background: #f8f8f8;
+}
+
+.table-container tbody td {
+	padding: 10px;
+	text-align: center;
+	border-top: 1px solid #c0c0c0;
+	border-bottom: 1px solid #c0c0c0;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.table-container tbody td.align-left {
+	text-align: left;
+}
+
+#calendar {
+	width: 1000px;
+	min-width: 1000px;
+	margin: 0 auto;
+}
+
+.subview {
+	margin: 15px;
+	padding-left: 20px;
+	padding-right: 20px;
+	padding-bottom: 20px;
+	border: 2px;
+	border-radius: 20px;
+	border-block-style: groove;
+	border-block-color: #f7931d;
+}
+
+button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+.button-style {
+    display: inline-block;
+    background-color:#8cc63e;
+    color: #fff;
+    border: 1px solid transparent;
+    border-radius: .50rem;
+    height:45px; 
+    font-size: 1rem;
+    font-weight: 400;
+    text-align: center;
+    vertical-align: middle;
+    padding: .375rem .75rem;
+    line-height: 1.5;
+  }
+  
+.button-style:disabled,
+.button-style[disabled]:hover {
+	cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.button-style:hover {
+	cursor: pointer;
+	background-color:#82ba36;
+}
+
+.subview h3 {
+	color: #000;
+	font-size: 33px;
+	margin: 30px 0;
+	position: relative;
+	padding-left: 30px;
+}
+
+.subview h3:before {
+	position: absolute;
+	left: 0;
+	top: -10px;
+	width: 21px;
+	height: 27px;
+	content: '';
+	background: url(https://www.wee.go.kr/home/images/icon_menu.png) no-repeat;
+}
+
+@media all and (max-width:1024px){
+	.content-wrapper {margin-left: 300px;}
+	.boxguide01, .boxguide02, .boxguide03, .boxguide04, .boxguide05 {padding-left:150px}
+}
+
+@media all and (max-width:640px){ 	
+	.content-wrapper {margin-left: 200px;}
+	.subview h3 {font-size:30px;}
+	.subview h4 {font-size:21px;margin:30px 0}
+	.subview h5 {font-size:17px;line-height:30px;}  
+	.ctext {font-size:16px;line-height:25px;}
+	.list_txt > li {font-size:16px;line-height:25px;}
+	.list_txt > li:before {top:10px; }
+	.subview h4.titrnd { font-size:21px; margin:30px 0; }
+	.boxguide01, .boxguide02, .boxguide03, .boxguide04, .boxguide05 {padding-left:120px;font-size:15px;line-height:24px;}
+}
+@media all and (max-width:480px){
+	.content-wrapper {margin-left: 200px;}
+	.subview h4 {font-size:24px;margin:20px 0}
+	.subview h5 {font-size:18px;line-height:30px;padding-left:20px;} 
+	.subview h5:before {top:10px;}
+	.bbs_stxt p { font-size:15px;line-height:24px; }	 
+	.ctext {font-size:15px;line-height:23px;}
+	.subview h4 { margin:30px 0}
+	.subview h4.titrnd { font-size:19px; margin:20px 0;padding-left:18px;line-height:25px;}
+	.subview h4.titrnd:before {top: 8px;}	 
+	.list_txt > li {font-size:15px;line-height:23px;}
+	.list_txt > li:before {top:12px; }
+	.boxguide01, .boxguide02, .boxguide03, .boxguide04, .boxguide05 {padding-left:110px;min-height:auto}
+	.boxguide01:before, .boxguide02:before,  .boxguide03:before,  .boxguide04:before,  .boxguide05:before {background-size:70% 70%;} 
+} 
+
+.boxguide01 {position:relative;padding-left:150px;margin:20px 0;font-size:17px;line-height:27px;color:#313131;min-height:100px;}
+.boxguide01:before{position:absolute;top:0;left:0;width:105px;height:85px;content:'';background:url(https://www.wee.go.kr/home/images/icon_guide01.png)no-repeat 0 0 /cover;}
+.boxguide02 {position:relative;padding-left:150px;margin:20px 0;font-size:17px;line-height:27px;color:#313131;min-height:100px;}
+.boxguide02:before{position:absolute;top:0;left:0;width:91px;height:80px;content:'';background:url(https://www.wee.go.kr/home/images/icon_guide02.png)no-repeat 0 0 /cover;}
+.boxguide03 {position:relative;padding-left:150px;margin:20px 0;font-size:17px;line-height:27px;color:#313131;min-height:100px;}
+.boxguide03:before{position:absolute;top:0;left:0;width:94px;height:90px;content:'';background:url(https://www.wee.go.kr/home/images/icon_guide03.png)no-repeat 0 0 /cover;}
+.boxguide04 {position:relative;padding-left:150px;margin:20px 0;font-size:17px;line-height:27px;color:#313131;min-height:100px;}
+.boxguide04:before{position:absolute;top:0;left:0;width:89px;height:80px;content:'';background:url(https://www.wee.go.kr/home/images/icon_guide04.png)no-repeat 0 0 /cover;}
+.boxguide05 {position:relative;padding-left:150px;margin:20px 0;font-size:17px;line-height:27px;color:#313131;min-height:100px;}
+.boxguide05:before{position:absolute;top:0;left:0;width:80px;height:91px;content:'';background:url(https://www.wee.go.kr/home/images/icon_guide05.png)no-repeat 0 0 /cover;}
+.boxguide02 ol li {padding-left:15px;}

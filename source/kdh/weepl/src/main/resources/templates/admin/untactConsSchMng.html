@@ -5,13 +5,34 @@
 <!-- 사용자 CSS 추가 -->
 <th:block layout:fragment="css">
 	<style>
-.fieldError {
-	color: #bd2130;
+.content-wrapper {
+	width: 80%;
+	padding-left: 5rem;
+	display: flex;
+  	justify-content: center;
+}
+
+.subview {
+	margin: 60px;
+	height: 650px;
+}
+
+.button-style {
+	margin-left: 12rem;
 }
 
 #schArea {
+	border: 1px;
+	border-style: solid;
+	border: 2px;
+  	border-style: solid;
+  	border-radius: 5px;
+  	border-color: #4c4c4e;
 	margin-top: 20px;
-	width: 600px;
+	margin-bottom: 20px;
+	width: 500px;
+	height: 300px;
+	overflow: auto;
 }
 
 .sch {
@@ -27,194 +48,7 @@
 </style>
 </th:block>
 <!-- 사용자 스크립트 추가 -->
-<th:block layout:fragment="script">
-	<script type="text/javascript" th:inline="javascript">
-	var errorMessage = [[${errorMessage}]];
-	$(document).ready(function() {
-		var now_utc = Date.now() // 지금 날짜를 밀리초로
-		// getTimezoneOffset()은 현재 시간과의 차이를 분 단위로 반환
-		var timeOff = new Date().getTimezoneOffset()*60000; // 분단위를 밀리초로 변환
-		// new Date(now_utc-timeOff).toISOString()은 '2022-05-11T18:09:38.134Z'를 반환
-		var today = new Date(now_utc-timeOff).toISOString().split("T")[0];
-		document.getElementById("startDate").setAttribute("min", today);
-		
-		$("#schArea").on("click", ".sch", function() {
-			this.remove();
-		});
-	});
 
-	
-	// 시작일만 처음 설정할시 종료일에도 시작일을 넣어줌
-	function setEndDate() {
-		var startDt = document.getElementById("startDate");
-		var endDt = document.getElementById("endDate");
-		endDt.setAttribute("min",startDt.value);
-		endDt.value=startDt.value;
-		// span 태그 생성해줌
-		getSchList();
-	}
-	
-	// 시작일, 종료일에 맞춰 span 태그(각 날짜) 생성해줌
-	function getSchList() {
-		// 시작일, 종료일 변경될때 기존에 있던 span태그 삭제
-		$("#schArea *").remove();
-		var startDate = document.getElementById("startDate").value;
-		var endDate = document.getElementById("endDate").value;
-		var startDt = new Date(startDate);
-		var endDt = new Date(endDate);
-	    var curDt = startDt;
-	    var str = "";
-	    while(curDt <= endDt) {
-	    	// 주말은 자동으로 날짜목록에서 사라짐
-	    	if(curDt.getDay()!=0 && curDt.getDay() !=6) {
-		        str += "<span class='sch'>";
-		    	str += toStringByFormatting(curDt);
-		    	str += "</span>";
-	    	}
-	        curDt.setDate(curDt.getDate() + 1);
-	    }
-		
-		$("#schArea").append(str);
-	}
-	
-	// span태그에 표시될 날짜 포맷 설정
-	function leftPad(value) {
-	    if (value >= 10) {
-	        return value;
-	    }
-
-	    return `0${value}`;
-	}
-	// span태그에 표시될 날짜 포맷 설정
-	function toStringByFormatting(source, delimiter = '-') {
-	    const year = source.getFullYear();
-	    const month = leftPad(source.getMonth() + 1);
-	    const day = leftPad(source.getDate());
-
-	    return [year, month, day].join(delimiter);
-	}
-	
-	function setSch() {
-		var header = $("meta[name='_csrf_header']").attr('content');
-		var token = $("meta[name='_csrf']").attr('content');
-		 const schList = document.getElementsByClassName('sch');
-		 var schs = "";
-		 for(let i=0; i < schList.length; i++) {
-			 schs += schList[i].innerText+","
-		 }
-		 if(schs == "") {
-			 alert("날짜를 선택해주세요!");
-			 return;
-		 }
-		 var am = document.getElementById('am');
-		 var pm = document.getElementById('pm');
-		 var checkedAM = "";
-		 if (am.checked) {
-			 checkedAM = am.value;
-		 }
-		 var checkedPM = "";
-		 if (pm.checked) {
-			 checkedPM = pm.value;
-		 }
-		 if(checkedAM == "" && checkedPM == "") {
-			 alert("시간을 선택해주세요!");
-			 return;
-		 }
-		 $.ajax({
-			 url:"/admin/ucSchCreate",
-			 method:"post",
-			 data :{
-				 "schDate":schs,
-				 "am":checkedAM,
-				 "pm":checkedPM
-			 },beforeSend: function(xhr){
-					xhr.setRequestHeader(header, token);
-			 },
-			 success: function(result) {
-				 alert(result.result);
-				 location.reload();
-			 }, error: function() {
-				 alert("에러발생!");
-			 }
-		 });
-	}
-	
-	document.addEventListener('DOMContentLoaded', function() {
-
-		var calendarEl = document.getElementById('calendar');
-		
-		
-		  var request = $.ajax({
-			url : "/reservation/selectDate",
-			method : "GET",
-			async : true,
-			headers : { 
-				"Content-Type" : "application/json",
-				"X-HTTP-Method-Override" : "GET"
-			},
-			dataType : 'json',
-			success : function(result) { 
-				console.log(result)
-			},
-			error : function(request, status, error) { // 결과 에러 콜백함수
-				console.log(error)
-			}
-		});
-
-		request.done(function(result) {
-			var calendar = new FullCalendar.Calendar(calendarEl, {
-				initialView : 'dayGridMonth',
-				showNonCurrentDates : true,
-				headerToolbar : {
-					left : 'prev',
-					center : 'title',
-					right : 'next'
-				},				
-				navLinks : true, // can click day/week names to navigate views
-				businessHours : true, // display business hours
-				editable : true,
-				selectable : true,
-				locale : "ko",
-				eventClick : function(info) {
-					var data = JSON.parse(JSON.stringify(info.event));
-					if(data.title != '예약가능') {
-						alert('예약된 일정은 삭제가 불가능합니다.');
-						return false;
-					}
-					if(confirm("이 일정을 삭제하시겠습니까?")) {
-						selectedId = data.id;
-						$.ajax({
-							url: "/admin/ucSchDelete",
-							method: "GET",
-							data: {selectedId: selectedId},
-							success: function(result) {
-								alert(result.result);
-								location.reload();
-							},
-							error: function(result) {
-								alert("일정 삭제중 에러가 발생했습니다.")
-							}
-						});
-					}
-				},
-				eventChange:  function changeEventColor(){
-					
-					}, //미완성
-				eventDisplay:'block',
-
-				events : [
-
-				],		 
-			});
-			calendar.render();	
-				for(var i =0; i<result.length;i++){
-					calendar.addEvent(result[i])
-				}	
-		});
-		
-	});
-	</script>
-</th:block>
 <head>
 <meta charset="UTF-8">
 <meta name="_csrf" th:content="${_csrf.token}">
@@ -224,19 +58,31 @@
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"
 	integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
 	crossorigin="anonymous"></script>
+<script type="text/javascript" src="/js/untactConsSchMng.js"></script>
 <title>비대면 상담 일정 관리</title>
 </head>
 <body>
 	<div layout:fragment="content" class="content-wrapper">
 		<div id='calendar'></div>
-		<div>
-			시작일:<input type="date" id="startDate" onchange="setEndDate()">
-			종료일:<input type="date" id="endDate" onchange="getSchList()">
-			상담시간:<input type="checkbox" id="am" value="10:00" checked>오전 10시
-					<input type="checkbox" id="pm" value="15:00">오후 3시
+		<div class="subview">
+			<h3>비대면상담 일정추가</h3>
+			<div class="input-group">
+				<label class="input-label" for="startDate"> 시작일 </label>
+				<input type="date" id="startDate" onchange="setEndDate()" class="input-short"><br>
+			</div>
+			<div class="input-group">
+				<label class="input-label" for="endDate"> 종료일 </label>
+				<input type="date" id="endDate" onchange="getSchList()" class="input-short"><br>
+			</div>
+			<div class="input-group">
+				<label class="input-label" for="endDate"> 상담시간 </label>
+				<input type="checkbox" id="am" value="10:00" checked>오전 10시
+				<input type="checkbox" id="pm" value="15:00">오후 3시
+			</div>
+			<div id="schArea"></div>
+			<button onclick="setSch()" class="button-style">일정 추가</button>
 		</div>
-		<div id="schArea"></div>
-		<button onclick="setSch()">일정 추가</button>
+		
 		<form action="/admin/ucSchCreate" role="form" method="post"
 			name="schForm" id="schForm"></form>
 	</div>
