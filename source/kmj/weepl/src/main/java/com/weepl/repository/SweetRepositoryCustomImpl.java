@@ -13,7 +13,7 @@ import org.thymeleaf.util.StringUtils;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.weepl.dto.SweetSearchDto;
+import com.weepl.dto.SearchDto;
 import com.weepl.entity.QSweetBoard;
 import com.weepl.entity.SweetBoard;
 
@@ -57,7 +57,7 @@ public class SweetRepositoryCustomImpl implements SweetRepositoryCustom {
 	}
 	
 	@Override
-	public Page<SweetBoard> getSweetBoardPage(SweetSearchDto sweetSearchDto, Pageable pageable) {
+	public Page<SweetBoard> getSweetBoardPage(SearchDto sweetSearchDto, Pageable pageable) {
 		QueryResults<SweetBoard> results = queryFactory
 				.selectFrom(QSweetBoard.sweetBoard)
 				.where(regDtsAfter(sweetSearchDto.getSearchDateType()),

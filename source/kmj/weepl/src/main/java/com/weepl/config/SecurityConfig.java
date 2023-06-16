@@ -43,7 +43,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.mvcMatchers("/mypage/**").hasAnyRole("CLIENT", "COUNSELOR")
 				.mvcMatchers("/sweetboard/**").hasAnyRole("COUNSELOR", "ADMIN")
 				.mvcMatchers("/", "/members/**", "/ws/**", "/cons/**", "/board/**", "/boardCons/**", "/mhinfo/**",
-							"/weeNetwork/**", "/mhTest/**").permitAll()
+							"/weeNetwork/**", "/mhTest/**","/weeProjectInfo","/weeSymbol","/siteMap").permitAll()
 				.anyRequest().authenticated();
 
 		http.exceptionHandling() // 인증되지 않은 사용자가 리소스에 접근하였을 때 수행되는 핸들러 등록

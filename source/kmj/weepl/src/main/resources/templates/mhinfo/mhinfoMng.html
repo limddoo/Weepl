@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/basicLayout}">
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layouts/mhInfoLayout}">
 
     <th:block layout:fragment="script">
         <script th:inline="javascript">
@@ -31,16 +33,17 @@
 
         <style>
             .card-news-grid {
-                width: 1400px;
+                min-width: 1100px;
                 display: flex;
                 flex-wrap: wrap;
+                
             }
 
             .card-news-wrapper {
                 display: flex;
                 justify-content: center;
             }
-
+            
             .card-news-item {
                 width: calc(33.33% - 20px);
                 margin: 10px;
@@ -91,7 +94,7 @@
         <br>
        
         
-            <div class="form-inline justify-content-center" th:object="${mhinfoSearchDto}">
+            <div class="search" th:object="${mhinfoSearchDto}">
                 <select th:field="*{searchByCate}" class="form-control" style="width: auto;">
                     <option value="all">전체</option>
                     <option value="SCHOOL">학교생활</option>
@@ -105,7 +108,7 @@
                 <input th:field="*{searchQuery}" name="searchQuery" type="text" class="form-control" placeholder="검색어를 입력해주세요">
                 <button id="searchBtn" type="submit" class="btn btn-primary">검색</button>
             </div>
-        </form>
+        
 
         <br>
 
@@ -136,9 +139,8 @@
                     </div>
                 </div>
             </div>
-        </div>
-
-        <div>
+            
+            <div>
         	<button type="button" class="btn btn-primary" onClick="location.href='/mhinfo/admin/mhinfo/new'" sec:authorize="hasAnyAuthority('ROLE_ADMIN')">글쓰기</button>
 
             <div th:with="start=${(mhinfos.number/maxPage)*maxPage + 1}, end=(${(mhinfos.totalPages == 0) ? 1 : (start + (maxPage - 1) < mhinfos.totalPages ? start + (maxPage - 1) : mhinfos.totalPages)})">
@@ -149,6 +151,9 @@
                 </ul>
             </div>
         </div>
+         
+        </div>
+        </form>
     </div>
     
 

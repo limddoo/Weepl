@@ -34,9 +34,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.weepl.dto.SearchDto;
 import com.weepl.dto.SweetBoardDto;
 import com.weepl.dto.SweetCommentDto;
-import com.weepl.dto.SweetSearchDto;
 import com.weepl.entity.SweetBoard;
 import com.weepl.service.SweetBoardService;
 import com.weepl.service.SweetCommentService;
@@ -53,7 +53,7 @@ public class SweetBoardController {
 
 	// 스윗게시판 메인페이지
 	@GetMapping(value = { "/list", "/list/{page}" })
-	public String sweetBoardManage(SweetSearchDto sweetSearchDto, @PathVariable("page") Optional<Integer> page,
+	public String sweetBoardManage(SearchDto sweetSearchDto, @PathVariable("page") Optional<Integer> page,
 			Model model) {
 		Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 15);
 

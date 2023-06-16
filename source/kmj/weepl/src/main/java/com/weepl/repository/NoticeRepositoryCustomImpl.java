@@ -13,7 +13,7 @@ import org.thymeleaf.util.StringUtils;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.weepl.dto.NoticeSearchDto;
+import com.weepl.dto.SearchDto;
 import com.weepl.entity.Notice;
 import com.weepl.entity.QNotice;
 
@@ -64,7 +64,7 @@ public class NoticeRepositoryCustomImpl implements NoticeRepositoryCustom{ //인
 	
 	
 	@Override
-	public Page<Notice> getAdminNoticePage(NoticeSearchDto noticeSearchDto, Pageable pageable) {
+	public Page<Notice> getAdminNoticePage(SearchDto noticeSearchDto, Pageable pageable) {
 		
 		QueryResults<Notice> results = queryFactory //queryfactory를 이용해서 쿼리를 생성한다.
 			.selectFrom(QNotice.notice) //데이터를 조회하기 위해서 QNotice의 notice를 지정한다.

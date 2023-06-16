@@ -17,11 +17,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.weepl.constant.Role;
-import com.weepl.dto.MemberFormDto;
 import com.weepl.dto.WeeNetworkFormDto;
 import com.weepl.dto.WeeNetworkSearchDto;
-import com.weepl.entity.Member;
 import com.weepl.entity.WeeNetwork;
 import com.weepl.service.WeeNetworkService;
 
