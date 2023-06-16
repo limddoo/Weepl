@@ -17,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.weepl.constant.MemberStatus;
 import com.weepl.constant.RestrictStatus;
-import com.weepl.dto.MemberSearchDto;
 import com.weepl.dto.ModMemberInfoDto;
 import com.weepl.dto.SearchDto;
 import com.weepl.entity.CompCons;
@@ -128,7 +127,7 @@ public class AdminService {
 	}
 
 	@Transactional(readOnly = true)
-	public Page<Member> getAdminMemberInfoPage(MemberSearchDto memberSearchDto, Pageable pageable) {
+	public Page<Member> getAdminMemberInfoPage(SearchDto memberSearchDto, Pageable pageable) {
 		return memberRepository.getAdminMemberInfoPage(memberSearchDto, pageable);
 	}
 
@@ -166,8 +165,8 @@ public class AdminService {
 	}
 
 	// 완료된 상담(예약된 상담중 상태가 '상담완료'인 상담 리스트)
-	public Page<ReserveApply> getCompConsList(SearchDto searchDto, Pageable pageable) {
-		return reserveApplyRepository.getReserveApplyList(searchDto, pageable);
+	public List<ReserveApply> getCompConsList(SearchDto searchDto, String status) {
+		return reserveApplyRepository.getReserveApplyList(searchDto, status);
 	}
 
 	public List<String> getCompCons(Long reserveApplyCd) {

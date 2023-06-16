@@ -1,5 +1,6 @@
 package com.weepl.repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -14,6 +15,7 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.weepl.dto.SearchDto;
 import com.weepl.entity.QCompCons;
+import com.weepl.entity.QMember;
 import com.weepl.entity.QReserveApply;
 import com.weepl.entity.ReserveApply;
 
@@ -31,27 +33,49 @@ public class ReserveApplyRepositoryCustomImpl implements ReserveApplyRepositoryC
 		}
 		return null;
 	}
+	
+	private BooleanExpression searchByEq(String status) {
+		if (StringUtils.equals("reserved", status)) {
+			return QReserveApply.reserveApply.reserveStatus.eq("예약완료");
+		} else if(StringUtils.equals("compcons", status)) {
+			return QReserveApply.reserveApply.reserveStatus.eq("상담완료");
+		}
+		return null;
+	}
+	
+	private BooleanExpression jdateAfter(String searchDateType) {
+		LocalDateTime dateTime = LocalDateTime.now();
+		
+		if(StringUtils.equals("all", searchDateType) || searchDateType==null) {
+			return null;
+		}else if(StringUtils.equals("1d", searchDateType)) {
+			dateTime = dateTime.minusDays(1);
+		} else if(StringUtils.equals("1w", searchDateType)){
+			dateTime = dateTime.minusWeeks(1);
+		} else if(StringUtils.equals("1m", searchDateType)){
+		dateTime = dateTime.minusMonths(1);
+		} else if(StringUtils.equals("6m", searchDateType)){
+		dateTime = dateTime.minusMonths(6);
+		}
+		return QReserveApply.reserveApply.reserveDt.after(dateTime);
+	}
 
 	@Override
-	public Page<ReserveApply> getReserveApplyList(SearchDto searchDto, Pageable pageable) {
+	public List<ReserveApply> getReserveApplyList(SearchDto searchDto, String status) {
 		BooleanExpression likeExpression = StringUtils.isEmpty(searchDto.getSearchQuery()) ? null
 				: searchByLike(searchDto.getSearchBy(), searchDto.getSearchQuery());
+		
+		BooleanExpression eqExpression = StringUtils.isEmpty(status) ? null
+				: searchByEq(status);
 
 		QueryResults<ReserveApply> results = queryFactory // queryfactory를 이용해서 쿼리를 생성한다.
 				.selectFrom(QReserveApply.reserveApply)
-				.where(likeExpression) // 이름으로 검색했을때 like 검색
-				.where(QReserveApply.reserveApply.reserveStatus.eq("상담완료")) // 상태가 상담완료인 
+				.where(jdateAfter(searchDto.getSearchDateType()), likeExpression, eqExpression) // 이름으로 검색했을때 like 검색
 				.orderBy(QReserveApply.reserveApply.reserveApplyCd.desc())
-				.offset(pageable.getOffset()) // 데이터를 가지고 올 시작 인덱스를 지정한다.
-				.limit(pageable.getPageSize()) // 한번에 가지고 올 최대 개수를 지정한다.
 				.fetchResults(); // 조회한 리스트 및 전체 개수를 포함하는 QueryResult를 반환한다.
 
-		List<ReserveApply> content = results.getResults();
-
-		long total = results.getTotal();
-
 		// 조회한 데이터를 Page 클래스의 구현체인 PageImpl객체로 반환한다.
-		return new PageImpl<>(content, pageable, total); // 조회한 데이터를 Page 클래스의 구현체인 PageImpl객체로 반환한다.
+		return results.getResults(); // 조회한 데이터를 Page 클래스의 구현체인 PageImpl객체로 반환한다.
 	}
 
 }

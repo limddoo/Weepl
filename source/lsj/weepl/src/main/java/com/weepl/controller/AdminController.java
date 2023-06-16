@@ -3,7 +3,6 @@ package com.weepl.controller;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -19,16 +18,13 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.weepl.dto.MemberSearchDto;
 import com.weepl.dto.ModMemberInfoDto;
 import com.weepl.dto.SearchDto;
 import com.weepl.entity.Member;
-import com.weepl.entity.ReserveApply;
 import com.weepl.service.AdminService;
 
 import lombok.RequiredArgsConstructor;
@@ -97,7 +93,7 @@ public class AdminController {
 
 	// 회원 전체 목록 호출
 	@GetMapping(value = { "/memberList", "/memberList/{page}" })
-	public String memberList(MemberSearchDto memberSearchDto, @PathVariable("page") Optional<Integer> page,
+	public String memberList(SearchDto memberSearchDto, @PathVariable("page") Optional<Integer> page,
 			Model model) {
 		int pageNumber = page.orElse(0);
 
@@ -124,7 +120,7 @@ public class AdminController {
 
 	// 이용제한 유저 목록 호출
 	@GetMapping(value = { "/reMemberList", "/reMemberList/{page}" })
-	public String reMemberList(MemberSearchDto memberSearchDto, @PathVariable("page") Optional<Integer> page,
+	public String reMemberList(SearchDto memberSearchDto, @PathVariable("page") Optional<Integer> page,
 			Model model) {
 		int pageNumber = page.orElse(0);
 
@@ -150,9 +146,12 @@ public class AdminController {
 	}
 
 	// 비대면 상담 목록 호출
-	@GetMapping("/untactConsForm")
-	public String untactConsForm(Model model) {
-		model.addAttribute("reserveApplyList", adminService.getReserveApplyList());
+	@GetMapping(value= { "/untactConsForm", "/untactConsForm/{status}" })
+	public String untactConsForm(SearchDto searchDto, Model model, @PathVariable("status") Optional<String> status) {
+		String consStatus = status.orElse(null);
+		model.addAttribute("status", consStatus);
+		model.addAttribute("reserveApplyList",adminService.getCompConsList(searchDto, consStatus));
+		model.addAttribute("searchDto", searchDto);
 		return "admin/untactCons";
 	}
 

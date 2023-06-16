@@ -13,7 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.weepl.dto.BoardImgDto;
 import com.weepl.dto.MhinfoFormDto;
-import com.weepl.dto.MhinfoSearchDto;
+import com.weepl.dto.SearchDto;
 import com.weepl.entity.BoardImg;
 import com.weepl.entity.Mhinfo;
 import com.weepl.repository.BoardImgRepository;
@@ -102,7 +102,7 @@ public class MhinfoService {
 	}
 	
 	@Transactional(readOnly = true)
-    public Page<Mhinfo> getMhinfoPage(MhinfoSearchDto mhinfoSearchDto, Pageable pageable){
+    public Page<Mhinfo> getMhinfoPage(SearchDto mhinfoSearchDto, Pageable pageable){
     	return mhinfoRepository.getMhinfoPage(mhinfoSearchDto, pageable);
     }
 	

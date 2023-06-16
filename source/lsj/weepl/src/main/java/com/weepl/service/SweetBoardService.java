@@ -13,8 +13,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.weepl.dto.BoardAttachDto;
 import com.weepl.dto.BoardImgDto;
+import com.weepl.dto.SearchDto;
 import com.weepl.dto.SweetBoardDto;
-import com.weepl.dto.SweetSearchDto;
 import com.weepl.entity.BoardAttach;
 import com.weepl.entity.BoardImg;
 import com.weepl.entity.Member;
@@ -74,7 +74,7 @@ public class SweetBoardService {
 
 	// 게시글 페이징
 	@Transactional(readOnly = true)
-	public Page<SweetBoard> getSweetBoardPage(SweetSearchDto sweetSearchDto, Pageable pageable) {
+	public Page<SweetBoard> getSweetBoardPage(SearchDto sweetSearchDto, Pageable pageable) {
 		return sweetBoardRepository.getSweetBoardPage(sweetSearchDto, pageable);
 	}
 

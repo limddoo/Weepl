@@ -2,7 +2,6 @@ package com.weepl.controller;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.List;
 import java.util.Optional;
@@ -34,7 +33,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.weepl.dto.NoticeFormDto;
-import com.weepl.dto.NoticeSearchDto;
+import com.weepl.dto.SearchDto;
 import com.weepl.entity.Notice;
 import com.weepl.service.NoticeService;
 
@@ -50,7 +49,7 @@ public class NoticeController {
 	
 	//공지사항 리스트
 	@GetMapping(value= {"/notice","/notice/{page}"}) //페이지 번호가 없는 경우와 있는 경우 2가지 매핑
-	public String manageNotice(NoticeSearchDto noticeSearchDto, @PathVariable("page") Optional<Integer> page, Model model) {
+	public String manageNotice(SearchDto noticeSearchDto, @PathVariable("page") Optional<Integer> page, Model model) {
 		
 		//PageRequest.of 메소드를 통해 Pageable객체 생성. 해당 페이지 조회, 페이지 번호가 없으면 0페이지에서 3개 조회
 		Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 10); 

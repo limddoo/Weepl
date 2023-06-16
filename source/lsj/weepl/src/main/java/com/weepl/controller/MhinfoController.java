@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,7 +24,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.weepl.dto.MhinfoFormDto;
-import com.weepl.dto.MhinfoSearchDto;
+import com.weepl.dto.SearchDto;
 import com.weepl.entity.Mhinfo;
 import com.weepl.service.BoardImgService;
 import com.weepl.service.MhinfoService;
@@ -98,7 +97,7 @@ public class MhinfoController {
 	
 	
 	@GetMapping(value = { "/mhinfos", "/mhinfos/{page}" })
-	public String mhinfoMng(MhinfoSearchDto mhinfoSearchDto, @PathVariable("page") Optional<Integer> page,
+	public String mhinfoMng(SearchDto mhinfoSearchDto, @PathVariable("page") Optional<Integer> page,
 			Model model) {
 		int pageNumber = page.orElse(0);
 		

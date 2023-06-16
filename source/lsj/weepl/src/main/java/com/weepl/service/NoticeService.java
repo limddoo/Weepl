@@ -17,7 +17,7 @@ import com.weepl.dto.BoardAttachDto;
 import com.weepl.dto.BoardImgDto;
 import com.weepl.dto.NoticeDto;
 import com.weepl.dto.NoticeFormDto;
-import com.weepl.dto.NoticeSearchDto;
+import com.weepl.dto.SearchDto;
 import com.weepl.entity.BoardAttach;
 import com.weepl.entity.BoardImg;
 import com.weepl.entity.Notice;
@@ -140,7 +140,7 @@ public class NoticeService {
 	
 	
 	@Transactional(readOnly = true)
-	public Page<Notice> getAdminNoticePage(NoticeSearchDto noticeSearchDto, Pageable pageable){
+	public Page<Notice> getAdminNoticePage(SearchDto noticeSearchDto, Pageable pageable){
 		return noticeRepository.getAdminNoticePage(noticeSearchDto, pageable);
 	}
 	
