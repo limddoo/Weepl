@@ -10,7 +10,6 @@
 		}
 		
 		.table-container {
-			height: 90%;
 			overflow-y: scroll;
 		}
 		
@@ -19,21 +18,10 @@
 		}
 		
 		.select-div {
-			margin-left:89%;
+			margin-left:88%;
 			margin-bottom: 10px;	
 		}
 		
-		.input-select {
-			border: 2px;
-			border-style: solid;
-			border-radius: 5px;
-			border-color: #4c4c4e;
-			outline: none;
-			padding-left: 10px;
-			padding-right: 10px;
-			padding-top: 5px;
-			padding-bottom: 5px;
-		}
 </style>
 </th:block>
 <!-- 사용자 스크립트 추가 -->
@@ -108,57 +96,58 @@
 				<option value="compcons" th:selected="${status == 'compcons'}">상담완료</option>
 			</select>
 		</div>
-		<table class="table-container">
-			<thead>
-				<tr>
-					<th>회원이름</th>
-					<th>신청제목</th>
-					<th>신청내용</th>
-					<th>상담일</th>
-					<th>상담시간</th>
-					<th>신청상태</th>
-					<th>상담진행</th>
-					<th>출력</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr th:each="reserveApply : ${reserveApplyList}">
-					<td th:text="${reserveApply.member.name}"></td>
-					<td th:text="${reserveApply.reserveTitle}"></td>
-					<td th:text="${reserveApply.consReqContent}"></td>
-					<td th:text="${reserveApply.reserveSchedule.reserveDate}"></td>
-					<td th:text="${reserveApply.reserveSchedule.reserveTime}"></td>
-					<td th:text="${reserveApply.reserveStatus}"></td>
-					<td>
-						<input type="button" value="비대면 상담 시작" class="button-style"
-						th:disabled="!${reserveApply.reserveStatus == '예약완료'}"
-						th:onclick="new_window([[${reserveApply.reserveSchedule.reserveDate}]],[[${reserveApply.reserveSchedule.reserveTime}]],[[${reserveApply.reserveApplyCd}]])">
-					</td>
-					<td>
-						<input type="button" class="button-style" value="상담 내역 출력"
-						th:disabled="!${reserveApply.reserveStatus == '상담완료'}"
-						th:onclick="openCompConsContent([[${reserveApply.reserveApplyCd}]]);">
-					</td>
-					</th:block>
-				</tr>
-			</tbody>
-		</table>
-		<div class="form-inline justify-content-center"
+		<div class="table-div">
+			<table class="table-container">
+				<thead>
+					<tr>
+						<th>회원이름</th>
+						<th>신청제목</th>
+						<th>신청내용</th>
+						<th>상담일</th>
+						<th>상담시간</th>
+						<th>신청상태</th>
+						<th>상담진행</th>
+						<th>출력</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="reserveApply : ${reserveApplyList}">
+						<td th:text="${reserveApply.member.name}"></td>
+						<td th:text="${reserveApply.reserveTitle}"></td>
+						<td th:text="${reserveApply.consReqContent}"></td>
+						<td th:text="${reserveApply.reserveSchedule.reserveDate}"></td>
+						<td th:text="${reserveApply.reserveSchedule.reserveTime}"></td>
+						<td th:text="${reserveApply.reserveStatus}"></td>
+						<td>
+							<input type="button" value="비대면 상담 시작" class="button-style"
+							th:disabled="!${reserveApply.reserveStatus == '예약완료'}"
+							th:onclick="new_window([[${reserveApply.reserveSchedule.reserveDate}]],[[${reserveApply.reserveSchedule.reserveTime}]],[[${reserveApply.reserveApplyCd}]])">
+						</td>
+						<td>
+							<input type="button" class="button-style" value="상담 내역 출력"
+							th:disabled="!${reserveApply.reserveStatus == '상담완료'}"
+							th:onclick="openCompConsContent([[${reserveApply.reserveApplyCd}]]);">
+						</td>
+						</th:block>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="search-div"
 				th:object="${searchDto}">
-				<select th:field="*{searchDateType}" class="form-control"
-					style="width: auto;">
+				<select class="input-select" th:field="*{searchDateType}">
 					<option value="all">전체기간</option>
 					<option value="1d">1 일</option>
 					<option value="1w">1 주</option>
 					<option value="1m">1개월</option>
 					<option value="6m">6개월</option>
-				</select> <select th:field="*{searchBy}" class="form-control"
-					style="width: auto;">
+				</select>
+				<select class="input-select" th:field="*{searchBy}">
 					<option value="id">아이디</option>
 					<option value="name">이름</option>
-				</select> <input th:field="*{searchQuery}" type="text" class="form-control"
-					placeholder="검색어를 입력해주세요">
-				<button id="searchBtn" type="submit" class="btn btn-primary">검색</button>
+				</select>
+				<input th:field="*{searchQuery}" type="text" placeholder="검색어를 입력해주세요" class="input-long">
+				<button id="searchBtn" type="submit" class="button-style searchBtn">검색</button>
 			</div>  
 		<input type="hidden" th:name="${_csrf.parameterName}"
 			th:value="${_csrf.token}">

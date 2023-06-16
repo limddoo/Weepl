@@ -13,34 +13,6 @@ body {
 	padding-bottom: 40px;
 }
 
-.input-group {
-	margin: 20px;
-}
-
-.input-short {
-  width: 150px;
-  height: 32px;
-  font-size: 15px;
-  border: 2px;
-  border-style: solid;
-  border-radius: 5px;
-  border-color: #4c4c4e;
-  outline: none;
-  padding-left: 10px;
-}
-
-.input-long {
-  width: 400px;
-  height: 32px;
-  font-size: 15px;
-  border: 1;
-  border-style: solid;
-  border-radius: 5px;
-  border-color: #4c4c4e;
-  outline: none;
-  padding-left: 10px;
-}
-
 .footer {
 	position: absolute;
 	left: 0;
@@ -109,6 +81,44 @@ body {
 	text-align: left;
 }
 
+.table-div {
+	height: 530px;
+}
+
+.search-div {
+	margin-left: 25%;
+	margin-top: 25px;
+}
+
+.pagination-ul {
+	display: flex;
+	margin-left: 40%;
+	margin-top: 10px;
+	margin-bottom: 15px;
+}
+
+.pagination-ul .page-button-direction a span {
+	color: white;
+	text-align: center;
+	font-size: 18px;
+	padding: 3px 8px 6px 8px;
+	background-color: #f7931d;
+	border: 1px solid #f7931d;
+	border-radius: 15px;
+}
+
+.pagination-ul .page-button a {
+	color: #4c4c4e;
+	text-align: center;
+	font-weight: bold;
+	font-size: 18px;
+	padding: 5px 12px 6px 12px;
+	border: 2px solid #4c4c4e;
+	border-radius: 18px;
+	margin-left: 5px;
+	margin-right: 5px;
+}
+
 #calendar {
 	width: 1000px;
 	min-width: 1000px;
@@ -122,8 +132,51 @@ body {
 	padding-bottom: 20px;
 	border: 2px;
 	border-radius: 20px;
-	border-block-style: groove;
+	border-block-style: solid;
 	border-block-color: #f7931d;
+}
+
+.input-group {
+	margin: 20px;
+}
+
+.input-short {
+  width: 150px;
+  height: 32px;
+  font-size: 15px;
+  border: 2px;
+  border-style: solid;
+  border-radius: 5px;
+  border-color: #4c4c4e;
+  outline: none;
+  padding-left: 10px;
+}
+
+.input-long {
+  width: 400px;
+  height: 32px;
+  font-size: 15px;
+  border: 2px;
+  border-style: solid;
+  border-radius: 5px;
+  border-color: #4c4c4e;
+  outline: none;
+  padding-left: 10px;
+}
+
+.input-select  {
+	height: 36px;
+	width: auto;
+	border: 2px;
+	font-size: 15px;
+	border-style: solid;
+	border-radius: 5px;
+	border-color: #4c4c4e;
+	outline: none;
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-top: 5px;
+	padding-bottom: 5px;
 }
 
 button {
@@ -138,7 +191,7 @@ button {
     color: #fff;
     border: 1px solid transparent;
     border-radius: .50rem;
-    height:45px; 
+    height:40px; 
     font-size: 1rem;
     font-weight: 400;
     text-align: center;
@@ -146,6 +199,10 @@ button {
     padding: .375rem .75rem;
     line-height: 1.5;
   }
+  
+.searchBtn {
+	background-color:#f7931d;
+}
   
 .button-style:disabled,
 .button-style[disabled]:hover {
@@ -156,6 +213,10 @@ button {
 .button-style:hover {
 	cursor: pointer;
 	background-color:#82ba36;
+}
+
+.searchBtn:hover {
+	background-color:#e88409 !important;
 }
 
 .subview h3 {
