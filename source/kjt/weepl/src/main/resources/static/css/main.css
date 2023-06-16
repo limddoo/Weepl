@@ -11,10 +11,10 @@
 }
 
 .Icon p {
+  font-family: 'KorailRoundGothicBold';
   font-size: 25px;
   font-weight: 500;
 }
-
 .slide-container {
 	overflow: hidden;
 }
@@ -82,23 +82,24 @@
 }
 
 .mBG01 {
-	margin: 0 auto;
-	overflow: hidden;
-	background: #d5efee;
-	background: linear-gradient(-40deg, #f3fef5 10%, #b8e0e6);
-	background: -webkit-linear-gradient(-40deg, #f3fef5 10%, #b8e0e6);
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	width: 100vw;
-	height: 540px;
-	margin-bottom: 40px;
-	position: relative;
+  margin: 0 auto;
+  overflow: hidden;
+  background: #d5efee;
+  background: linear-gradient(-40deg, #f3fef5 10%, #b8e0e6);
+  background: -webkit-linear-gradient(-40deg, #f3fef5 10%, #b8e0e6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 540px;
+  margin-bottom: 40px;
+  position: relative;
 }
 
+
 .Vimg_inner iframe {
-	width: 680px;
-	height: 380px;
+  width: 680px;
+  height: 380px;
 }
 
 .mainPOP_new {
@@ -134,11 +135,14 @@
 	position: relative;
 }
 
-.slide_buttons button{
-	border: none;
-	background: transparent;
-	
+.slide_buttons button {
+  border: none;
+  background: transparent;
+  width: 31px;
+  height: 31px;
+  color: grey;
 }
+
 .slide_buttons button:focus {
   outline: none;
 }
@@ -162,11 +166,10 @@
 }
 
 .notice_right {
-	margin-left: 10px; /* 수정: margin-right에서 margin-left로 변경 */
-	width: 500px;
-	height: 400px;
-	text-align: left;
-	margin-left: 100px;
+  margin-left: 10px;
+  width: 500px;
+  height: 400px;
+  text-align: left;
 }
 
 .notice_item {
@@ -237,8 +240,8 @@
 }
 
 footer {
-	position: absolute;
-	bottom: 0;
-	width: 100%;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
 }
 
