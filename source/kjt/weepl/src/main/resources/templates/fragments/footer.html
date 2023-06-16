@@ -1,8 +1,104 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<div class="footer" th:fragment="footer">
-	<footer class="page-footer font-small cyan darken-3">
-		<div class="footer-copyright text-center py-3">2023 Weepl TeamProject WebSite</div>
-	</footer>
-</div>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/basicLayout}">
+<head>
+<meta charset="UTF-8">
+<title>Title</title>
+<script type="text/javascript" src="/js/footer.js"></script>
+</head>
+<body>
+	<div class="footer" th:fragment="footer">
+		<footer class="page-footer font-small cyan darken-3">
+			<link th:href="@{/css/footer.css}" rel="stylesheet">
+			<script type="text/javascript" src="/js/footer.js"></script>
+			<div class="bannerwrap">
+				<div class="layout">
+					<!--BannerSlide-->
+					<h3 class="hidden">각시도별 교육청 배너링크</h3>
+					<div class="banner_slide">
+						<div class="ctrl_box">
+							<!-- <button class="btnbann_prev" type="button">이전</button>
+                                    <button class="btnbann_next" type="button">다음</button>
+                                    <button class="btnbann_stop" type="button">정지</button> -->
+						</div>
+						<div class="banner-container">
+							<div class="banner-wrapper">
+								<div class="banner-slide">
+									<a href="http://www.sen.go.kr" target="_blank"
+										title="서울특별시교육청 새창열림"> <img
+										src="../img/footer/mainban_01.gif" alt="서울특별시교육청">
+									</a>
+								</div>
+								<div class="banner-slide">
+									<a href="http://www.pen.go.kr" target="_blank"
+										title="부산광역시교육청 새창열림"> <img
+										src="../img/footer/mainban_02.gif" alt="부산광역시교육청">
+									</a>
+								</div>
+								<div class="banner-slide">
+									<a href="http://www.dge.go.kr" target="_blank"
+										title="대구광역시교육청 새창열림"> <img
+										src="../img/footer/mainban_03.gif" alt="대구광역시교육청">
+									</a>
+								</div>
+								<div class="banner-slide">
+									<a href="http://www.dje.go.kr" target="_blank"
+										title="대전광역시교육청 새창열림"> <img
+										src="../img/footer/mainban_04.gif" alt="대전광역시교육청">
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!--//BannerSlide-->
+				</div>
+			</div>
+			<!--//BannerSlide-->
+
+			<!--foot_layout-->
+			<div id="footer-placeholder"></div>
+			<div class="layout">
+				<div class="footer-info">
+					<ul class="utile_wrap">
+						<li class="inline"><a
+							href="/home/cms/cmsCont.do?cntnts_sn=61">개인정보처리방침</a></li>
+						<li class="inline"><a
+							href="/home/cms/cmsCont.do?cntnts_sn=10">이메일주소 무단수집거부</a></li>
+						<li class="inline"><a href="/home/main/sitemap.do">사이트맵</a></li>
+						<li class="inline"><a href="../main/newsletterPop.do"
+							onclick="window.open(this.href,'newsPop', 'width=500,height=240');return false;"
+							class="btnlayer">Wee뉴스레터 구독신청</a></li>
+					</ul>
+				</div>
+				<div class="footwrap">
+					<div class="footwrap">
+						<div class="clearfix"></div>
+						<div class="footlogo1">
+							<a href="https://www.moe.go.kr/" target="_blank" title="새창열림">
+								<img src="../img/footer/footer_logo01.png" alt="교육부">
+							</a>
+						</div>
+						<div class="footlogo2">
+							<a href="https://www.kedi.re.kr/" target="_blank" title="새창열림">
+								<img src="../img/footer/footer_logo02.png" alt="한국교육개발원">
+							</a>
+						</div>
+
+					</div>
+					<div class="copyright">
+						<address>
+							우)27873 충북 진천군 덕산읍 교학로7 한국교육개발원 위(Wee)프로젝트연구·지원센터(한국교육개발원 317호) <br>
+							전화번호 : 043)5309-182 시스템문의 : 043)5309-183
+							<p>Copyrightⓒ 2021 한국교육개발원 위(Wee)프로젝트연구·지원센터. All rights
+								reserved.</p>
+						</address>
+					</div>
+				</div>
+			</div>
+
+		</footer>
+		<!--//foot_layout-->
+	</div>
+</body>
 </html>

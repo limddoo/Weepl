@@ -1,0 +1,93 @@
+@font-face {
+    font-family: 'GmarketSansMedium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.footer {
+    	font-family: 'GmarketSansMedium';
+        background-color: #252525 !important;
+        text-align: center;
+    }
+	.inline {
+		display: inline;
+	}
+	
+	
+	.footer-info ul {
+		padding: 10px;
+    display: inline-block;
+		list-style: none;
+	}
+	.footer-info ul li {
+		display: inline;
+		margin-right: 10px;
+	}
+	
+	.footer-info ul li a {
+    color: white;
+  }
+	.footer-info li:not(:last-child) {
+    border-right: 4px solid #000;
+    padding-right: 10px;
+  }
+  
+	.footer-info ul.utile_wrap li {
+    border-right: 1px solid gray;
+    padding-right: 10px;
+    margin-right: 10px;
+    display: inline-block;
+  }
+
+  .footer-info ul.utile_wrap li:last-child {
+    border-right: none;
+  }
+  
+  .footlogo1 {
+  	flex: 1 1 auto;
+  	text-align: left;
+    float: left;
+    margin-left: 200px;
+  }
+
+  .footlogo2 {
+  flex: 1 1 auto;
+  	text-align: left;
+    float: right;
+    margin-right: 150px;
+  }
+
+  .clearfix::after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+  .copyright {
+  	margin-bottom: 20px;
+  }
+  
+   .banner-container {
+  display: flex;
+  overflow: hidden;
+  text-align: center;
+  justify-content: center; /* 수평 가운데 정렬 */
+  align-items: center; /* 수직 가운데 정렬 */
+  width: 100%; /* 부모 요소의 너비를 100%로 설정 */
+}
+
+  .banner-wrapper {
+    display: flex;
+  }
+
+  .banner-slide {
+    flex: 0 0 auto;
+    margin: 20px;
+  }
+  
+  .copyright address {
+    color: grey !important;
+  }
+  h3.hidden {
+  display: none;
+}
