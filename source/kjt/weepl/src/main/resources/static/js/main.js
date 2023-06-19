@@ -4,14 +4,11 @@ $(document).ready(function() {
   const nextButton = $('#next_slide');
   const playPauseButton = $('#play_pause_button');
   const playPauseImage = $('#play_pause_image');
+  const video = $('#popupzone_video_0');
 
   let currentSlide = 0;
   let isSlideShowRunning = true;
-  let slideInterval = setInterval(() => {
-    if (isSlideShowRunning) {
-      slideTo('next');
-    }
-  }, 5000);
+  let slideInterval;
 
   function showSlide(n) {
     slides.each(function(index) {
@@ -30,12 +27,17 @@ $(document).ready(function() {
       clearInterval(slideInterval);
       playPauseImage.attr('src', '/img/main/play.png');
       isSlideShowRunning = false;
+      stopVideo(); // 동영상 재생 중지 함수 호출
     } else {
       slideInterval = setInterval(() => {
-        showSlide((currentSlide + 1) % slides.length);
+        if (!isVideoPlaying()) { // 동영상이 재생 중이 아닌 경우에만 슬라이드 전환
+          showSlide((currentSlide + 1) % slides.length);
+        }
       }, 5000);
       playPauseImage.attr('src', '/img/main/stop.png');
       isSlideShowRunning = true;
+      startSlideShow(); // 슬라이드쇼 다시 시작
+      playVideo(); // 동영상 재생 함수 호출
     }
   }
 
@@ -55,20 +57,18 @@ $(document).ready(function() {
     localStorage.setItem('currentSlideIndex', currentSlide.toString());
   }
 
-  // 슬라이드 숨김 함수
   function hideSlides() {
     slides.each(function(index) {
-      if (index !== 0) { // 슬라이드 인덱스가 0이 아닌 경우 hide() 메소드를 사용하여 숨김
+      if (index !== 0) {
         $(this).hide();
       }
     });
   }
 
-  // 페이지 로드 시 슬라이드 초기화
   $(window).on('load', function() {
-    hideSlides(); // 초기에 모든 슬라이드 숨김
     showSlide(currentSlide);
-    adjustSlideContainerSize(); // 슬라이드 컨테이너 크기 조정
+    adjustSlideContainerSize();
+    startSlideShow(); // 슬라이드쇼 시작
   });
 
   prevButton.on('click', function() {
@@ -85,8 +85,37 @@ $(document).ready(function() {
     toggleSlideShow();
   });
 
+  video.on('play', function() {
+    if (isSlideShowRunning) {
+      clearInterval(slideInterval);
+      isSlideShowRunning = false;
+      playPauseImage.attr('src', '/img/main/play.png');
+    }
+  });
+
+  video.on('ended', function() {
+    if (!isSlideShowRunning) {
+      slideInterval = setInterval(() => {
+        if (!isVideoPlaying()) {
+          showSlide((currentSlide + 1) % slides.length);
+        }
+      }, 5000);
+      isSlideShowRunning = true;
+      startSlideShow();
+      playPauseImage.attr('src', '/img/main/stop.png');
+    }
+  });
+
   function adjustSlideContainerSize() {
     const slideContainer = $('#main_slide');
     slideContainer.height(slides.eq(currentSlide).height());
+  }
+
+  function startSlideShow() {
+    slideInterval = setInterval(() => {
+      if (isSlideShowRunning) {
+        slideTo('next');
+      }
+    }, 5000);
   }
 });

@@ -64,7 +64,7 @@
     clear: both;
   }
   .copyright {
-  	margin-bottom: 20px;
+  	margin-bottom: 0px;
   }
   
    .banner-container {
@@ -87,7 +87,11 @@
   
   .copyright address {
     color: grey !important;
+  margin-bottom: 0;
   }
   h3.hidden {
   display: none;
+}
+footer p:last-child {
+  margin-bottom: 0;
 }
