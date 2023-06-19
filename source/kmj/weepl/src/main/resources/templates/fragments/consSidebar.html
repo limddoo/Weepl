@@ -4,12 +4,12 @@
 
 <div class="sidebar" th:fragment="sidebar">
 <link th:href="@{/css/sidebar.css}" rel="stylesheet">
-	<div style="width: 200px;">
-		<a href="/cons/consInfo">
+	<div class="sidebarContainer">
+		<a href="/cons/consInfo" class="sidebarTitle">
 			<span>상담신청</span>
 		</a>
 		<hr>
-			<ul>
+			<ul class="sidebarSubmenu">
 				<li><a href="/cons/consInfo">상담이용안내</a></li>
 				<li><a href="/reservation/main">비대면 상담신청</a></li>
 				<li><a href="/boardCons/boardConsList">게시판 상담</a></li>

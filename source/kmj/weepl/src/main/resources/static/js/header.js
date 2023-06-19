@@ -1,7 +1,6 @@
 
 
 $(document).ready(function(){
-
 	$("#menu").mouseenter(function(){
 		 $("#hiddenContainer").attr("style","display:block; background-color:white; z-index:-1");
 		menu.style.borderBottom = "2px solid rgba(76,76,78,0.3)";

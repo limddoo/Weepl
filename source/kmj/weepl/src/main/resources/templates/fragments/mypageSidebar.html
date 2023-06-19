@@ -3,32 +3,29 @@
 	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <div class="sidebar" th:fragment="sidebar">
-<link th:href="@{/css/sidebar.css}" rel="stylesheet">
-	<div class="" style="width: 200px;">
-		<a href="/"	class="">
-			<span class="">Mypage</span>
+	<link th:href="@{/css/sidebar.css}" rel="stylesheet">
+	<div class="sidebarContainer">
+		<a href="/" class="sidebarTitle">
+		<span>Mypage</span>
 		</a>
 		<hr>
-		<ul class="">
-			<li class=""><a href="/mypage/connMypage" class="" aria-current="page" id="connMypage">개인정보 수정</a></li>
-			<li class=""><a href="/mypage/modMyPwd" class="" aria-current="page" id="modMyPwd"> 비밀번호 수정 </a></li>
-			<li class=""><a href="/mypage/setNickName" class=""	aria-current="page" id="setNickName" sec:authorize="hasRole('ROLE_COUNSELOR')"> 스윗 닉네임 변경 </a></li>
-			<li class=""><a href="/mypage/quitMember" class="" aria-current="page" id="quitMember"> 회원 탈퇴 </a></li>
+		<ul class="sidebarSubmenu">
+			<li><a href="/mypage/connMypage" aria-current="page" id="connMypage">개인정보 수정</a></li>
+			<li><a href="/mypage/modMyPwd" aria-current="page" id="modMyPwd">비밀번호 수정</a></li>
+			<li><a href="/mypage/setNickName" aria-current="page" id="setNickName" sec:authorize="hasRole('ROLE_COUNSELOR')">스윗 닉네임 변경</a></li>
+			<li><a href="/mypage/quitMember" aria-current="page" id="quitMember">회원탈퇴</a></li>
 		</ul>
 		<hr>
-	</div>
-	<div class="" style="width: 200px;">
-		<a href="/mypage/myConsList" class="">
-			<span class="">나의 상담 내역</span>
+
+		<div class="blankSpace"></div>
+		
+		<a href="/mypage/myConsList" class="sidebarTitle"> 
+		<span>나의 상담 내역</span>
 		</a>
 		<hr>
-
-		<ul class="">
-			<li class=""><a href="/mypage/myReservation"
-				class="" aria-current="page" id="myReservation"> 상담 일정 </a></li>
-			<li class=""><a href="/mypage/myConsList"
-				class="" aria-current="page" id="myConsList"> 게시판 상담 내역
-			</a></li>
+		<ul class="sidebarSubmenu">
+			<li><a href="/mypage/myReservation" aria-current="page" id="myReservation">상담 일정</a></li>
+			<li><a href="/mypage/myConsList" aria-current="page" id="myConsList">게시판 상담 내역</a></li>
 		</ul>
 		<hr>
 	</div>

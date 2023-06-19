@@ -1,14 +1,66 @@
 @charset "UTF-8";
 
 @font-face {
-	font-family: 'TheJamsil5Bold';
-	src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302_01@1.0/TheJamsil5Bold.woff2') format('woff2');
-	font-weight: 300;
+	font-family: 'GmarketSansMedium';
+	src:
+		url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff')
+		format('woff');
+	font-weight: normal;
 	font-style: normal;
 }
 
-*{
-	font-family: 'TheJamsil5Bold';
-	margin: 0;
+* {
+	font-family: 'GmarketSansMedium';
+	font-weight: bold; margin : 0;
 	padding: 0;
+	color: #4c4c4e;
+	margin: 0;
+}
+
+ul {
+	list-style: none;
+}
+
+a {
+	text-decoration: none;
+}
+
+.sidebar {
+	padding-left: 150px;
+	margin-top: 40px; width : 200px;
+	height: 100%;
+	min-height: 800px;
+	width: 230px;
+}
+
+.sidebarContainer hr {
+	width: 160px;
+	border: 2px solid rgba(76, 76, 78, 0.4);
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+.sidebarTitle {
+	font-size: 20px;
+}
+
+.sidebarSubmenu li{
+	padding:5px 5px 5px 0px;
+	margin:5px 5px 5px 0px;
+	line-height: 40px;
+	position:relative;
+	right:10px;
+}
+.sidebarSubmenu li a{
+	padding:12px 18px 12px 12px;	
+}
+
+.sidebarSubmenu li a:hover {
+	color: white;
+	background: #7cc9ad;
+	border-radius: 10px 10px 10px 10px;
+}
+
+.blankSpace{
+	height:50px;	
 }

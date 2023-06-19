@@ -21,6 +21,7 @@
 * {
 	margin: 0;
 	padding: 0;
+	color: #4c4c4e;
 }
 
 ul {
@@ -29,20 +30,20 @@ ul {
 
 a {
 	text-decoration: none;
-	color: #333;
 }
 
-.container {
+.headerContainer {
 	height: 100px;
 	width: 100%;
-	min-width: 1800px;
+	max-width:1905px;
+	min-width: 1905px;
 	display: flex;
 	justify-content: center;
 	align-content: center;
 	align-items:center;
 }
 
-nav {
+.headerNav {
 	margin: 0;
 	min-width: 100% auto;
 }
@@ -92,7 +93,6 @@ nav {
 	background: #7cc9ad;
 	border-radius: 20px 20px 20px 20px;
 	color: white;
-	
 }
 
 .depth_1 {
@@ -135,10 +135,11 @@ nav {
 	word-spacing:5px;
 	font-family: 'GmarketSansMedium';	
 	min-width:200px;
+	
 }
 
 .headerRight span a{
-   padding: 2px 5px 2px 5px;
+   padding: 5px 5px 2px 5px;
 }
 
 .headerRight span a:hover{
@@ -147,20 +148,17 @@ nav {
    border-radius: 10px 10px 10px 10px;
 }
 
-.headerRight span a:hover{
-	color:white;
-}
-
 .forBorder{
 	width:1px;
-	height:13px;		
-	border-right:1px solid rgba(76,76,78,0.5);
+	height:13px;
+	right:1px;
+	border-left:1px solid rgba(76,76,78,0.5);
 	position:relative;
-	right:4px;
+	right:5px;
 }
 
 #hiddenContainer {
-    height: 160px;
+    height: 230px;
 	width: 100%;
 	min-width: 1800px;
 	position: absolute;

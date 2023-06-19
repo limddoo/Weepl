@@ -4,23 +4,22 @@
 
 <div class="sidebar" th:fragment="sidebar">
 <link th:href="@{/css/sidebar.css}" rel="stylesheet">
-	<div class="" style="width: 200px;">
-		<span class="">회원관리</span>
+	<div class="sidebarContainer">
+		<span class="sidebarTitle">회원관리</span>
 		<hr>
-		<ul class="">
-			<li class=""><a href="/admin/memberList"
-				class="" aria-current="page" id="memberList"> 회원정보 관리 </a></li>
-			<li class=""><a href="/admin/reMemberList"
-				class="" aria-current="page" id="reMemberList"> 이용제한 회원관리 </a></li>
+		<ul class="sidebarSubmenu">
+			<li><a href="/admin/memberList" aria-current="page" id="memberList">회원정보 관리</a></li>
+			<li><a href="/admin/reMemberList" aria-current="page" id="reMemberList">이용제한 회원관리</a></li>
 		</ul>
 		<hr>
-		<span class="">사이트관리</span>
+		
+		<div class="blankSpace"></div>
+		
+		<span class="sidebarTitle">사이트관리</span>
 		<hr>
-		<ul class="">
-			<li class=""><a href="/admin/ucMngForm"
-				class="" aria-current="page" id="ucMngForm"> 비대면 상담 일정 관리 </a></li>
-			<li class=""><a href="/admin/untactConsForm"
-				class="" aria-current="page" id="untactConsForm"> 비대면 상담 내역 </a></li>
+		<ul class="sidebarSubmenu">
+			<li><a href="/admin/ucMngForm" aria-current="page" id="ucMngForm">비대면 상담 일정 관리</a></li>
+			<li><a href="/admin/untactConsForm" aria-current="page" id="untactConsForm">비대면 상담 내역</a></li>
 		</ul>
 		<hr>
 	</div>

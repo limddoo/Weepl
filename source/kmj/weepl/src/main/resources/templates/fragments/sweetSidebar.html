@@ -4,16 +4,16 @@
 
 <div class="sidebar" th:fragment="sidebar">
 <link th:href="@{/css/sidebar.css}" rel="stylesheet">
-	<div style="width: 200px;">
-		<a href="/sweetboard/list">
+	<div class="sidebarContainer">
+		<a href="/sweetboard/list" class="sidebarTitle">
 			<span>스윗(SWeeT)</span>
 		</a>
 		<hr>
-			<ul>
-				<li><a href=""></a>학교업무</li>
-				<li><a href=""></a>상담게시판</li>
-				<li><a href=""></a>각종서식</li>
-				<li><a href=""></a>자유게시판</li>
+			<ul class="sidebarSubmenu">
+				<li><a href="">학교업무</a></li>
+				<li><a href="">상담게시판</a></li>
+				<li><a href="">각종서식</a></li>
+				<li><a href="">자유게시판</a></li>
 		</ul>
 		<hr>
 	</div>
