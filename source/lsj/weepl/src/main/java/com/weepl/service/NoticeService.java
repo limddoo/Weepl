@@ -78,7 +78,7 @@ public class NoticeService {
 	}
 
 	
-	public List<NoticeDto> ListNotice() {
+	public List<Notice> getNoticeList() {
 		return noticeRepository.findAll();
 	}
 	

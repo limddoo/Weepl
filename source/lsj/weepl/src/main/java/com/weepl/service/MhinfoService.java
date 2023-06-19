@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.weepl.dto.BoardImgDto;
 import com.weepl.dto.MhinfoFormDto;
+import com.weepl.dto.NoticeDto;
 import com.weepl.dto.SearchDto;
 import com.weepl.entity.BoardImg;
 import com.weepl.entity.Mhinfo;
@@ -29,6 +30,11 @@ public class MhinfoService {
 	private final MhinfoRepository mhinfoRepository;
 	private final BoardImgService boardImgService;
 	private final BoardImgRepository boardImgRepository; 
+	
+
+	public List<Mhinfo> getMhinfoList() {
+		return mhinfoRepository.findAll();
+	}
 	
 	public Long findNextAvailableMhinfoCd() {
 		List<Long> mhinfoCds = mhinfoRepository.findAllMhinfoCds();
