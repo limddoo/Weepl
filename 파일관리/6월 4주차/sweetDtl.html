@@ -8,7 +8,6 @@
 <meta name="_csrf_header" th:content="${_csrf.headerName}" />
 <title>상세페이지</title>
 
-
 <!-- 사용자 스크립트 추가 -->
 <th:block layout:fragment="script">
 	<script th:inline="javascript">	
@@ -48,13 +47,8 @@
 				return;
 			}
 			var url = "/sweetboard/dtl/com/write";
-			
 			var token = $("meta[name='_csrf']").attr("content");
 			var header = $("meta[name='_csrf_header']").attr("content");
-			console.log(cd);
-			console.log(typeof(cd));
-			console.log(content);
-			console.log(url);
 			
 			$.ajax({
 				url : url,
@@ -134,7 +128,7 @@
 						location.href = '/members/login';
 					}
 					else {
-						alert('댓글을 삭제 할 수 없습니다');
+						alert('삭제할 수 없는 댓글입니다');
 					}
 				}
 			});
@@ -165,7 +159,7 @@
 	margin-left : 10%;
 	margin-top : 4%;
 	width: 60%;
-	align: "center";
+	align: center;
 }
 
 .table {
@@ -485,7 +479,7 @@ h1 {
 						</div>
 					</form>
 				</div>
-			</form> <br><br><br> 
+			</form> <br><br><br><br>
 		</div>
 	</div>
 </body>

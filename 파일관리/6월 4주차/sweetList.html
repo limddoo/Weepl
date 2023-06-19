@@ -23,8 +23,8 @@
 			var searchBy = $("#searchBy").val();
 			var searchQuery = $("#searchQuery").val();
 			location.href = "/sweetboard/list/" + page + "?searchDateType="
-					+ searchDateType + "&searchBy=" + searchBy
-					+ "&searchQuery=" + searchQuery;
+				+ searchDateType + "&searchBy=" + searchBy
+				+ "&searchQuery=" + searchQuery;
 		}
 		
 		function checkNickName() {
@@ -72,15 +72,21 @@ h1 {
 	width : 45%;
 }
 
+#board-ttl {
+	text-align: left;
+	padding-left: 8px;
+}
+
+#board-ttl:hover {
+	text-decoration : underline;
+	cursor : pointer;
+}
+
 #board-sort {
 	text-align: left;
 	padding-left: 8px;
 }
 
-#board-sort:hover {
-	text-decoration : underline;
-	cursor : pointer;
-}
 
 #main-content {
 	margin-left : 15%;
@@ -113,7 +119,7 @@ h1 {
 					<tr th:each="sweetBoard, status: ${sweetBoards.getContent()}" align="center">
 						<td th:text="${sweetBoard.cd}"></td>
 						<td th:text="${sweetBoard.member.nickName}"></td>
-						<td id="board-sort"><a th:href="'/sweetboard/dtl/'+${sweetBoard.cd}" th:text="${sweetBoard.title}"></a></td>
+						<td id="board-ttl"> <a th:href="'/sweetboard/dtl/'+${sweetBoard.cd}" th:text="${sweetBoard.title}"></a> </td>
 						<td th:text="${sweetBoard.board_div}" id="board-sort"></td>
 						<td th:text="${sweetBoard.regDt}"></td>
 						<td th:text="${sweetBoard.like_cnt}"></td>
@@ -142,27 +148,27 @@ h1 {
 
 			<!-- 검색조건 -->
 			<div class="form-inline justify-content-center" th:object="${sweetSearchDto}">
-				<select th:field="*{searchDateType}" class="form-control"
-					style="width: auto;">
+				<select th:field="*{searchDateType}" class="form-control" style="width: auto;">
 					<option value="all">전체기간</option>
 					<option value="1d">1 일</option>
 					<option value="1w">1 주</option>
 					<option value="1m">1개월</option>
 					<option value="6m">6개월</option>
-				</select> <select th:field="*{searchBoardDiv}" class="form-control"
-					style="width: auto;">
+				</select>
+				<select th:field="*{searchBoardDiv}" class="form-control" style="width: auto;">
 					<option value="">게시판구분 (전체)</option>
-					<option value="SCHOOL_TASK">학교업무 공유게시판</option>
-					<option value="CONSULTING">상담전문성 공유게시판</option>
-					<option value="FORM">서식 공유게시판</option>
-					<option value="FREETALK">자유게시판</option>
-				</select> <select th:field="*{searchBy}" class="form-control" style="width: auto;">
+					<option value="학교업무 공유게시판">학교업무 공유게시판</option>
+					<option value="상담 전문성 공유게시판">상담전문성 공유게시판</option>
+					<option value="서식 공유게시판">서식 공유게시판</option>
+					<option value="자유게시판">자유게시판</option>
+				</select> 
+				<select th:field="*{searchBy}" class="form-control" style="width: auto;">
 					<option value="">전체항목</option>
 					<option value="title">제목</option>
 					<option value="content">내용</option>
 					<option value="createdBy">작성자</option>
-				</select> <input th:field="*{searchQuery}" type="text" class="form-control"
-					placeholder="검색어를 입력해주세요">&nbsp
+				</select>
+				<input th:field="*{searchQuery}" type="text" class="form-control" placeholder="검색어를 입력해주세요">&nbsp;
 				<button id="searchBtn" type="submit" class="btn btn-primary">검색</button>
 			</div>
 			<div class="newSweet" style="text-align: center" >

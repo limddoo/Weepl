@@ -14,7 +14,7 @@
 		}
 		bindDomEvent();
 		
-		// 등록되어있던 첨부파일 파일명 클릭시 삭제
+		// 등록된 첨부파일 파일명 클릭시 삭제
 		$(".upload-file-attach").on("click", ".exist-file", function() {
 			$("input[id='boardAttachCd"+$(this).attr("value")+"']").val($(this).attr("value"));
 			this.remove();
@@ -169,12 +169,30 @@
 }
 
 #button-div {
-	float: left;
-	margin-bottom: 450px;
+	float : center;
+	margin-bottom : 100px;
 }
 
 .upload-division {
-	float: left;
+	margin-bottom : 50px;
+}
+
+.img-div {
+	border : 2px solid #ffe4af;
+	margin : 6px;
+	margin-left : 80px;
+	padding-top : 10px;
+	padding-bottom : 10px;
+	border-radius : 10px;
+	background: ivory;
+}
+
+.upload-file-attach {
+	border : 2px solid #ffe4af;
+	margin-left : 60px;
+	margin-top : 20px;
+	height : 70px;
+	background: ivory;
 }
 
 </style>
@@ -264,7 +282,7 @@
 		<!-- 버튼 영역 -->
 		<div th:if="${#strings.isEmpty(sweetBoardDto.cd)}" style="text-align: center" id="button-div">
 			<button th:formaction="@{/sweetboard/add}" type="submit" class="btn btn-primary">저장</button>
-			<button th:formaction="@{/sweetboard/list}" type="submit" class="btn btn-primary">등록취소</button>
+			<button th:formaction="@{/sweetboard/list}" type="submit" class="btn btn-primary">취소</button>
 		</div>
 		<div th:unless="${#strings.isEmpty(sweetBoardDto.cd)}" style="text-align: center" id="button-div">
 			<button th:formaction="@{'/sweetboard/mod/' + ${cd}}" type="submit" class="btn btn-primary">수정</button>
