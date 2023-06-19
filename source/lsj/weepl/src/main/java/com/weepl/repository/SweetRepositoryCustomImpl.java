@@ -26,7 +26,16 @@ public class SweetRepositoryCustomImpl implements SweetRepositoryCustom {
 	}
 	
 	private BooleanExpression searchBoardDivEq(String searchBoardDiv) {
-		return searchBoardDiv == null? null : QSweetBoard.sweetBoard.board_div.like(searchBoardDiv);
+		if("SCHOOL_TASK".equals(searchBoardDiv)) {
+			return QSweetBoard.sweetBoard.board_div.eq("학교업무 공유게시판");
+		} else if("CONSULTING".equals(searchBoardDiv)) {
+			return QSweetBoard.sweetBoard.board_div.eq("상담전문성 공유게시판");
+		} else if("FORM".equals(searchBoardDiv)) {
+			return QSweetBoard.sweetBoard.board_div.eq("서식 공유게시판");
+		} else if("FREETALK".equals(searchBoardDiv)) {
+			return QSweetBoard.sweetBoard.board_div.eq("자유게시판");
+		}
+		return null;
 	}
 	
 	private BooleanExpression regDtsAfter(String searchDateType) {

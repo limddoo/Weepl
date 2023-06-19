@@ -61,7 +61,6 @@ body {
 	border-top: 1px solid #333;
 }
 
-
 .table-container thead th {
 	padding: 10px;
 	background: #f8f8f8;
@@ -86,13 +85,14 @@ body {
 }
 
 .search-div {
-	margin-left: 25%;
+	display: flex;
+	justify-content: center;
 	margin-top: 25px;
 }
 
 .pagination-ul {
 	display: flex;
-	margin-left: 40%;
+	justify-content: center;
 	margin-top: 10px;
 	margin-bottom: 15px;
 }
@@ -107,7 +107,21 @@ body {
 	border-radius: 15px;
 }
 
-.pagination-ul .page-button a {
+.pagination-ul .page-button-direction a span:hover {
+	cursor: pointer;
+	background-color:#e88409;
+}
+
+.pagination-ul .page-button-direction a .disabled{
+    opacity: 0.6;
+}
+
+.pagination-ul .page-button-direction a .disabled:hover {
+	background-color: #f7931d;
+	cursor: default;
+}
+
+.pagination-ul .page-button .page-link {
 	color: #4c4c4e;
 	text-align: center;
 	font-weight: bold;
@@ -117,6 +131,18 @@ body {
 	border-radius: 18px;
 	margin-left: 5px;
 	margin-right: 5px;
+}
+
+.pagination-ul .page-active .page-link {
+	border-color: #a2a2a4;
+	color:#a2a2a4;
+}
+
+.pagination-ul .page-button .page-link:hover {
+	cursor: pointer;
+	border-color: #4c4c4e;
+	background-color:#4c4c4e;
+	color: white;
 }
 
 #calendar {
@@ -153,7 +179,7 @@ body {
 }
 
 .input-long {
-  width: 400px;
+  width: 350px;
   height: 32px;
   font-size: 15px;
   border: 2px;
@@ -161,7 +187,9 @@ body {
   border-radius: 5px;
   border-color: #4c4c4e;
   outline: none;
-  padding-left: 10px;
+	margin-left: 5px;
+	margin-right: 5px;
+	padding-left: 10px;
 }
 
 .input-select  {
@@ -177,6 +205,8 @@ body {
 	padding-right: 10px;
 	padding-top: 5px;
 	padding-bottom: 5px;
+	margin-left: 5px;
+	margin-right: 5px;
 }
 
 button {
@@ -191,7 +221,6 @@ button {
     color: #fff;
     border: 1px solid transparent;
     border-radius: .50rem;
-    height:40px; 
     font-size: 1rem;
     font-weight: 400;
     text-align: center;
@@ -202,6 +231,8 @@ button {
   
 .searchBtn {
 	background-color:#f7931d;
+	margin-left: 5px;
+	margin-right: 5px;
 }
   
 .button-style:disabled,
@@ -222,7 +253,7 @@ button {
 .subview h3 {
 	color: #000;
 	font-size: 33px;
-	margin: 30px 0;
+	margin: 25px 0;
 	position: relative;
 	padding-left: 30px;
 }

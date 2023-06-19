@@ -6,10 +6,23 @@
     <th:block layout:fragment="script">
         <script th:inline="javascript">
             $(document).ready(function() {
+            	// 이전, 다음버튼 이동할 페이지 없을시, onclick 못하게 삭제
+    			var disalbed_directions = document.querySelectorAll(".disabled > a");
+    			disalbed_directions.forEach(function(disalbed_direction) {
+    				disalbed_direction.removeAttribute('onclick');
+    			});
+    			
                 $("#searchBtn").on("click", function(e) {
                     e.preventDefault();
                     page(0);
                 });
+                
+                var contentNum = [[${mhinfos.numberOfElements}]];
+                if(contentNum < 4) {
+                	$('.card-news-container').css({
+                		"height": "620px"
+                	});
+                }
             });
 
             function page(page) {
@@ -26,12 +39,15 @@
 
     <th:block layout:fragment="css">
         <style>
-            select {
-                margin-right: 10px;
-            }
-        </style>
-
-        <style>
+			.content {
+				display: block;
+			  	margin-left: 12%;
+			}
+			
+			.card-news-container {
+				height: 1150px;
+			}
+			
             .card-news-grid {
                 width: 1400px;
                 display: flex;
@@ -85,32 +101,9 @@
     <meta charset="UTF-8">
 
     <div layout:fragment="content">
+    <div class="subview">
     
-    <form th:action="@{'/mhinfo/mhinfos/' + ${mhinfos.number}}" role="form"
-		method="get" th:object="${mhinfoSearchDto}">
-		
-        <h1 style="text-align: center; font-weight: bold;">마음건강정보</h1>
-        <br>
-       
-        
-            <div class="form-inline justify-content-center" th:object="${mhinfoSearchDto}">
-                <select th:field="*{searchByCate}" class="form-control" style="width: auto;">
-                    <option value="all">전체</option>
-                    <option value="SCHOOL">학교생활</option>
-                    <option value="MIND">마음건강</option>
-                    <option value="RELATIONSHIP">대인관계</option>
-                </select>
-                <select th:field="*{searchByLike}" class="form-control" style="width: auto;">
-                    <option value="title">제목</option>
-                    <option value="createdBy">내용</option>
-                </select>
-                <input th:field="*{searchQuery}" name="searchQuery" type="text" class="form-control" placeholder="검색어를 입력해주세요">
-                <button id="searchBtn" type="submit" class="btn btn-primary">검색</button>
-            </div>
-        </form>
-
-        <br>
-
+        <h3>마음건강정보</h3>
         <div class="card-news-container">
             <div class="card-news-wrapper">
                 <div class="card-news-grid">
@@ -129,27 +122,38 @@
                                 </td>
                             </tr>
                         </div>
-                        <span>
-                        	<button type="button" class="btn btn-primary" th:onclick="|location.href='/mhinfo/admin/mhinfo/${mhinfo.cd}'|" sec:authorize="hasAnyAuthority('ROLE_ADMIN')">수정</button>
-                        </span> 
-                        <span> 
-                        	<button type="button" class="btn btn-primary" th:onclick="|location.href='/mhinfo/admin/delete/${mhinfo.cd}'|" sec:authorize="hasAnyAuthority('ROLE_ADMIN')">삭제</button>
-                        </span>
                     </div>
                 </div>
             </div>
+        	<button style="float: right; margin-top: 25px;" type="button" class="button-style" onClick="location.href='/mhinfo/admin/mhinfo/new'" sec:authorize="hasAnyAuthority('ROLE_ADMIN')">글쓰기</button>
         </div>
-
-        <div>
-        	<button type="button" class="btn btn-primary" onClick="location.href='/mhinfo/admin/mhinfo/new'" sec:authorize="hasAnyAuthority('ROLE_ADMIN')">글쓰기</button>
+		
 
             <div th:with="start=${(mhinfos.number/maxPage)*maxPage + 1}, end=(${(mhinfos.totalPages == 0) ? 1 : (start + (maxPage - 1) < mhinfos.totalPages ? start + (maxPage - 1) : mhinfos.totalPages)})">
-                <ul class="pagination justify-content-center">
-                    <li class="page-mhinfo" th:classappend="${mhinfos.first}?'disabled'"><a th:onclick="'javascript:page(' + ${mhinfos.number - 1} + ')'" aria-label='Previous' class="page-link"><span aria-hidden='true'>Previous</span></a></li>
-                    <li class="page-mhinfo" th:each="page: ${#numbers.sequence(start, end)}" th:classappend="${mhinfos.number eq page-1}?'active':''"><a th:onclick="'javascript:page(' + ${page - 1} + ')'" class="page-link">[[${page}]]</a></li>
-                    <li class="page-mhinfo" th:classappend="${mhinfos.last}?'disabled':''"><a th:onclick="'javascript:page(' + ${mhinfos.number + 1} + ')'" aria-label='Next' class="page-link"><span aria-hidden='true'>Next</span></a></li>
+                <ul class="pagination-ul">
+                    <li class="page-button-direction" th:classappend="${mhinfos.first}?'disabled'"><a th:onclick="'javascript:page(' + ${mhinfos.number - 1} + ')'" aria-label='Previous' class="page-link"><span aria-hidden='true' th:class="${mhinfos.first}?'disabled'">&lt;&nbsp;Previous</span></a></li>
+                    <li class="page-button" th:each="page: ${#numbers.sequence(start, end)}" th:classappend="${mhinfos.number eq page-1}?'page-active':''"><a th:onclick="'javascript:page(' + ${page - 1} + ')'" class="page-link">[[${page}]]</a></li>
+                    <li class="page-button-direction" th:classappend="${mhinfos.last}?'disabled'"><a th:onclick="'javascript:page(' + ${mhinfos.number + 1} + ')'" aria-label='Next' class="page-link"><span aria-hidden='true' th:class="${mhinfos.last}?'disabled'">Next&nbsp;&gt;</span></a></li>
                 </ul>
             </div>
+        
+    <form th:action="@{'/mhinfo/mhinfos/' + ${mhinfos.number}}" role="form"
+		method="get" th:object="${mhinfoSearchDto}">
+            <div class="search-div" th:object="${mhinfoSearchDto}">
+                <select th:field="*{searchByCate}" class="input-select" style="width: auto;">
+                    <option value="all">전체</option>
+                    <option value="SCHOOL">학교생활</option>
+                    <option value="MIND">마음건강</option>
+                    <option value="RELATIONSHIP">대인관계</option>
+                </select>
+                <select th:field="*{searchByLike}" class="input-select" style="width: auto;">
+                    <option value="title">제목</option>
+                    <option value="createdBy">내용</option>
+                </select>
+                <input th:field="*{searchQuery}" name="searchQuery" type="text" class="input-long" placeholder="검색어를 입력해주세요">
+                <button id="searchBtn" type="submit" class="button-style searchBtn">검색</button>
+            </div>
+        </form>
         </div>
     </div>
     

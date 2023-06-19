@@ -120,7 +120,7 @@
             </a>
         </li>
         <li class="page-myConsList" th:each="page: ${#numbers.sequence(start, end)}"
-            th:classappend="${myConsList.number eq page-1} ? 'active' : ''">
+            th:classappend="${myConsList.number eq page-1} ? 'page-active' : ''">
             <a th:onclick="'javascript:page(' + ${page - 1} + ')'"
                class="page-link"> [[${page}]]</a>
         </li>

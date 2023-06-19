@@ -9,6 +9,12 @@
 <th:block layout:fragment="script">
 	<script th:inline="javascript">
 		$(document).ready(function() {
+			// 이전, 다음버튼 이동할 페이지 없을시, onclick 못하게 삭제
+			var disalbed_directions = document.querySelectorAll(".disabled > a");
+			disalbed_directions.forEach(function(disalbed_direction) {
+				disalbed_direction.removeAttribute('onclick');
+			});
+			
 			$("#searchBtn").on("click", function(e) {
 				e.preventDefault();
 				page(0);
@@ -68,7 +74,7 @@
 						<button type="button" class="button-style"
 							th:onclick="|location.href='/admin/restrictMember/${member.cd}'|" th:disabled="${member.status.toString == 'QUIT'}">이용제한</button>
 					</td>
-					<td th:text="${#temporals.format(member.jdate, 'yyyy-MM-dd')}"></td>
+					<td th:text="${#temporals.format(member.jdate, 'yyyy-MM-dd HH:mm')}"></td>
 					</th:block>
 				</tr>
 			</tbody>
@@ -79,18 +85,18 @@
         <li class="page-button-direction" th:classappend="${memberList.first} ? 'disabled':''">
             <a th:onclick="'javascript:page(' + ${memberList.number - 1} + ')'"
                aria-label="Previous" class="page-link">
-                <span aria-hidden="true">&lt;&nbsp;Previous</span>
+                <span aria-hidden="true" th:class="${memberList.first} ? 'disabled'">&lt;&nbsp;Previous</span>
             </a>
         </li>
         <li class="page-button" th:each="page: ${#numbers.sequence(start, end)}"
-            th:classappend="${memberList.number eq page-1} ? 'active' : ''">
+            th:classappend="${memberList.number eq page-1} ? 'page-active' : ''">
             <a th:onclick="'javascript:page(' + ${page - 1} + ')'"
                class="page-link"> [[${page}]]</a>
         </li>
         <li class="page-button-direction" th:classappend="${memberList.last} ? 'disabled':''">
             <a th:onclick="'javascript:page(' + ${memberList.number + 1} + ')'"
                aria-label="Next" class="page-link">
-                <span aria-hidden="true">Next&nbsp;&gt;</span>
+                <span aria-hidden="true" th:class="${memberList.last} ? 'disabled'">Next&nbsp;&gt;</span>
             </a>
         </li>
     </ul>
