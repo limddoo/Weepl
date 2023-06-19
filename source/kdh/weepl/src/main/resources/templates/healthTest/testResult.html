@@ -9,8 +9,48 @@
 </head>
 <th:block layout:fragment="css">
 	<style>
+ ul{
+    list-style:none;
+    padding:0;
+   }	
 li {
 	list-style-type: none;
+}
+.inner{
+	min-width: auto;
+	margin-left: 400px;
+   text-align:center;
+}
+.chkResultList > li {
+    background-color: #fff;
+    padding: 50px 40px;
+    border-radius: 10px;
+    box-shadow: 0px 5px 20px 0px rgba(0, 0, 0, 0.1);
+    margin-bottom: 40px;
+}
+.chkResultList > li >.item .itemCate{
+	display: inline-block;
+    font-weight: 500;
+    font-size: 17px;
+    color: #333;
+    border: 1px solid #333;
+    border-radius: 100px;
+    padding: 6px 27px;
+    min-width: 100px;
+    text-align: center;
+    margin-bottom: 34px;
+
+}
+.chkResultList > li >.item .testStat{
+	display: flex;
+    align-items: center;
+    background: #f6f6f6;
+    border-radius: 10px;
+    margin-top: 50px;
+    font-size: 17px;
+    color: #333;
+    padding: 33px 35px;
+    justify-content : center;
 }
 </style>
 
@@ -60,28 +100,33 @@ li {
 				<strong>마음건강 검사 결과</strong>
 			</h1>
 
-			<input type="hidden" id="mid_div" th:value="${mid_div}"> <input
-				type="hidden" id="major_div" th:value="${major_div}"> <input
-				type="hidden" id="minor_div" th:value="${minor_div}">
-			<h4 th:text="'검사 유형: ' + ${major_div}"></h4>
-			<h3 th:text="'진행한 검사:' + ${minor_div}"></h3>
-			<input type="hidden" id="result_content"
-				th:value="'점수:' + ${testSum} + '(' + ${totalStat} + ')'">
+			<input type="hidden" id="mid_div" th:value="${mid_div}"> 
+			<input type="hidden" id="major_div" th:value="${major_div}"> 
+			<input type="hidden" id="minor_div" th:value="${minor_div}">
+			
+			<input type="hidden" id="result_content" th:value="'점수:' + ${testSum} + '(' + ${totalStat} + ')'">
 
 
 			<div id="test" class="chkResult">
-				<ul>
-					<li style="font-size: 35px;"
-						th:text="'총 점수: '+ ${testSum}+'점' + '('+${totalStat}+')'"></li>
-					<li th:text="${testStat}"></li>
+				<ul class="chkResultList">
+				<li>
+					<div class="item">
+					 <h5 th:text="'검사 유형: ' + ${major_div}"></h5>
+					 <span class="itemCate" th:text="${minor_div}"></span>
+					 <p style="font-size: 35px;"
+						th:text="'총 점수: '+ ${testSum}+'점' + '('+${totalStat}+')'"></p>
+					 <p class="testStat" th:text="${testStat}"></p>
+					</div>
+				</li>
 				</ul>
 			</div>
-		</div>
-		<div>
+			<div>
 			<button type="button" class="btn btn-primary" onclick="saveResult()" sec:authorize="isAuthenticated()">
 				<span>결과 저장하기</span>
 			</button>
 		</div>
+		</div>
+		
 		<input type="hidden" th:name="${_csrf.parameterName}"
 			th:value="${_csrf.token}">
 	</form>
