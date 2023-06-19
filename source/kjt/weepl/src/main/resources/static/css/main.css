@@ -1,19 +1,21 @@
 @font-face {
-    font-family: 'KorailRoundGothicBold';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2212@1.0/KorailRoundGothicBold.woff2') format('woff2');
-    
+    font-family: 'GmarketSansMedium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'SUITE-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/SUITE-Regular.woff2') format('woff2');
+    font-weight: 400;
     font-style: normal;
 }
 
-.content,
 .Icon p {
-  font-family: 'KorailRoundGothicBold';
-}
-
-.Icon p {
-  font-family: 'KorailRoundGothicBold';
+  font-family: 'GmarketSansMedium';
   font-size: 25px;
-  font-weight: 500;
+  font-weight: bold;
+
 }
 .slide-container {
 	overflow: hidden;
@@ -36,7 +38,7 @@
 }
 
 #main_slide {
-	max-width: 1200px; /* 원하는 너비로 설정 */
+	max-width: 1220px; /* 원하는 너비로 설정 */
 	margin: 0 auto; /* 가운데 정렬을 위해 margin 설정 */
 	overflow: hidden; /* 추가된 부분 */
 }
@@ -90,7 +92,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100vw;
+  width: 100%;
   height: 540px;
   margin-bottom: 40px;
   position: relative;
@@ -100,6 +102,7 @@
 .Vimg_inner iframe {
   width: 680px;
   height: 380px;
+   border-radius: 10px; /* Adjust the value as needed */
 }
 
 .mainPOP_new {
@@ -107,6 +110,7 @@
 	justify-content: center;
 	align-items: center;
 	flex-wrap: wrap;
+	width: 100%;
 }
 
 .vwrap {
@@ -121,14 +125,18 @@
 	left: 50%;
 	transform: translateX(-50%);
 	z-index: 1;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
 }
 
 .Icon {
 	position: relative;
-	bottom: 0;
 	left: 50%;
 	transform: translateX(-50%);
 	z-index: 1;
+	margin-top: 50px; 
+	margin-bottom: 50px;
 }
 
 .iconFooterWrapper {
@@ -136,15 +144,25 @@
 }
 
 .slide_buttons button {
-  border: none;
-  background: transparent;
-  width: 31px;
-  height: 31px;
-  color: grey;
+	border: none;
+	background: transparent;
+	width: 31px;
+	height: 31px;
+	color: grey;
+	margin-bottom: 0;
+	margin-right: 10px; /* 원하는 간격으로 설정 */
+}
+
+.slide_buttons button:last-child {
+  margin-right: 0; /* 마지막 버튼에는 마진을 적용하지 않음 */
 }
 
 .slide_buttons button:focus {
   outline: none;
+}
+
+#play_pause_button {
+	margin-bottom: 1px; /* 토글 버튼과 높이를 맞추기 위해 음수 값을 설정 */
 }
 
 .mBG02 {
@@ -153,22 +171,21 @@
 
 .notice {
 	display: flex;
-	align-items: center;
-	margin-bottom: 100px;
 	justify-content: center;
+	align-items: flex-start;
 }
 
 .notice_left {
-	margin-right: 10px;
+	margin-right: 40px;
 	width: 500px;
-	height: 400px;
+	height: 350px;
 	text-align: left;
 }
 
 .notice_right {
-  margin-left: 10px;
+  margin-left: 40px;
   width: 500px;
-  height: 400px;
+  height: 350px;
   text-align: left;
 }
 
@@ -178,6 +195,10 @@
 	align-items: center;
 	color: black; 
 	text-decoration: none;
+	 font-family: 'SUITE-Regular';
+}
+.notic_header{
+	font-weight: bold;
 }
 
 .notice_item span {
@@ -240,8 +261,6 @@
 }
 
 footer {
-  position: absolute;
-  bottom: 0;
   width: 100%;
 }
 
