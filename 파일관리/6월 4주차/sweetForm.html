@@ -44,7 +44,7 @@
 
 <!-- 사용자 CSS 추가 -->
 <th:block layout:fragment="css">
-	<style>
+<style>
 .content {
 	margin-top : 0;
 	margin-left : 15%;
@@ -73,6 +73,8 @@
 
 #formFileMultiple {
 	font-size : 12spt;
+	float : left;
+	margin-left : 170px;
 }
 
 .form-group {
@@ -168,7 +170,7 @@
 
 #button-div {
 	float: left;
-	margin-bottom: 350px;
+	margin-bottom: 450px;
 }
 
 .upload-division {
@@ -181,14 +183,14 @@
 <div layout:fragment="content">
 	<form role="form" method="post" enctype="multipart/form-data" th:object="${sweetBoardDto}">
 		<div th:if="${#strings.isEmpty(sweetBoardDto.cd)}" style="text-align: center">
-			<h2 style="margin-bottom:12px; margin-left:12px" align="left">글 등록하기</h2>
+			<h1 style="margin-bottom:12px; margin-left:12px" align="left">글 등록하기</h1>
 		</div>
 		<div th:unless="${#strings.isEmpty(sweetBoardDto.cd)}" style="text-align: center">
-			<h2 style="margin-bottom:12px; margin-left:12px" align="left">글 수정하기</h2>
+			<h1 style="margin-bottom:12px; margin-left:12px" align="left">글 수정하기</h1>
 		</div>
-		<hr class='hr-solid' id='hr-title' /><br>
+		<hr class='hr-solid' id='hr-title' /><br><br>
 		<input type="hidden" th:field="*{cd}">
-		<span class="input-group-text" id="title-div">게시판 선택</span>
+		<span class="input-group-text" id="title-div">게시판 선택</span> 
 		<div class="form-group">
 			<select th:field="*{board_div}" class="layer-select-box">
 				<option value="학교업무 공유게시판">학교업무 공유게시판</option>
@@ -199,6 +201,7 @@
 		</div>
 		
 		<!-- 게시글 내용 영역 -->
+		<!-- 제목 -->
 		<div class="input-group">
 			<div class="input-group-prepend">
 				<span class="input-group-text" id="title-bar">제목</span>
@@ -206,8 +209,9 @@
 			<input type="text" th:field="*{title}" class="form-control" id="form-title" placeholder="제목을 입력하세요">
 		</div>
 		<p th:if="${#fields.hasErrors('title')}" th:errors="*{title}" class="fieldError">Incorrect data</p>
-
-		<div class="input-group">
+		
+		<!-- 내용 -->
+		<div class="input-group"><br>
 			<div class="input-group-prepend">
 				<span class="input-group-text" id="content-bar">내용</span>
 			</div>
@@ -226,8 +230,7 @@
 				</div>
 			</div>
 			<div th:if="${not #lists.isEmpty(sweetBoardDto.boardImgDtoList)}">
-				<div class="form-group"
-					th:each="boardImgDto, status: ${sweetBoardDto.boardImgDtoList}">
+				<div class="form-group" th:each="boardImgDto, status: ${sweetBoardDto.boardImgDtoList}">
 					<div class="custom-file img-div">
 						<input type="file" class="custom-file-input" name="boardImgFile">
 						<input type="hidden" name="boardImgCds" th:value="${boardImgDto.cd}">
@@ -242,12 +245,12 @@
 			<div th:if="${#lists.isEmpty(sweetBoardDto.boardAttachDtoList)}">
 				<div class="upload-file-attach">
 					<label for="formFileMultiple" class="form-label">파일 업로드</label> 
-					<input class="form-control file-upload" type="file" id="formFileMultiple" name="boardAttachFile" multiple="multiple" /> <br>
+					<input class="form-control file-upload" type="file" id="formFileMultiple" name="boardAttachFile" multiple="multiple" /><br>
 				</div>
 			</div>
 			<div th:if="${not #lists.isEmpty(sweetBoardDto.boardAttachDtoList)}">
 				<div class="upload-file-attach">
-					<label for="formFileMultiple" class="form-label">파일 업로드 수정</label> 
+					<label for="formFileMultiple" class="form-label">업로드 파일</label> 
 					<input class="form-control file-upload" type="file" id="formFileMultiple" name="boardAttachFile" multiple="multiple" onchange=""/> <br>
 					<div th:each="boardAttachDto, status: ${sweetBoardDto.boardAttachDtoList}">
 						<span class="exist-file" th:text="${not #strings.isEmpty(boardAttachDto.oriAttachName)} ? 
@@ -261,7 +264,7 @@
 		<!-- 버튼 영역 -->
 		<div th:if="${#strings.isEmpty(sweetBoardDto.cd)}" style="text-align: center" id="button-div">
 			<button th:formaction="@{/sweetboard/add}" type="submit" class="btn btn-primary">저장</button>
-			<button th:formaction="@{/sweetboard/list}" type="submit" class="btn btn-primary">목록보기</button>
+			<button th:formaction="@{/sweetboard/list}" type="submit" class="btn btn-primary">등록취소</button>
 		</div>
 		<div th:unless="${#strings.isEmpty(sweetBoardDto.cd)}" style="text-align: center" id="button-div">
 			<button th:formaction="@{'/sweetboard/mod/' + ${cd}}" type="submit" class="btn btn-primary">수정</button>
