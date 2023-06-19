@@ -9,22 +9,21 @@
 	font-style: normal;
 }
 
-@
-keyframes fadeInDown { 0%{
-	opacity: 0;
-	transform: translate3d(0, -100%, 0);
-}
+@keyframes fadeInDown {
+	0% {
+		opacity: 0;
+		transform: translate3d(0, -100%, 0);
+	}
 
-to {
+	to {
 	opacity: 1;
 	transform: translateZ(0);
-}
+	}
 
 }
 * {
 	margin: 0;
 	padding: 0;
-	color: #4c4c4e;
 }
 
 ul {

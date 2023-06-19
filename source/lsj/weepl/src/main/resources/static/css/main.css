@@ -195,12 +195,14 @@
 .notice_left {
 	margin-right: 40px;
 	width: 500px;
+	height: 200px;
 	text-align: left;
 }
 
 .notice_right {
 	margin-left: 40px;
 	width: 500px;
+	height: 200px;
 	text-align: left;
 }
 

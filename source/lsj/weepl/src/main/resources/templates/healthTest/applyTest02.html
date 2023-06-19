@@ -7,10 +7,99 @@
 <style>
 .inner{
 	min-width: auto;
+	text-align:center;
+	margin-left:200px;
 }
-.item {
-    background-color: #0092d7;
-    color: #fff;
+ul{
+    list-style:none;
+   }
+.checkType-list{
+ 	overflow: hidden;
+ 	display: flex;
+ 	flex-wrap: wrap;
+    margin: 10px;
+    padding: 3px;
+ 
+ }
+ .checkType-list-wrap{
+ 	overflow: hidden;
+ 	display: inline-block;
+ }
+ .checkType-list > li {
+     width:250px;
+    padding: 20px;
+    
+}
+
+.checkType-list > li > .item {
+    display: block;
+    cursor: pointer;
+    
+    
+    
+} 
+.checkType-list > li > .item .item-content {
+    position: relative;
+    height: 100%;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    min-height: 50px;
+    text-align: center;
+    padding: 32px 16px 26px 16px;
+    display: flex;
+    background-color: #fff;
+    word-break: keep-all;
+}
+
+.checkType-list > li > .item input[type="checkbox"], .checkType-list > li > .item input[type="radio"] {
+    border: 0;
+    clip: rect(0, 0, 0, 0);
+    height: auto;
+    margin: 0;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+    white-space: nowrap;
+}
+
+.checkType-list > li > .item .item-content .item-name {
+    position: relative;
+    line-height: 1.3;
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+    color: #333;
+    justify-content: center;
+    flex: 1 1 auto;
+}
+
+.checkType-list > li > .item .item-content .item-name:before {
+     position: relative;
+    line-height: 1.3;
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+    color: #333;
+    justify-content: center;
+    flex: 1 1 auto;
+    padding-top: 82px;
+}
+
+.checkType-list > li > .item input[type="radio"]:checked + .item-content:after {
+    content: "";
+    display: block;
+    border: 2px solid #0092d7;
+    position: absolute;
+    left: -1px;
+    top: -1px;
+    right: -1px;
+    bottom: -1px;
+    border-radius: inherit;
+}
+
+.checkType-list > li > .item input[type="radio"]:checked + .item-content .item-name {
+    color: #0092d7;
 }
 </style>
 </th:block>
@@ -45,36 +134,36 @@
 		<input type="hidden" th:value="${major_div}" name="majorDiv">
 			<p>진행할 검사를 선택해주세요.</p>
 			
-			<div>
-				<ul>
+			<div class="checkType-list-wrap">
+				<ul class="checkType-list">
 					<li>
 					  <label for="mid_div_1" class="item">
 					   <input type="radio" id="mid_div_1" name="mid_div[]" value="applyTest02_1"/>
-					   <div>
-					   	<strong>우울, 불안할때</strong>
+					   <div class="item-content">
+					   	<strong class="item-name">우울, 불안할때</strong>
 					   </div>
 					  </label>
 					</li>
 					<li>
 					  <label for="mid_div_2" class="item">
 					   <input type="radio" id="mid_div_2" name="mid_div[]" value="applyTest02_2"/>
-					   <div>
-					   	<strong>잠을 못잘때</strong>
+					   <div class="item-content">
+					   	<strong class="item-name">잠을 못잘때</strong>
 					   </div>
 					  </label>
 					</li>
 					<li>
 					  <label for="mid_div_3" class="item">
 					   <input type="radio" id="mid_div_3" name="mid_div[]" value="applyTest02_3"/>
-					   <div>
-					   	<strong>내가 느끼는 감정·행동이 낯설게 느껴질때</strong>
+					   <div class="item-content">
+					   	<strong class="item-name">내가 느끼는 감정·행동이 낯설게 느껴질때</strong>
 					   </div>
 					  </label>
 					</li>
 				</ul>
 			</div>
 			<div>
-				<button type="submit" class="btn btn-primary">
+				<button type="submit" class="button-style">
 				<span>다음</span>
 				</button>
 			</div>

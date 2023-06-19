@@ -1,5 +1,6 @@
 package com.weepl.controller;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,28 +22,42 @@ public class MainController {
 	private final NoticeService noticeService;
 	@Autowired
 	private final MhinfoService mhinfoService;
-	
+
 	@GetMapping(value = "/")
 	public String main(Model model) {
 		List<Notice> noticeList = noticeService.getNoticeList();
-	    List<Mhinfo> mhinfoList = mhinfoService.getMhinfoList();
-	    model.addAttribute("noticeList", noticeList.subList(0, 5));
-	    model.addAttribute("mhinfoList", mhinfoList.subList(0, 5));
+		List<Mhinfo> mhinfoList = mhinfoService.getMhinfoList();
+
+		// 최신순으로 정렬
+		Collections.reverse(noticeList);
+		Collections.reverse(mhinfoList);
+		// 리스트 내용물이 5개 미만일때
+		if (noticeList.size() < 5) {
+			model.addAttribute("noticeList", noticeList);
+		} else {
+			// 리스트의 가장 마지막 5개 추출해서 최신순으로 정렬
+			model.addAttribute("noticeList", noticeList.subList(0, 5));
+		}
+		if (mhinfoList.size() < 5) {
+			model.addAttribute("mhinfoList", mhinfoList);
+		} else {
+			model.addAttribute("mhinfoList", noticeList.subList(0, 5));
+		}
 		return "main";
 	}
-	
+
 	@GetMapping(value = "/siteMap")
-	public String siteMap(){
+	public String siteMap() {
 		return "/etc/siteMap";
 	}
-	
+
 	@GetMapping(value = "/weeProjectInfo")
-	public String weeProjectInfo(){
+	public String weeProjectInfo() {
 		return "/etc/weeProjectInfo";
 	}
-	
+
 	@GetMapping(value = "/weeSymbol")
-	public String weeSymbol(){
+	public String weeSymbol() {
 		return "/etc/weeSymbol";
 	}
 }
