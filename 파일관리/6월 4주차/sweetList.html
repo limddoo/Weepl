@@ -56,7 +56,7 @@ select {
 }
 
 tr {
-	text-align: "center";
+	text-align: center;
 }
 
 h1 {
@@ -82,6 +82,10 @@ h1 {
 	cursor : pointer;
 }
 
+#main-content {
+	margin-left : 15%;
+}
+
 .newSweet {
 	margin-top: 30px;
 }
@@ -92,9 +96,9 @@ h1 {
 
 <body>
 	<div layout:fragment="content">
-		<form th:action="@{'/list/' + ${sweetBoards.number}}" role="form" method="get" th:object="${sweetBoards}">
+		<form id="main-content" th:action="@{'/list/' + ${sweetBoards.number}}" role="form" method="get" th:object="${sweetBoards}">
 			<h1>&nbsp;&nbsp;스윗(SWeeT) 게시판</h1>
-			<table class="table" border="1" width="1200px" height="500px">
+			<table class="table" border="1" width="1200px" height="500px" >
 				<thead>
 					<tr>
 						<td class="board" id="board_no">글번호</td>
@@ -164,7 +168,7 @@ h1 {
 			<div class="newSweet" style="text-align: center" >
 				<a class="add_link" onclick="checkNickName()" style="font-size: 40px">글 등록하기</a>
 			</div>
-		</form>
+		</form> 
 	</div>
 </body>
 </html>
