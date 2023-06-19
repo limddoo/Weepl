@@ -3,6 +3,7 @@
 $(document).ready(function() {
 
     var current = location.pathname.split("/").slice(-1)[0].replace(/^\/|\/$/g, '');
+    console.log(current);
     var selected = document.getElementById(current);
     if (selected != null) {
         $('.active').removeClass('active');
