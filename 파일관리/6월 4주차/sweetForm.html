@@ -63,7 +63,7 @@
 }
 
 #form-content {
-	width : 120%;
+	width : 90%;
 	height : 0;
 	font-size : 12pt;
 	align : left;
@@ -107,6 +107,7 @@
 }
 
 #form-title {
+	width : 90%;
 	padding-top: 25px;
 	padding-bottom: 25px;
 }
@@ -178,21 +179,38 @@
 }
 
 .img-div {
-	border : 2px solid #ffe4af;
+	width : 500px;
+	border : 2px solid #999;
 	margin : 6px;
 	margin-left : 80px;
 	padding-top : 10px;
 	padding-bottom : 10px;
 	border-radius : 10px;
-	background: ivory;
 }
 
 .upload-file-attach {
-	border : 2px solid #ffe4af;
+	width: 800px;
+	border : 2px solid #999;
 	margin-left : 60px;
 	margin-top : 20px;
 	height : 70px;
-	background: ivory;
+	border-radius : 10px;
+	padding-top : 15px;
+}
+ 
+label { 
+	font-size: 1rem; 
+    letter-spacing: -1px; 
+    padding: 10px; 
+    background-color: #258f01; 
+    color: #fff; 
+    border-radius: 5px; 
+    
+    cursor: pointer; 
+}
+
+div input::file-selector-button {
+    display: none;
 }
 
 </style>
@@ -242,17 +260,17 @@
 			<div th:if="${#lists.isEmpty(sweetBoardDto.boardImgDtoList)}">
 				<div class="form-group" th:each="num: ${#numbers.sequence(1,5)}">
 					<div class="custom-file img-div">
-						<input type="file" class="custom-file-input" name="boardImgFile">
-						<label class="custom-file-label" th:text="이미지등록 + ${num}"></label>
+						<input type="file" class="custom-file-input" id="image-upload" name="boardImgFile" >
+						<label class="custom-file-label" for="image-upload" th:text="이미지등록 + ${num}"></label>
 					</div>
 				</div>
 			</div>
 			<div th:if="${not #lists.isEmpty(sweetBoardDto.boardImgDtoList)}">
 				<div class="form-group" th:each="boardImgDto, status: ${sweetBoardDto.boardImgDtoList}">
 					<div class="custom-file img-div">
-						<input type="file" class="custom-file-input" name="boardImgFile">
+						<input type="file" class="custom-file-input" id="image-upload" name="boardImgFile">
 						<input type="hidden" name="boardImgCds" th:value="${boardImgDto.cd}">
-						<label class="custom-file-label" th:text="${not #strings.isEmpty(boardImgDto.oriImgName)} ? 
+						<label class="custom-file-label" for="image-upload" th:text="${not #strings.isEmpty(boardImgDto.oriImgName)} ? 
 							${boardImgDto.oriImgName} : '이미지추가' + ${status.index+1}">
 						</label>
 					</div>
