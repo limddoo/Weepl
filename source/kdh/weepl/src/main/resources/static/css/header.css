@@ -1,32 +1,26 @@
 @charset "UTF-8";
 
 @font-face {
-	font-family: 'TheJamsil5Bold';
+	font-family: 'GmarketSansMedium';
 	src:
-		url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302_01@1.0/TheJamsil5Bold.woff2')
-		format('woff2');
-	font-weight: 700;
-	font-style: normal;
-}
-
-@font-face {
-	font-family: 'SBAggroB';
-	src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SBAggroB.woff')format('woff');
+		url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff')
+		format('woff');
 	font-weight: normal;
 	font-style: normal;
 }
 
 @keyframes fadeInDown {
-	0%{
-            opacity: 0;
-            transform: translate3d(0, -100%, 0);
-       }
-	to {
-        	opacity: 1;
-            transform: translateZ(0);
-        }
-}
+	0% {
+		opacity: 0;
+		transform: translate3d(0, -100%, 0);
+	}
 
+	to {
+	opacity: 1;
+	transform: translateZ(0);
+	}
+
+}
 * {
 	margin: 0;
 	padding: 0;
@@ -38,33 +32,32 @@ ul {
 
 a {
 	text-decoration: none;
-	color: #333;
 }
 
-.container {
+.headerContainer {
 	height: 100px;
 	width: 100%;
-	min-width: 1800px;
+	max-width: 1905px;
 	display: flex;
 	justify-content: center;
 	align-content: center;
-	align-items:center;
+	align-items: center;
 }
 
-nav {
+.headerNav {
 	margin: 0;
 	min-width: 100% auto;
 }
 
 #menu {
 	min-width: 1300px;
-	letter-spacing: 3px;
+	letter-spacing: 2px;
 	font-size: 20px;
-	display:flex;
-	align-items:center;
-	justify-content:center;
+	font-weight: bold;
+	align-items: center;
+	justify-content: center;
+	border-bottom: 2px solid transparent;
 }
-
 
 #menu:after {
 	display: block;
@@ -75,11 +68,11 @@ nav {
 #menu>li {
 	position: relative;
 	float: left;
+	text-align: center;
 	padding-right: 25px;
 	padding-left: 25px;
-	font-family: 'SBAggroB';
-	min-width:100px;
-	
+	font-family: 'GmarketSansMedium';
+	min-width: 100px;
 }
 
 #menu>li>a {
@@ -88,12 +81,11 @@ nav {
 	background: none;
 	height: 40px;
 	line-height: 40px;
-	color: #000000;
 	position: relative;
 	z-index: 999;
 	color: #4c4c4e;
-	min-width:100px;
-	white-space:nowrap;
+	min-width: 100px;
+	white-space: nowrap;
 }
 
 .depth_1>li>a:hover {
@@ -111,14 +103,17 @@ nav {
 	right: 0;
 	text-align: center;
 	font-size: 17px;
-	font-family: 'TheJamsil5Bold';
+	letter-spacing: 1px;
+	font-weight: normal;
+	font-family: 'GmarketSansMedium';
 }
 
-.depth_1 a {
+.depth_1 li a {
 	display: block;
 	padding: 5px;
 	background: none;
-	color: #000000;
+	height: 36px;
+	line-height: 36px;
 	margin-top: 15px;
 	margin-bottom: 15px;
 	color: #4c4c4e;
@@ -126,44 +121,48 @@ nav {
 
 .logo {
 	width: 170px;
-	padding-left:75px;
+	padding-left: 75px;
 	padding-top: 10px;
-	padding-right:20px;
-	display: inline-block;	
+	padding-right: 20px;
+	display: inline-block;
 }
 
-.headerRight{
-	font-size:13px;	
-	position:relative;
-	left:20px;
-	bottom:35px;
+.headerRight {
+	font-size: 13px;
+	position: relative;
+	left: 20px;
+	bottom: 35px;
 	letter-spacing: 1px;
-	word-spacing:5px;
-	font-family: 'TheJamsil5Bold';	
-	min-width:200px;
-}
-.headerRight span a{
-	margin:5px;
-}
-.headerRight span:hover{
-	background: #7cc9ad;
-	border-radius: 5px 5px 5px 5px;
+	word-spacing: 5px;
+	font-family: 'GmarketSansMedium';
+	min-width: 200px;
 }
 
-.forBorder{
-	width:1px;
-	height:13px;		
-	border-right:1px solid rgba(76,76,78,0.5);
-	position:relative;
-	right:4px;
+.headerRight span a {
+	padding: 5px 5px 2px 5px;
+}
+
+.headerRight span a:hover {
+	color: white;
+	background: #7cc9ad;
+	border-radius: 10px 10px 10px 10px;
+}
+
+.forBorder {
+	width: 1px;
+	height: 13px;
+	right: 1px;
+	border-left: 1px solid rgba(76, 76, 78, 0.5);
+	position: relative;
+	right: 5px;
 }
 
 #hiddenContainer {
-    height: 160px;
+	height: 230px;
 	width: 100%;
 	min-width: 1800px;
 	position: absolute;
 	display: none;
 	z-index: -1;
-	animation:fadeInDown 0.4s;
+	animation: fadeInDown 0.4s;
 }

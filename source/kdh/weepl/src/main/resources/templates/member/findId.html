@@ -8,6 +8,15 @@
 		.error {
 			color: #bd2130;
 		}
+		
+		.content {
+  			margin-left: 571.797px;
+  			margin-right: 571.797px;
+		}
+		
+		.subview {
+			padding: 20px 50px 40px 50px;
+		}
 	</style>
 </th:block>
 <head>
@@ -20,19 +29,24 @@
 <body>
 
 <div layout:fragment="content">
+<div class="subview">
+<h3>아이디 찾기</h3>
 	<form role="form" method="get" action="" th:object="${memberFormDto}" id="frm">
-		<div class="form-group">
-			<label th:for="name">이름</label> <input type="text" th:field="*{name}"
-				class="form-control" placeholder="이름 입력">
+		<div class="input-group">
+			<label th:for="name">이름&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label> <input type="text" th:field="*{name}"
+				class="input-short" placeholder="이름 입력">
 		</div>
-		<div class="form-group">
-			<label th:for="tel1">전화번호</label> <input type="text"
-				th:field="*{tel1}" placeholder="010" maxlength="3"> - <input type="text"
-				th:field="*{tel2}" placeholder="1234" maxlength="4"> - <input type="text"
+		<div class="input-group">
+			<label th:for="tel1">전화번호</label> <input type="text" class="input-short"
+				th:field="*{tel1}" placeholder="010" maxlength="3"> - <input type="text" class="input-short"
+				th:field="*{tel2}" placeholder="1234" maxlength="4"> - <input type="text" class="input-short"
 				th:field="*{tel3}" placeholder="5678" maxlength="4">
 		</div>
-		<input type="button" class="btn btn-primary" id="find_id_btn" value="ID찾기">
+		<div class="search-div">
+		<input type="button" class="button-style" id="find_id_btn" value="ID찾기">
+		</div>
 	</form>
+</div>
 </div>
 </body>
 </html>

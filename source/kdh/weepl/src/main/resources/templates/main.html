@@ -2,53 +2,150 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{layouts/basicLayout}">
-<!-- 사용자 CSS 추가 -->
-<th:block layout:fragment="css">
-	<style>
-.carousel-inner>.item {
-	height: 250px;
-}
+<head>
+<meta charset="UTF-8">
+<title>WeePl</title>
+<link th:href="@{/css/layout.css}" rel="stylesheet">
+<link th:href="@{/css/main.css}" rel="stylesheet">
+<script type="text/javascript" src="/js/main.js"></script>
+</head>
+<th:block layout:fragment="css"></th:block>
 
-.margin {
-	margin-bottom: 30px;
-}
+<body>
+	<div layout:fragment="content">
+		<div id="container">
+			<div class="main_contents">
+				<div class="conwrap">
+					<div id="main">
+						<div class="content">
+							<div class="mBG01">
+								<div class="slide_buttons">
+									<!-- 슬라이드 버튼 -->
+									<button
+										style="background-image: url('/img/main/left-right.png');"
+										id="prev_slide"><</button>
+									<button
+										style="background-image: url('/img/main/left-right.png');"
+										id="next_slide">></button>
+									<!-- 재생/일시정지 버튼 -->
+									<button id="play_pause_button">
+										<img id="play_pause_image" src="/img/main/stop.png"
+											alt="재생 버튼">
+									</button>
+								</div>
+								<div class="mainPOP_new">
+									<div class="vwrap" id="main_slide">
 
-.banner {
-	height: 300px;
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-}
+										<div class="Vimg" id="popLink1"
+											style="width: 1250px; height: 600px; padding: 30px;">
+											<p class="Vtxt">
+												<img src="/img/main/vtxt.png" alt="우리 Wee에서 희망을 찾다" />
+											</p>
+											<div class="Vimg_inner">
+												<video class="video" id="popupzone_video_0"
+													src="http://cdn.wee.go.kr/watch/promotion/promo2020_03_1m.mp4?autoplay=1&mute=1"
+													allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+													allowfullscreen controls></video>
+											</div>
+										</div>
 
-.card-text {
-	text-overflow: ellipsis;
-	white-space: nowrap;
-	overflow: hidden;
-}
+										<div class="Vimg" id="popLink2"
+											style="width: 1250px; height: 600px; padding: 30px;">
+											<p class="Vtxt">
+												<img src="/img/main/vtxt.png" alt="우리 Wee에서 희망을 찾다" />
+											</p>
+											<div class="Vimg_inner img">
+												<a href="#" target="_blank"><img
+													src="/img/main/vimg_tree.gif"></a>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
 
-a:hover {
-	text-decoration: none;
-}
+							<div class="mBG02">
+								<div class="Icon">
+									<div class="iconContentWrapper">
+										<ul>
+											<li class="i01"><a href="/cons/consInfo"> <img
+													src="/img/main/i01.svg" alt="아이콘" />
+													<p>이용안내</p>
+											</a></li>
+											<li class="i02"><a href="/mhTest/testMain"> <img
+													src="/img/main/i02.svg" alt="아이콘" />
+													<p>마음건강검사</p>
+											</a></li>
+											<li class="i03"><a href="/boardCons/boardConsList">
+													<img src="/img/main/i03.svg" alt="아이콘" />
+													<p>게시판상담</p>
+											</a></li>
+											<li class="i04"><a href="/reservation/main"> <img
+													src="/img/main/i04.svg" alt="아이콘" />
+													<p>비대면 상담신청</p>
+											</a></li>
 
-.center {
-	text-align: center;
-}
-</style>
+										</ul>
+									</div>
+								</div>
+							</div>
+							<div class="mBG03">
+								<section class="notice">
+									<div class="notice_inner">
+										<div class="notice_left">
+											<div class="notice_left_box" style="margin-top: 20px;">
+												<div class="notice_header">
+													<h2 class="inline">공지사항</h2>
+													<a href="/board/notice" class="inline"
+														style="color: black;">+more</a>
+												</div>
 
-</th:block>
-<div layout:fragment="content">
-	<div id="carouselControls" class="carousel slide margin"
-		data-ride="carousel">
-		<div class="carousel-inner">
-			<div class="carousel-item active item">
-				<img
-					src="img/누렁이_banner.png"
-					alt="First slide">
+												<th:block th:each="notice : ${noticeList}">
+													<div class="notice_item">
+														<span> <a
+															th:href="@{/board/noticedtl/{noticeCd}(noticeCd=${notice.cd})}"
+															style="color: black;" th:text="${notice.title}"></a>
+														</span> <span style="pointer-events: none;"
+															th:text="${#temporals.format(notice.regDt, 'yyyy-MM-dd')}"></span>
+													</div>
+												</th:block>
+											</div>
+										</div>
+
+										<div class="notice_right">
+											<div class="notice_right_box" style="margin-top: 20px;">
+												<div class="mhinfo_header">
+													<h2 class="inline">마음건강정보</h2>
+													<a href="/mhinfo/mhinfos" class="inline"
+														style="color: black;">+more</a>
+												</div>
+												<th:block th:each="mhinfo : ${mhinfoList}">
+													<div class="notice_item">
+														<span> <a
+															th:href="@{/mhinfo/mhinfo/{mhinfo.cd}(mhinfo.cd=${mhinfo.cd})}"
+															style="color: black;" th:text="${mhinfo.title}"></a>
+														</span> <span style="pointer-events: none;"
+															th:text="${#temporals.format(mhinfo.regDt, 'yyyy-MM-dd')}"></span>
+													</div>
+												</th:block>
+											</div>
+										</div>
+									</div>
+								</section>
+							</div>
+						</div>
+
+
+					</div>
+
+				</div>
 			</div>
 		</div>
 	</div>
 	<input type="hidden" th:name="${_csrf.parameterName}"
-			th:value="${_csrf.token}">
-</div>
+		th:value="${_csrf.token}">
+
+</body>
+
+
+
+</html>

@@ -4,128 +4,7 @@
     layout:decorate="~{layouts/healthTestLayout}">
 
 <th:block layout:fragment="css">
-	<style>
-.inner {
-
-    max-width: 1310px;
-    padding: 0 15px;
-    margin: 0 auto;
-    text-align:center;
-}
-
-.text-center {
-	text-align: center !important;
-}
-
- ul{
-    list-style:none;
-    padding:0;
-   }
- .checkPointArea {
-    background: #f6f6f6;
-    padding: 50px;
-    margin-bottom: -120px;
-}
-
-.chkPointList {
-    counter-reset: checkPoint-list;
-}
-.chkPointList > li {
-	
-	background-color:#fff;
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 3px 3px 15px 0px rgba(0, 0, 0, 0.1);
-    margin-bottom: 15px;
-}
-
-.chkPointList > li:last-child {
-    margin-bottom: 0;
-}
-.chkPointList > li > .item .itemName {
-    display: flex;
-    font-size: 20px;
-    font-weight: 500;
-    color: #333;
-    margin-bottom: 29px;
-    align-items: center;
-    line-height: 1.1;
-}
-.chkPointList > li > .item .itemName:before {
-    content: "";
-    display: block;
-    counter-increment: checkPoint-list;
-    content: counter(checkPoint-list);
-    width: 40px;
-    height: 40px;
-    line-height: 40px;
-    text-align: center;
-    font-weight: 500;
-    color: #fff;
-    background: #0092d7;
-    border-radius: 10px;
-    box-shadow: 3px 4px 15px 0px rgba(0, 146, 215, 0.2);
-    margin-right: 18px;
-    flex: 0 0 auto;
-    }
-.chkPointList > li > .item .itemList{
-	display: flex;
-    flex-wrap: wrap;
-    margin:-10px;
-	
-}
-.chkPointList > li > .item .itemList > li{
-    padding: 3px;
-    flex: 0 1 auto;
-}
-.chkPointList > li > .item .itemList .itemBox .itemContent {
-    position: relative;
-    height: 30px;;
-    width:200px;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    min-height: 60px;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 15px;
-    background-color: #fff;
-    word-break: keep-all;
-}
-.chkPointList > li > .item .itemList .itemBox input[type="radio"] {
-    border: 0;
-    clip: rect(0, 0, 0, 0);
-    height: auto;
-    margin: 0;
-    overflow: hidden;
-    padding: 0;
-    position: absolute;
-    width: 1px;
-    white-space: nowrap;
-}
-.chkPointList > li > .item .itemList .itemBox input[type="radio"]:checked + .itemContent:after {
-    content: "";
-    display: block;
-    border: 2px solid #0092d7;
-    position: absolute;
-    left: -1px;
-    top: -1px;
-    right: -1px;
-    bottom: -1px;
-    border-radius: inherit;
-}
-.chkPointList > li > .item .itemList .itemBox input[type="radio"]:checked + .itemContent .itemOption{
-	color: #0092d7;
-}
-.btnArea{
-	position: relative;
-    text-align: center;
-	margin: 65px 0 35px 0;
-}
-	</style>
-
+	<link th:href="@{/css/mhTest.css}" rel="stylesheet">
 </th:block>
 <th:block layout:fragment="script">
 <script>
@@ -136,6 +15,34 @@
 	});
 	
 	function findResult() {
+		if(!$("#testForm input[type=radio][name=test_ques_val_1]:checked").is(":checked")){
+			alert("필수 체크항목입니다.(1번)");
+			return ;
+		}else if(!$("#testForm input[type=radio][name=test_ques_val_2]:checked").is(":checked")){
+			alert("필수 체크항목입니다.(2번)");
+			return;
+		}else if(!$("#testForm input[type=radio][name=test_ques_val_3]:checked").is(":checked")){
+			alert("필수 체크항목입니다.(3번)");
+			return;
+		}else if(!$("#testForm input[type=radio][name=test_ques_val_4]:checked").is(":checked")){
+			alert("필수 체크항목입니다.(4번)");
+			return;
+		}else if(!$("#testForm input[type=radio][name=test_ques_val_5]:checked").is(":checked")){
+			alert("필수 체크항목입니다.(5번)");
+			return;
+		}else if(!$("#testForm input[type=radio][name=test_ques_val_6]:checked").is(":checked")){
+			alert("필수 체크항목입니다.(6번)");
+			return;
+		}else if(!$("#testForm input[type=radio][name=test_ques_val_7]:checked").is(":checked")){
+			alert("필수 체크항목입니다.(7번)");
+			return;
+		}else if(!$("#testForm input[type=radio][name=test_ques_val_8]:checked").is(":checked")){
+			alert("필수 체크항목입니다.(8번)");
+			return;
+		}else if(!$("#testForm input[type=radio][name=test_ques_val_9]:checked").is(":checked")){
+			alert("필수 체크항목입니다.(9번)");
+			return;
+		}
 		var get_input = $("#testForm input[type=radio]:checked");
 		var sum = 0;
 		var count = get_input.length; // radio 갯수
@@ -530,7 +437,7 @@
 		  		</div>
 		  	</div>
 		  	<div class="btnArea">
-		  		<button type="submit" class="btn btn-primary" onclick="findResult()">
+		  		<button type="submit" class="button-style" onclick="findResult()">
 		  		 <span>결과 보기</span>
 		  		</button>
 		  		<input type="hidden" th:name="${_csrf.parameterName}"

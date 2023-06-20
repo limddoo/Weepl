@@ -11,7 +11,7 @@ import com.weepl.entity.Notice;
 
 @Repository
 public interface NoticeRepository extends JpaRepository<Notice, Long>, QuerydslPredicateExecutor<Item>, NoticeRepositoryCustom {
-	List findAll();
+	List<Notice> findAll();
 	List<Notice> findBytitle(String title);
 	
 }

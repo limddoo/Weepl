@@ -10,7 +10,21 @@
 </head>
 <!-- 사용자 스크립트 추가 -->
 <th:block layout:fragment="script">
-	<script th:inline="javascript">		
+	<script th:inline="javascript">	
+	$(document).ready(function() {
+		// 이전, 다음버튼 이동할 페이지 없을시, onclick 못하게 삭제
+		var disalbed_directions = document.querySelectorAll(".disabled > a");
+		disalbed_directions.forEach(function(disalbed_direction) {
+			disalbed_direction.removeAttribute('onclick');
+		});
+		
+		$(".board-content").on("click", function() {
+			var board_tr = $(this);
+			var board_cd = board_tr.children()[0].innerHTML;
+			console.log(board_cd);
+			checkName(board_cd);
+		});
+	});
 		function checkName(boardCd){
 			var header = $("meta[name='_csrf_header']").attr('content');
 			var token = $("meta[name='_csrf']").attr('content');
@@ -47,7 +61,9 @@
 		
 		function checkBoardPwd(header, token, boardCd) {
 			var password = prompt("비밀번호 입력");
-			console.log(password);
+			if(!password) {
+				return;
+			}
 			$.ajax({
 				type:"post",
 				url:"/boardCons/confirmBoardPwd",
@@ -59,7 +75,6 @@
 					xhr.setRequestHeader(header, token);
 				},
 				success: function(confirmResult){
-					console.log(confirmResult.result);
 					if(confirmResult.result == "ENTER") {
 						location.href = "/boardCons/boardConsDtl/"+boardCd;
 					} else {
@@ -85,23 +100,25 @@
 			<h3>게시판 상담</h3>
 			<form action="@{'/boardCons/boardConsList' + ${boardCons.number}}"
 				role="form" method="get" th:object="${boardCons}">
+				<div class="table-div">
 				<table class="table-container">
 					<thead>
 						<tr>
-							<td>번호</td>
-							<td>제목</td>
-							<td>작성자</td>
-							<td>날짜</td>
-							<td>답변여부</td>
+							<th>번호</th>
+							<th>제목</th>
+							<th>작성자</th>
+							<th>날짜</th>
+							<th>답변여부</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr th:each="board, status: ${boardCons.getContent()}">
+						<tr th:each="board, status: ${boardCons.getContent()}" class="board-content">
 							<td th:text="${board.cd}"></td>
-							<td><span th:onclick="checkName([[${board.cd}]])"
+							<td><span
 								th:text="${board.title}"></span></td>
+								<!--  th:onclick="checkName([[${board.cd}]])" -->
 							<td th:text="${board.name}"></td>
-							<td th:text="${board.reg_dt}"></td>
+							<td th:text="${#temporals.format(board.reg_dt, 'yyyy-MM-dd HH:mm')}"></td>
 							<td th:if="${board.res_yn == 'Y'}">답변완료</td>
 							<td th:unless="${board.res_yn == 'Y'}">미답변</td>
 						</tr>
@@ -109,33 +126,36 @@
 					</tbody>
 
 				</table>
+				
+				<button style="float: right; margin-right: 80px;" type="button" class="button-style"
+						onclick="location.href='/boardCons/boardConsForm'">상담신청하기</button>
+						</div>
 				<div
 					th:with="start=${(boardCons.number/ maxPage) * maxPage + 1}, end=(${(boardCons.totalPages == 0) ? 1 : (start + (maxPage - 1) < boardCons.totalPages ? start + (maxPage - 1) : boardCons.totalPages)})">
-					<ul class="pagination justify-content-center">
-						<li class="page-boardCons"
+					<ul class="pagination-ul">
+						<li class="page-button-direction"
 							th:classappend="${boardCons.first} ? 'disabled':''"><a
 							th:onclick="'javascript:page(' + ${boardCons.number - 1} + ')'"
 							aria-label="Previous" class="page-link"> <span
-								aria-hidden="true">Previous</span>
+								aria-hidden="true" th:class="${boardCons.first} ? 'disabled'">&lt;&nbsp;Previous</span>
 						</a></li>
-						<li class="page-boardCons"
+						<li class="page-button"
 							th:each="page: ${#numbers.sequence(start, end)}"
-							th:classappend="${boardCons.number eq page-1} ? 'active' : ''">
+							th:classappend="${boardCons.number == page-1} ? 'page-active' : ''">
 							<a th:onclick="'javascript:page(' + ${page - 1} + ')'"
-							class="page-link"> [[${page}]]</a>
+							th:inline="text" class="page-link">[[${page}]]</a>
 						</li>
-						<li class="page-boardCons"
-							th:classappend="${boardCons.last} ? 'disabled':''"><a
+						<li class="page-button-direction"
+							th:classappend="${boardCons.last} ? 'disabled'"><a
 							th:onclick="'javascript:page(' + ${boardCons.number + 1} + ')'"
-							aria-label="Next" class="page-link"> <span aria-hidden="true">Next</span>
+							aria-label="Next" class="page-link"> <span aria-hidden="true" th:class="${boardCons.last} ? 'disabled'">Next&nbsp;&gt;</span>
 						</a></li>
 					</ul>
 				</div>
 				<input type="hidden" th:name="${_csrf.parameterName}"
 					th:value="${_csrf.token}">
 			</form>
-			<button type="button" class="btn btn-primary"
-				onclick="location.href='/boardCons/boardConsForm'">상담신청하기</button>
+			
 		</div>
 
 	</div>

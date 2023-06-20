@@ -10,45 +10,7 @@ html {
 }
 
 body {
-	padding-bottom: 40px;
-}
-
-.input-group {
-	margin: 20px;
-}
-
-.input-short {
-  width: 150px;
-  height: 32px;
-  font-size: 15px;
-  border: 2px;
-  border-style: solid;
-  border-radius: 5px;
-  border-color: #4c4c4e;
-  outline: none;
-  padding-left: 10px;
-}
-
-.input-long {
-  width: 400px;
-  height: 32px;
-  font-size: 15px;
-  border: 1;
-  border-style: solid;
-  border-radius: 5px;
-  border-color: #4c4c4e;
-  outline: none;
-  padding-left: 10px;
-}
-
-.footer {
-	position: absolute;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	width: 100%;
-	padding: 15px 0;
-	text-align: center;
+	min-height: 100%;
 }
 
 .sidebar {
@@ -56,11 +18,8 @@ body {
 }
 
 .content {
-	float: left;
-	margin-top: 20px;
-	margin-left: 20px;
-	margin-right: 200px;
 	display: flex;
+	min-height: 593px;
 	justify-content: center;
 	align-items: flex-start;
 	position: relative;
@@ -68,9 +27,8 @@ body {
 }
 
 .content-wrapper {
-	min-height: 800px;
-	margin-left: 200px;
-	margin-right:0;
+	display: flex;
+	margin-right:200px;
 	position: relative;
 	z-index: 2;
 }
@@ -88,7 +46,6 @@ body {
 	border-color: gray;
 	border-top: 1px solid #333;
 }
-
 
 .table-container thead th {
 	padding: 10px;
@@ -109,6 +66,71 @@ body {
 	text-align: left;
 }
 
+.table-div {
+	height: 530px;
+}
+
+.search-div {
+	display: flex;
+	justify-content: center;
+	margin-top: 25px;
+}
+
+.pagination-ul {
+	display: flex;
+	justify-content: center;
+	margin-top: 10px;
+	margin-bottom: 15px;
+}
+
+.pagination-ul .page-button-direction a span {
+	color: white;
+	text-align: center;
+	font-size: 18px;
+	padding: 8px 8px 6px 8px;
+	background-color: #f7931d;
+	border: 1px solid #f7931d;
+	border-radius: 15px;
+}
+
+.pagination-ul .page-button-direction a span:hover {
+	cursor: pointer;
+	background-color:#e88409;
+}
+
+.pagination-ul .page-button-direction a .disabled{
+    opacity: 0.6;
+}
+
+.pagination-ul .page-button-direction a .disabled:hover {
+	background-color: #f7931d;
+	cursor: default;
+}
+
+.pagination-ul .page-button {
+	color: #4c4c4e;
+	text-align: center;
+	font-weight: bold;
+	font-size: 18px;
+	padding: 5px 8px;
+	border: 2px solid #4c4c4e;
+	border-radius: 18px;
+	margin-left: 5px;
+	margin-right: 5px;
+}
+
+.pagination-ul .page-active .page-link {
+	border-color: #a2a2a4;
+	color:#a2a2a4;
+}
+
+.pagination-ul .page-button .page-link:hover {
+	cursor: pointer;
+	border-color: #4c4c4e;
+	background-color:#4c4c4e;
+	color: white;
+}
+
 #calendar {
 	width: 1000px;
 	min-width: 1000px;
@@ -122,8 +144,56 @@ body {
 	padding-bottom: 20px;
 	border: 2px;
 	border-radius: 20px;
-	border-block-style: groove;
+	border-block-style: solid;
 	border-block-color: #f7931d;
+}
+
+.input-group {
+	display: flex;
+	margin: 20px;
+}
+
+.input-short {
+  width: 150px;
+  height: 32px;
+  font-size: 15px;
+  border: 2px;
+  border-style: solid;
+  border-radius: 5px;
+  border-color: #4c4c4e;
+  outline: none;
+  padding-left: 10px;
+}
+
+.input-long {
+  width: 350px;
+  height: 32px;
+  font-size: 15px;
+  border: 2px;
+  border-style: solid;
+  border-radius: 5px;
+  border-color: #4c4c4e;
+  outline: none;
+	margin-left: 5px;
+	margin-right: 5px;
+	padding-left: 10px;
+}
+
+.input-select  {
+	height: 36px;
+	width: auto;
+	border: 2px;
+	font-size: 15px;
+	border-style: solid;
+	border-radius: 5px;
+	border-color: #4c4c4e;
+	outline: none;
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	margin-left: 5px;
+	margin-right: 5px;
 }
 
 button {
@@ -138,7 +208,6 @@ button {
     color: #fff;
     border: 1px solid transparent;
     border-radius: .50rem;
-    height:45px; 
     font-size: 1rem;
     font-weight: 400;
     text-align: center;
@@ -146,6 +215,12 @@ button {
     padding: .375rem .75rem;
     line-height: 1.5;
   }
+  
+.searchBtn {
+	background-color:#f7931d;
+	margin-left: 5px;
+	margin-right: 5px;
+}
   
 .button-style:disabled,
 .button-style[disabled]:hover {
@@ -158,10 +233,14 @@ button {
 	background-color:#82ba36;
 }
 
+.searchBtn:hover {
+	background-color:#e88409 !important;
+}
+
 .subview h3 {
 	color: #000;
 	font-size: 33px;
-	margin: 30px 0;
+	margin: 25px 0;
 	position: relative;
 	padding-left: 30px;
 }
