@@ -2,7 +2,82 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{layouts/chatLayout}">
+<!-- 사용자 CSS 추가 -->
+<th:block layout:fragment="css">
+	<style>
+.chatArea {
+	width: 100%;
+}
+.chatHead {
+	display: inline-block;
+	width: 100%;
+}
 
+#disconn {
+	float:right;
+}
+
+#msgArea {
+	padding: 0;
+	margin-top : 20px;
+	margin-bottom: 20px;
+	width: 420px;
+	height: 580px;
+	overflow: auto;
+	top: 20px;
+}
+
+.scroll {
+}
+
+.chat-mine {
+	color: #383d41;
+	background-color: #9cd6c0;
+	width: 280px;
+	margin-left: 100px;
+	padding: 10px;
+    border-radius: 10px;white-space:normal;
+}
+
+.chat-other {
+	color: #383d41;
+	background-color: #e2e3e5;
+	width: 280px;
+	padding: 10px;
+    border-radius: 10px;white-space:normal;
+}
+
+.chat-msg {
+	margin: 0 auto;
+	word-wrap: break-word;
+}
+
+.input-group {
+	width: 420px;
+	margin: 0 auto;
+	position: fixed;
+}
+
+.input-long {
+	width: 340px;
+}
+
+.input-label {
+	font-size: 25px;
+	line-height: 25px;
+	margin-top: 9px;
+}
+
+.msg {
+	width: 350px;
+	right: 30px;
+}
+
+.col-6 {
+	margin-bottom: 10px;
+}
+</style>
+</th:block>
 <!-- 사용자 스크립트 추가 -->
 <th:block layout:fragment="script">
 	<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
@@ -89,15 +164,15 @@
                 // 로그인 한 클라이언트와 타 클라이언트를 분류하기 위함
                 if(sessionId == cur_session){
                     var str = "<div class='col-6'>";
-                    str += "<div class='alert alert-secondary2'>";
-                    str += "<b>" + arr[2] + " : " + arr[3] + "</b>";
+                    str += "<div class='alert chat-mine'>";
+                    str += "<p class='chat-msg'>" + arr[2] + " : " + arr[3] + "</p>";
                     str += "</div></div>";
                     $("#msgArea").append(str);
                 }
                 else{
                     var str = "<div class='col-6'>";
-                    str += "<div class='alert alert-warning'>";
-                    str += "<b>" + arr[2] + " : " + arr[3] + "</b>";
+                    str += "<div class='alert chat-other'>";
+                    str += "<p class='chat-msg'>" + arr[2] + " : " + arr[3] + "</p>";
                     str += "</div></div>";
                     $("#msgArea").append(str);
                 }
@@ -130,71 +205,21 @@
 </script>
 </th:block>
 <div layout:fragment="content">
- <div class="container">
-            <div class="chatHead">
-                <label><b>채팅방</b></label>
-               <button id="disconn">나가기</button>
-            </div>
-            <div>
-                <div id="msgArea" class="col"></div>
-                <div class="col-6">
-                    <div class="input-group mb-3">
-                        <input type="text" id="msg" class="form-control" aria-label="Recipient's username" aria-describedby="button-addon2">
-                        <div class="input-group-append">
-                            <button class="btn btn-outline-secondary" type="button" id="button-send">전송</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+	<div class="container">
+		<div class="chatHead">
+			<label class="input-label"><b>비대면 상담</b></label>
+			<button id="disconn" class="button-style">나가기</button>
+		</div>
+		<div class="chatArea">
+			<div id="msgArea"></div>
+			<div class="col-6"></div>
+		</div>
+		<div class="input-group">
+			<input type="text" id="msg" class="input-long">
+			<div class="input-group-append">
+				<button class="button-style" type="button" id="button-send">전송</button>
+			</div>
+		</div>
+	</div>
 </div>
-<!-- 사용자 CSS 추가 -->
-<th:block layout:fragment="css">
-	<style>
-.chatArea {
-	width: 100%;
-}
-.chatHead {
-	display: inline-block;
-	width: 100%;
-}
-
-#disconn {
-	margin-left:250px;
-}
-
-#msgArea {
-	padding: 0; top : 20px;
-	bottom: 20px;
-	width: 420px;
-	height: 600px;
-	overflow: auto;
-	top: 20px;
-}
-
-.alert-secondary2 {
-	color: #383d41;
-	background-color: #e2e3e5;
-	border-color: #d6d8db;
-	width: 300px;
-	left:80px;
-}
-
-.alert-warning {
-	width: 300px;
-	left: 0;
-}
-
-.input-group {
-	bottom: 0;
-	position: fixed;
-	width: 400px;
-}
-
-.msg {
-	width: 350px;
-	right: 30px;
-}
-</style>
-</th:block>
 </html>

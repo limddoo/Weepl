@@ -1,3 +1,29 @@
+@font-face {
+	font-family: 'GmarketSansMedium';
+	src:
+		url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff')
+		format('woff');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'SUITE-Regular';
+	src:
+		url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/SUITE-Regular.woff2')
+		format('woff2');
+	font-weight: 400;
+	font-style: normal;
+}
+
+.content * {
+	font-family: 'SUITE-Regular';
+}
+
+.content-wrapper * {
+	font-family: 'SUITE-Regular';
+}
+
 html {
 	position: relative;
 	min-height: 100%;
@@ -28,7 +54,7 @@ body {
 
 .content-wrapper {
 	display: flex;
-	margin-right: 200px;
+	min-height: 593px;
 	position: relative;
 	z-index: 2;
 }
@@ -111,7 +137,6 @@ body {
 	width: 32px;
 	height: 25px;
 	color: #4c4c4e;
-	padding-top: 7px;
 	text-align: center;
 	font-weight: bold;
 	font-size: 18px;
@@ -135,7 +160,6 @@ body {
 
 #calendar {
 	width: 1000px;
-	min-width: 1000px;
 	margin: 0 auto;
 }
 
@@ -232,6 +256,10 @@ button {
 	vertical-align: middle;
 	padding: .375rem .75rem;
 	line-height: 1.5;
+}
+
+.button-style span {
+	color: #fff;
 }
 
 .searchBtn {

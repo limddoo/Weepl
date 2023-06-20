@@ -5,16 +5,14 @@
 <!-- 사용자 CSS 추가 -->
 <th:block layout:fragment="css">
 	<style>
-.content-wrapper {
-	width: 80%;
-	padding-left: 5rem;
-	display: flex;
-  	justify-content: center;
+
+#calendar {
+	width: 900px;
 }
 
 .subview {
-	margin: 60px;
-	height: 650px;
+	margin-top: 70px;
+	height: 630px;
 }
 
 .button-style {
@@ -75,9 +73,9 @@
 				<input type="date" id="endDate" onchange="getSchList()" class="input-short"><br>
 			</div>
 			<div class="input-group">
-				<label class="input-label" for="endDate"> 상담시간 </label>
-				<input type="checkbox" id="am" value="10:00" checked>오전 10시
-				<input type="checkbox" id="pm" value="15:00">오후 3시
+				<label class="input-label" for="am"> 상담시간 </label>
+				<input type="checkbox" id="am" value="10:00" checked><label class="input-label" for="am"> 오전 10시 </label>
+				<input type="checkbox" id="pm" value="15:00"><label class="input-label" for="am"> 오후 3시 </label>
 			</div>
 			<div id="schArea"></div>
 			<button onclick="setSch()" class="button-style">일정 추가</button>
