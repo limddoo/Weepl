@@ -8,7 +8,10 @@
 }
 
 .footer {
+	position: absolute;
 	margin-top: 50px;
+	width: 100%;
+	height: auto;
 	font-family: 'GmarketSansMedium';
 	background-color: #252525 !important;
 	text-align: center;

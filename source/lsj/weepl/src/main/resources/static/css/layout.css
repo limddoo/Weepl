@@ -18,6 +18,8 @@ body {
 }
 
 .content {
+	display: flex;
+	min-height: 593px;
 	justify-content: center;
 	align-items: flex-start;
 	position: relative;
@@ -25,9 +27,8 @@ body {
 }
 
 .content-wrapper {
-	min-height: 800px;
-	margin-left: 200px;
-	margin-right:0;
+	display: flex;
+	margin-right:200px;
 	position: relative;
 	z-index: 2;
 }
@@ -86,7 +87,7 @@ body {
 	color: white;
 	text-align: center;
 	font-size: 18px;
-	padding: 3px 8px 6px 8px;
+	padding: 8px 8px 6px 8px;
 	background-color: #f7931d;
 	border: 1px solid #f7931d;
 	border-radius: 15px;
@@ -106,12 +107,12 @@ body {
 	cursor: default;
 }
 
-.pagination-ul .page-button .page-link {
+.pagination-ul .page-button {
 	color: #4c4c4e;
 	text-align: center;
 	font-weight: bold;
 	font-size: 18px;
-	padding: 5px 12px 6px 12px;
+	padding: 5px 8px;
 	border: 2px solid #4c4c4e;
 	border-radius: 18px;
 	margin-left: 5px;
