@@ -61,7 +61,6 @@ public class MypageController {
 		User user = (User) auth.getPrincipal();
 		Member member = mypageService.findMember(user.getUsername());
 		if (member != null && passwordEncoder.matches(pwd, member.getPwd())) {
-			System.out.println("비밀번호 일치");
 			MypageFormDto mypageDto = MypageFormDto.of(member);
 			model.addAttribute("mypageFormDto", mypageDto);
 			return "mypage/modMyInfo";
