@@ -73,14 +73,14 @@ public class BoardConsController {
 	@PostMapping(value = "/boardConsForm")
 	public String consApp(@Valid BoardConsFormDto boardConsFormDto, BindingResult bindingResult, Model model)
 			throws Exception {
-
+			
 		if (bindingResult.hasErrors()) {
 			return "boardCons/boardConsForm";
 		}
-		if (boardConsFormDto.getMemberCd() == null) {
+		if (boardConsFormDto.getMemberCd() == null) {//비회원의 경우 게시판 상담db 뿐만 아니라 비회원 db도 저장됨
 			boardConsService.saveNmCons(boardConsFormDto);
 
-		} else {
+		} else {// 로그인한 회원의 경우
 			try {
 				boardConsService.saveCons(boardConsFormDto);
 			} catch (Exception e) {

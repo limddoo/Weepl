@@ -116,7 +116,6 @@
 							<td th:text="${board.cd}"></td>
 							<td><span
 								th:text="${board.title}"></span></td>
-								<!--  th:onclick="checkName([[${board.cd}]])" -->
 							<td th:text="${board.name}"></td>
 							<td th:text="${#temporals.format(board.reg_dt, 'yyyy-MM-dd HH:mm')}"></td>
 							<td th:if="${board.res_yn == 'Y'}">답변완료</td>

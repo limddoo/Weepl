@@ -14,38 +14,38 @@
 
 		});
 
-		function findResult() {
+		function findResult() { //체크 안된 문항이 있을 경우 필수항목이라고 알림
 			if(!$("#testForm input[type=radio][name=test_ques_val_1]:checked").is(":checked")){
-				alert("필수 체크항목입니다.(1번)");
-				return ;
-			}else if(!$("#testForm input[type=radio][name=test_ques_val_2]:checked").is(":checked")){
-				alert("필수 체크항목입니다.(2번)");
-				return;
-			}else if(!$("#testForm input[type=radio][name=test_ques_val_3]:checked").is(":checked")){
-				alert("필수 체크항목입니다.(3번)");
-				return;
-			}else if(!$("#testForm input[type=radio][name=test_ques_val_4]:checked").is(":checked")){
-				alert("필수 체크항목입니다.(4번)");
-				return;
-			}else if(!$("#testForm input[type=radio][name=test_ques_val_5]:checked").is(":checked")){
-				alert("필수 체크항목입니다.(5번)");
-				return;
-			}else if(!$("#testForm input[type=radio][name=test_ques_val_6]:checked").is(":checked")){
-				alert("필수 체크항목입니다.(6번)");
-				return;
-			}else if(!$("#testForm input[type=radio][name=test_ques_val_7]:checked").is(":checked")){
-				alert("필수 체크항목입니다.(7번)");
-				return;
-			}else if(!$("#testForm input[type=radio][name=test_ques_val_8]:checked").is(":checked")){
-				alert("필수 체크항목입니다.(8번)");
-				return;
-			}else if(!$("#testForm input[type=radio][name=test_ques_val_9]:checked").is(":checked")){
-				alert("필수 체크항목입니다.(9번)");
-				return;
-			}else if(!$("#testForm input[type=radio][name=test_ques_val_10]:checked").is(":checked")){
-				alert("필수 체크항목입니다.(10번)");
-				return;
-			}
+	            alert("필수 체크항목입니다.(1번)");
+	            return ;
+	         }else if(!$("#testForm input[type=radio][name=test_ques_val_2]:checked").is(":checked")){
+	            alert("필수 체크항목입니다.(2번)");
+	            return;
+	         }else if(!$("#testForm input[type=radio][name=test_ques_val_3]:checked").is(":checked")){
+	            alert("필수 체크항목입니다.(3번)");
+	            return;
+	         }else if(!$("#testForm input[type=radio][name=test_ques_val_4]:checked").is(":checked")){
+	            alert("필수 체크항목입니다.(4번)");
+	            return;
+	         }else if(!$("#testForm input[type=radio][name=test_ques_val_5]:checked").is(":checked")){
+	            alert("필수 체크항목입니다.(5번)");
+	            return;
+	         }else if(!$("#testForm input[type=radio][name=test_ques_val_6]:checked").is(":checked")){
+	            alert("필수 체크항목입니다.(6번)");
+	            return;
+	         }else if(!$("#testForm input[type=radio][name=test_ques_val_7]:checked").is(":checked")){
+	            alert("필수 체크항목입니다.(7번)");
+	            return;
+	         }else if(!$("#testForm input[type=radio][name=test_ques_val_8]:checked").is(":checked")){
+	            alert("필수 체크항목입니다.(8번)");
+	            return;
+	         }else if(!$("#testForm input[type=radio][name=test_ques_val_9]:checked").is(":checked")){
+	            alert("필수 체크항목입니다.(9번)");
+	            return;
+	         }else if(!$("#testForm input[type=radio][name=test_ques_val_10]:checked").is(":checked")){
+	            alert("필수 체크항목입니다.(10번)");
+	            return;
+	         }
 			var get_input = $("#testForm input[type=radio]:checked");
 			var sum = 0;
 			var count = get_input.length; // radio 갯수
@@ -54,8 +54,8 @@
 					sum += parseInt(get_input[i].value); // radio value 값 합산
 				}
 			}
-			$("#totalSum").val(sum);
-			var get_sum = $("#totalSum").val();
+			$("#totalSum").val(sum); //합산한 value값
+			var get_sum = $("#totalSum").val(); //합산한 value 값으로 등급 나누기
 				
 				if (get_sum <= 15)
 					$("#totalStat").val('정상');
@@ -68,7 +68,6 @@
 				
 				$("#testForm").submit();
 		}
-	
 	</script>
 </th:block>
 

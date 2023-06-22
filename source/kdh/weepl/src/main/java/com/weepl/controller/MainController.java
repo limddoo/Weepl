@@ -41,7 +41,7 @@ public class MainController {
 		if (mhinfoList.size() < 5) {
 			model.addAttribute("mhinfoList", mhinfoList);
 		} else {
-			model.addAttribute("mhinfoList", noticeList.subList(0, 5));
+			model.addAttribute("mhinfoList", mhinfoList.subList(0, 5));
 		}
 		return "main";
 	}

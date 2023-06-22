@@ -21,10 +21,6 @@
 		.button-style {
 		  	margin-left: 5px;
 		  	margin-right: 5px;
-		  }
-		  
-		.input-short {
-			margin-left: 20px;
 		}
 	</style>
 </th:block>
@@ -33,11 +29,11 @@
 <h3>로그인</h3>
 	<form role="form" method="post" action="/members/login">
 		<div class="input-group">
-			<label th:for="id">아이디&nbsp;&nbsp;&nbsp;</label> <input type="text"  name="id"
+			<label th:for="id" class="input-label">아이디</label> <input type="text"  name="id"
 				class="input-short" placeholder="아이디 입력">
 		</div>
 		<div class="input-group">
-			<label th:for="pwd">비밀번호</label> <input type="password"
+			<label th:for="pwd" class="input-label">비밀번호</label> <input type="password"
 				name="pwd" id="pwd" class="input-short"
 				placeholder="비밀번호 입력">
 		</div>

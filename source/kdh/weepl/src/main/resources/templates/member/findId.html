@@ -33,13 +33,13 @@
 <h3>아이디 찾기</h3>
 	<form role="form" method="get" action="" th:object="${memberFormDto}" id="frm">
 		<div class="input-group">
-			<label th:for="name">이름&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label> <input type="text" th:field="*{name}"
+			<label th:for="name" class="input-label">이름</label> <input type="text" th:field="*{name}"
 				class="input-short" placeholder="이름 입력">
 		</div>
 		<div class="input-group">
-			<label th:for="tel1">전화번호</label> <input type="text" class="input-short"
-				th:field="*{tel1}" placeholder="010" maxlength="3"> - <input type="text" class="input-short"
-				th:field="*{tel2}" placeholder="1234" maxlength="4"> - <input type="text" class="input-short"
+			<label th:for="tel1" class="input-label">전화번호</label> <input type="text" class="input-short"
+				th:field="*{tel1}" placeholder="010" maxlength="3"> <label th:for="tel2" class="input-label-bar">-</label> <input type="text" class="input-short"
+				th:field="*{tel2}" placeholder="1234" maxlength="4"> <label th:for="tel3" class="input-label-bar">-</label> <input type="text" class="input-short"
 				th:field="*{tel3}" placeholder="5678" maxlength="4">
 		</div>
 		<div class="search-div">

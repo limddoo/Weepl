@@ -17,10 +17,6 @@
 		.subview {
 			padding: 20px 50px 40px 50px;
 		}
-		
-		.input-short {
-			margin-left: 20px;
-		}
 	</style>
 </th:block>
 <head>
@@ -36,15 +32,15 @@
 <h3>비밀번호 찾기</h3>
 	<form role="form" method="get" action="" th:object="${memberFormDto}" id="frm">
 		<div class="input-group">
-			<label th:for="id">아이디</label> <input type="text" th:field="*{id}"
+			<label th:for="id" class="input-label">아이디</label> <input type="text" th:field="*{id}"
 				class="input-short" placeholder="아이디 입력">
 		</div>
 		<div class="input-group">
-			<label th:for="name">이름&nbsp;&nbsp;&nbsp;</label> <input type="text" th:field="*{name}"
+			<label th:for="name" class="input-label">이름</label> <input type="text" th:field="*{name}"
 				class="input-short" placeholder="이름 입력">
 		</div>
 		<div class="input-group">
-			<label th:for="email">이메일</label> <input type="email"
+			<label th:for="email" class="input-label">이메일</label> <input type="email"
 				th:field="*{email}" class="input-short" placeholder="이메일 입력">
 		</div>
 		<div class="search-div">
