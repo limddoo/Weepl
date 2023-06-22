@@ -16,6 +16,14 @@
 		
 		// 등록되어있던 첨부파일 파일명 클릭시 삭제
 		$(".exist-files-div").on("click", ".exist-file", function() {
+			console.log(this);
+			$("input[id='boardAttachCd"+$(this).attr("value")+"']").val($(this).attr("value"));
+			this.remove();
+		});
+        
+     	// 등록되어있던 첨부파일 파일명 클릭시 삭제
+		$(".selected-files-div").on("click", ".exist-file", function() {
+			console.log(this);
 			$("input[id='boardAttachCd"+$(this).attr("value")+"']").val($(this).attr("value"));
 			this.remove();
 		});
@@ -82,7 +90,7 @@
 <head>
 <meta name="_csrf" th:content="${_csrf.token}" />
 <meta name="_csrf_header" th:content="${_csrf.headerName}" />
-<title>글 </title>
+<title>스윗게시글 등록</title>
 </head>
 
 <!-- 사용자 CSS 추가 -->
@@ -138,9 +146,9 @@
 	color: #fff;
 	font-size: 11pt;
 	border-radius: 8px;
-	width: 70px;
 	height: 35px;
-	margin: 3px 2px 13px 2px;
+	width: 90px;
+	padding: 2px 5px 2px 5px;
 }
 
 .btn-primary:hover {
@@ -178,12 +186,6 @@
     text-align : center;
     font-size : 12pt;
 }
-
-#button-div {
-	float : center;
-	margin-bottom : 100px;
-}
-
 .upload-division {
 	margin-bottom : 50px;
 }
@@ -224,6 +226,11 @@ div input::file-selector-button {
 .selected-files-div {
 	margin-top: 20px;
 }
+
+.form-label {
+	display: inline-block;
+	line-height: 36px;
+}
 </style>
 </th:block>
 
@@ -235,8 +242,8 @@ div input::file-selector-button {
 		<div th:unless="${#strings.isEmpty(sweetBoardDto.cd)}" style="text-align: center">
 			<h1 style="margin-bottom:12px; margin-left:12px" align="left">글 수정하기</h1>
 		</div>
-		<hr class='hr-solid' id='hr-title' /><br><br>
 		<input type="hidden" th:field="*{cd}">
+		<hr class='hr-solid' id='hr-title' /><br><br>
 		<div class="input-group">
 			<label class="input-label" id="title-div">게시판 선택</label> 
 			<select th:field="*{board_div}" class="input-select">
@@ -270,7 +277,7 @@ div input::file-selector-button {
 						<input type="file" hidden="hidden" class="custom-file-input" th:id="image-upload + ${num}" name="boardImgFile" >
 						<label class="custom-file-label" th:for="image-upload + ${num}">선택된 파일 없음
 						</label>
-						<button type="button" class="button-style image-file" th:text="이미지등록 + ${num}"></button>
+						<button type="button" class="btn btn-primary image-file" th:text="이미지등록 + ${num}"></button>
 					</div>
 				</div>
 			</div>
@@ -282,7 +289,7 @@ div input::file-selector-button {
 						<label class="custom-file-label" th:for="image-upload + ${status.index+1}" th:text="${not #strings.isEmpty(boardImgDto.oriImgName)} ? 
 							${boardImgDto.oriImgName} : '선택된 파일 없음'">
 						</label>
-						<button type="button" class="button-style image-file" th:text="이미지추가 + ${status.index+1}"></button>
+						<button type="button" class="btn btn-primary image-file" th:text="이미지추가 + ${status.index+1}"></button>
 					</div>
 				</div>
 			</div>
@@ -290,14 +297,14 @@ div input::file-selector-button {
 			<!-- 첨부파일 등록 -->
 			<div th:if="${#lists.isEmpty(sweetBoardDto.boardAttachDtoList)}">
 				<div class="upload-file-attach">
-					<label for="formFileMultiple" class="form-label button-style">파일 업로드</label> 
+					<label for="formFileMultiple" class="form-label btn btn-primary">파일 업로드</label> 
 					<input class="form-control file-upload" type="file" id="formFileMultiple" name="boardAttachFile" multiple="multiple" />
 				</div>
 				<div class="selected-files-div"></div>
 			</div>
 			<div th:if="${not #lists.isEmpty(sweetBoardDto.boardAttachDtoList)}">
 				<div class="upload-file-attach">
-					<label for="formFileMultiple" class="form-label button-style">업로드 파일</label> 
+					<label for="formFileMultiple" class="form-label btn btn-primary">업로드 파일</label> 
 					<input class="form-control file-upload" type="file" id="formFileMultiple" name="boardAttachFile" multiple="multiple" onchange=""/> <br>
 				</div>
 				<div class="selected-files-div">
@@ -312,13 +319,13 @@ div input::file-selector-button {
 		</div>
 		
 		<!-- 버튼 영역 -->
-		<div th:if="${#strings.isEmpty(sweetBoardDto.cd)}" style="text-align: center" id="button-div">
-			<button th:formaction="@{/sweetboard/add}" type="submit" class="btn btn-primary">저장</button>
-			<button th:formaction="@{/sweetboard/list}" type="submit" class="btn btn-primary">취소</button>
+		<div th:if="${#strings.isEmpty(sweetBoardDto.cd)}" style="text-align: center" class="button-div">
+			<button th:formaction="@{/sweetboard/add}" type="submit" class="button-style">저장</button>
+			<button th:formaction="@{/sweetboard/list}" type="submit" class="button-style">취소</button>
 		</div>
-		<div th:unless="${#strings.isEmpty(sweetBoardDto.cd)}" style="text-align: center" id="button-div">
-			<button th:formaction="@{'/sweetboard/mod/' + ${cd}}" type="submit" class="btn btn-primary">수정</button>
-			<button th:formaction="@{/sweetboard/list}" type="submit" class="btn btn-primary">수정취소</button>
+		<div th:unless="${#strings.isEmpty(sweetBoardDto.cd)}" style="text-align: center" class="button-div">
+			<button th:formaction="@{'/sweetboard/mod/' + ${cd}}" type="submit" class="button-style">수정</button>
+			<button th:formaction="@{/sweetboard/list}" type="submit" class="button-style">수정취소</button>
 		</div>
 		<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
 	</form>

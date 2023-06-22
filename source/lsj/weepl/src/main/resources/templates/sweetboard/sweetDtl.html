@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{layouts/basicLayout}">
+    layout:decorate="~{layouts/sweetLayout}">
 <head>
 <meta charset="UTF-8">
 <meta name="_csrf" th:content="${_csrf.token}" />
@@ -144,61 +144,31 @@
 	</script>
 	<th:block layout:fragment="css">
 <style>
-
-#hr-first {
-	border: 0px;
-	border-top: 3px solid darkgrey;
-	padding-top: 25px;
-}
-
-#hr-one {
-	padding-left: 25px;
-	padding: 1px;
-}
-
-#hr-second {
-	border: 0px;
-	border-top: 3px solid lightgrey;
-	padding: 3px;
-	margin-top: 6px;
-}
-
-#board-div {
-	margin-left : 0;
-	margin-top : 4%;
-	width: 50%;
-	align: center;
+.content {
+	margin-top : 0;
+	margin-left : 15%;
+	width : 80%;
+	align : center;
 }
 
 .table {
 	width: 60%;
 	font-size: 14pt;
 	margin-top: 80px;
-	margin-bottom: 150px;
+	margin-bottom: 80px;
 }
 
-.material-symbols-outlined {
-	margin-left: 50px;
-	line-height: 30px;
-	float: left;
-}
-
-.attach-table {
-	margin: 20px;
-}
-
-.board_content {
-	height: 200px;
-	line-height: 300px;
-}
-
-.board_img {
-	height: 200px;
-	line-height: 300px;
+.board-div {
+	width: 70%;
 }
 
 img {
 	margin-bottom: 8px;
+	width: 80%;
+}
+
+.text-center {
+	text-align: center;
 }
 
 h1 {
@@ -223,34 +193,6 @@ h1 {
 	line-height: 80px;
 	margin-left: 23%;
 	float: left;
-}
-
-.btn-primary {
-	background-color: #0055FF;
-	border: none;
-	color: #fff;
-	font-size: 11pt;
-	border-radius: 8px;
-	width: 70px;
-	height: 35px;
-	margin: 3px 2px 13px 2px;
-}
-
-.btn-primary:hover {
-	background-color: #004bcc;
-	cursor: pointer;
-}
-
-.button {
-	background-color: #1E88E5;
-	color: #fff;
-	line-height: 50px;
-}
-
-.button:hover {
-	background-color: #005A9C;
-	border-color: #59b1eb;
-	color: #fff;
 }
 
 .copyright-table {
@@ -283,17 +225,7 @@ h1 {
 
 .card-footer {
 	margin-left: 20px;
-}
-
-.attach-download {
-	font-size : 10pt;
-	font-weight: bold;
-	color: #555;
-}
-
-.attach-download:hover {
-	cursor: pointer;
-	text-decoration: underline;
+	margin-bottom: 10px;
 }
 
 #board-title-color {
@@ -352,38 +284,35 @@ h1 {
 </head>
 
 <body>
-	<div layout:fragment="content">
-		<div class="content-div" align="center">
+	<div layout:fragment="content" align="center">
+		<div class="content-div">
 			<input type="hidden" id="cd" th:value="${sweetBoardDto.cd}">
-			<form th:action="@{'/dtl/' + ${sweetBoardDto.cd}}" role="form" method="get" th:object="${sweetBoardDto}" id="board-div">
-				<div align="left" class="title-header" id='hr-first'>
-					<h1> &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;
-						<td th:text="${sweetBoardDto.title}" class="title-content" />
-					</h1>
-					<hr class='hr-solid' id='hr-one' />
-					<span class="board-cd"> &nbsp;&nbsp;&nbsp;
-						<td class="board_cd" width="150" align="center" bgcolor="#FF9933">글번호</td> &nbsp;&nbsp;
-						<td th:text="${sweetBoardDto.cd}" />
-					</span> &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; 
-					<span class="board-creator"> &nbsp;&nbsp;&nbsp;
-						<td class="board_creator" width="150" align="center" bgcolor="#FF9933">작성자</td> &nbsp;&nbsp;
-						<td th:text="${sweetBoardDto.member.nickName}" />
+			<form th:action="@{'/dtl/' + ${sweetBoardDto.cd}}" role="form" method="get" th:object="${sweetBoardDto}" class="board-div">
+				<div align="left" class="title-header hr-first">
+					<h2>
+						<span th:text="${sweetBoardDto.title}" class="title-content" style="margin-left:40px;"></span>
+					</h2>
+					<hr class='hr-solid' id='hr-second' />
+					<span class="board-cd" style="margin-left:15px;">
+						<span class="board_cd" style="margin-left:10px;">글번호</span>
+						<span th:text="${sweetBoardDto.cd}" style="margin-left:10px;"></span>
 					</span>
-					<div class="board-regDt" align="right">
-						<td class="board_regDt" width="150" align="right" bgcolor="#FF9933" />
-						<td th:text="${#temporals.format(sweetBoardDto.regDt, 'yyyy-MM-dd hh:mm')}" /> &nbsp;&nbsp; &nbsp;&nbsp;
-					</div>
+					<span class="board-creator" style="margin-left:15px;">
+						<span class="board_creator" style="margin-left:10px;">작성자</span>
+						<span th:text="${sweetBoardDto.member.nickName}" style="margin-left:10px;"></span>
+					</span>
+					<span style="float: right; margin-right:10px;" th:text="${#temporals.format(sweetBoardDto.regDt, 'yyyy-MM-dd HH:mm')}"></span>
 					<hr class='hr-solid-attach' id='hr-second' />
-					<div class="board-attach" style="margin-top: '0px'">
-						<td class="material-symbols-outlined">&nbsp;&nbsp;&nbsp; 첨부파일</td>
-						<td class="board_attach" width="1500" align="center">
+					<div class="board-attach">
+						<span class="material-symbols-outlined">첨부파일</span>
+						<div class="board_attach">
 							<div th:each="boardAttach : ${sweetBoardDto.boardAttachDtoList}" class="text-center" align="center">
-								<div th:if="${not #strings.isEmpty(boardAttach.attachUrl)}" th:src="${boardAttach.attachUrl}" class="rounded mgb-15" width="800">
+								<div th:if="${not #strings.isEmpty(boardAttach.attachUrl)}" th:src="${boardAttach.attachUrl}" class="rounded mgb-15">
 									<i class="fa fa-file-o" aria-hidden="true"></i> 
 									<a class="attach-download" th:text="${boardAttach.oriAttachName}" th:href="@{'/sweetboard/dtl/download/' + ${boardAttach.cd}}"></a>
 								</div>
 							</div>
-						</td>
+						</div>
 					</div>
 					<hr class='hr-solid' id='hr-second' />
 				</div>
@@ -393,18 +322,18 @@ h1 {
 					<thead>
 						<tr>
 							<td style="width:300px">
-								<pre style="white-space:pre-wrap; word-break:break-all;" font-size="40" th:text="${sweetBoardDto.content}" />
+								<pre style="white-space:pre-wrap; word-break:break-all; font-size: 20px;" th:text="${sweetBoardDto.content}"></pre>
 							</td>
 						</tr>
 						<!-- 이미지 -->
 						<tr>
+						<td>
 							<div class="board-img">
-								<td class="board_img" width="1000" align="center"><br>
-									<div th:each="boardImg : ${sweetBoardDto.boardImgDtoList}" class="text-center">
-										<img th:if="${not #strings.isEmpty(boardImg.imgUrl)}" th:src="${boardImg.imgUrl}" class="rounded mgb-15" width="800">
-									</div>
-								</td>
+								<div th:each="boardImg : ${sweetBoardDto.boardImgDtoList}" class="text-center">
+									<img th:if="${not #strings.isEmpty(boardImg.imgUrl)}" th:src="${boardImg.imgUrl}" class="rounded mgb-15" width="800">
+								</div>
 							</div>
+						</td>
 						</tr>
 					</thead>
 				</table>
@@ -428,7 +357,7 @@ h1 {
 								<td class="copyright-con" width="1500" align="center">
 									<i class="fa fa-file-o" aria-hidden="true"></i>
 									<span class="copyright-content"> 저작권 보호분야 
-										<span th:text="${sweetBoardDto.title}" class="copyright-content" id="board-title-color" /> 저작물은 공공누리 출처표시 조건에 따라 
+										<span th:text="${sweetBoardDto.title}" class="copyright-content" id="board-title-color"></span> 저작물은 공공누리 출처표시 조건에 따라 
 										<b>공공누리 2유형</b> <b style="color: red">출처표시 + 상업적 이용금지</b> 이용할 수 있습니다.
 									</span>
 								</td>
@@ -440,9 +369,9 @@ h1 {
 				<br>
 				<!-- 게시글 표 하단 버튼 영역-->
 				<div style="text-align: center">
-					<button th:if="${sweetBoardDto.member.id == #authentication.principal.username || 'admin' == #authentication.principal.username}" th:formaction="@{'/sweetboard/mod/' + ${sweetBoardDto.cd}}" id="btn-comment-modify" type="submit" class="btn btn-primary">수정</button>
-					<button th:if="${sweetBoardDto.member.id == #authentication.principal.username || 'admin' == #authentication.principal.username}" th:formaction="@{'/sweetboard/del/' + ${sweetBoardDto.cd}}" id="btn-comment-delete" type="submit" class="btn btn-primary">삭제</button>
-					<button th:formaction="@{/sweetboard/list}" id="btn-comment-list" type="submit" class="btn btn-primary">목록보기</button>
+					<button th:if="${sweetBoardDto.member.id == #authentication.principal.username || 'admin' == #authentication.principal.username}" th:formaction="@{'/sweetboard/mod/' + ${sweetBoardDto.cd}}" id="btn-comment-modify" type="submit" class="button-style">수정</button>
+					<button th:if="${sweetBoardDto.member.id == #authentication.principal.username || 'admin' == #authentication.principal.username}" th:formaction="@{'/sweetboard/del/' + ${sweetBoardDto.cd}}" id="btn-comment-delete" type="submit" class="button-style">삭제</button>
+					<button th:formaction="@{/sweetboard/list}" id="btn-comment-list" type="submit" class="button-style">목록보기</button>
 				</div>
 				<br><br><br>
 				
@@ -453,7 +382,7 @@ h1 {
 						<textarea class="form-control" id="insert-comment" rows="4" placeholder="댓글을 작성해보세요!" style="resize: none;"></textarea>
 					</div>
 					<div class="card-footer" align="left">
-						<button type="button" id="btn-comment-save" class="btn btn-primary" onClick="checkNickName()">등록</button>
+						<button type="button" id="btn-comment-save" class="button-style" onClick="checkNickName()">등록</button>
 					</div>
 				</div>
 				<br>
@@ -468,8 +397,7 @@ h1 {
 									<li id="comment--1" class="list-group-item d-flex justify-content-between" align="left" style="list-style: none" value="${sweetComment.cd}">
 										<div id="comment-grp" class="d-flex">
 											<div id="comment" th:text="${sweetComment.member.nickName}"></div> &nbsp;&nbsp;&nbsp;
-											<div id="comment" th:text="${#temporals.format(sweetComment.regDt, 'yyyy-MM-dd hh:mm')}"></div> &nbsp;&nbsp;&nbsp;
-											<!-- <button type="button" id="btn-comment-delete" class="badge" th:onClick="">댓글달기</button>&nbsp;&nbsp; -->
+											<div id="comment" th:text="${#temporals.format(sweetComment.regDt, 'yyyy-MM-dd HH:mm')}"></div> &nbsp;&nbsp;&nbsp;
 											<button type="button" id="btn-comment-delete" class="badge" th:onClick="deleteComment([[${sweetComment.cd}]])">삭제</button>
 										</div>
 										<div id="comment-content" th:text="${sweetComment.comment}"></div>

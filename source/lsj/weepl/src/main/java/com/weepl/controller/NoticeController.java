@@ -105,7 +105,7 @@ public class NoticeController {
 		
 		
 		if (bindingResult.hasErrors()) {  //필수값이 없다면 다시 공지사항 등록 페이지로 이동
-			return "board/notice/noticeForm";
+			return "/notice/noticeForm";
 		}
 		
 		try {
