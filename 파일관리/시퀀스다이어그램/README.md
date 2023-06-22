@@ -1,1 +1,0 @@
-SweetBoard SequenceDiagram
