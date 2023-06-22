@@ -42,13 +42,14 @@ public class BoardAttachService {
 			attachName = fileService.uploadFile(boardAttachLocation, oriAttachName, boardAttachFile.getBytes()); 
 			attachUrl = "/wee/boardAttach/" + attachName;																																														
 		}
+		System.out.println("첨부파일 저장:"+oriAttachName+attachName+attachUrl);
 		// 첨부 정보 저장
 		boardAttach.updateBoardAttach(oriAttachName, attachName, attachUrl); // 업로드했던 이미지 파일의 원래 이름, 실제 로컬에 저장된 이미지 파일의 이름,
 		boardAttachRepository.save(boardAttach); // 업로드 결과 로컬에 저장된 이미지 파일을 불러오는 경로 등의 이미지 정보를 저장
 	}
 
-	public void updateBoardAttach(Long attachCd, MultipartFile boardAttachFile) throws Exception {
-		if (!boardAttachFile.isEmpty()) { // 이미지를 수정한 경우 이미지를 업데이트한다.
+	public void updateBoardAttach(Long attachCd) throws Exception {
+		
 			BoardAttach savedBoardAttach = boardAttachRepository.findById(attachCd) // 이미지 아이디를 이용하여 기존 저장했던 상품 이미지 엔티티를 조회한다.
 					.orElseThrow(EntityNotFoundException::new);
 
@@ -56,18 +57,13 @@ public class BoardAttachService {
 			if (!StringUtils.isEmpty(savedBoardAttach.getAttachName())) { // 기존에 등록된 이미지 파일이 있을 경우 해당 파일을 삭제한다
 				fileService.deleteFile(boardAttachLocation + "/" + savedBoardAttach.getAttachName());
 			}
-
-			String oriAttachName = boardAttachFile.getOriginalFilename();
-			String attachName = fileService.uploadFile(boardAttachLocation, oriAttachName, boardAttachFile.getBytes()); // 업데이트한 이미지
-																											// 파일 업로드
-			String attachUrl = "/wee/boardAttach/" + attachName;
-			savedBoardAttach.updateBoardAttach(oriAttachName, attachName, attachUrl);
-		}
+			
+			boardAttachRepository.delete(savedBoardAttach);
 	}
 
 	public void deleteBoardAttach(Long noticeCd) throws Exception {
 	
-		List<BoardAttach> savedBoardAttach = boardAttachRepository.findByNotice_NoticeCdOrderByAttachCdAsc(noticeCd);
+		List<BoardAttach> savedBoardAttach = boardAttachRepository.findByNotice_CdOrderByCdAsc(noticeCd);
 		for(int i =0; i<savedBoardAttach.size(); i++) {
 			BoardAttach boardAttach = savedBoardAttach.get(i);
 			if(!boardAttach.getAttachName().isBlank()) {

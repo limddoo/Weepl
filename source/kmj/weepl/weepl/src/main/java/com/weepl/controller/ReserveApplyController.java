@@ -31,55 +31,64 @@ public class ReserveApplyController {
 
 	@Autowired
 	ReserveApplyService reserveApplyService;
-
-	@GetMapping("/main")
-	public String showReservation(Model model) {
-		ReserveSchedule reserveSchedule = new ReserveSchedule();
+	
+	//reservation.html 띄우기
+	@GetMapping("/reservation")
+	public String showCalendar() {
 		return "/reservation/reservation";
 	}
 
-	// 관리자가 예약 일정 추가
+	// 관리자가 추가한 일정들 캘린더에 렌더링 
 	@ResponseBody
-	@GetMapping("/selectDate") // ajax 데이터 전송 URL //
-	public List<Map<String, Object>> addReservation() {
-		return reserveApplyService.addReserveApply();
+	@GetMapping("/showReservation") // ajax 데이터 전송 URL //
+	public List<Map<String, Object>> showReservation() {
+		return reserveApplyService.getReservations();
 	}
 
-	// 사용자가 예약 일정 선택
+	// 사용자가 캘린더에서 날짜 클릭 시 예약일정 data를 controller까지 가져온다. 
 	@ResponseBody
 	@PostMapping("/selectReservation")
-	public void selectReservation(@RequestBody Map<String, Object> selectedReservation, Model model,
-			Principal principal) throws Exception {
-
-		String id = principal.getName();
-		LOGGER.info("id={}", id);
+	public void selectReservation(@RequestBody Map<String, Object> selectedReservation, Model model) throws Exception {
 		try {
-			LOGGER.info("selectedReservation : {}", selectedReservation.toString());
 			model.addAttribute("selectedReservation", selectedReservation);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 	}
 
-	// showPopUp() 컨트롤러에서 실행
+	// showPopUp()에서 받아온 데이터를 기준으로 db에 튜플 존재 여부와, 그에 따른 처리를 담당
 	@RequestMapping("/reservationForm/{data}")
-	public String reservationForm(@PathVariable("data") String jsonData, Model model) throws Exception {
+    public String reservationForm(@PathVariable("data") String jsonData, Model model, Principal principal) throws IOException {
 
-		Map<String, Object> mappedJsonData = jsonToMap(jsonData);
-		LOGGER.info("fjgflkgjlfkgjlkfjglfgjlkgjgjg: {}", mappedJsonData.toString());
-		ReserveApplyDto reserveApplyDto = reserveApplyService.getReserveDtl(mappedJsonData.get("name").toString());
+		ObjectMapper mapper = new ObjectMapper();
+		Map<String, Object> mappedJsonData =  mapper.readValue(jsonData, Map.class); //String 객체를 Map으로 변환
+		
+		//Object -> String -> Long으로 파싱
+		ReserveApplyDto reserveApplyDto = reserveApplyService.getReserveDtl(Long.parseLong(mappedJsonData.get("id").toString()));
 
-		// ReserveApplyDto reserveApplyDto = new ReserveApplyDto();
-		reserveApplyDto.setReserveStatus("예약완료");
-		reserveApplyDto.setName(mappedJsonData.get("name").toString());
-		reserveApplyDto.setReserveScheduleCd(Long.parseLong(mappedJsonData.get("id").toString()));
-		model.addAttribute("reserveApplyDto", reserveApplyDto);
-
+		if (reserveApplyDto.getId() == null) // 신규에약
+		{
+			reserveApplyDto.setReserveStatus("예약완료");
+			reserveApplyDto.setName(mappedJsonData.get("name").toString());
+			reserveApplyDto.setReserveScheduleCd(Long.parseLong(mappedJsonData.get("id").toString()));
+			model.addAttribute("reserveApplyDto", reserveApplyDto);
+		} else if (reserveApplyDto.getId().equals(principal.getName())) // 내가 예약한 경우
+		{
+			reserveApplyDto.setReserveStatus("예약완료");
+			reserveApplyDto.setName(mappedJsonData.get("name").toString());
+			reserveApplyDto.setReserveScheduleCd(Long.parseLong(mappedJsonData.get("id").toString()));
+			model.addAttribute("errorMessage", "나의 예약 내용입니다.");
+			model.addAttribute("reserveApplyDto", reserveApplyDto);
+		} else // 남의 예약을 클릭한 경우
+		{
+			reserveApplyDto = new ReserveApplyDto();
+			model.addAttribute("errorMessage", "예약이 불가능합니다.");
+			model.addAttribute("reserveApplyDto", reserveApplyDto);
+		}
 		return "/reservation/reservationForm";
 	}
 
-	// 상담예약
+	// reservationForm의 submit() 실행시 ajax로 받아온 데이터를 이용해 예약 진행
 	@RequestMapping("/applyReservation")
 	public String applyReservation(@RequestBody Map<String, Object> reserveApplyInfo, BindingResult bindingResult,
 			Model model) throws Exception {
@@ -93,11 +102,10 @@ public class ReserveApplyController {
 		if (bindingResult.hasErrors()) { // 필수값이 없다면 다시 예약등록 페이지로 이동
 			return "reservation/reservationForm";
 		}
-
+		
 		try {
 			reserveApplyService.saveReserveApply(reserveApplyDto);
 		}
-
 		catch (Exception e) {
 			model.addAttribute("errorMessage", "상담예약 등록중 에러가 발생하였습니다.");
 			e.printStackTrace();
@@ -105,25 +113,4 @@ public class ReserveApplyController {
 		}
 		return "redirect:/reservation/main";
 	}
-
-	
-	  //상담내용 수정
-	  
-	  @RequestMapping("/updateReservation/{**}") public String updateReservation()
-	  { return "asd"; }
-	  
-	  
-	  //상담예약 취소
-	  
-	  @RequestMapping("/cancelReservation/{**}") public String cancelReservation()
-	  { return "asd"; }
-	  
-	 
-
-	public Map<String, Object> jsonToMap(String jsonData) throws IOException {
-		ObjectMapper mapper = new ObjectMapper();
-		Map<String, Object> mappedJsonData = mapper.readValue(jsonData, Map.class);
-		return mappedJsonData;
-	}
-
 }

@@ -19,6 +19,7 @@ public class ReserveApplyDto {
 	private String reserveStatus;
 	private LocalDateTime cancDt;
 	
+	private String id;
 	private String name;
 	
 	private static ModelMapper modelMapper = new ModelMapper();

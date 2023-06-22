@@ -13,11 +13,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.weepl.dto.BoardImgDto;
 import com.weepl.dto.MhinfoFormDto;
-import com.weepl.dto.MhinfoSearchDto;
+import com.weepl.dto.SearchDto;
 import com.weepl.entity.BoardImg;
 import com.weepl.entity.Mhinfo;
 import com.weepl.repository.BoardImgRepository;
-import com.weepl.repository.MemberRepository;
 import com.weepl.repository.MhinfoRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -30,7 +29,6 @@ public class MhinfoService {
 	private final MhinfoRepository mhinfoRepository;
 	private final BoardImgService boardImgService;
 	private final BoardImgRepository boardImgRepository; 
-	private final MemberRepository memberRepository;
 	
 	public Long findNextAvailableMhinfoCd() {
 		List<Long> mhinfoCds = mhinfoRepository.findAllMhinfoCds();
@@ -90,25 +88,22 @@ public class MhinfoService {
 	}
 	
 	public Long updateMhinfo(MhinfoFormDto mhinfoFormDto, List<MultipartFile> boardImgFileList) throws Exception {
-		Mhinfo mhinfo = mhinfoRepository.findById(mhinfoFormDto.getCd())
-				.orElseThrow(EntityNotFoundException::new);
-		mhinfo.updateMhinfo(mhinfoFormDto);
-		
-		List<Long> boardImgCds = mhinfoFormDto.getBoardImgCds();
-		for(int i=0;i<boardImgFileList.size();i++) {
-			boardImgService.updateBoardImg(boardImgCds.get(i), boardImgFileList.get(i));
-		}
-		return mhinfo.getCd();
+	    Mhinfo mhinfo = mhinfoRepository.findById(mhinfoFormDto.getCd())
+	            .orElseThrow(EntityNotFoundException::new);
+	    mhinfo.updateMhinfo(mhinfoFormDto);
+	    
+	    mhinfo.setMhinfoCate(mhinfoFormDto.getMhinfoCate()); // mhinfoCate 값을 설정해줍니다.
+	    
+	    List<Long> boardImgCds = mhinfoFormDto.getBoardImgCds();
+	    for(int i=0; i<boardImgFileList.size(); i++) {
+	        boardImgService.updateBoardImg(boardImgCds.get(i), boardImgFileList.get(i));
+	    }
+	    return mhinfo.getCd();
 	}
 	
 	@Transactional(readOnly = true)
-    public Page<Mhinfo> getAdminMhinfoPage(MhinfoSearchDto mhinfoSearchDto, Pageable pageable){
-    	return mhinfoRepository.getAdminMhinfoPage(mhinfoSearchDto, pageable);
-    }
-	
-	@Transactional(readOnly = true)
-    public Page<Mhinfo> getUserMhinfoPage(MhinfoSearchDto mhinfoSearchDto, Pageable pageable){
-    	return mhinfoRepository.getUserMhinfoPage(mhinfoSearchDto, pageable);
+    public Page<Mhinfo> getMhinfoPage(SearchDto mhinfoSearchDto, Pageable pageable){
+    	return mhinfoRepository.getMhinfoPage(mhinfoSearchDto, pageable);
     }
 	
 	@Transactional
@@ -121,16 +116,5 @@ public class MhinfoService {
 		return mhinfoRepository.updateLikes(mhinfoCd);
 	}
 
-//	@Transactional(readOnly = true)
-//    public Page<MainMhinfoDto> getMainMhinfoPage(MhinfoSearchDto mhinfoSearchDto, Pageable pageable){
-//    	return mhinfoRepository.getMainMhinfoPage(mhinfoSearchDto, pageable);
-//    }
-
-//	public void deleteMhinfo(Long cd) {
-//		Mhinfo mhinfo = mhinfoRepository.findById(cd)
-//				.orElseThrow(EntityNotFoundException::new);
-//		mhinfoRepository.delete(mhinfo);
-//	}
-	
 	
 }
