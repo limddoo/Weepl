@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/weeNetworkLayout}">
+<head>
+<meta charset='utf-8' />
+
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"
+	integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+	crossorigin="anonymous"></script>
+
+
+<th:block layout:fragment="css">
+	<style>
+#siteMap {
+	width: 1300px;
+	min-width: 1300px;
+	margin-top: 20px;
+	margin-left: 135px;
+}
+.subview {
+	pointer-events: none;
+	user-select: none;
+}
+</style>
+</th:block>
+</head>
+
+<body>
+	<div layout:fragment="content" class="content-wrapper">
+		<div class="subview">
+			<img src="/img/weeNetworkInfo1.png"> <img
+				src="/img/weeNetworkInfo2.png"> <img
+				src="/img/weeNetworkInfo3.png"> <img
+				src="/img/weeNetworkInfo4.png">
+		</div>
+	</div>
+</body>
+
+</html>

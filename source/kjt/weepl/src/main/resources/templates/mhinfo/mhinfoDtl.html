@@ -2,21 +2,32 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-    layout:decorate="~{layouts/mhInfoLayout}">
+	layout:decorate="~{layouts/mhInfoLayout}">
 <head>
 
 <meta charset="UTF-8">
 <!-- 사용자 CSS 추가 -->
 <th:block layout:fragment="css">
-	
-<style>
+
+	<style>
 .btn btn-primary {
-	text-align : center;
+	text-align: center;
 }
-	.button-container {
-			text-align: center;
-			margin-top: 10px;
-		}
+
+.button-container {
+	text-align: center;
+	margin-top: 10px;
+}
+
+.mhinfo-content > .text-center img{
+	display: block;
+}
+
+.text-center-btn{
+	text-align: center;
+	margin: 25px;
+}
+
 </style>
 </th:block>
 </head>
@@ -40,7 +51,6 @@
 				}
 			})
 		}
-		
 	</script>
 </th:block>
 <script type="text/javascript">
@@ -48,28 +58,33 @@
 </script>
 
 </th:block>
-<div layout:fragment="content" style="margin-left: 25%; margin-right: 25%">
-	<input type="hidden" id="mhinfoCd" th:value="${mhinfo.cd}">
+<div layout:fragment="content"
+	style="margin-left: 25%; margin-right: 25%; margin-top: 50px;">
+	<div class="mhinfo-content">
+		<input type="hidden" id="mhinfoCd" th:value="${mhinfo.cd}">
 
-	<div th:each="boardImg, status: ${mhinfo.boardImgDtoList}" class="text-center">
-    <img th:if="${not #strings.isEmpty(boardImg.imgUrl)}"
-        th:src="${boardImg.imgUrl}" class="rounded mgb-15" width="800">
-    <div th:if="${status.last}" class="mb-4"></div><br>
-</div>
+		<div th:each="boardImg, status: ${mhinfo.boardImgDtoList}"
+			class="text-center">
+			<img th:if="${not #strings.isEmpty(boardImg.imgUrl)}"
+				th:src="${boardImg.imgUrl}" class="rounded mgb-15" width="800">
+			<div th:if="${status.last}" class="mb-4"></div>
+		</div>
 
-	<div class="text-center">
-    <button type="button" class="button-style"
-        th:onclick="|location.href='/mhinfo/admin/mhinfo/${mhinfo.cd}'|" sec:authorize="hasAnyRole('ROLE_COUNSELOR', 'ROLE_ADMIN')">수정</button>
-    <button type="button" class="button-style"
-        th:onclick="|location.href='/mhinfo/mhinfos'|">목록</button>
-    <button type="button" class="button-style"
-        th:onclick="|location.href='/mhinfo/admin/delete/${mhinfo.cd}'| " sec:authorize="hasAnyAuthority('ROLE_ADMIN')">삭제</button>
-    <button type="button" class="button-style" onClick="clickLike()" >
-        좋아요&nbsp;&nbsp;<span id="likeCnt" th:text="${mhinfo.likeCnt}"></span>
-    </button>
-</div>
+		<div class="text-center text-center-btn">
+			<button type="button" class="button-style"
+				th:onclick="|location.href='/mhinfo/admin/mhinfo/${mhinfo.cd}'|"
+				sec:authorize="hasAnyRole('ROLE_COUNSELOR', 'ROLE_ADMIN')">수정</button>
+			<button type="button" class="button-style"
+				th:onclick="|location.href='/mhinfo/mhinfos'|">목록</button>
+			<button type="button" class="button-style"
+				th:onclick="|location.href='/mhinfo/admin/delete/${mhinfo.cd}'| "
+				sec:authorize="hasAnyAuthority('ROLE_ADMIN')">삭제</button>
+			<button type="button" class="button-style" onClick="clickLike()">
+				좋아요&nbsp;&nbsp;<span id="likeCnt" th:text="${mhinfo.likeCnt}"></span>
+			</button>
+		</div>
 
-
+	</div>
 
 </div>
 
