@@ -49,13 +49,13 @@ public class NoticeController {
 	
 	//공지사항 리스트
 	@GetMapping(value= {"/notice","/notice/{page}"}) //페이지 번호가 없는 경우와 있는 경우 2가지 매핑
-	public String manageNotice(SearchDto noticeSearchDto, @PathVariable("page") Optional<Integer> page, Model model) {
+	public String showNotices(SearchDto noticeSearchDto, @PathVariable("page") Optional<Integer> page, Model model) {
 		
 		//PageRequest.of 메소드를 통해 Pageable객체 생성. 해당 페이지 조회, 페이지 번호가 없으면 0페이지에서 3개 조회
 		Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 10); 
 		
 		//조회조건과 페이징 정보를 파라미터로 넘겨 Page<Item> 객체를 반환받는다.
-		Page<Notice> notices = noticeService.getAdminNoticePage(noticeSearchDto, pageable);
+		Page<Notice> notices = noticeService.getNotices(noticeSearchDto, pageable);
 		
 		model.addAttribute("notices", notices); //조회한 상품 데이터와 페이징 정보를 뷰에 전달한다
 		model.addAttribute("noticeSearchDto", noticeSearchDto); //페이지 전환 시 기존 검색조건을 유지한채 이동할 수 있도록 뷰에 다시 전달
@@ -134,7 +134,6 @@ public class NoticeController {
 		
 		try {
 		InputStreamResource resource = new InputStreamResource(new FileInputStream(filePath.toString()));
-		//model.addAttribute("notice", noticeService.downloadNoticeAttach(attachCd));
 		return ResponseEntity.ok()
 	            .contentType(MediaType.APPLICATION_OCTET_STREAM)
 	            .cacheControl(CacheControl.noCache())

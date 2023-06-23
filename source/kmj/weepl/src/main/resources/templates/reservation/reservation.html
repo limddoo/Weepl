@@ -45,35 +45,36 @@ body {
 <th:block layout:fragment="script">
 	<script th:inline="javascript">	
 		document.addEventListener('DOMContentLoaded', function() {
-
-			var calendarEl = document.getElementById('calendar');
-					
-			  var request = $.ajax({
-				url : "/reservation/selectDate",
-				method : "GET",
-				async : true,
-				headers : { 
-					"Content-Type" : "application/json",
-					"X-HTTP-Method-Override" : "GET"
-				},
-				dataType : 'json',
-				success : function(result) { 
-					console.log(result)
-				},
-				error : function(request, status, error) { // 결과 에러 콜백함수
-					console.log(error)
-				}
-			});
-	
+			
 			function showPopUp(data) {
-				console.log("showPopUp의 data : " + JSON.stringify(data))
-			    const url = "/reservation/reservationForm/"+JSON.stringify(data);
-				var data = data;
-			    window.open(url , "reservationForm", "toolbar=no, width=1000, height=700, directories=no, status=no, scrollbars=no, resizable=yes"); 		 
-			}
-
-			request.done(function(result) {
-				var calendar = new FullCalendar.Calendar(calendarEl, {
+				//url 변수에 컨트롤러에서 호출 할 메소드의 매핑주소와, data의 값들을 더해준다
+			    const url = "/reservation/reservationForm/"+JSON.stringify(data); 			
+			    window.open(url , //컨트롤러의 reservationForm 메소드 호출
+			    			"reservationForm", 
+			    			"toolbar=no, width=1000, height=700, directories=no, status=no, scrollbars=no, resizable=yes"); 		 
+				}
+			
+			var calendarEl = document.getElementById('calendar');
+			
+			var request = $.ajax({  //db에 저장된 예약 일정 가져오기
+							  url : "/reservation/showReservation",
+						      method : "GET",
+							  async : true,
+							  headers : { "Content-Type" : "application/json",
+										  "X-HTTP-Method-Override" : "GET"
+										},
+							  dataType : 'json',
+							  success : function(result) { 
+											console.log(result)
+										},
+							  error : function(request, status, error) {
+											console.log(error)
+										}
+								});
+	
+			  
+			request.done(function(result) {  //request의 ajax에서 success 이후 done 호출 시 동작, request에서 받아온 데이터를 Calendar에 렌더링
+				var calendar = new FullCalendar.Calendar(calendarEl, { //Calendar 객체 생성
 					initialView : 'dayGridMonth',
 					showNonCurrentDates : true,
 					headerToolbar : {
@@ -87,57 +88,51 @@ body {
 					selectable : true,
 					timeZone:false,
 					locale : "ko",
-					dateClick: function(info) { // 날짜 클릭 이벤트를 막고싶었지만 플러그인 설치 문제로 실패
-					    alert('Date: ' + info.dateStr);
-					    alert('Resource ID: ' + info.resource.id);
-					  },
+					dateClick: false,
 					eventDisplay:'block',			
-					eventClick : function(info) {	
-						const name = [[${#authentication.principal.username}]];
-						var data = JSON.parse(JSON.stringify(info.event));						
-						data.name = name;
-						if(!(data.title=="예약완료")){
-						var header = $("meta[name='_csrf_header']").attr('content');
-						var token = $("meta[name='_csrf']").attr('content');
-						var result = confirm(info.event.start.toISOString().replace('T', ' ').slice(0, 16)+ '에 예약을 진행하시겠습니까?');
-						if(result == false ){
-							alert("상담 예약을 취소했습니다.")	
-							return;
-						}					
+					eventClick : function(info) {	 //사용자가 날짜 클릭 시 실행
+						const name = [[${#authentication.principal.username}]]; //현재 로그인한 회원의 ID를 변수에 저장
+						var data = JSON.parse(JSON.stringify(info.event));	//Calendar 객체 info의 event 항목들을 JSON 타입으로 형변환 후 변수에 저장					
+						data.name = name; //위에서 선언한 data 변수에 사용자 ID값 추가
+						
+						if(!(data.title=="예약완료")){ //예약완료된 일정이 아니면 예약진행
+							var header = $("meta[name='_csrf_header']").attr('content');
+							var token = $("meta[name='_csrf']").attr('content');
+							var confirmation = confirm(info.event.start.toISOString().replace('T', ' ').slice(0, 16)+ '에 예약을 진행하시겠습니까?');
 							
-						$.ajax({
-							url : "/reservation/selectReservation",
-							method : "POST",
-							async : true, // 비동기화 여부 (default : true)
-						 	headers : { // Http header
-								"Content-Type" : "application/json",
-								"X-HTTP-Method-Override" : "POST"
-							}, 
-							data : JSON.stringify(data),
+							if(confirmation == false ){
+								alert("상담 예약을 취소했습니다.")	
+								return;
+								}					
 							
-							beforeSend: function(xhr){
-							        xhr.setRequestHeader(header, token);
-							        
-							},
-							success : showPopUp(data),
-							
-							error : function(request, status, error) { // 결과 에러 콜백함수
-								console.log(error)
-							}
-						});
-						}
+							$.ajax({ 
+								url : "/reservation/selectReservation",
+								method : "POST",
+								async : true,
+						 		headers : { "Content-Type" : "application/json",
+											"X-HTTP-Method-Override" : "POST"
+									}, 
+								data : JSON.stringify(data), //info.event의 정보가 담긴 data를 다시 JSON 문자열 형태로 변환 후 컨트롤러로 전송
+								beforeSend: function(xhr){
+							        xhr.setRequestHeader(header, token);			        
+									},
+								success : showPopUp(data), //컨트롤러에 들렀다 온 데이터를 바로 팝업창에 바인딩
+								error : function(request, status, error) {
+									console.log(error)
+									}
+								});
+						} //if문의 끝
 						else{
 							alert("예약이 완료된 날짜입니다.");
-						}
-					},								 
-				});
-				calendar.render();	
+						} //else문의 끝
+					}, //eventClick의 끝								 
+				}); //Calendar 객체 생성 완료
+				calendar.render();	// request에서 받아온 데이터를 Calendar에 렌더링
 					for(var i =0; i<result.length;i++){
 						calendar.addEvent(result[i])
 					}	
-			});
-			
-		});
+			}); //request.done의 끝
+		}); //document.addEventListener의 끝
 	</script>
 </th:block>
 

@@ -96,14 +96,14 @@
 <th:block layout:fragment="script">
 	<script th:inline="javascript">
 $(document).ready(function(){
-var errorMessage = [[${errorMessage}]]; <!--등록 시 실패 메시지를 받아서 공지등록 재진입 시 alert를 통해서 실패 사유를 보여준다.-->
-if(errorMessage == "나의 예약 내용입니다."){
-alert(errorMessage);
-}
-if(errorMessage == "예약이 불가능합니다."){
-	alert(errorMessage);
-	window.close();
-}
+	var errorMessage = [[${errorMessage}]]; <!--등록 시 실패 메시지를 받아서 공지등록 재진입 시 alert를 통해서 실패 사유를 보여준다.-->
+	if(errorMessage == "나의 예약 내용입니다."){
+		alert(errorMessage);
+	}
+	if(errorMessage == "예약이 불가능합니다."){
+		alert(errorMessage);
+		window.close();
+	}
 
 $("#submit_btn").on("click", (e) => {
     submit();
@@ -112,7 +112,6 @@ $("#submit_btn").on("click", (e) => {
 $("#cancel_btn").on("click", (e) => { 
 	cancel();
 });
-
 });
 
 function cancel(){
@@ -121,12 +120,10 @@ function cancel(){
 
 	$.ajax({
 	    method: "GET",
-	    url: "/mypage/cancelReservation",
-	    
-	    headers : { // Http header
-			"Content-Type" : "application/json",
-			"X-HTTP-Method-Override" : "POST"
-		},
+	    url: "/mypage/cancelReservation",	    
+	    headers : { "Content-Type" : "application/json",
+					"X-HTTP-Method-Override" : "POST"
+				},
 	    data :{"reserveScheduleCd":$("#reserveScheduleCd").val()},
 	    beforeSend: function(xhr){
 	        xhr.setRequestHeader(header, token);
@@ -135,7 +132,7 @@ function cancel(){
 				alert("예약취소가 완료되었습니다");
 			}
 	        else{
-				return;
+				return false;
 			}
 		},
 	    success: function(){
@@ -165,12 +162,11 @@ $.ajax({
     type: "POST",
     url: "/reservation/applyReservation",
     async : true,
-    headers : { // Http header
-		"Content-Type" : "application/json",
-		"X-HTTP-Method-Override" : "POST"
-	},
+    headers : {"Content-Type" : "application/json",
+			   "X-HTTP-Method-Override" : "POST"
+			},
     data : JSON.stringify(reserveApplyInfo), //{Object : object}형식을 {String : String}으로 변환
-    beforeSend: function(xhr){
+    beforeSend: function(xhr){ //데이터 전송 전에 최종 확인 절차
         xhr.setRequestHeader(header, token);
         var result = confirm("예약 등록 하시겠습니까?");
         if(result == true){
@@ -181,9 +177,9 @@ $.ajax({
 			return;
 		}
 	},
-    success: opener.location.reload(),
+    success: opener.location.reload(),//popUp창의 부모창인 reservation.html을 새로고침한다
     complete : window.close(),//모든 과정 완료 후 창이 자동으로 꺼짐
-    error : function(request, status, error) { // 결과 에러 콜백함수
+    error : function(request, status, error) {
 		console.log(error)
 	}
 });

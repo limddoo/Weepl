@@ -87,34 +87,38 @@ private final BoardConsRepository boardConsRepository;
 	
 	public List<Map<String, Object>> viewMyReservationCalendar(String name) {
 		//1. member repository findbyid 해서 membercd 조회
-		//2. memberCd로 reserveAplly 조회
+		//2. memberCd로 reserveApply 조회
 		//3. reserveapply의 reserveschedulecd 값들 조회
 		//4. reserveschedule에서 해당 reserveCd값으로 조회 후 결과물 받기
 		Member member = memberRepository.findById(name);
 		Long memberCd = member.getCd();	
-		List foundReserveApply = reserveApplyRepository.findByMember(memberCd);			
+		List foundReserveApply = reserveApplyRepository.findByMember(memberCd);
+		LOGGER.info("foundReserveApply : {}",foundReserveApply);
 		List<Map<String, Object>> reserveApplyList = new ArrayList<Map<String, Object>>();
 		
 		for(int i =0; i<foundReserveApply.size(); i++) {
 			Map<String, Object> reserveApply = new HashMap<String, Object>();
 			StringBuilder sb = new StringBuilder();
-			ObjectMapper objectMapper2 = new ObjectMapper();
-			Map result2 = objectMapper2.registerModule(new JavaTimeModule()).convertValue(foundReserveApply.get(i), Map.class);
-			Map result3 = objectMapper2.registerModule(new JavaTimeModule()).convertValue(result2.get("reserveSchedule"), Map.class);
-
-			sb.append(result3.get("reserveDate"));
-			sb.append("T");
-			sb.append(result3.get("reserveTime"));
 			
-			reserveApply.put("id", result3.get("cd"));
-			reserveApply.put("title", result3.get("status"));
+			//foundReserveApply가 이중 리스트 형태로 되어 있기 때문에 두번에 걸쳐서 파싱해줘야 한다
+			//reserveSchedule 테이블에 저장된 날짜와 시간 format이 JAVA가 제공하는  format과 맞지 않기 때문에 JavaTimeModule의 convertValue 메소드로 변환 
+			ObjectMapper objectMapper = new ObjectMapper();
+			Map result1 = objectMapper.registerModule(new JavaTimeModule()).convertValue(foundReserveApply.get(i), Map.class);
+			Map result2 = objectMapper.registerModule(new JavaTimeModule()).convertValue(result1.get("reserveSchedule"), Map.class);
+
+			sb.append(result2.get("reserveDate"));
+			sb.append("T");
+			sb.append(result2.get("reserveTime"));
+			
+			reserveApply.put("id", result2.get("cd"));
+			reserveApply.put("title", result2.get("status"));
 			reserveApply.put("start", sb);
-			if(result3.get("status").equals("예약완료")) {
+			if(result2.get("status").equals("예약완료")) {
 				reserveApply.put("color", "red");
 				//reserveApply.put("title", "예약완료");
 			}
 			sb = null;
-			result3.clear();
+			result2.clear();
 			reserveApplyList.add(reserveApply);
 		}
 		
