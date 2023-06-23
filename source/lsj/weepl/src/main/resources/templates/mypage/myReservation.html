@@ -46,7 +46,6 @@ body {
 				<table class="table-container">
 					<thead>
 						<tr>
-
 							<th>신청제목</th>
 							<th>신청내용</th>
 							<th>상담일</th>
@@ -63,7 +62,7 @@ body {
 							<td th:text="${reserveApply.reserveSchedule.reserveDate}"></td>
 							<td th:text="${reserveApply.reserveSchedule.reserveTime}"></td>
 							<td th:text="${reserveApply.reserveStatus}"></td>
-							<td><input type="button" value="비대면 상담 시작"
+							<td><input class="button-style" type="button" value="비대면 상담 시작"
 								th:disabled="!${reserveApply.reserveStatus == '예약완료'}"
 								th:onclick="new_window([[${reserveApply.reserveSchedule.reserveDate}]],[[${reserveApply.reserveSchedule.reserveTime}]],[[${reserveApply.reserveApplyCd}]])">
 							</td>

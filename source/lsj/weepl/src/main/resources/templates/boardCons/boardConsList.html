@@ -18,22 +18,27 @@
 			disalbed_direction.removeAttribute('onclick');
 		});
 		
+		// 상세글 행 클릭시 해당 글번호로 아이디 체크 실행
 		$(".board-content").on("click", function() {
 			var board_tr = $(this);
 			var board_cd = board_tr.children()[0].innerHTML;
-			console.log(board_cd);
 			checkName(board_cd);
 		});
 	});
+		// 아이디 체크
 		function checkName(boardCd){
 			var header = $("meta[name='_csrf_header']").attr('content');
 			var token = $("meta[name='_csrf']").attr('content');
 			const user = [[${#authentication.principal}]];
+			// 로그인한 유저가 접근할 경우
 			if(user != 'anonymousUser') {
 				const name = user.username;
+				// 관리자가 접근시 바로 상세글 조회
 				if(name == 'admin'){
 					location.href = "/boardCons/boardConsDtl/"+boardCd;
-				} else {
+				}
+				// 일반 유저일 경우 해당 글을 작성한 유저 아이디와 로그인한 아이디를 비교함
+				else {
 					$.ajax({
 						type:"post",
 						url:"/boardCons/getBoardMember",
@@ -42,9 +47,12 @@
 							xhr.setRequestHeader(header, token);
 						},
 						success: function(result){
+							// 해당 글을 작성한 유저아이디가 로그인한 아이디와 일치 시, 상세글 조회
 							if(name == result.result) {
 								location.href = "/boardCons/boardConsDtl/"+boardCd;
-							} else {
+							}
+							// 일치하지 않을때 비밀번호 입력 실행
+							else {
 								checkBoardPwd(header, token, boardCd);
 							}
 						},
@@ -53,14 +61,18 @@
 						}
 					});
 				}
-			} else {
+			}
+			// 비로그인 상태일 시, 비밀번호 입력 실행
+			else {
 				checkBoardPwd(header, token, boardCd);
 			}
 			
 		}
 		
+		// 비밀번호 입력 
 		function checkBoardPwd(header, token, boardCd) {
 			var password = prompt("비밀번호 입력");
+			// 취소 눌렀을때 아무 동작 안함
 			if(!password) {
 				return;
 			}
@@ -75,9 +87,12 @@
 					xhr.setRequestHeader(header, token);
 				},
 				success: function(confirmResult){
+					// 입력한 비밀번호와 상세 글 비밀번호 일치 시 상세 글 조회
 					if(confirmResult.result == "ENTER") {
 						location.href = "/boardCons/boardConsDtl/"+boardCd;
-					} else {
+					}
+					// 일치하지 않을 때 alert창 출력후, 아무 동작 안함
+					else {
 						alert('비밀번호가 맞지않습니다.');
 						return;
 					}
