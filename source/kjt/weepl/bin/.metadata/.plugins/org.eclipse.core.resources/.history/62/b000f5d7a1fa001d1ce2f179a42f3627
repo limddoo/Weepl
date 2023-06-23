@@ -1,0 +1,29 @@
+package com.weepl.repository;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.querydsl.QuerydslPredicateExecutor;
+import org.springframework.stereotype.Repository;
+
+import com.weepl.dto.MemberSearchDto;
+import com.weepl.entity.Member;
+
+@Repository
+public interface MemberRepository extends JpaRepository<Member, Long>, QuerydslPredicateExecutor<Member>, MemberRepositoryCustom{
+	Member findByEmail(String email);
+	Member findById(String id);
+	Member findByCd(Long cd);
+	
+	Member save(Member member);
+	
+	Optional<Member> findMemberByCd(Long cd);
+	Optional<Member> findByName(String name);
+	List<Member> findAll();
+	@Query("SELECT m.cd FROM Member m ORDER BY m.cd ASC")
+	List<Long> findAllMhinfoCds();
+}

@@ -1,0 +1,85 @@
+package com.weepl.service;
+
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityNotFoundException;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.weepl.constant.MemberStatus;
+import com.weepl.dto.ModMemberInfoDto;
+import com.weepl.entity.Member;
+import com.weepl.entity.MemberRestrict;
+import com.weepl.repository.MemberRepository;
+import com.weepl.repository.MemberRestrictRepository;
+
+import lombok.RequiredArgsConstructor;
+
+@Service
+@Transactional
+@RequiredArgsConstructor
+public class AdminService {
+
+	@Autowired
+    private final MemberRepository memberRepository;
+	
+	private final MemberRestrict memberRestrict;
+	private final EntityManager entityManager;
+	
+    public List<Member> findMembers() {
+        return memberRepository.findAll();
+    }
+
+    public Optional<Member> findOne(Long memCd) {
+        return memberRepository.findMemberByCd(memCd);
+    }
+
+    public Long updateMember(ModMemberInfoDto modMemberInfoDto) throws Exception {
+        Member member = memberRepository.findById(modMemberInfoDto.getId());
+        member.updateMember(modMemberInfoDto);
+
+        return member.getCd();
+    }
+    
+    public Member findMember(String id) {
+		return memberRepository.findById(id);
+	}
+    
+    //회원 삭제
+    public void deleteMember(Long memCd) {
+		memberRepository.deleteById(memCd);
+	}
+    
+    //회원 이용제한
+    public void restrictMember(String id) {
+		Member member = memberRepository.findById(id);
+		member.restrictMember();
+	}
+
+    //일주일 이용제한 Mysql에 저장
+    public void restrictMemberForOneWeek(Long memCd) {
+        Member member = memberRepository.findById(memCd)
+                .orElseThrow(EntityNotFoundException::new);
+        member.restrictMember();
+        
+        LocalDateTime stdt = LocalDateTime.now();
+        LocalDateTime eddt = stdt.plusWeeks(1);
+        
+        MemberRestrict memberRestrict = new MemberRestrict();
+        memberRestrict.setStdt(stdt);
+        memberRestrict.setEddt(eddt);
+        memberRestrict.setMember(member);
+        member.setMemberRestrict(memberRestrict);
+        
+        member.setStatus(MemberStatus.RESTRICT);
+        
+        memberRepository.save(member);
+    }
+    
+    
+}

@@ -6,9 +6,11 @@ import com.weepl.entity.BoardAttach;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
+@ToString
 public class BoardAttachDto {
 	
 	// 첨부파일 고유번호

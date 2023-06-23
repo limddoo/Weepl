@@ -1,35 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-	layout:decorate="~{layouts/mhInfoLayout}">
+    layout:decorate="~{layouts/mhInfoLayout}">
 <head>
-
+<meta name="_csrf" th:content="${_csrf?.token}" />
+<meta name="_csrf_header" th:content="${_csrf?.headerName}" />
 <meta charset="UTF-8">
-<!-- 사용자 CSS 추가 -->
-<th:block layout:fragment="css">
-
-	<style>
-.btn btn-primary {
-	text-align: center;
-}
-
-.button-container {
-	text-align: center;
-	margin-top: 10px;
-}
-
-.mhinfo-content > .text-center img{
-	display: block;
-}
-
-.text-center-btn{
-	text-align: center;
-	margin: 25px;
-}
-
-</style>
-</th:block>
 </head>
 <!-- 사용자 script 추가 -->
 <th:block layout:fragment="script">
@@ -45,48 +21,91 @@
 				contentType : "application/json",
 				success : function(data) {
 					document.getElementById('likeCnt').innerHTML = data.result;
+					alert("이 게시글을 좋아합니다.");
 				},
 				error : function() {
 					alert("에러발생");
 				}
 			})
 		}
+		
 	</script>
 </th:block>
 <script type="text/javascript">
 	
 </script>
+<!-- 사용자 CSS 추가 -->
+<th:block layout:fragment="css">
+	<style>
+#likeBtn {
+	width: 200px;
+	margin-top: 15px;
+	line-height: 35px;
+	border-radius: 10px;
+	font-size: 14pt;
+	padding: 10px;
+}
 
+#likeBtn:hover {
+	cursor: pointer;
+	background: #F8DAE2;
+}
+</style>
 </th:block>
-<div layout:fragment="content"
-	style="margin-left: 25%; margin-right: 25%; margin-top: 50px;">
-	<div class="mhinfo-content">
-		<input type="hidden" id="mhinfoCd" th:value="${mhinfo.cd}">
-
-		<div th:each="boardImg, status: ${mhinfo.boardImgDtoList}"
-			class="text-center">
-			<img th:if="${not #strings.isEmpty(boardImg.imgUrl)}"
-				th:src="${boardImg.imgUrl}" class="rounded mgb-15" width="800">
-			<div th:if="${status.last}" class="mb-4"></div>
-		</div>
-
-		<div class="text-center text-center-btn">
-			<button type="button" class="button-style"
-				th:onclick="|location.href='/mhinfo/admin/mhinfo/${mhinfo.cd}'|"
-				sec:authorize="hasAnyRole('ROLE_COUNSELOR', 'ROLE_ADMIN')">수정</button>
-			<button type="button" class="button-style"
-				th:onclick="|location.href='/mhinfo/mhinfos'|">목록</button>
-			<button type="button" class="button-style"
-				th:onclick="|location.href='/mhinfo/admin/delete/${mhinfo.cd}'| "
-				sec:authorize="hasAnyAuthority('ROLE_ADMIN')">삭제</button>
-			<button type="button" class="button-style" onClick="clickLike()">
-				좋아요&nbsp;&nbsp;<span id="likeCnt" th:text="${mhinfo.likeCnt}"></span>
-			</button>
-		</div>
-
+<div layout:fragment="content" style="margin-left: 25%; margin-right: 25%">
+<div class="content-div" align="center">
+	<input type="hidden" id="mhinfoCd" th:value="${mhinfo.cd}">
+	<div align="left" class="title-header hr-first">
+		<h2>
+			<span th:text="${mhinfo.title}" class="title-content" style="margin-left:40px;"></span>
+		</h2>
+		<hr class='hr-solid' id='hr-second' />
+		<span class="board-cd" style="margin-left:15px;">
+			<span class="board_cd" style="margin-left:10px;">글번호</span>
+			<span th:text="${mhinfo.cd}" style="margin-left:10px;"></span>
+		</span>
+		<span style="float: right; margin-right:10px;" th:text="${#temporals.format(mhinfo.regDt, 'yyyy-MM-dd HH:mm')}"></span>
+		<hr class='hr-solid-attach' id='hr-second' />
 	</div>
-
+	<!-- 게시글 내용 영역 -->
+	<table class="table" align="center">
+		<thead>
+			<!-- 이미지 -->
+			<tr>
+				<td>
+					<div class="board-img">
+						<div th:each="boardImg : ${mhinfo.boardImgDtoList}"
+							class="text-center">
+							<img th:if="${not #strings.isEmpty(boardImg.imgUrl)}"
+								th:src="${boardImg.imgUrl}" class="rounded mgb-15" width="800">
+						</div>
+					</div>
+				</td>
+			</tr>
+		</thead>
+	</table>
+	<!-- 좋아요 영역 -->
+	<div>
+		<div id="like-title" align="center"> &nbsp;&nbsp;&nbsp; 이 게시글이 유용한가요?</div>
+		<button type="button" id="likeBtn" name="likeBtn" onClick="clickLike()" align="center"> 좋아요&nbsp; ♡&nbsp; 
+			<span id="likeCnt" th:text="${mhinfo.likeCnt}"></span>
+		</button>
+	</div> <br><br>
+	<hr class='hr-solid-attach' id='hr-second'/><br>
+	<!-- 게시글 표 하단 버튼 영역-->
+	<div style="text-align: center">
+		<button
+			sec:authorize="hasAnyAuthority('ROLE_ADMIN')"
+			th:onclick="|location.href='/mhinfo/admin/mhinfo/${mhinfo.cd}'|"
+			id="btn-comment-modify" type="button" class="button-style">수정</button>
+		<button
+			sec:authorize="hasAnyAuthority('ROLE_ADMIN')"
+			th:onclick="|location.href='/mhinfo/admin/delete/${mhinfo.cd}'| "
+			id="btn-comment-delete" type="button" class="button-style">삭제</button>
+		<button th:onclick="|location.href='/mhinfo/mhinfos'|" id="btn-comment-list"
+			type="button" class="button-style">목록보기</button>
+	</div>
 </div>
-
+</div>
 </html>
 

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<div class="sidebar" th:fragment="sidebar">
+  <div class="d-flex flex-column flex-shrink-0 p-3 bg-light" style="width: 200px;">
+    <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
+      <span class="fs-4">MemberList</span>
+    </a>
+    <hr>
+    <ul class="nav nav-pills flex-column mb-auto">
+      <li class="nav-item">
+        <a href="/admin/memberList" class="nav-link active" aria-current="page" id="member">
+          회원정보
+        </a>
+      </li>
+      <li>
+        <a href="/admin/reMemberList" class="nav-link" id="reMember">
+          이용제한회원정보
+        </a>
+      </li>
+      <!-- <li>
+        <a href="/members/findPwd" class="nav-link link-dark" id="findPwd">
+          비밀번호 찾기
+        </a>
+      </li> -->
+    </ul>
+    <hr>
+  </div>
+
+</div>
+</html>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+
+<div class="sidebar" th:fragment="sidebar">
+	<link th:href="@{/css/sidebar.css}" rel="stylesheet">
+	<div class="sidebarContainer">
+		<a href="/weeProjectInfo" class="sidebarTitle"> <span>서울 위(Wee)</span>
+		</a>
+		<hr>
+		<ul class="sidebarSubmenu">
+			<li><a id="weeProjectInfo" href="/weeProjectInfo">Wee프로젝트</a></li>
+			<li><a id="notice" href="/board/notice">공지사항</a></li>
+			<li><a id="weeSymbol" href="/weeSymbol">서울Weepl상징</a></li>
+		</ul>
+		<hr>
+	</div>
+</div>
+
+</html>

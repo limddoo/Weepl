@@ -1,0 +1,129 @@
+html {
+	position: relative;
+	min-height: 100%;
+	margin: 0;
+}
+
+body {
+	width: 100%;
+	min-height: 100%;
+	padding-bottom: 40px;
+}
+
+.footer {
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	height: 10px;
+	width: 100%;
+	padding: 15px 0;
+	text-align: center;
+}
+
+.table-container {
+	width: 1000px;
+	margin-bottom: 1rem;
+	color: #212529;
+	border-collapse: collapse;
+	box-sizing: border-box;
+	text-indent: initial;
+	border-spacing: 2px;
+	border-color: gray;
+}
+
+.sidebar {
+	float: left;
+}
+
+.content-wrapper {
+	width: 70%;
+	margin-left: 380px;
+}
+.subview h3 {
+	color: #000;
+	font-size: 33px;
+	margin: 30px 0;
+	position: relative;
+	padding-left: 30px;
+}
+
+.subview h3:before {
+	position: absolute;
+	left: 0;
+	top: -10px;
+	width: 21px;
+	height: 27px;
+	content: '';
+	background: url(https://www.wee.go.kr/home/images/icon_menu.png) no-repeat;
+}
+
+.subview h4 {
+	color: #249a70;
+	font-size: 26px;
+	line-height: 30px;
+	margin-top: 30px;
+}
+
+.subview h4.titrnd {
+	position: relative;
+	padding-left: 25px;
+	color: #000;
+	font-size: 21px;
+	line-height: 30px;
+	margin: 50px 0
+}
+
+.subview h4.titrnd:before {
+	position: absolute;
+	left: 0;
+	top: 12px;
+	width: 9px;
+	height: 9px;
+	background-color: #000;
+	border-radius: 100%;
+	content: '';
+}
+@media all and (max-width:1024px){
+	.content-wrapper {margin-left: 300px;}
+	.boxguide01, .boxguide02, .boxguide03, .boxguide04, .boxguide05 {padding-left:150px}
+}
+
+@media all and (max-width:640px){ 	
+	.content-wrapper {margin-left: 200px;}
+	.subview h3 {font-size:30px;}
+	.subview h4 {font-size:21px;margin:30px 0}
+	.subview h5 {font-size:17px;line-height:30px;}  
+	.ctext {font-size:16px;line-height:25px;}
+	.list_txt > li {font-size:16px;line-height:25px;}
+	.list_txt > li:before {top:10px; }
+	.subview h4.titrnd { font-size:21px; margin:30px 0; }
+	.boxguide01, .boxguide02, .boxguide03, .boxguide04, .boxguide05 {padding-left:120px;font-size:15px;line-height:24px;}
+}
+@media all and (max-width:480px){
+	.content-wrapper {margin-left: 200px;}
+	.subview h4 {font-size:24px;margin:20px 0}
+	.subview h5 {font-size:18px;line-height:30px;padding-left:20px;} 
+	.subview h5:before {top:10px;}
+	.bbs_stxt p { font-size:15px;line-height:24px; }	 
+	.ctext {font-size:15px;line-height:23px;}
+	.subview h4 { margin:30px 0}
+	.subview h4.titrnd { font-size:19px; margin:20px 0;padding-left:18px;line-height:25px;}
+	.subview h4.titrnd:before {top: 8px;}	 
+	.list_txt > li {font-size:15px;line-height:23px;}
+	.list_txt > li:before {top:12px; }
+	.boxguide01, .boxguide02, .boxguide03, .boxguide04, .boxguide05 {padding-left:110px;min-height:auto}
+	.boxguide01:before, .boxguide02:before,  .boxguide03:before,  .boxguide04:before,  .boxguide05:before {background-size:70% 70%;} 
+} 
+
+.boxguide01 {position:relative;padding-left:150px;margin:20px 0;font-size:17px;line-height:27px;color:#313131;min-height:100px;}
+.boxguide01:before{position:absolute;top:0;left:0;width:105px;height:85px;content:'';background:url(https://www.wee.go.kr/home/images/icon_guide01.png)no-repeat 0 0 /cover;}
+.boxguide02 {position:relative;padding-left:150px;margin:20px 0;font-size:17px;line-height:27px;color:#313131;min-height:100px;}
+.boxguide02:before{position:absolute;top:0;left:0;width:91px;height:80px;content:'';background:url(https://www.wee.go.kr/home/images/icon_guide02.png)no-repeat 0 0 /cover;}
+.boxguide03 {position:relative;padding-left:150px;margin:20px 0;font-size:17px;line-height:27px;color:#313131;min-height:100px;}
+.boxguide03:before{position:absolute;top:0;left:0;width:94px;height:90px;content:'';background:url(https://www.wee.go.kr/home/images/icon_guide03.png)no-repeat 0 0 /cover;}
+.boxguide04 {position:relative;padding-left:150px;margin:20px 0;font-size:17px;line-height:27px;color:#313131;min-height:100px;}
+.boxguide04:before{position:absolute;top:0;left:0;width:89px;height:80px;content:'';background:url(https://www.wee.go.kr/home/images/icon_guide04.png)no-repeat 0 0 /cover;}
+.boxguide05 {position:relative;padding-left:150px;margin:20px 0;font-size:17px;line-height:27px;color:#313131;min-height:100px;}
+.boxguide05:before{position:absolute;top:0;left:0;width:80px;height:91px;content:'';background:url(https://www.wee.go.kr/home/images/icon_guide05.png)no-repeat 0 0 /cover;}
+.boxguide02 ol li {padding-left:15px;}

@@ -13,9 +13,9 @@ import com.weepl.entity.BoardImg;
 @Repository
 public interface BoardImgRepository extends JpaRepository<BoardImg, Long> {
 
-	List<BoardImg> findByNotice_NoticeCdOrderByCdAsc(@Param(value = "noticeCd") Long noticeCd);
+	List<BoardImg> findByNotice_CdOrderByCdAsc(@Param(value = "notice_cd") Long noticeCd);
 
-	@Query("select b from BoardImg b where b.notice.noticeCd=:noticeCd order by b.cd asc")
+	@Query("select b from BoardImg b where b.notice.cd=:noticeCd order by b.cd asc")
 	List<BoardImg> findByNoticeCd(@Param("noticeCd") Long noticeCd);
 
 	List<BoardImg> findByMhinfoCdOrderByCdAsc(Long mhinfoCd);

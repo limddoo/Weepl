@@ -1,0 +1,14 @@
+package com.weepl.repository;
+
+import javax.persistence.EntityManager;
+
+import com.querydsl.jpa.impl.JPAQueryFactory;
+
+public class MemberRepositoryCustomImpl implements MemberRepositoryCustom{
+
+	private JPAQueryFactory queryFactory;
+	
+	public MemberRepositoryCustomImpl(EntityManager em) {
+		this.queryFactory = new JPAQueryFactory(em);
+	}
+}

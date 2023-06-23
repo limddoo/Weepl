@@ -1,0 +1,59 @@
+@charset "UTF-8";
+
+
+.sidebarContainer * {
+	font-family: 'GmarketSansMedium';
+	font-weight: bold; margin : 0;
+	padding: 0;
+	color: #4c4c4e;
+	margin: 0;
+}
+
+ul {
+	list-style: none;
+}
+
+.sidebar {
+	padding-left: 150px;
+	margin-top: 40px; width : 200px;
+	height: 100%;
+	min-height: 800px;
+	width: 230px;
+}
+
+.sidebarContainer hr {
+	width: 160px;
+	border: 2px solid rgba(76, 76, 78, 0.4);
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+.sidebarTitle {
+	font-size: 20px;
+}
+
+.sidebarSubmenu li{
+	padding:5px 5px 5px 0px;
+	margin:5px 5px 5px 0px;
+	line-height: 40px;
+	position:relative;
+	right:3px;
+}
+.sidebarSubmenu li a{
+	padding:12px 18px 12px 12px;	
+}
+
+.sidebarSubmenu li a:hover {
+	color: white;
+	background: #7cc9ad;
+	border-radius: 10px 10px 10px 10px;
+}
+
+.active{
+	color: #7cc9ad;
+	border-radius: 10px 10px 10px 10px;
+}
+
+.blankSpace{
+	height:50px;	
+}

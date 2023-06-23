@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/seoulWeeLayout}">
+<head>
+<meta charset='utf-8' />
+
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"
+	integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+	crossorigin="anonymous"></script>
+
+
+<th:block layout:fragment="css">
+	<style>
+</style>
+</th:block>
+</head>
+
+<body>
+	<div layout:fragment="content" class="content-wrapper">
+		<div class="subview">
+			<img src="/img/symbol1.PNG"> <img src="/img/symbol2.PNG">
+		</div>
+	</div>
+</body>
+
+</html>

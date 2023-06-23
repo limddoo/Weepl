@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layouts/sweetLayout}">
+<head>
+<meta charset="UTF-8">
+<meta name="_csrf" th:content="${_csrf.token}" />
+<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+<title>상세페이지</title>
+
+<!-- 사용자 스크립트 추가 -->
+<th:block layout:fragment="script">
+	<script th:inline="javascript">	
+	
+		// 좋아요 증가
+		function Like() {
+			var cd = $('#cd').val();
+			$.ajax({
+				url : "/sweetboard/dtl/like",
+				type : "get",
+				contentType : "application/json",
+				data : {
+					"cd" : cd
+				},
+				success : function(result) {
+					document.getElementById("likeCnt").innerHTML = result.count;
+					alert("이 게시글을 좋아합니다.");
+				},
+				error : function(jqXHR, status, error) {
+					if (jqXHR.status == '401') {
+						alert('로그인 후 이용해주세요');
+						location.href = '/members/login';
+					} else {
+						alert(jqXHR.reponseText);
+					}
+				}
+			});
+		}
+		
+		// 댓글 등록
+		function saveComment() {
+			
+			var cd = [[${sweetBoardDto.cd}]];
+			var content =  $("#insert-comment").val();
+			if (content == "") {
+				alert("내용을 입력해주세요")
+				return;
+			}
+			var url = "/sweetboard/dtl/com/write";
+			var token = $("meta[name='_csrf']").attr("content");
+			var header = $("meta[name='_csrf_header']").attr("content");
+			
+			$.ajax({
+				url : url,
+				type : "post",
+				data : {
+					"cd" : cd,
+					"content" : content
+				},
+				beforeSend: function(xhr) {
+					xhr.setRequestHeader(header, token);
+				},
+				success : function(result) {
+					alert("댓글을 등록하였습니다.");
+					document.location.href = document.location.href;
+				},
+				error : function(jqXHR, status, error) {
+					if (jqXHR.status == '401') {
+						alert('로그인 후 이용해주세요');
+						location.href = 'members/login';
+					} else if (jqXHR.status == '403') {
+						alert('권한이 없습니다. 상담(교)사 계정으로 로그인 후 이용해주세요');
+						location.href = '/members/login';
+					} else {
+						alert(jqXHR.responseJSON.message);
+					}
+				}
+			});
+		};
+		
+		function checkNickName() {
+			const user = [[${#authentication.principal}]];
+			if(user != 'anonymousUser') {
+				const name = user.username;
+				if(name == 'admin'){
+					saveComment();
+					return;
+				} 
+			}
+			$.ajax({
+				url: "/sweetboard/existNickName",
+				method: "get",
+				success: function(result){
+					if(result.nickName == null) {
+						if(confirm("닉네임 설정을 해야 이용하실수 있습니다. 닉네임 설정하러 가시겠습니까?")) {
+							location.href="/mypage/setNickName";
+						}
+				     } else {
+				    	  saveComment();
+				     }
+				},
+				error: function(result) {
+					alert("에러가 발생했습니다.");
+				}
+			});
+		}
+
+		// 댓글 삭제
+		function deleteComment(commentCd) {
+			var url = "/sweetboard/dtl/com/del";
+			
+			var token = $("meta[name='_csrf']").attr("content");
+			var header = $("meta[name='_csrf_header']").attr("content");
+			console.log(commentCd);
+			console.log(typeof(commentCd));
+			
+			$.ajax({
+				url : url,
+				type : "post",
+				data : {
+					"commentCd" : commentCd
+				},
+				beforeSend: function(xhr) {
+					xhr.setRequestHeader(header, token);
+				},
+				success : function(result) {
+					alert("댓글을 삭제하였습니다.");
+					document.location.href = document.location.href;
+				},
+				error : function(jqXHR, status, error) {
+					if (jqXHR.status == '401') {
+						alert('로그인 후 이용해주세요');
+						location.href = '/members/login';
+					} else if (jqXHR.status == '403') {
+						alert('권한이 없습니다. 다른 사용자로 로그인 후 이용해주세요');
+						location.href = '/members/login';
+					}
+					else {
+						alert('삭제할 수 없는 댓글입니다');
+					}
+				}
+			});
+		}
+	</script>
+	<th:block layout:fragment="css">
+<style>
+.content {
+	margin-top : 0;
+	margin-left : 15%;
+	width : 80%;
+	align : center;
+}
+
+.table {
+	width: 60%;
+	font-size: 14pt;
+	margin-top: 80px;
+	margin-bottom: 80px;
+}
+
+.board-div {
+	width: 70%;
+}
+
+img {
+	margin-bottom: 8px;
+	width: 80%;
+}
+
+.text-center {
+	text-align: center;
+}
+
+h1 {
+	margin-bottom: 30px;
+}
+
+.newSweet {
+	margin-top: 30px;
+}
+
+.board-like-group {
+	display: block;
+	width: 78%;
+	height: 20px;
+	margin-left: 12%;
+	background: #7CB342;
+	color: white;
+	height: 80px;
+}
+
+.board-like-group > h1 {
+	line-height: 80px;
+	margin-left: 23%;
+	float: left;
+}
+
+.copyright-table {
+	font-size : 10pt;
+	margin-top: 20px;
+}
+
+#likeBtn {
+	width: 200px;
+	margin-left: 30px;
+	margin-top: 15px;
+	line-height: 35px;
+	border-radius: 10px;
+	font-size: 14pt;
+	padding: 10px;
+}
+
+#likeBtn:hover {
+	cursor: pointer;
+	background: #F8DAE2;
+}
+
+.card-header {
+	font-size: 13pt;
+	font-weight: bold;
+	text-align: left;
+	color: #444;
+	margin: 7px 0 10px 40px;
+}
+
+.card-footer {
+	margin-left: 20px;
+	margin-bottom: 10px;
+}
+
+#board-title-color {
+	color: darkorange;
+	font-weight: bold;
+	text-decoration: underline;
+}
+
+.card {
+	margin: 15px;
+	width: 95%;
+	border: 1px solid #999;
+	border-radius: 10px;
+}
+
+#insert-comment {
+	width: 97%;
+	margin: 5px 5px;
+	font-size: 12pt;
+	padding: 3px;
+}
+
+#comment--1 {
+	border: 2px solid #999;
+	margin: 2px;
+	border-radius: 5px;
+}
+
+#comment {
+	font-size: 12pt;
+	display: inline-block;
+	margin: 3px;
+}
+
+#comment-grp {
+	margin-left: 15px;
+}
+
+#comment-content {
+	font-size: 13pt;
+	display: inline-block;
+	margin: 3px 3px 10px 130px;
+}
+
+.badge {
+	padding: 1.5px;
+}
+
+.badge:hover {
+	cursor: pointer;
+	background: #F2F2F2;
+}
+
+</style>
+</th:block>
+</head>
+
+<body>
+	<div layout:fragment="content" align="center">
+		<div class="content-div">
+			<input type="hidden" id="cd" th:value="${sweetBoardDto.cd}">
+			<form th:action="@{'/dtl/' + ${sweetBoardDto.cd}}" role="form" method="get" th:object="${sweetBoardDto}" class="board-div">
+				<div align="left" class="title-header hr-first">
+					<h2>
+						<span th:text="${sweetBoardDto.title}" class="title-content" style="margin-left:40px;"></span>
+					</h2>
+					<hr class='hr-solid' id='hr-second' />
+					<span class="board-cd" style="margin-left:15px;">
+						<span class="board_cd" style="margin-left:10px;">글번호</span>
+						<span th:text="${sweetBoardDto.cd}" style="margin-left:10px;"></span>
+					</span>
+					<span class="board-creator" style="margin-left:15px;">
+						<span class="board_creator" style="margin-left:10px;">작성자</span>
+						<span th:text="${sweetBoardDto.member.nickName}" style="margin-left:10px;"></span>
+					</span>
+					<span style="float: right; margin-right:10px;" th:text="${#temporals.format(sweetBoardDto.regDt, 'yyyy-MM-dd HH:mm')}"></span>
+					<hr class='hr-solid-attach' id='hr-second' />
+					<div class="board-attach">
+						<span class="material-symbols-outlined">첨부파일</span>
+						<div class="board_attach">
+							<div th:each="boardAttach : ${sweetBoardDto.boardAttachDtoList}" class="text-center" align="center">
+								<div th:if="${not #strings.isEmpty(boardAttach.attachUrl)}" th:src="${boardAttach.attachUrl}" class="rounded mgb-15">
+									<i class="fa fa-file-o" aria-hidden="true"></i> 
+									<a class="attach-download" th:text="${boardAttach.oriAttachName}" th:href="@{'/sweetboard/dtl/download/' + ${boardAttach.cd}}"></a>
+								</div>
+							</div>
+						</div>
+					</div>
+					<hr class='hr-solid' id='hr-second' />
+				</div>
+
+				<!-- 게시글 내용 영역 -->
+				<table class="table" align="center">
+					<thead>
+						<tr>
+							<td style="width:300px">
+								<pre style="white-space:pre-wrap; word-break:break-all; font-size: 20px;" th:text="${sweetBoardDto.content}"></pre>
+							</td>
+						</tr>
+						<!-- 이미지 -->
+						<tr>
+						<td>
+							<div class="board-img">
+								<div th:each="boardImg : ${sweetBoardDto.boardImgDtoList}" class="text-center">
+									<img th:if="${not #strings.isEmpty(boardImg.imgUrl)}" th:src="${boardImg.imgUrl}" class="rounded mgb-15" width="800">
+								</div>
+							</div>
+						</td>
+						</tr>
+					</thead>
+				</table>
+
+				<!-- 좋아요 영역 -->
+				<div>
+					<div id="like-title" align="center"> &nbsp;&nbsp;&nbsp; 이 게시글이 유용한가요?</div>
+					<button type="button" id="likeBtn" name="likeBtn" onclick="Like()" align="center"> 좋아요&nbsp; ♡&nbsp; 
+						<span id="likeCnt" th:text="${sweetBoardDto.like_cnt}"></span>
+					</button>
+				</div> <br><br>
+
+				<!-- 저작권 표기 -->
+				<table class="copyright-table" align="center" height=120px>
+					<thead>
+						<tr>
+							<div class="copyright">
+								<td class="copyright-img" width="400" align="right">
+									<img src="/img/copyright.png" />
+								</td>
+								<td class="copyright-con" width="1500" align="center">
+									<i class="fa fa-file-o" aria-hidden="true"></i>
+									<span class="copyright-content"> 저작권 보호분야 
+										<span th:text="${sweetBoardDto.title}" class="copyright-content" id="board-title-color"></span> 저작물은 공공누리 출처표시 조건에 따라 
+										<b>공공누리 2유형</b> <b style="color: red">출처표시 + 상업적 이용금지</b> 이용할 수 있습니다.
+									</span>
+								</td>
+							</div>
+						</tr>
+					</thead>
+				</table>
+				<hr class='hr-solid-attach' id='hr-second'/>
+				<br>
+				<!-- 게시글 표 하단 버튼 영역-->
+				<div style="text-align: center">
+					<button th:if="${sweetBoardDto.member.id == #authentication.principal.username || 'admin' == #authentication.principal.username}" th:formaction="@{'/sweetboard/mod/' + ${sweetBoardDto.cd}}" id="btn-comment-modify" type="submit" class="button-style">수정</button>
+					<button th:if="${sweetBoardDto.member.id == #authentication.principal.username || 'admin' == #authentication.principal.username}" th:formaction="@{'/sweetboard/del/' + ${sweetBoardDto.cd}}" id="btn-comment-delete" type="submit" class="button-style">삭제</button>
+					<button th:formaction="@{/sweetboard/list}" id="btn-comment-list" type="submit" class="button-style">목록보기</button>
+				</div>
+				<br><br><br>
+				
+				<!-- 댓글 등록 영역  -->
+				<div class="card">
+					<div class="card-header">댓글 작성</div>
+					<div class="card-body">
+						<textarea class="form-control" id="insert-comment" rows="4" placeholder="댓글을 작성해보세요!" style="resize: none;"></textarea>
+					</div>
+					<div class="card-footer" align="left">
+						<button type="button" id="btn-comment-save" class="button-style" onClick="checkNickName()">등록</button>
+					</div>
+				</div>
+				<br>
+
+				<!-- 댓글 목록 영역 -->
+				<div class="card">
+					<div class="card-header">댓글 목록</div>
+					<form role="form" method="get" enctype="multipart/form-data" action="/sweetboard/dtl/com/list" th:object="${sweetCommentDtoList}">
+						<div th:each="sweetComment : ${sweetCommentDtoList}" class="text-center">
+							<ul id="comment-box" class="list-group" style="list-style: none">
+								<div th:if="${sweetComment.del_yn == 'N'}">
+									<li id="comment--1" class="list-group-item d-flex justify-content-between" align="left" style="list-style: none" value="${sweetComment.cd}">
+										<div id="comment-grp" class="d-flex">
+											<div id="comment" th:text="${sweetComment.member.nickName}"></div> &nbsp;&nbsp;&nbsp;
+											<div id="comment" th:text="${#temporals.format(sweetComment.regDt, 'yyyy-MM-dd HH:mm')}"></div> &nbsp;&nbsp;&nbsp;
+											<button type="button" id="btn-comment-delete" class="badge" th:onClick="deleteComment([[${sweetComment.cd}]])">삭제</button>
+										</div>
+										<div id="comment-content" th:text="${sweetComment.comment}"></div>
+									</li>
+								</div>
+							</ul>
+						</div>
+					</form>
+				</div>
+			</form> <br><br><br><br>
+		</div>
+	</div>
+</body>
+
+</html>

@@ -13,7 +13,7 @@ import org.thymeleaf.util.StringUtils;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.weepl.dto.SweetSearchDto;
+import com.weepl.dto.SearchDto;
 import com.weepl.entity.QSweetBoard;
 import com.weepl.entity.SweetBoard;
 
@@ -26,7 +26,16 @@ public class SweetRepositoryCustomImpl implements SweetRepositoryCustom {
 	}
 	
 	private BooleanExpression searchBoardDivEq(String searchBoardDiv) {
-		return searchBoardDiv == null? null : QSweetBoard.sweetBoard.board_div.like(searchBoardDiv);
+		if("SCHOOL_TASK".equals(searchBoardDiv)) {
+			return QSweetBoard.sweetBoard.board_div.eq("학교업무 공유게시판");
+		} else if("CONSULTING".equals(searchBoardDiv)) {
+			return QSweetBoard.sweetBoard.board_div.eq("상담전문성 공유게시판");
+		} else if("FORM".equals(searchBoardDiv)) {
+			return QSweetBoard.sweetBoard.board_div.eq("서식 공유게시판");
+		} else if("FREETALK".equals(searchBoardDiv)) {
+			return QSweetBoard.sweetBoard.board_div.eq("자유게시판");
+		}
+		return null;
 	}
 	
 	private BooleanExpression regDtsAfter(String searchDateType) {
@@ -57,7 +66,7 @@ public class SweetRepositoryCustomImpl implements SweetRepositoryCustom {
 	}
 	
 	@Override
-	public Page<SweetBoard> getSweetBoardPage(SweetSearchDto sweetSearchDto, Pageable pageable) {
+	public Page<SweetBoard> getSweetBoardPage(SearchDto sweetSearchDto, Pageable pageable) {
 		QueryResults<SweetBoard> results = queryFactory
 				.selectFrom(QSweetBoard.sweetBoard)
 				.where(regDtsAfter(sweetSearchDto.getSearchDateType()),

@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.persistence.EntityNotFoundException;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -13,9 +12,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.weepl.dto.BoardImgDto;
-import com.weepl.dto.MhinfoDto;
 import com.weepl.dto.MhinfoFormDto;
-import com.weepl.dto.MhinfoSearchDto;
+import com.weepl.dto.NoticeDto;
+import com.weepl.dto.SearchDto;
 import com.weepl.entity.BoardImg;
 import com.weepl.entity.Mhinfo;
 import com.weepl.repository.BoardImgRepository;
@@ -31,7 +30,11 @@ public class MhinfoService {
 	private final MhinfoRepository mhinfoRepository;
 	private final BoardImgService boardImgService;
 	private final BoardImgRepository boardImgRepository; 
-	private static ModelMapper modelMapper = new ModelMapper();
+	
+
+	public List<Mhinfo> getMhinfoList() {
+		return mhinfoRepository.findAll();
+	}
 	
 	public Long findNextAvailableMhinfoCd() {
 		List<Long> mhinfoCds = mhinfoRepository.findAllMhinfoCds();
@@ -105,7 +108,7 @@ public class MhinfoService {
 	}
 	
 	@Transactional(readOnly = true)
-    public Page<Mhinfo> getMhinfoPage(MhinfoSearchDto mhinfoSearchDto, Pageable pageable){
+    public Page<Mhinfo> getMhinfoPage(SearchDto mhinfoSearchDto, Pageable pageable){
     	return mhinfoRepository.getMhinfoPage(mhinfoSearchDto, pageable);
     }
 	
@@ -119,36 +122,5 @@ public class MhinfoService {
 		return mhinfoRepository.updateLikes(mhinfoCd);
 	}
 
-	public List<MhinfoDto> getMainMhinfoList() {
-	    List<MhinfoDto> mainMhinfoList = new ArrayList<>();
-	    
-	    // TODO: 최신 글 다섯 개를 가져오는 로직 구현
-	    
-	    // 예시: 임시로 공지사항 데이터를 생성하여 반환
-	    for (int i = 1; i <= 5; i++) {
-	    	MhinfoDto mhinfo = new MhinfoDto();
-	    	mhinfo.setCd(mhinfo.getCd());
-	    	mhinfo.setTitle(mhinfo.getTitle());
-	    	mhinfo.setRegDt(mhinfo.getRegDt());
-	        mainMhinfoList.add(mhinfo);
-	    }
-	    
-	    return mainMhinfoList;
-	}
-
-	public List<MhinfoDto> getMhinfoList() {
-	    List<MhinfoDto> MainMhinfoList = mhinfoRepository.getMhinfoList();
-	    List<MhinfoDto>customMhinfos = new ArrayList<>();
-	    
-	    int count = 0;
-	    for (MhinfoDto mhinfo : MainMhinfoList) {
-	        customMhinfos.add(modelMapper.map(mhinfo, MhinfoDto.class));
-	        count++;
-	        if (count >= 5) {
-	            break;
-	        }
-	    }
-	    
-	    return customMhinfos;
-	}
+	
 }
