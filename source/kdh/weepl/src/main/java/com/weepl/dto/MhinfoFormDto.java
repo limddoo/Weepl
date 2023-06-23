@@ -1,5 +1,6 @@
 package com.weepl.dto;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,10 +25,12 @@ public class MhinfoFormDto {
 	@NotBlank(message="제목은 필수 입력 값입니다.")
 	private String title;
 
-	@NotBlank(message="내용은 필수 입력 값입니다.")
 	private String content;
 	
 	private int likeCnt;
+
+	// 게시글 등록일자
+	private LocalDateTime regDt;
 	
 	private List<BoardImgDto> boardImgDtoList = new ArrayList<>();
 	

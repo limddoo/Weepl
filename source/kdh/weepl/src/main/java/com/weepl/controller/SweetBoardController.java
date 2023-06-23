@@ -55,7 +55,7 @@ public class SweetBoardController {
 	@GetMapping(value = { "/list", "/list/{page}" })
 	public String sweetBoardManage(SearchDto sweetSearchDto, @PathVariable("page") Optional<Integer> page,
 			Model model) {
-		Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 15);
+		Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 10);
 
 		Page<SweetBoard> sweetBoards = sweetBoardService.getSweetBoardPage(sweetSearchDto, pageable);
 

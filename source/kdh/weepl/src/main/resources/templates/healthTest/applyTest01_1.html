@@ -14,7 +14,7 @@
 
 		});
 
-		function findResult() { //체크 안된 문항이 있을 경우 필수항목이라고 알림
+		function findResult() {
 			if(!$("#testForm input[type=radio][name=test_ques_val_1]:checked").is(":checked")){
 	            alert("필수 체크항목입니다.(1번)");
 	            return ;
@@ -54,8 +54,8 @@
 					sum += parseInt(get_input[i].value); // radio value 값 합산
 				}
 			}
-			$("#totalSum").val(sum); //합산한 value값
-			var get_sum = $("#totalSum").val(); //합산한 value 값으로 등급 나누기
+			$("#totalSum").val(sum);
+			var get_sum = $("#totalSum").val();
 				
 				if (get_sum <= 15)
 					$("#totalStat").val('정상');

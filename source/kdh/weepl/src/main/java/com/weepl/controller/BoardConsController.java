@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
+import org.apache.groovy.parser.antlr4.util.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -73,14 +74,14 @@ public class BoardConsController {
 	@PostMapping(value = "/boardConsForm")
 	public String consApp(@Valid BoardConsFormDto boardConsFormDto, BindingResult bindingResult, Model model)
 			throws Exception {
-			
+
 		if (bindingResult.hasErrors()) {
 			return "boardCons/boardConsForm";
 		}
-		if (boardConsFormDto.getMemberCd() == null) {//비회원의 경우 게시판 상담db 뿐만 아니라 비회원 db도 저장됨
+		if (boardConsFormDto.getMemberCd() == null) {
 			boardConsService.saveNmCons(boardConsFormDto);
 
-		} else {// 로그인한 회원의 경우
+		} else {
 			try {
 				boardConsService.saveCons(boardConsFormDto);
 			} catch (Exception e) {
@@ -116,12 +117,13 @@ public class BoardConsController {
 	@PostMapping(value = "/modBoardCons/{board_cons_cd}")
 	public String consUpdate(BoardConsFormDto boardConsFormDto, BindingResult bindingResult, Model model) {
 		if (bindingResult.hasErrors()) {
+			System.out.println(bindingResult);
 			return "boardCons/modConsForm";
 		}
-		if (boardConsFormDto.getTitle() == null) {
+		if (StringUtils.isEmpty(boardConsFormDto.getTitle())) {
 			model.addAttribute("errorMessage", "제목은 필수 입력입니다.");
 			return "boardCons/modConsForm";
-		} else if (boardConsFormDto.getContent() == null) {
+		} else if (StringUtils.isEmpty(boardConsFormDto.getContent())) {
 			model.addAttribute("errorMessage", "신청 내용은 필수 입력입니다.");
 			return "boardCons/modConsForm";
 		}

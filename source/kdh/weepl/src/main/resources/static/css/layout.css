@@ -39,6 +39,11 @@ body {
 	min-height: 100%;
 }
 
+a {
+	text-decoration: none;
+	color: #4c4c4e;
+}
+
 .sidebar {
 	float: left;
 }
@@ -272,6 +277,12 @@ button {
 	padding: .375rem .75rem;
 	line-height: 1.5;
 }
+
+.button-div {
+	float : center;
+	margin-bottom : 100px;
+}
+
 
 .button-style span {
 	color: #fff;
@@ -522,4 +533,63 @@ button {
 
 .boxguide02 ol li {
 	padding-left: 15px;
+}
+
+.hr-first {
+	border: 0px;
+	border-top: 3px solid darkgrey;
+	padding-top: 10px;
+}
+
+#hr-one {
+	padding-left: 25px;
+	padding: 1px;
+}
+
+#hr-second {
+	border: 0px;
+	border-top: 3px solid lightgrey;
+	padding: 3px;
+	margin-top: 6px;
+}
+
+.board-div {
+	margin-left : 0;
+	margin-top : 4%;
+	width: 50%;
+	align: center;
+}
+
+.title-header span {
+	display:inline-block;
+}
+
+.material-symbols-outlined {
+	margin-left: 50px;
+	line-height: 30px;
+	float: left;
+}
+
+.attach-download {
+	font-size : 10pt;
+	font-weight: bold;
+	color: #555;
+}
+
+.attach-download:hover {
+	cursor: pointer;
+	text-decoration: underline;
+}
+
+.board-attach {
+	display: flex;
+}
+
+.board_attach {
+	width: 80%;
+}
+
+.board_img {
+	height: 200px;
+	line-height: 300px;
 }
