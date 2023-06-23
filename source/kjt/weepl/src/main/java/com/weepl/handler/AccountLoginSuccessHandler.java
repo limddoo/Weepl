@@ -37,7 +37,7 @@ public class AccountLoginSuccessHandler implements AuthenticationSuccessHandler 
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
 		User user = (User) authentication.getPrincipal();
-		// 로그인 5회 실패 전 로그인 성공할경우 실패 횟수 리셋을 위해 엔티티 조회
+		// 회원 Status 확인을 위한 엔티티 조회
 		Member member = memberRepository.findById(user.getUsername());
 		if (MemberStatus.QUIT.equals(member.getStatus())) {
 			// 아래 예외로 인해 로그인 실패가 발생하고, 로그인 실패 핸들러 호출됨

@@ -92,6 +92,11 @@
 			location.href = "/boardCons/boardConsList/" + page;
 		}
 	</script>
+	<style>
+	.consTitle:hover {
+  cursor: pointer;
+}
+	</style>
 </th:block>
 
 <body>
@@ -105,7 +110,7 @@
 					<thead>
 						<tr>
 							<th>번호</th>
-							<th>제목</th>
+							<th class="consTitle">제목</th>
 							<th>작성자</th>
 							<th>날짜</th>
 							<th>답변여부</th>
