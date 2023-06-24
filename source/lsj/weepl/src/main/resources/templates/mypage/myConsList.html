@@ -4,7 +4,7 @@
 	layout:decorate="~{layouts/mypageLayout}">
 
 <head>
-<title>관리자모드 회원관리</title>
+<title>나의 상담 내역</title>
 <!-- 사용자 스크립트 추가 -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <th:block layout:fragment="script">
@@ -52,26 +52,6 @@
 	</script>
 
 <style>
-.content {
-	display: flex;
-	justify-content: center;
-	align-items: flex-start;
-}
-
-.content-wrapper {
-	width: 1200px;
-}
-
-.table-container {
-	width: 1000px;
-	margin-bottom: 1rem;
-	color: #212529;
-	border-collapse: collapse;
-	box-sizing: border-box;
-	text-indent: initial;
-	border-spacing: 2px;
-	border-color: gray;
-}
 </style>
 </th:block>
 </head>
@@ -80,18 +60,14 @@
 <body>
 
 	<div layout:fragment="content" class="content-wrapper">
-<h1 class="page-title">나의 상담 내역</h1>
+	<div class="subview">
+<h3>나의 상담 내역</h3>
 <form th:action="@{'/mypage/myConsList/' + ${myConsList.number}}" role="form" method="get" th:object="${myConsList}">
-		
+		<div class="table-div">
 		<table class="table-container">
-		<colgroup>
-        <col style="width: 60%">
-        <col style="width: 30%">
-        <col style="width: 10%">
-    </colgroup>
 			<thead>
 				<tr>
-					<th style="text-align: center;">제목</th>
+					<th>제목</th>
 					<th>작성일</th>
 					<th>답변여부</th>
 				</tr>
@@ -110,34 +86,36 @@
 				</tr>
 			</tbody>
 		</table>
-
-		 <div th:with="start=${(myConsList.number/ maxPage) * maxPage + 1}, end=(${(myConsList.totalPages == 0) ? 1 : (start + (maxPage - 1) < myConsList.totalPages ? start + (maxPage - 1) : myConsList.totalPages)})">
-    <ul class="pagination justify-content-center">
-        <li class="page-myConsList" th:classappend="${myConsList.first} ? 'disabled':''">
-            <a th:onclick="'javascript:page(' + ${myConsList.number - 1} + ')'"
-               aria-label="Previous" class="page-link">
-                <span aria-hidden="true">Previous</span>
-            </a>
-        </li>
-        <li class="page-myConsList" th:each="page: ${#numbers.sequence(start, end)}"
-            th:classappend="${myConsList.number eq page-1} ? 'page-active' : ''">
-            <a th:onclick="'javascript:page(' + ${page - 1} + ')'"
-               class="page-link"> [[${page}]]</a>
-        </li>
-        <li class="page-myConsList" th:classappend="${myConsList.last} ? 'disabled':''">
-            <a th:onclick="'javascript:page(' + ${myConsList.number + 1} + ')'"
-               aria-label="Next" class="page-link">
-                <span aria-hidden="true">Next</span>
-            </a>
-        </li>
-    </ul>
-</div>
+			</div>
+			<div
+				th:with="start=${(myConsList.number/ maxPage) * maxPage + 1}, end=(${(myConsList.totalPages == 0) ? 1 : (start + (maxPage - 1) < myConsList.totalPages ? start + (maxPage - 1) : myConsList.totalPages)})">
+				<ul class="pagination-ul">
+					<li class="page-button-direction"
+						th:classappend="${myConsList.first} ? 'disabled':''"><a
+						th:onclick="'javascript:page(' + ${myConsList.number - 1} + ')'"
+						aria-label="Previous" class="page-link"> <span
+							aria-hidden="true" th:class="${myConsList.first} ? 'disabled'">&lt;&nbsp;Previous</span>
+					</a></li>
+					<li class="page-button"
+						th:each="page: ${#numbers.sequence(start, end)}"
+						th:classappend="${myConsList.number == page-1} ? 'page-active' : ''">
+						<a th:onclick="'javascript:page(' + ${page - 1} + ')'"
+						th:inline="text" class="page-link">[[${page}]]</a>
+					</li>
+					<li class="page-button-direction"
+						th:classappend="${myConsList.last} ? 'disabled'"><a
+						th:onclick="'javascript:page(' + ${myConsList.number + 1} + ')'"
+						aria-label="Next" class="page-link"> <span aria-hidden="true"
+							th:class="${myConsList.last} ? 'disabled'">Next&nbsp;&gt;</span>
+					</a></li>
+				</ul>
+			</div>
 			<input type="hidden" th:name="${_csrf.parameterName}"
 			th:value="${_csrf.token}">
 
 </form>
 	</div>
-	
+	</div>
 </body>
 
 </html>

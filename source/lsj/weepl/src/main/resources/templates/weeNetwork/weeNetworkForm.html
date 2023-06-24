@@ -7,16 +7,44 @@
 <title>Insert title here</title>
 <script type="text/javascript"
 	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c6b36dba7a1ac8f9b03d372abf87accb&libraries=services"></script>
+	
+	<style>
+    .input-group {
+  display: flex;
+  align-items: center;
+}
+
+.input-group .input-group-text {
+  margin-right: 10px;
+  text-align: left;
+}
+
+.input-group .input-short {
+  flex: 1;
+}
+
+.input-group .button-style {
+  margin-left: 10px;
+  text-align: center;
+}
+.subview {
+			padding: 20px 50px 40px 50px;
+		}
+
+</style>
+
+
+
 </head>
 <body>
 	<div layout:fragment="content">
 
 		<form id=frm role="form" method="post" th:object="${weeNetworkFormDto}">
+		<div class="subview">
+		<h3>센터 등록</h3>
 			<div class="input-group">
-				<div class="input-group-prepend">
-					<span class="input-group-text">지역명</span>
-				</div>
-				<select class="form-control" style="width: 250px;" th:field="*{locName}" >
+				<label class="input-label" th:for="LocName">지역명</label>
+				<select class="form-control input-short" th:field="*{locName}" >
             <option value="SEOUL">서울</option>
             <option value="DAEJEON">대전</option>
             <option value="DAEGU">대구</option>
@@ -27,69 +55,60 @@
 				class="fieldError">Incorrect data</p>
 
 			<div class="input-group">
-				<div class="input-group-prepend">
-					<span class="input-group-text">기관명</span>
-				</div>
-				<input type="text" th:field="*{agencyName}" class="form-control"
+				<label class="input-label" th:for="agencyName">기관명</label>
+				<input type="text" th:field="*{agencyName}" class="form-control input-short"
 					placeholder="기관명을 입력해주세요">
 			</div>
 			<p th:if="${#fields.hasErrors('agencyName')}"
 				th:errors="*{agencyName}" class="fieldError">Incorrect data</p>
 
 			<div class="input-group">
-				<div class="input-group-prepend">
-					<span class="input-group-text">전화번호</span>
-				</div>
-				<input type="text" th:field="*{agencyTel}" class="form-control"
+				
+				<label class="input-label" th:for="agencyTel">전화번호</label>
+				
+				<input type="text" th:field="*{agencyTel}" class="form-control input-short"
 					placeholder="전화번호를 입력해주세요">
 			</div>
 			<p th:if="${#fields.hasErrors('agencyTel')}" th:errors="*{agencyTel}"
 				class="fieldError">Incorrect data</p>
 
 			<div class="input-group">
-				<div class="input-group-prepend">
-					<span class="input-group-text">상세주소</span>
-				</div>
-				<input type="text" th:field="*{addrDtl}" class="form-control"
+				<label class="input-label" th:for="addrDtl">상세주소</label>
+				<input type="text" th:field="*{addrDtl}" class="form-control input-short"
 					placeholder="상세주소를 입력해주세요">
 			</div>
 			<p th:if="${#fields.hasErrors('addrDtl')}" th:errors="*{addrDtl}"
 				class="fieldError">Incorrect data</p>
 
 
-
-			<input id="address" placeholder="주소 입력" />
-			<button id="button" type="button">submit</button>
+<div class="input-group">
+				<label class="input-label" th:for="addrSearch">주소검색</label>
+			<input id="address" class="input-short" placeholder="검색" />
+			<button id="button" type="button" class="button-style addrSearch">검색</button>
 			<div>
 				<div id="resultAddress"></div>
 				<div id="result"></div>
 			</div>
-
+</div>
 			<div class="input-group">
-				<div class="input-group-prepend">
-					<span class="input-group-text">위도</span>
-				</div>
-				<input type="text" th:field="*{lati}" class="form-control"
+				<label class="input-label" th:for="lati">위도</label>
+				<input type="text" th:field="*{lati}" class="form-control input-short"
 					placeholder="위도를 입력해주세요">
 			</div>
 			<p th:if="${#fields.hasErrors('lati')}" th:errors="*{lati}"
 				class="fieldError">Incorrect data</p>
 
 			<div class="input-group">
-				<div class="input-group-prepend">
-					<span class="input-group-text">경도</span>
-				</div>
-				<input type="text" th:field="*{longi}" class="form-control"
+				<label class="input-label" th:for="longi">경도</label>
+				<input type="text" th:field="*{longi}" class="form-control input-short"
 					placeholder="경도를 입력해주세요">
 			</div>
 			<p th:if="${#fields.hasErrors('longi')}" th:errors="*{longi}"
 				class="fieldError">Incorrect data</p>
 
 			<div class="input-group">
-				<div class="input-group-prepend">
-					<span class="input-group-text">홈페이지</span>
-				</div>
-				<input type="text" th:field="*{url}" class="form-control"
+				<label class="input-label" th:for="url">홈페이지</label>
+				<input type="text" th:field="*{url}" class="form-control input-short"
 					placeholder="홈페이지 주소를 입력해주세요">
 			</div>
 			<p th:if="${#fields.hasErrors('url')}" th:errors="*{url}"
@@ -97,8 +116,10 @@
 			
 			<div style="text-align: center">
 				<button th:formaction="@{/weeNetwork/admin/new}" type="submit"
-					class="btn btn-primary">저장</button>
+					class="button-style">저장</button>
 				
+			</div>
+			
 			</div>
 			<input type="hidden" th:name="${_csrf.parameterName}"
 				th:value="${_csrf.token}">
@@ -110,40 +131,41 @@
 				searchAddress);
 		document.getElementById("frm").addEventListener("keydown", function(e) {
 			  if (e.code === "Enter") {
+				  //주소검색 엔터로 입력시 저장버튼 작동방지
 				  console.log("엔터키입력")
-			    e.preventDefault();
-			    
+				  searchAddress();
+			  	  e.preventDefault();
 			  }
 			});
-		
+			
+			//주소 검색 함수 searchAddress 정의
 			function searchAddress() {
+				//결과 표시 요소들 변수로 저장
 				var divAddress = document.getElementById("resultAddress");
 				var divResult = document.getElementById("result");
+				
+				//주소 입력 필드에서 값을 가져오기
 				var addr = document.getElementById("address").value;
+				
 				var geocoder = new kakao.maps.services.Geocoder();
+				//주소 검색 수행, 콜백 함수로 결과처리
 				geocoder.addressSearch(addr, function(result, status) {
 					console.log(result, status);
 					if (status === "OK") {
 						var address = result[0].road_address
 								|| result[0].address;
-						// divAddress.innerText = address.address_name;
+						
+						//위도, 경도 값 가져오기
 						$('#lati').val(result[0].y);
 						$('#longi').val(result[0].x);
-						// divResult.innerText = "위도: " + result[0].y + ", 경도: "
-						// 		+ result[0].x;
+						
 					} else if (status === "ZERO_RESULT") {
 						divAddress.innerText = "";
 						divResult.innerText = "검색 결과가 없습니다.";
 					}
 				});
 			}
-			
-			
-			
-			
-			
 		</script>
-
 	</div>
 </body>
 </html>

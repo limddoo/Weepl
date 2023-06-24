@@ -139,11 +139,11 @@
 <div layout:fragment="content">
 	<div class = "inner">
 	<div>
-		<h1 th:text="${major_div}"></h1>
+		<h1 th:text="${major_div}" style="margin-left:-375px;"></h1>
 	</div>
 		<form id="testForm" action="about:blank" method="get" onsubmit="return fnTestFormValidation();">
 		<input type="hidden" th:value="${major_div}" name="majorDiv">
-			<p>진행할 검사를 선택해주세요.</p>
+			<p style="margin-left:-375px;">진행할 검사를 선택해주세요.</p>
 			
 			<div class="checkType-list-wrap">
 				<ul class="checkType-list">
@@ -222,7 +222,7 @@
 				</ul>
 			</div>
 			<div>
-				<button type="submit" class="button-style">
+				<button type="submit" class="button-style" style="margin-left:-375px;">
 				<span>검사 시작</span>
 				</button>
 			</div>

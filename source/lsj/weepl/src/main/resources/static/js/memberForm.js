@@ -1,16 +1,7 @@
 $(document).ready(function(){
 	header = $("meta[name='_csrf_header']").attr('content');
 	token = $("meta[name='_csrf']").attr('content');
-	if(errorMessage != null){
-		console.log(errorMessage);
-		alert(errorMessage);
-	}
-	if(errorMessage == "이미 가입된 이메일입니다.") {
-		document.getElementById("email").value = "";
-	}
-	if(returnId != null) {
-		document.getElementById("_id").value = returnId;
-	}
+	
 });
 // 주소입력
 function inputPostcode() {
@@ -53,7 +44,7 @@ function inputPostcode() {
 	}
 	
 	// 우편번호와 주소 정보를 해당 필드에 넣는다.
-	document.getElementById('addrPost').value = data.zonecode;
+	document.getElementById('postNum').value = data.zonecode;
 	document.getElementById("addr").value = addr;
 	// 커서를 상세주소 필드로 이동한다.
 	document.getElementById("addrDtl").focus();

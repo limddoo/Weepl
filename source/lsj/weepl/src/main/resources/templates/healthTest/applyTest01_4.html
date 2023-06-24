@@ -15,6 +15,28 @@
 	});
 	
 	function findResult() {
+		if(!$("#testForm input[type=radio][name=test_ques_val_1]:checked").is(":checked")){
+            alert("필수 체크항목입니다.(1번)");
+            return ;
+         }else if(!$("#testForm input[type=radio][name=test_ques_val_2]:checked").is(":checked")){
+            alert("필수 체크항목입니다.(2번)");
+            return;
+         }else if(!$("#testForm input[type=radio][name=test_ques_val_3]:checked").is(":checked")){
+            alert("필수 체크항목입니다.(3번)");
+            return;
+         }else if(!$("#testForm input[type=radio][name=test_ques_val_4]:checked").is(":checked")){
+            alert("필수 체크항목입니다.(4번)");
+            return;
+         }else if(!$("#testForm input[type=radio][name=test_ques_val_5]:checked").is(":checked")){
+            alert("필수 체크항목입니다.(5번)");
+            return;
+         }else if(!$("#testForm input[type=radio][name=test_ques_val_6]:checked").is(":checked")){
+            alert("필수 체크항목입니다.(6번)");
+            return;
+         }else if(!$("#testForm input[type=radio][name=test_ques_val_7]:checked").is(":checked")){
+            alert("필수 체크항목입니다.(7번)");
+            return;
+         }
 		var get_input = $("#testForm input[type=radio]:checked");
 		var sum = 0;
 		var count = get_input.length; // radio 갯수
@@ -332,7 +354,7 @@
 		  		</div>
 		  	</div>
 		  	<div class="btnArea">
-		  		<button type="submit" class="button-style" onclick="findResult()">
+		  		<button type="button" class="button-style" onclick="findResult()">
 		  		 <span>결과 보기</span>
 		  		</button>
 		  		<input type="hidden" th:name="${_csrf.parameterName}"

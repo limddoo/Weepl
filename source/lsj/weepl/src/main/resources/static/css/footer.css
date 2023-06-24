@@ -73,7 +73,7 @@
 }
 
 .copyright {
-	margin-bottom: 0px;
+	margin-bottom: 15px;
 }
 
 .banner-container {
@@ -95,7 +95,7 @@
 }
 
 .copyright address {
-	color: grey !important;
+	color: grey;
 	margin-bottom: 0;
 }
 

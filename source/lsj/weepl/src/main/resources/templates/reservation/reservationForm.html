@@ -26,20 +26,33 @@
 	margin:0 auto; 
 }
 
-.input-group {
-	margin-bottom: 15px
+.subview > h3{
+	margin-top: 30px;
+	margin-bottom: 15px;
 }
 
 .img-div {
-	margin-bottom: 10px
+	margin-bottom: 10px;
 }
 
 .fieldError {
 	color: #bd2130;
 }
+.input-short{
+	width: 400px;
+}
+
+
+.consContent{
+	height: 400px;
+}
 #reservationForm{
 	margin:0 auto;
 }
+.input-label {
+	min-width: 40px;
+}
+
 </style>
 </th:block>
 </head>
@@ -51,24 +64,22 @@
 		<input type="hidden" th:field="*{reserveStatus}"> <input
 			type="hidden" th:field="*{reserveScheduleCd}"> <input
 			type="hidden" th:field="*{name}">
-		<p class="h2">상담예약</p>
+			<div class="subview">
+		<h3>상담예약</h3>
 		<input type="hidden" th:field="*{reserveApplyCd}">
 
 		<div class="input-group">
-			<div class="input-group-prepend">
-				<span class="input-group-text">제목</span>
-			</div>
-			<input type="text" th:field="*{reserveTitle}" class="form-control"
+			<label class="input-label" th:for="reserveTitle">제목</label>
+				
+			<input type="text" th:field="*{reserveTitle}" class="input-short"
 				placeholder="제목을 입력해주세요">
 		</div>
 		<p th:if="${#fields.hasErrors('reserveApplyCd')}"
 			th:errors="*{reserveApplyCd}" class="fieldError">Incorrect data</p>
 
 		<div class="input-group">
-			<div class="input-group-prepend">
-				<span class="input-group-text">내용</span>
-			</div>
-			<textarea class="form-control" aria-label="With textarea"
+			<label class="input-label" th:for="consReqContent">내용</label>
+			<textarea class="input-short consContent" aria-label="With textarea"
 				th:field="*{consReqContent}" placeholder="내용을 입력해주세요"></textarea>
 		</div>
 		<p th:if="${#fields.hasErrors('consReqContent')}"
@@ -77,10 +88,10 @@
 
 		<div th:if="${#strings.isEmpty(reserveApplyDto.reserveApplyCd)}"
 			style="text-align: center">
-			<button id="submit_btn" class="btn btn-primary">등록</button>
-			<button th:onclick="window.close()" class="btn btn-primary">닫기</button>
+			<button id="submit_btn" class="button-style">등록</button>
+			<button th:onclick="window.close()" class="button-style">닫기</button>
 		</div>
-
+</div>
 		<div th:unless="${#strings.isEmpty(reserveApplyDto.reserveApplyCd)}"
 			style="text-align: center">
 

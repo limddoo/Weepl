@@ -123,7 +123,8 @@ public class MypageController {
 		User user = (User) auth.getPrincipal();
 		Member member = mypageService.findMember(user.getUsername());
 		if (!passwordEncoder.matches(pwd, member.getPwd())) {
-			model.addAttribute("errorMessage", "비밀번호가 일치하지않습니다.");
+			model.addAttribute("errorMsg", "비밀번호가 일치하지않습니다.");
+			return "mypage/quitMember";
 		} else {
 			mypageService.quitMember(user.getUsername());
 			model.addAttribute("result", "회원탈퇴가 완료되었습니다.");
@@ -169,7 +170,7 @@ public class MypageController {
 
 	@GetMapping(value = { "/myConsList", "/myConsList/{page}" })
 	public String myConsList(@PathVariable("page") Optional<Integer> page, Model model, Authentication auth) {
-		Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 3);
+		Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 10);
 
 		// 조회조건과 페이징 정보를 파라미터로 넘겨 Page<Item> 객체를 반환받는다.
 		Page<MyConsDto> myConsList = mypageService.getMyConsPage(pageable, auth.getName());
