@@ -149,6 +149,7 @@ public class Member{
 	
 	public void quitMember() {
 		this.status = MemberStatus.QUIT;
+		this.qdate = LocalDateTime.now();
 	}
 	
 	public void restrictMember() {

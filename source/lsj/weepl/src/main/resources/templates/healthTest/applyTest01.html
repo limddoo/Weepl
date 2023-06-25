@@ -15,6 +15,7 @@
     padding:0;
    }
  .checkType-list-wrap{
+ 	width: 900px;
  	display:block;
  	text-align: center;
  	margin:auto;
@@ -30,7 +31,7 @@
  
  }
  .checkType-list > li {
-    width: 270px;;
+    width: 270px;
     padding: 10px;
     display: inline-block
     
@@ -139,11 +140,11 @@
 <div layout:fragment="content">
 	<div class = "inner">
 	<div>
-		<h1 th:text="${major_div}" style="margin-left:-375px;"></h1>
+		<h1 th:text="${major_div}"></h1>
 	</div>
 		<form id="testForm" action="about:blank" method="get" onsubmit="return fnTestFormValidation();">
 		<input type="hidden" th:value="${major_div}" name="majorDiv">
-			<p style="margin-left:-375px;">진행할 검사를 선택해주세요.</p>
+			<p>진행할 검사를 선택해주세요.</p>
 			
 			<div class="checkType-list-wrap">
 				<ul class="checkType-list">
@@ -222,7 +223,7 @@
 				</ul>
 			</div>
 			<div>
-				<button type="submit" class="button-style" style="margin-left:-375px;">
+				<button type="submit" class="button-style">
 				<span>검사 시작</span>
 				</button>
 			</div>
