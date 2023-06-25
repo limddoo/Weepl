@@ -9,46 +9,24 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <th:block layout:fragment="script">
 	<script th:inline="javascript">
+	$(document).ready(function() {
+		// 이전, 다음버튼 이동할 페이지 없을시, onclick 못하게 삭제
+		var disalbed_directions = document.querySelectorAll(".disabled > a");
+		disalbed_directions.forEach(function(disalbed_direction) {
+			disalbed_direction.removeAttribute('onclick');
+		});
 		
+		$("#searchBtn").on("click", function(e) {
+			e.preventDefault();
+			page(0);
+		});
+	});
+	
 		function page(page) {
 			console.log("Page requested:", page);
 			location.href = "/mypage/myConsList/" + page;
 		}
 		
-		function checkName(boardCd){
-			var header = $("meta[name='_csrf_header']").attr('content');
-			var token = $("meta[name='_csrf']").attr('content');
-			if(token && header) {
-			const user = [[${#authentication.principal.username}]];
-			
-			if(user != 'anonymousUser') {
-				const name = user.username;
-				
-				if(name == 'admin'){
-					location.href = "/boardCons/consDtl/"+boardCd;
-				} else {
-					$.ajax({
-						type:"post",
-						url:"/boardCons/getBoardMember",
-						data:{"boardCd":boardCd},
-						beforeSend: function(xhr){
-							xhr.setRequestHeader(header, token);
-						},
-						success: function(result){
-							if(name == result.result) {
-								location.href = "/boardCons/consDtl/"+boardCd;
-							} else {
-								checkBoardPwd(header, token, boardCd);
-							}
-						},
-						error : function(){
-							alert("에러발생");
-						}
-					});
-				}
-			} 
-		}
-		}
 	</script>
 
 <style>
@@ -70,6 +48,7 @@
 					<th>제목</th>
 					<th>작성일</th>
 					<th>답변여부</th>
+					<th>삭제여부</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -83,6 +62,8 @@
 					<td th:text="${myCons.reg_dt}"></td>
 					<td th:if="${myCons.res_yn == 'Y'}">답변완료</td>
 					<td th:unless="${myCons.res_yn == 'Y'}">미답변</td>
+					<td th:if="${myCons.del_yn == 'Y'}">삭제됨</td>
+					<td th:unless="${myCons.del_yn == 'Y'}">-</td>
 				</tr>
 			</tbody>
 		</table>

@@ -73,7 +73,7 @@
 		<div style="text-align: center">
 			<button th:onclick="|location.href='/boardCons/modBoardCons/' + ${boardCons.cd}|" id="btn-comment-modify" type="submit" class="button-style">수정</button>
 			<button th:onclick="|location.href='/boardCons/boardConsDel/' + ${boardCons.cd}|" id="btn-comment-delete" type="submit" class="button-style">삭제</button>
-			<button onclick="location.href='/boardCons/boardConsList'" id="btn-comment-list" type="submit" class="button-style">목록보기</button>
+			<button onclick="location.href='/mypage/myConsList'" id="btn-comment-list" type="submit" class="button-style">목록보기</button>
 		</div>
 		<!-- 상담 답변 내용 작성 영역-->
 		<form action="/boardCons/replyBoardCons" role="form" method="post"

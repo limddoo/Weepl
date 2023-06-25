@@ -14,4 +14,5 @@ public class MyConsDto {
 	private String content;
 	private LocalDateTime reg_dt;
 	private String res_yn;
+	private String del_yn;
 }
