@@ -64,7 +64,7 @@ public class NoticeRepositoryCustomImpl implements NoticeRepositoryCustom{ //인
 	
 	
 	@Override
-	public Page<Notice> getAdminNoticePage(SearchDto noticeSearchDto, Pageable pageable) {
+	public Page<Notice> getAllNotices(SearchDto noticeSearchDto, Pageable pageable) {
 		
 		QueryResults<Notice> results = queryFactory //queryfactory를 이용해서 쿼리를 생성한다.
 			.selectFrom(QNotice.notice) //데이터를 조회하기 위해서 QNotice의 notice를 지정한다.

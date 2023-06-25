@@ -7,6 +7,6 @@ import com.weepl.dto.SearchDto;
 import com.weepl.entity.Notice;
 
 public interface NoticeRepositoryCustom {
-	Page<Notice> getAdminNoticePage(SearchDto noticeSearchDto, Pageable pageable);
+	Page<Notice> getAllNotices(SearchDto noticeSearchDto, Pageable pageable);
 	//조회 조건을 담고 있는 noticeSearchDto 객체와 페이징 정보를 담고 있는 pageable객체를 파라미터로 받는 getAdminPage메소드를 정의한다.
 }
