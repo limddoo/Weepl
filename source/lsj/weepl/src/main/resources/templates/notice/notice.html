@@ -21,7 +21,6 @@
 			$(".board-content").on("click", function() {
 				var board_tr = $(this);
 				var board_cd = board_tr.children()[0].innerHTML;
-				console.log(board_cd);
 				location.href = "/board/noticedtl/"+board_cd;
 			});
 		});
@@ -41,6 +40,7 @@
 select {
 	margin-right: 10px;
 }
+
 </style>
 </th:block>
 <div layout:fragment="content" class="content-wrapper">

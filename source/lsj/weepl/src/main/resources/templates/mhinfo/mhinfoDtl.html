@@ -21,6 +21,7 @@
 				contentType : "application/json",
 				success : function(data) {
 					document.getElementById('likeCnt').innerHTML = data.result;
+                    alert("이 게시글을 좋아합니다.");
 				},
 				error : function() {
 					alert("에러발생");

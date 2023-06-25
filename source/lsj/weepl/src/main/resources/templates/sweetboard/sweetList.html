@@ -21,6 +21,12 @@
 			disalbed_directions.forEach(function(disalbed_direction) {
 				disalbed_direction.removeAttribute('onclick');
 			});
+			
+			$(".board-content").on("click", function() {
+				var board_tr = $(this);
+				var board_cd = board_tr.children()[0].innerHTML;
+				location.href = '/sweetboard/dtl/'+board_cd;
+			});
 		});
 
 		function page(page) {
@@ -98,20 +104,19 @@ h1 {
 			<table class="table-container">
 				<thead>
 					<tr>
-						<th class="board" id="board_no">글번호</td>
-						<th class="board" id="board_creator">작성자</td>
-						<th class="board" id="board_title">제목</td>
-						<th class="board" id="board_div">게시판구분</td>
-						<th class="board" id="board_date">작성일</td>
-						<th class="board" id="board_like">좋아요</td>
+						<th class="board" id="board_no">글번호</th>
+						<th class="board" id="board_creator">작성자</th>
+						<th class="board" id="board_title">제목</th>
+						<th class="board" id="board_div">게시판구분</th>
+						<th class="board" id="board_date">작성일</th>
+						<th class="board" id="board_like">좋아요</th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr th:each="sweetBoard, status: ${sweetBoards.getContent()}">
+					<tr th:each="sweetBoard, status: ${sweetBoards.getContent()}" class="board-content">
 						<td th:text="${sweetBoard.cd}"></td>
 						<td th:text="${sweetBoard.member.nickName}"></td>
-						<td><a th:href="'/sweetboard/dtl/'+${sweetBoard.cd}"
-							th:text="${sweetBoard.title}"></a></td>
+						<td th:text="${sweetBoard.title}"></td>
 						<td th:text="${sweetBoard.board_div}"></td>
 						<td th:text="${#temporals.format(sweetBoard.regDt, 'yyyy-MM-dd hh:mm')}"></td>
 						<td th:text="${sweetBoard.like_cnt}"></td>

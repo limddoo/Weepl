@@ -593,3 +593,11 @@ button {
 	height: 200px;
 	line-height: 300px;
 }
+.board-content {
+	cursor: pointer;
+}
+
+.board-content:hover {
+	background-color: lightgrey; 
+	pointer: cursor;
+}
