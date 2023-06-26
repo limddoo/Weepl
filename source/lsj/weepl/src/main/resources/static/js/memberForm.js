@@ -129,7 +129,7 @@ function confirmEmail() {
 	var mailchk=$("#emailchkcomp").val();
 	var memailconfirm=$("#memailconfirm").val();
 	if(mailchk != memailconfirm) {
-		alert('이메일 인증코드가 잘못되었습니다.');
+		alert('이메일 인증번호가 잘못되었습니다.');
 		return false;
 	} else {
 		alert('이메일 인증이 완료되었습니다.');
