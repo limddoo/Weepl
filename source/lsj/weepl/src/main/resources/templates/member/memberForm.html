@@ -99,6 +99,17 @@ width:300px;
 padding-left:12px;
 }
 
+#confbtn {
+ 	position:absolute;
+	width:80px;
+	height:44px;
+	right:167px;
+	top:65px;
+	background-color:rgb(101,90,232);
+	color:white;
+	font-size:13px
+}
+
 .memberFormbtns:hover{
 	cursor:pointer;
 }
@@ -116,10 +127,10 @@ letter-spacing:1px;
 	right:3px;
 }
 #memailconfirm{
-	width:200px;
-	float:left;
-	left:60px;
-	height:25px;
+	float: left;
+    left: 62px;
+    width: 300px;
+    padding-left: 12px;
 }
 
 #tel1 {
@@ -257,12 +268,13 @@ letter-spacing:1px;
 			 <div class="form-group last mb-4 check_input">
 					<label for="memailconfirm" id="memailconfirmTxt">인증번호를 입력해주세요</label> 
 					<br>
-					<input type="text" class="form-control" id="memailconfirm">
+					<input type="text" id="memailconfirm">
+					<input type="button" onclick="confirmEmail()" class="memberFormbtns" id="confbtn" value="인증번호 확인">
 			</div>
 			<p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="fieldError">Incorrect data</p>
 		</div>
 		<br>
-		
+		<br>
 		<div class="form-group gender">
 			<label th:for="name">성별</label>
 			<br> 
@@ -313,7 +325,7 @@ letter-spacing:1px;
 		<br>
 		
 		<div style="text-align: center">
-			<button type="button" class="button-style" onClick="frmSubmit()">저장</button>
+			<button type="button" class="button-style" onClick="frmSubmit()">가입</button>
 		</div>
 		
 		<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">

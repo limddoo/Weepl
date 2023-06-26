@@ -3,6 +3,7 @@ $(document).ready(function(){
 	token = $("meta[name='_csrf']").attr('content');
 	
 });
+var chkEmail = false;
 // 주소입력
 function inputPostcode() {
 	new daum.Postcode({
@@ -122,6 +123,20 @@ error : function(){
 });
 }
 
+
+
+function confirmEmail() {
+	var mailchk=$("#emailchkcomp").val();
+	var memailconfirm=$("#memailconfirm").val();
+	if(mailchk != memailconfirm) {
+		alert('이메일 인증코드가 잘못되었습니다.');
+		return false;
+	} else {
+		alert('이메일 인증이 완료되었습니다.');
+		chkEmail = true;
+	}
+}
+
 function frmSubmit() {
 var tel = $("#tel1").val() + $("#tel2").val() + $("#tel3").val();
 $("#tel").val(tel);
@@ -130,13 +145,12 @@ var birM = $("#birM").val();
 var birD = $("#birD").val();
 var bir = birY + birM + birD;
 $("#bir").val(bir);
-
-var mailchk=$("#emailchkcomp").val();
-var memailconfirm=$("#memailconfirm").val();
-if(mailchk != memailconfirm) {
-alert('이메일 확인코드가 잘못되었습니다.');
-return false;
+if(!chkEmail) {
+	alert('이메일 인증은 필수입니다.');
+	document.getElementById("memailconfirm").focus();
+	return false;
 }
+
 document.getElementById('frm').submit();
 }
 
