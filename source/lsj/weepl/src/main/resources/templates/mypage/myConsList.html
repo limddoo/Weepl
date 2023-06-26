@@ -20,6 +20,13 @@
 			e.preventDefault();
 			page(0);
 		});
+		
+		// 상세글 행 클릭시 해당 글번호로 아이디 체크 실행
+		$(".board-content").on("click", function() {
+			var board_tr = $(this);
+			var board_cd = board_tr.children()[0].innerHTML;
+			location.href="/mypage/myConsDtl/"+board_cd;
+		});
 	});
 	
 		function page(page) {
@@ -45,6 +52,7 @@
 		<table class="table-container">
 			<thead>
 				<tr>
+					<th>번호</th>
 					<th>제목</th>
 					<th>작성일</th>
 					<th>답변여부</th>
@@ -52,9 +60,9 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr th:each="myCons : ${myConsList.getContent()}">
+				<tr th:each="myCons : ${myConsList.getContent()}" class="board-content">
+					<td th:text="${myCons.cd}"></td>
 					<td style="text-align: center;">
-					
 						<a th:href="@{/mypage/myConsDtl/{boardConsCd}(boardConsCd=${myCons.cd})}">
 							<span th:text="${myCons.title}"></span>
 						</a>

@@ -71,28 +71,10 @@
 		<hr class='hr-solid-attach' id='hr-second'/><br>
 		<!-- 게시글 표 하단 버튼 영역-->
 		<div style="text-align: center">
-			<button th:onclick="|location.href='/boardCons/modBoardCons/' + ${boardCons.cd}|" id="btn-comment-modify" type="submit" class="button-style">수정</button>
-			<button th:onclick="|location.href='/boardCons/boardConsDel/' + ${boardCons.cd}|" id="btn-comment-delete" type="submit" class="button-style">삭제</button>
+			<button th:if="${boardCons.del_yn != 'Y'}" th:onclick="|location.href='/mypage/modMyCons/' + ${boardCons.cd}|" id="btn-comment-modify" type="submit" class="button-style">수정</button>
+			<button th:if="${boardCons.del_yn != 'Y'}"  th:onclick="|location.href='/mypage/myConsDel/' + ${boardCons.cd}|" id="btn-comment-delete" type="submit" class="button-style">삭제</button>
 			<button onclick="location.href='/mypage/myConsList'" id="btn-comment-list" type="submit" class="button-style">목록보기</button>
 		</div>
-		<!-- 상담 답변 내용 작성 영역-->
-		<form action="/boardCons/replyBoardCons" role="form" method="post"
-			th:object="${boardConsReplyDto}" th:if="${boardCons.res_yn == 'N'}"
-			sec:authorize="hasRole('ROLE_ADMIN')">
-			<input type="hidden" name="boardConsCd" th:value="${boardCons.cd}">
-			<div class="input-group">
-				<label class="input-label" id="content-bar">답변내용</label>
-				<textarea class="input-textarea" aria-label="With textarea"
-					th:field="*{content}"></textarea>
-				<p th:if="${#fields.hasErrors('content')}" th:errors="*{content}"
-					class="fieldError">내용을 확인해주세요.</p>
-			</div>
-			<input type="hidden" th:name="${_csrf.parameterName}"
-				th:value="${_csrf.token}">
-			<div style="text-align: center" id="button-div">
-				<button type="submit" class="button-style">저장</button>
-			</div>
-		</form>
 		<!-- 상담 답변 내용 조회 영역-->
 		<div th:if="${boardCons.res_yn == 'Y'}">
 			<h3>게시판 상담 답변</h3>

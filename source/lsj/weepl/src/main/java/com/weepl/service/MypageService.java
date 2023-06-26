@@ -154,6 +154,7 @@ private final BoardConsRepository boardConsRepository;
 		myConsDto.setTitle(boardCons.getTitle());
 		myConsDto.setReg_dt(boardCons.getRegDt());
 		myConsDto.setRes_yn(boardCons.getRes_yn());
+		myConsDto.setDel_yn(boardCons.getDel_yn());
 		
 		return myConsDto;
 	}

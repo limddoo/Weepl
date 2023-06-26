@@ -96,7 +96,8 @@
 		<div th:unless="${#strings.isEmpty(reserveApplyDto.reserveApplyCd)}"
 			style="text-align: center">
 
-			<button id="cancel_btn" class="btn btn-primary">예약 취소</button>
+			<button id="cancel_btn" class="button-style">예약 취소</button>
+			<button th:onclick="window.close()" class="button-style">닫기</button>
 		</div>
 
 		<input type="hidden" th:name="${_csrf.parameterName}"

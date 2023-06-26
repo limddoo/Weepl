@@ -263,7 +263,7 @@ letter-spacing:1px;
 		<div class="form-group">
 			<label th:for="email">이메일</label>
 			<br>
-			 <input type="email" th:field="*{email}" class="form-control" placeholder="이메일을 입력해주세요">
+			 <input type="email" th:field="*{email}" class="form-control" placeholder="이메일을 입력해주세요" onchange="changedEmail()">
 			 <input type="button" class="memberFormbtns" id="checkEmail" value="이메일 인증" onclick="fMailConfirm()">
 			 <div class="form-group last mb-4 check_input">
 					<label for="memailconfirm" id="memailconfirmTxt">인증번호를 입력해주세요</label> 

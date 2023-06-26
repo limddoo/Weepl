@@ -12,7 +12,7 @@
 		<ul class="sidebarSubmenu">
 			<li><a id="connMypage" href="/mypage/connMypage" aria-current="page">개인정보 수정</a></li>
 			<li><a id="modMyPwd" href="/mypage/modMyPwd" aria-current="page">비밀번호 수정</a></li>
-			<li><a id="setNickName"href="/mypage/setNickName" aria-current="page" sec:authorize="hasRole('ROLE_COUNSELOR')">스윗 닉네임 변경</a></li>
+			<li sec:authorize="hasRole('ROLE_COUNSELOR')"><a id="setNickName"href="/mypage/setNickName" aria-current="page">스윗 닉네임 변경</a></li>
 			<li><a id="quitMember" href="/mypage/quitMember" aria-current="page">회원탈퇴</a></li>
 		</ul>
 		<hr>
