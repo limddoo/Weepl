@@ -116,7 +116,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	
 	
 	  var request = $.ajax({
-		url : "/reservation/selectDate",
+		url : "/reservation/showReservation",
 		method : "GET",
 		async : true,
 		headers : { 
