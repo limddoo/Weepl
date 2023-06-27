@@ -1,32 +1,51 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
     xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-    layout:decorate="~{layouts/basicLayout}">
+    layout:decorate="~{layouts/weeNetworkLayout}">
 <head>
     <meta charset="UTF-8">
     <title>Kakao Maps API</title>
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c6b36dba7a1ac8f9b03d372abf87accb"></script>
 </head>
 <body>
-    <div layout:fragment="content">
-
+	<th:block layout:fragment="css">
+		<style>
+			#map {
+				margin-top: 20px;
+				width: 100%;
+				height: 550px;
+				border-radius: 18px;
+			}
+			
+			.content-wrapper {
+    			margin-left: 30%;
+			}
+			
+			.subview {
+				width: 1000px;
+			}
+		</style>
+	</th:block>
+	<div layout:fragment="content" class="content-wrapper">
+	<div class="subview">
+	<h3>기관 찾기</h3>	
         <form id="searchForm" th:action="@{/weeNetwork/search}" role="form" method="get" th:object="${weeNetworkFormDto}">
-
-            <br>
-
-            <div class="form-inline justify-content-center" th:object="${weeNetworkSearchDto}">
-                <select id="locName" class="form-control" style="width: 250px;">
+            <div class="search-div" th:object="${weeNetworkSearchDto}" style="margin-top: 0;">
+                <select id="locName" class="input-select">
                     <option value="SEOUL">서울</option>
                     <option value="DAEJEON">대전</option>
                     <option value="DAEGU">대구</option>
                     <option value="BUSAN">부산</option>
-                </select>&nbsp;&nbsp;
-                <input style="width: 550px;" name="search_keyword" type="text" class="form-control" placeholder="위(Wee) 기관 명칭">&nbsp;&nbsp;
-                <button id="searchBtn" type="button" class="btn btn-primary">검색</button><br><br><br>
+                </select>
+                <input name="search_keyword" type="text" class="input-long" placeholder="위(Wee) 기관 명칭">
+                <button id="searchBtn" type="button" class="button-style searchBtn">검색</button>
             </div>
-            <div id="map" style="width: 100%; height: 600px;"></div>
+            <div id="map"></div>
         </form>
-
+        <div class="search-div">
+        	<button type="button" class="button-style" onclick="location.href='/weeNetwork/admin/new'" sec:authorize="hasAnyAuthority('ROLE_ADMIN')">센터등록하기</button>
+		</div>
+	</div>
         <script>
             var mapContainer = document.getElementById('map');
             var mapOption = {
@@ -36,7 +55,7 @@
 
             var map = new kakao.maps.Map(mapContainer, mapOption);
 
-            var iwContent = '<div style="padding:5px;"></div>';
+            var iwContent = '<div></div>';
             var iwPosition = new kakao.maps.LatLng(33.450701, 126.570667);
             var iwRemoveable = true;
 
@@ -165,9 +184,6 @@
             });
 
         </script>
-
-        <br>
-        <button type="button" class="btn btn-primary" onclick="location.href='/weeNetwork/admin/new'" sec:authorize="hasAnyAuthority('ROLE_ADMIN')">센터등록하기</button><br><br><br><br>
     </div>
 </body>
 </html>

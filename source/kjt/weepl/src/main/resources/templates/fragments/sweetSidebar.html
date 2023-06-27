@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<div class="sidebar" th:fragment="sidebar">
+<link th:href="@{/css/sidebar.css}" rel="stylesheet">
+	<div class="sidebarContainer">
+		<a href="/sweetboard/list" class="sidebarTitle">
+			<span>스윗(SWeeT)</span>
+		</a>
+		<hr>
+			<ul class="sidebarSubmenu">
+				<li><a id="" href="">학교업무</a></li>
+				<li><a id="" href="">상담게시판</a></li>
+				<li><a id="" href="">각종서식</a></li>
+				<li><a id="" href="">자유게시판</a></li>
+		</ul>
+		<hr>
+	</div>
+</div>
+</html>

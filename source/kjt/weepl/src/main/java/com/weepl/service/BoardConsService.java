@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import javax.persistence.EntityNotFoundException;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -38,18 +36,13 @@ public class BoardConsService {
 
 	public Long saveCons(BoardConsFormDto boardConsFormDto) throws Exception {
 		BoardCons boardCons = boardConsFormDto.createCons();
-		boardCons.setDel_yn("N");
-		boardCons.setRes_yn("N");
 		boardConsRepository.save(boardCons);
 
-		System.out.println("asdjfhsakdjfbskadbfkusdhfkusdhf"+boardCons.getCd());
 		return boardCons.getCd();
 	}
 
 	public Long saveNmCons(BoardConsFormDto boardConsFormDto) throws Exception {
 		BoardCons boardCons = boardConsFormDto.createCons();
-		boardCons.setDel_yn("N");
-		boardCons.setRes_yn("N");
 		BoardConsNmem boardConsNmem = boardConsFormDto.createConsNmem(boardConsFormDto, boardCons);
 		BoardConsNmem savedBoardConsNmem = boardConsNmemRepository.save(boardConsNmem);
 		boardCons.setBoardConsNmem(savedBoardConsNmem);
@@ -111,16 +104,16 @@ public class BoardConsService {
 	}
 
 	public Long updateCons(BoardConsFormDto boardConsFormDto) throws Exception {
-	    BoardCons boardCons = boardConsRepository.findById(boardConsFormDto.getCd())
-	            .orElseThrow(EntityNotFoundException::new);
-	    boardCons.updateCons(boardConsFormDto);
+		BoardCons boardCons = boardConsRepository.findByCd(boardConsFormDto.getCd());
+		boardCons.updateCons(boardConsFormDto);
 
-	    return boardCons.getCd();
+		return boardCons.getCd();
+
 	}
 
-	public Long deleteCons(Long cd) {
-		return boardConsRepository.deleteByCd(cd);
-
+	public void deleteCons(Long cd) {
+		BoardCons boardCons = boardConsRepository.getById(cd);
+		boardCons.updateConsDelYn();
 	}
 
 	public Member findMember(String id) {
@@ -168,11 +161,11 @@ public class BoardConsService {
 	}
 	
 	public BoardCons replyBoardCons(BoardConsReplyDto boardConsReplyDto) {
-		BoardCons boardCons = boardConsReplyDto.getBoardCons();
+		BoardCons boardCons = boardConsRepository.findByCd(boardConsReplyDto.getBoardConsCd());
 		boardCons.updateConsResYn();
 		
 		BoardCons savedBoardCons = boardConsRepository.save(boardCons);
-		BoardConsReply boardConsReply = BoardConsReply.createBoardReply(boardConsReplyDto);
+		BoardConsReply boardConsReply = BoardConsReply.createBoardReply(boardConsReplyDto, savedBoardCons);
 		boardConsReplyRepository.save(boardConsReply);
 		
 		return savedBoardCons;

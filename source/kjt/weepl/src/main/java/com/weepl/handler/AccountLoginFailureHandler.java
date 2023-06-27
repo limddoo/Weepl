@@ -22,19 +22,22 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Transactional
 public class AccountLoginFailureHandler implements AuthenticationFailureHandler {
-    private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
+	private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
-    @Override
-    public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
-                                        AuthenticationException exception) throws IOException, ServletException {
-        if (exception instanceof BadCredentialsException) {
-            redirectStrategy.sendRedirect(request, response, "/members/login/error?cause=failed");
-        } else if (exception instanceof LockedException) {
-            redirectStrategy.sendRedirect(request, response, "/members/login/error?cause=locked");
-        } else if (exception instanceof DisabledException) {
+	@Override
+	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
+			AuthenticationException exception) throws IOException, ServletException {
+		if (exception instanceof BadCredentialsException) { // 그냥 아이디, 비밀번호가 일치하지 않아서 진입했을경우
+			redirectStrategy.sendRedirect(request, response, "/members/login/error?cause=failed");
+		} else if (exception instanceof LockedException) { // LoginSuccessHandler에서 LockedException발생시 넘어 온 경우
+			System.out.println(exception.getMessage());
+			redirectStrategy.sendRedirect(request, response, "/members/login/error?cause=locked");
+		} else if (exception instanceof DisabledException) {
             redirectStrategy.sendRedirect(request, response, "/members/login/error?cause=restricted");
         } else {
             redirectStrategy.sendRedirect(request, response, "/members/login/error");
         }
-    }
+
+		
+	}
 }

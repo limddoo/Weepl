@@ -8,12 +8,27 @@
 </head>
 <th:block layout:fragment="css">
 	<style>
+.table {
+	width: 60%;
+	font-size: 14pt;
+	margin-top: 30px;
+	margin-left: 30px;
+	margin-bottom: 30px;
+}
+.subview {
+	margin-left: 15%;
+	margin-right: auto;
+}
 .input-group {
-	margin-bottom: 15px
+	margin-bottom: 15px;
 }
 
 .fieldError {
 	color: #bd2130;
+}
+
+.input-label {
+	display: block;
 }
 </style>
 </th:block>
@@ -22,73 +37,85 @@
 </th:block>
 
 <div layout:fragment="content" class="content-wrapper">
-	<p class="h2">게시판 상담 상세글</p>
-	<table class="table-container">
-		<tbody>
-			<tr>
-				<th scope="row">글 번호</th>
-				<td th:text="${boardCons.cd}"></td>
-
-				<th scope="row">등록일</th>
-				<td th:text="${boardCons.regDt}"></td>
-			</tr>
-			<tr>
-				<th scope="row">작성자</th>
-				<td th:if="${boardCons.member != null}" th:text="${boardCons.member.name}"></td>
-				<td th:if="${boardCons.boardConsNmem != null}" th:text="${boardCons.boardConsNmem.name}"></td>
-			</tr>
-			<tr>
-				<th scope="row">제목</th>
-				<td th:text="${boardCons.title}"></td>
-			</tr>
-			<tr>
-				<th scope="row">내용</th>
-				<td th:text="${boardCons.content}"></td>
-			</tr>
-
-		</tbody>
-	</table>
-
-
-	<button type="button" class="btn btn-primary"
-    th:onclick="|location.href='/boardCons/connModConsForm/${boardCons.cd}'|">수정하기</button>
-	<button type="button" class="btn btn-primary"
-		onclick="location.href='/boardCons/consList'">리스트로 돌아가기</button>
-	<button type="button" class="btn btn-primary"
-		th:onclick="|location.href='/boardCons/consDel/' + ${boardCons.cd}|">삭제하기</button>
-	<form action="/boardCons/replyBoardCons" role="form" method="post"
-		th:object="${boardConsReply}" th:if="${boardCons.res_yn == 'N'}"  sec:authorize="hasRole('ROLE_ADMIN')">
-		<input type="hidden" th:field="*{boardCons}">
-		<div class="input-group">
-			<div class="input-group-prepend">
-				<span class="input-group-text"> 상담 답변 내용</span>
-			</div>
-			<textarea class="form-control" aria-label="With textarea"
-				th:field="*{content}"></textarea>
+	<div class="subview board-div">
+		<h3>게시판 상담 상세글</h3>
+		<div align="left" class="title-header hr-first">
+			<h2>
+				<span th:text="${boardCons.title}" class="title-content" style="margin-left:40px;"></span>
+			</h2>
+			<hr class='hr-solid' id='hr-second' />
+					<span class="board-cd" style="margin-left:15px;">
+						<span class="board_cd" style="margin-left:10px;">글번호</span> 
+						<span th:text="${boardCons.cd}" style="margin-left:10px;"></span>
+					</span>
+					<span class="board-creator" style="margin-left:15px;">
+						<span class="board_creator" style="margin-left:10px;">작성자</span>
+						<span th:if="${boardCons.member != null}"
+							th:text="${boardCons.member.name}"></span>
+						<span th:if="${boardCons.boardConsNmem != null}"
+							th:text="${boardCons.boardConsNmem.name}"></span>
+					</span>
+					<span style="float: right; margin-right:10px;" th:text="${#temporals.format(boardCons.regDt, 'yyyy-MM-dd HH:mm')}"></span>
+			<hr class='hr-solid-attach' id='hr-second' />
 		</div>
-		<input type="hidden" th:name="${_csrf.parameterName}"
-			th:value="${_csrf.token}">
-		<button type="submit" class="btn btn-primary">답변작성</button>
-	</form>
-	<div th:if="${boardCons.res_yn == 'Y'}">
-	<p class="h2">게시판 상담 답변</p>
-	<table class="table-container">
-		<tbody>
-			<tr>
-				<th scope="row">글 번호</th>
-				<td th:text="${boardConsReply.cd}"></td>
-
-				<th scope="row">등록일</th>
-				<td th:text="${boardConsReply.regDt}"></td>
-			</tr>
-			<tr>
-				<th scope="row">내용</th>
-				<td th:text="${boardConsReply.content}"></td>
-			</tr>
-
-		</tbody>
-	</table>
+		<!-- 게시글 내용 영역 -->
+		<table class="table" align="center">
+			<thead>
+				<tr>
+					<td style="width: 300px"><pre
+							style="white-space: pre-wrap; word-break: break-all; font-size: 20px;"
+							th:text="${boardCons.content}"></pre></td>
+				</tr>
+			</thead>
+		</table>
+		<hr class='hr-solid-attach' id='hr-second'/><br>
+		<!-- 게시글 표 하단 버튼 영역-->
+		<div style="text-align: center">
+			<button th:onclick="|location.href='/boardCons/modBoardCons/' + ${boardCons.cd}|" id="btn-comment-modify" type="submit" class="button-style">수정</button>
+			<button th:onclick="|location.href='/boardCons/boardConsDel/' + ${boardCons.cd}|" id="btn-comment-delete" type="submit" class="button-style">삭제</button>
+			<button onclick="location.href='/boardCons/boardConsList'" id="btn-comment-list" type="submit" class="button-style">목록보기</button>
+		</div>
+		<!-- 상담 답변 내용 작성 영역-->
+		<form action="/boardCons/replyBoardCons" role="form" method="post"
+			th:object="${boardConsReplyDto}" th:if="${boardCons.res_yn == 'N'}"
+			sec:authorize="hasRole('ROLE_ADMIN')">
+			<input type="hidden" name="boardConsCd" th:value="${boardCons.cd}">
+			<div class="input-group">
+				<label class="input-label" id="content-bar">답변내용</label>
+				<textarea class="input-textarea" aria-label="With textarea"
+					th:field="*{content}"></textarea>
+				<p th:if="${#fields.hasErrors('content')}" th:errors="*{content}"
+					class="fieldError">내용을 확인해주세요.</p>
+			</div>
+			<input type="hidden" th:name="${_csrf.parameterName}"
+				th:value="${_csrf.token}">
+			<div style="text-align: center" id="button-div">
+				<button type="submit" class="button-style">저장</button>
+			</div>
+		</form>
+		<!-- 상담 답변 내용 조회 영역-->
+		<div th:if="${boardCons.res_yn == 'Y'}">
+			<h3>게시판 상담 답변</h3>
+		<div align="left" class="title-header hr-first">
+					<span class="board-cd" style="margin-left:15px;">
+						<span class="board_cd" style="margin-left:10px;">글번호</span> 
+						<span th:text="${boardConsReply.cd}" style="margin-left:10px;"></span>
+					</span>
+					<span style="float: right; margin-right:10px;" th:text="${#temporals.format(boardConsReply.regDt, 'yyyy-MM-dd HH:mm')}"></span>
+			<hr class='hr-solid-attach' id='hr-second' />
+			<!-- 게시글 내용 영역 -->
+			<table class="table" align="center">
+				<thead>
+					<tr>
+						<td style="width: 300px"><pre
+								style="white-space: pre-wrap; word-break: break-all; font-size: 20px;"
+								th:text="${boardConsReply.content}"></pre></td>
+					</tr>
+				</thead>
+			</table>
+			<hr class='hr-solid-attach' id='hr-second'/><br>
+		</div>
+		</div>
 	</div>
-	
 </div>
 </html>

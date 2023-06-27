@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<div class="sidebar" th:fragment="sidebar">
+<link th:href="@{/css/sidebar.css}" rel="stylesheet">
+	<div class="sidebarContainer">
+		<a href="" class="sidebarTitle">
+			<span>마음건강검사</span>
+		</a>
+		<hr>
+			<ul class="sidebarSubmenu">
+				<li><a id="applyTest01" href="/mhTest/applyTest01">맞춤형 마음건강검사</a></li>
+				<li><a id="applyTest02" href="/mhTest/applyTest02">상황별 마음건강검사</a></li>
+		</ul>
+		<hr>
+	</div>
+</div>
+</html>

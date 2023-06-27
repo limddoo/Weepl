@@ -3,28 +3,23 @@
 	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <div class="sidebar" th:fragment="sidebar">
-	<div class="d-flex flex-column flex-shrink-0 p-3 bg-light"
-		style="width: 200px;">
-		<span class="fs-4">회원관리</span>
+<link th:href="@{/css/sidebar.css}" rel="stylesheet">
+	<div class="sidebarContainer">
+		<span class="sidebarTitle">회원관리</span>
 		<hr>
-		<ul class="nav nav-pills flex-column mb-auto">
-			<li class="nav-item"><a href="/admin/memberList"
-				class="nav-link" aria-current="page" id="memberList"> 회원정보 관리 </a></li>
-			<li class="nav-item"><a href="#"
-				class="nav-link" aria-current="page" id=""> 신고내역 관리 </a></li>
-			<li class="nav-item"><a href="/admin/reMemberList"
-				class="nav-link" aria-current="page" id="reMemberList"> 이용제한 회원관리 </a></li>
+		<ul class="sidebarSubmenu">
+			<li><a id="memberList" href="/admin/memberList" aria-current="page">회원정보 관리</a></li>
+			<li><a id="reMemberList" href="/admin/reMemberList" aria-current="page">이용제한 회원관리</a></li>
 		</ul>
 		<hr>
-		<span class="fs-4">사이트관리</span>
+		
+		<div class="blankSpace"></div>
+		
+		<span class="sidebarTitle">사이트관리</span>
 		<hr>
-		<ul class="nav nav-pills flex-column mb-auto">
-			<li class="nav-item"><a href="/admin/ucMngForm"
-				class="nav-link" aria-current="page" id="ucMngForm"> 비대면 상담 일정 관리 </a></li>
-			<li class="nav-item"><a href="#"
-				class="nav-link" aria-current="page" id=""> 비대면 상담 내역 </a></li>
-			<li class="nav-item"><a href="/admin/untactConsForm"
-				class="nav-link" aria-current="page" id="untactConsForm"> 비대면 상담 진행 </a></li>
+		<ul class="sidebarSubmenu">
+			<li><a id="ucMngForm" href="/admin/ucMngForm" aria-current="page">비대면 상담 일정 관리</a></li>
+			<li><a id="untactConsForm" href="/admin/untactConsForm" aria-current="page">비대면 상담 내역</a></li>
 		</ul>
 		<hr>
 	</div>

@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,7 +24,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.weepl.dto.MhinfoFormDto;
-import com.weepl.dto.MhinfoSearchDto;
+import com.weepl.dto.SearchDto;
 import com.weepl.entity.Mhinfo;
 import com.weepl.service.BoardImgService;
 import com.weepl.service.MhinfoService;
@@ -45,7 +44,7 @@ public class MhinfoController {
 
 	@GetMapping(value = "/admin/mhinfo/new")
 	public String mhinfoForm(Model model) {
-		model.addAttribute("mhinfoFormDto", new MhinfoFormDto());
+		model.addAttribute("mhinfoFormDto", new MhinfoFormDto("SCHOOL"));
 		return "mhinfo/mhinfoForm";
 	}
 
@@ -73,28 +72,32 @@ public class MhinfoController {
 
 	@PostMapping(value = "/admin/mhinfo/{mhinfoCd}")
 	public String mhhinfoUpdate(@Valid MhinfoFormDto mhinfoFormDto, BindingResult bindingResult,
-			@RequestParam("boardImgFile") List<MultipartFile> boardImgFileList, Model model) {
-		if (bindingResult.hasErrors()) {
-			return "mhinfo/mhinfoForm";
-		}
+	        @RequestParam("boardImgFile") List<MultipartFile> boardImgFileList, 
+	        @RequestParam("mhinfoCate") String mhinfoCate,
+	        Model model, HttpServletRequest request) {
+	    if (bindingResult.hasErrors()) {
+	        return "mhinfo/mhinfoForm";
+	    }
 
-		if (boardImgFileList.get(0).isEmpty() && mhinfoFormDto.getCd() == null) {
-			model.addAttribute("errorMessage", "첫번째 이미지는 필수 입력 값입니다.");
-			return "mhinfo/mhinfoForm";
-		}
+	    if (boardImgFileList.get(0).isEmpty() && mhinfoFormDto.getCd() == null) {
+	        model.addAttribute("errorMessage", "첫번째 이미지는 필수 입력 값입니다.");
+	        return "mhinfo/mhinfoForm";
+	    }
 
-		try {
-			mhinfoService.updateMhinfo(mhinfoFormDto, boardImgFileList);
-		} catch (Exception e) {
-			model.addAttribute("errorMessage", "글수정 중 에러가 발생하였습니다.");
-			return "mhinfo/mhinfoForm";
-		}
-		return "redirect:/mhinfo/mhinfos";
+	    try {
+	        mhinfoFormDto.setMhinfoCate(mhinfoCate); // 카테고리 값을 설정
+	        mhinfoService.updateMhinfo(mhinfoFormDto, boardImgFileList);
+	    } catch (Exception e) {
+	        model.addAttribute("errorMessage", "글수정 중 에러가 발생하였습니다.");
+	        return "mhinfo/mhinfoForm";
+	    }
+
+	    return "redirect:/mhinfo/mhinfos";
 	}
 	
 	
 	@GetMapping(value = { "/mhinfos", "/mhinfos/{page}" })
-	public String mhinfoMng(MhinfoSearchDto mhinfoSearchDto, @PathVariable("page") Optional<Integer> page,
+	public String mhinfoMng(SearchDto mhinfoSearchDto, @PathVariable("page") Optional<Integer> page,
 			Model model) {
 		int pageNumber = page.orElse(0);
 		
@@ -103,7 +106,7 @@ public class MhinfoController {
 		}
 		
 		Pageable pageable = PageRequest.of(pageNumber, 6);
-		Page<Mhinfo> mhinfos = mhinfoService.getUserMhinfoPage(mhinfoSearchDto, pageable);
+		Page<Mhinfo> mhinfos = mhinfoService.getMhinfoPage(mhinfoSearchDto, pageable);
 
 		// 마지막 페이지인 경우에 대한 처리
 		if (pageNumber >= mhinfos.getTotalPages() && mhinfos.getTotalPages() > 0) {
@@ -111,7 +114,7 @@ public class MhinfoController {
 			pageNumber = mhinfos.getTotalPages() - 1;
 			// 다시 페이지 요청
 			pageable = PageRequest.of(pageNumber, 6);
-			mhinfos = mhinfoService.getUserMhinfoPage(mhinfoSearchDto, pageable);
+			mhinfos = mhinfoService.getMhinfoPage(mhinfoSearchDto, pageable);
 		}
 		model.addAttribute("mhinfos", mhinfos);
 		model.addAttribute("mhinfoSearchDto", mhinfoSearchDto);

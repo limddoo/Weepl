@@ -21,7 +21,7 @@ import com.weepl.constant.MemberStatus;
 import com.weepl.constant.Role;
 import com.weepl.dto.MemberFormDto;
 import com.weepl.dto.ModMemberInfoDto;
-import com.weepl.repository.MemberRepository;
+import com.weepl.dto.MypageFormDto;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -34,8 +34,8 @@ import lombok.ToString;
 @ToString
 public class Member{
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "mem_cd")
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long cd;
 
 	@Column(name = "mem_id", unique = true)
@@ -104,8 +104,27 @@ public class Member{
 		member.setAddrPost(memberFormDto.getAddrPost());
 		member.setJdate(LocalDateTime.now());
 		member.setStatus(MemberStatus.GENERAL);
-		member.setRole(Role.CLIENT);
+		if("COUNSELOR".equals(memberFormDto.getRole())) {
+			member.setRole(Role.COUNSELOR);
+		} else {
+			member.setRole(Role.CLIENT);
+		}
 		return member;
+	}
+	
+	public void updateMember(MypageFormDto mypageFormDto){
+		this.name = mypageFormDto.getName();
+		this.email = mypageFormDto.getEmail();
+		this.gender = mypageFormDto.getGender();
+		this.tel1 = mypageFormDto.getTel1();
+		this.tel2 = mypageFormDto.getTel2();
+		this.tel3 = mypageFormDto.getTel3();
+		this.birY = mypageFormDto.getBirY();
+		this.birM = mypageFormDto.getBirM();
+		this.birD = mypageFormDto.getBirD();
+		this.addr = mypageFormDto.getAddr();
+		this.addrDtl = mypageFormDto.getAddrDtl();
+		this.addrPost = mypageFormDto.getAddrPost();
 	}
 	
 	public void updateMember(ModMemberInfoDto modMemberInfoDto){
@@ -130,14 +149,16 @@ public class Member{
 	
 	public void quitMember() {
 		this.status = MemberStatus.QUIT;
+		this.qdate = LocalDateTime.now();
 	}
 	
 	public void restrictMember() {
 		this.status = MemberStatus.RESTRICT;
 	}
-
-//	@OneToOne(mappedBy = "member", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//    private MemberRestrict memberRestrict;
+	
+	public void updateMemberNickName(String nickName) {
+		this.nickName = nickName;
+	}
 
 	@OneToMany(mappedBy = "member", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<MemberRestrict> memberRestricts;
@@ -148,7 +169,4 @@ public class Member{
 	    }
 	    this.status = newStatus;
 	}
-	
-	
-	
 }

@@ -4,11 +4,16 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.validation.constraints.NotBlank;
 
 import org.modelmapper.ModelMapper;
 
+import com.weepl.entity.Member;
 import com.weepl.entity.SweetBoard;
+import com.weepl.entity.SweetComment;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -48,6 +53,9 @@ public class SweetBoardDto {
 	// 회원번호
 	private Long mem_cd;
 	
+	// 회원정보
+	private Member member;
+	
 	// 이미지를 저장하는 리스트
 	private List<BoardImgDto> boardImgDtoList = new ArrayList<>();
 	
@@ -60,11 +68,13 @@ public class SweetBoardDto {
 	// 첨부파일 번호를 저장하는 리스트
 	private List<Long> boardAttachCds = new ArrayList<>();
 	
-	// 댓글을 저장하는 리스트
-	private List<SweetCommentDto> sweetCommentDtoList = new ArrayList<>();
-	
 	// 댓글 번호를 저장하는 리스트
-	private List<Long> sweetCommentCds = new ArrayList<>();
+	private List<Long> sweetCommentCds = new ArrayList<>();	
+	
+	// 댓글을 저장하는 리스트
+	@OrderBy("cd desc")
+	@OneToMany(mappedBy = "sweetBoard", fetch = FetchType.EAGER)
+	private List<SweetComment> sweetCommentList = new ArrayList<>();
 	
 	public SweetBoardDto() {
 		super();

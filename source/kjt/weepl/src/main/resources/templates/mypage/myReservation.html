@@ -1,0 +1,178 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/mypageLayout}">
+<head>
+<meta charset='utf-8' />
+<meta name="_csrf_header" th:content="${_csrf.headerName}">
+<meta name="_csrf" th:content="${_csrf.token}">
+<script
+	src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.7/index.global.min.js'></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"
+	integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+	crossorigin="anonymous"></script>
+
+<th:block layout:fragment="css">
+	<style>
+
+.content-wrapper {
+	display: grid;
+}
+
+.fc-daygrid-day-number {
+	color: black;
+}
+
+.fc-event-time {
+	color: white;
+}
+</style>
+</th:block>
+</head>
+
+<body>
+	<div layout:fragment="content" class="content-wrapper">
+		<div id='calendar'></div>
+		<div style="margin-top: 50px;">
+			<form action="/admin/chattingForm" role="form" method="get">
+				<table class="table-container">
+					<thead>
+						<tr>
+							<th>신청제목</th>
+							<th>신청내용</th>
+							<th>상담일</th>
+							<th>상담시간</th>
+							<th>신청상태</th>
+							<th>-</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="reserveApply : ${reserveApplyList}">
+
+							<td th:text="${reserveApply.reserveTitle}"></td>
+							<td th:text="${reserveApply.consReqContent}"></td>
+							<td th:text="${reserveApply.reserveSchedule.reserveDate}"></td>
+							<td th:text="${reserveApply.reserveSchedule.reserveTime}"></td>
+							<td th:text="${reserveApply.reserveStatus}"></td>
+							<td><input class="button-style" type="button" value="비대면 상담 시작"
+								th:disabled="!${reserveApply.reserveStatus == '예약완료'}"
+								th:onclick="new_window([[${reserveApply.reserveSchedule.reserveDate}]],[[${reserveApply.reserveSchedule.reserveTime}]],[[${reserveApply.reserveApplyCd}]])">
+							</td>
+							</th:block>
+						</tr>
+					</tbody>
+				</table>
+			</form>
+		</div>
+	</div>
+
+
+
+</body>
+<th:block layout:fragment="script">
+
+	<script th:inline="javascript">
+	
+	function new_window(reserveDate, reserveTime, reserveApplyCd) {
+		const now = new Date();
+		var possible_time_start = new Date(reserveDate+" "+reserveTime);
+		var possible_time_end = new Date(reserveDate+" "+reserveTime);
+		possible_time_start.setMinutes(possible_time_start.getMinutes() - 10);
+		possible_time_end.setMinutes(possible_time_end.getMinutes() + 59);
+		
+		if(possible_time_start > now || possible_time_end < now) {
+			alert("상담 가능한 시간이 아닙니다.");
+			return;
+		}
+		popupWindow = window.open(
+			      "/mypage/chattingForm/"+reserveApplyCd,
+			      "비대면 상담",
+			      "resizeable"
+			    );
+		  popupWindow.resizeTo(500,800);
+		  popupWindow.onresize = (_=>{
+			    popupWindow.resizeTo(500,800);
+			});
+		popupWindow.moveTo(800,100);
+	  }
+	
+		document.addEventListener('DOMContentLoaded', function() {
+			var calendarEl = document.getElementById('calendar');
+				
+			  var request = $.ajax({
+				url : "/mypage/viewMyReservation",
+				method : "GET",
+				async : true,
+				headers : { 
+					"Content-Type" : "application/json",
+					"X-HTTP-Method-Override" : "GET"
+				},
+				dataType : 'json',
+				success : function(result) { 
+					console.log(result)
+				},
+				error : function(request, status, error) { // 결과 에러 콜백함수
+					console.log(error)
+				}
+			});
+	
+			function showPopUp(data) {
+				console.log("showPopUp의 data : " + JSON.stringify(data))
+			    const url = "/reservation/reservationForm/"+JSON.stringify(data);
+				var data = data;
+			    window.open(url , "reservationForm", "toolbar=no, width=1000, height=700, directories=no, status=no, scrollbars=no, resizable=yes"); 
+			}
+
+			request.done(function(result) {
+				var calendar = new FullCalendar.Calendar(calendarEl, {
+					initialView : 'dayGridMonth',
+					showNonCurrentDates : true,
+					headerToolbar : {
+						left : 'prev',
+						center : 'title',
+						right : 'next'
+					},				
+					navLinks : true,
+					businessHours : true, 
+					editable : true,
+					selectable : true,
+					timeZone:false,
+					locale : "ko",
+					eventDisplay:'block',
+					eventClick : function(info) {	
+						const name = [[${#authentication.principal.username}]];
+						var data = JSON.parse(JSON.stringify(info.event));						
+						data.name = name;
+						var header = $("meta[name='_csrf_header']").attr('content');
+						var token = $("meta[name='_csrf']").attr('content');
+							
+						$.ajax({
+							url : "/reservation/selectReservation",
+							method : "POST",
+							async : true, 
+						 	headers : { 
+								"Content-Type" : "application/json",
+								"X-HTTP-Method-Override" : "POST"
+							}, 
+							data : JSON.stringify(data),
+							beforeSend: function(xhr){
+							        xhr.setRequestHeader(header, token);        
+							},
+							success : showPopUp(data),
+							error : function(request, status, error) { // 결과 에러 콜백함수
+										console.log(error)
+							}
+						});
+					},		 
+				});
+				calendar.render();	
+					for(var i =0; i<result.length;i++){
+						calendar.addEvent(result[i])
+					}	
+			});	
+		});
+	</script>
+</th:block>
+
+</html>

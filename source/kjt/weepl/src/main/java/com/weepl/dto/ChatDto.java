@@ -14,9 +14,8 @@ public class ChatDto {
     public enum MessageType{
         ENTER, TALK, QUIT
     }
-
+    private Long roomId;
     private MessageType type; // 메시지 타입
-    private String roomId; // 방 번호
     private String sender; // 채팅을 보낸 사람
     private String message; // 메시지
     
@@ -26,7 +25,6 @@ public class ChatDto {
     	compCons.setStatus(this.type.toString());
     	compCons.setName(this.getSender());
     	compCons.setMsg(this.message);
-    	
     	return compCons;
     }
 }

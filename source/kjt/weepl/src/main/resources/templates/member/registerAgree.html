@@ -8,9 +8,6 @@
   <meta http-equiv="X-UA-Compatible" content="IE=Edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>회원가입약관</title>
-  <!--[if lte IE 8]>
-  <script src="http://moden939.gabia.io/js/html5.js"></script>
-  <![endif]-->
   
   <script src="http://moden939.gabia.io/js/jquery-1.8.3.min.js"></script>
   <script src="http://moden939.gabia.io/js/jquery.menu.js?ver=171253"></script>
@@ -30,49 +27,32 @@
     width: 100%;
   }
   
-  #wrapper {
-    margin: 20px auto 100px;
-    font-family: 'Noto Sans KR', sans-serif
-  }
-  
-  .sctt {
-    display: block;
-    margin: 100px 0 60px;
-    font-size: 30px;
-    color: #1f284f;
-    font-weight: 400;
-    line-height: 1;
-    text-align: center;
-  }
-  
-  .sctt:after {
-    content: "";
-    display: block;
-    width: 27px;
-    height: 2px;
-    margin: 30px auto;
-    background: #43508b;
+  .content {
+  	margin-left: 475.75px;
+  	margin-right: 475.75px;
   }
   
   #top_btn {
     display: none;
   }
   
-   textarea {
-    width: 100%;
+  .input-textarea {
+    width: 890px;
     height: 200px;
     resize: none;
   }
   
+  .button-style {
+  	margin-left: 5px;
+  	margin-right: 5px;
+  }
+  
   </style>
     </th:block>
-    <hr>
-  
-  
-    <h2 class="regi_tt">Join Us</h2>
   
     <!-- 회원가입약관 동의 시작 { -->
     <div layout:fragment="content" id="register_agree">
+    <div class="subview">
       <h3>약관 동의</h3>
   
   
@@ -80,19 +60,15 @@
         onsubmit="return fregister_submit(this);" method="GET"
         autocomplete="off">
   
-        <!-- <p style="margin: 10px 0;">회원가입약관 및 개인정보처리방침안내의 내용에 동의하셔야 회원가입 하실 수 있습니다.</p> -->
-        <div id="fregister_chkall" class="checks2">
-          <input type="checkbox" name="chk_all" value="1" id="chk_all">
-          <label for="chk_all">회원가입 약관에 모두 동의합니다</label>
-        </div>
+        
   
         <section id="fregister_term">
-          <div class="fregister_agree2 checks2">
+          <div>
             <input type="checkbox" name="agree" value="1" id="agree11">
             <label for="agree11">이용약관 동의<span>(필수)</span></label>
           </div>
   
-          <textarea readonly>제1조(목적) 이 약관은 업체 회사(전자상거래 사업자)가 운영하는 업체 사이버 몰(이하 “몰”이라 한다)에서 제공하는 인터넷 관련 서비스(이하 “서비스”라 한다)를 이용함에 있어 사이버 몰과 이용자의 권리․의무 및 책임사항을 규정함을 목적으로 합니다.
+          <textarea class="input-textarea" readonly>제1조(목적) 이 약관은 업체 회사(전자상거래 사업자)가 운영하는 업체 사이버 몰(이하 “몰”이라 한다)에서 제공하는 인터넷 관련 서비스(이하 “서비스”라 한다)를 이용함에 있어 사이버 몰과 이용자의 권리․의무 및 책임사항을 규정함을 목적으로 합니다.
    
     ※「PC통신, 무선 등을 이용하는 전자상거래에 대해서도 그 성질에 반하지 않는 한 이 약관을 준용합니다.」
    
@@ -333,12 +309,12 @@
         </section>
   
         <section id="fregister_private">
-          <fieldset class="fregister_agree2 checks2">
+          <div>
             <input type="checkbox" name="agree2" value="1" id="agree21">
             <label for="agree21">개인정보 수집 및 이용 동의<span>(필수)</span></label>
-          </fieldset>
+          </div>
   
-          <textarea readonly>개인정보처리방침
+          <textarea class="input-textarea" readonly>개인정보처리방침
   
   [차례]
   1. 총칙
@@ -475,24 +451,29 @@
   1) 공고일자 : 2018년 05월 01일
   2) 시행일자 : 2018년 05월 01일 </textarea>
         </section>
-  
-        <div class="btn_confirm">
-		    <input type="button" class="btn_submit" value="CANCEL" onclick="location.href='/'">
-			<input type="submit" class="btn_submit" value="JOIN" id="btn_submit">
+  		<p style="margin: 10px 0;">회원가입약관 및 개인정보처리방침안내의 내용에 동의하셔야 회원가입 하실 수 있습니다.</p>
+        <div id="fregister_chkall" class="checks2">
+          <input type="checkbox" name="chk_all" value="1" id="chk_all">
+          <label for="chk_all">회원가입 약관에 모두 동의합니다</label>
+        </div>
+        <div class="search-div">
+		    <button type="button" class="button-style" onclick="location.href='/'">이전으로</button>
+			<button type="submit" class="button-style" id="btn_submit">가입</button>
         </div>
   
       </form>
-  
+   
+  </div>
       <script>
         function fregister_submit(f) {
           if (!f.agree.checked) {
-            alert("회원가입약관의 내용에 동의하셔야 회원가입 하실 수 있습니다.");
+            alert("회원가입약관 내용에 동의하셔야 회원가입 하실 수 있습니다.");
             f.agree.focus();
             return false;
           }
   
           if (!f.agree2.checked) {
-            alert("개인정보처리방침안내의 내용에 동의하셔야 회원가입 하실 수 있습니다.");
+            alert("개인정보처리방침안내 내용에 동의하셔야 회원가입 하실 수 있습니다.");
             f.agree2.focus();
             return false;
           }
@@ -513,32 +494,6 @@
       </script>
     </div>
     <!-- } 회원가입 약관 동의 끝 -->
-  
-  
-  
-  
-    <button type="button" id="top_btn">
-      <i class="fa fa-arrow-up" aria-hidden="true"></i><span
-        class="sound_only">상단으로</span>
-    </button>
-    <script>
-      $(function() {
-        $("#top_btn").on("click", function() {
-          $("html, body").animate({
-            scrollTop : 0
-          }, '500');
-          return false;
-        });
-  
-        $(window).scroll(function() {
-          if ($(document).scrollTop() > 300) {
-            $('#top_btn').fadeIn(500);
-          } else {
-            $('#top_btn').fadeOut(500);
-          }
-        });
-      });
-    </script>
   
   </body>
   </html>

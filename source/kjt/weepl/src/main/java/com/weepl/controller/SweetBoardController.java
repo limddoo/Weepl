@@ -1,34 +1,42 @@
 package com.weepl.controller;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.net.URLEncoder;
 import java.security.Principal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.CacheControl;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.weepl.dto.SearchDto;
 import com.weepl.dto.SweetBoardDto;
 import com.weepl.dto.SweetCommentDto;
-import com.weepl.dto.SweetSearchDto;
 import com.weepl.entity.SweetBoard;
 import com.weepl.service.SweetBoardService;
 import com.weepl.service.SweetCommentService;
@@ -45,9 +53,9 @@ public class SweetBoardController {
 
 	// 스윗게시판 메인페이지
 	@GetMapping(value = { "/list", "/list/{page}" })
-	public String sweetBoardManage(SweetSearchDto sweetSearchDto, @PathVariable("page") Optional<Integer> page,
+	public String sweetBoardManage(SearchDto sweetSearchDto, @PathVariable("page") Optional<Integer> page,
 			Model model) {
-		Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 15);
+		Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 10);
 
 		Page<SweetBoard> sweetBoards = sweetBoardService.getSweetBoardPage(sweetSearchDto, pageable);
 
@@ -73,19 +81,16 @@ public class SweetBoardController {
 
 	// 게시글을 새로 등록
 	@PostMapping(value = "/add")
-	public String addSweetBoard(@Valid SweetBoardDto sweetBoardDto, BindingResult bindingResult, Model model,
+	public String addSweetBoard(@Valid SweetBoardDto sweetBoardDto, BindingResult bindingResult, Model model, Principal principal,
 			@RequestParam("boardImgFile") List<MultipartFile> boardImgFileList,
 			@RequestParam("boardAttachFile") List<MultipartFile> boardAttachFileList) {
 		
+		String userId = principal.getName();
 		if (bindingResult.hasErrors()) {
 			return "sweetboard/sweetForm";
 		}
-		if (boardImgFileList.get(0).isEmpty() && sweetBoardDto.getCd() == null) {
-			model.addAttribute("errorMessage", "이미지를 하나 이상 등록해주세요.");
-			return "sweetboard/sweetForm";
-		}
 		try {
-			sweetBoardService.saveSweetBoard(sweetBoardDto, boardImgFileList, boardAttachFileList);
+			sweetBoardService.saveSweetBoard(userId, sweetBoardDto, boardImgFileList, boardAttachFileList);
 		} catch (Exception e) {
 			model.addAttribute("errorMessage", "글을 저장하는 과정에서 에러가 발생하였습니다.");
 			return "sweetboard/sweetForm";
@@ -94,36 +99,17 @@ public class SweetBoardController {
 	}
 
 	// 게시글 상세보기 화면
-	@GetMapping(value="/dtl1/{cd}") 
-	public String sweetBoardDtl(Model model, @PathVariable("cd") Long cd) { 
-		try { 
-			SweetBoardDto sweetBoardDto = sweetBoardService.getSweetBoardDtl(cd);
-			SweetCommentDto sweetCommentDto = sweetCommentService.getSweetComment(cd);
-			
-			model.addAttribute("sweetBoardDto", sweetBoardDto);
-			model.addAttribute("sweetCommentDto", sweetCommentDto);
-		} 
-			catch (EntityNotFoundException e) {
-				model.addAttribute("errorMessage", "존재하지 않는 글입니다.");
-				model.addAttribute("sweetBoardDto", new SweetBoardDto()); 
-				return "sweetboard/sweetForm"; // 추후 문제되면 sweetboard/sweetDetail 경로로 수정
-		}
-		return "sweetboard/sweetFrom";
+	@GetMapping(value = "/dtl/{cd}")
+	public String sweetBoardDtl(Model model, @PathVariable("cd") Long cd) {
+		SweetBoardDto sweetBoardDto = sweetBoardService.getSweetBoardDtl(cd);
+		List<SweetCommentDto> sweetCommentDtoList = sweetCommentService.getSweetComment(cd);
+		
+		model.addAttribute("sweetBoardDto", sweetBoardDto);
+		model.addAttribute("sweetCommentDtoList", sweetCommentDtoList);
+		
+		return "sweetboard/sweetDtl";
 	}
 	
-	// 게시글 상세보기 화면
-	@GetMapping(value = "/dtl/{cd}")
-	public String swettBoardDtl(Model model, @PathVariable("cd") Long cd) {
-		SweetBoardDto sweetBoardDto = sweetBoardService.getSweetBoardDtl(cd); 
-		List<SweetCommentDto> comments = sweetBoardDto.getSweetCommentDtoList();
-		// 댓글
-		if(comments != null && !comments.isEmpty()) {
-			model.addAttribute("comments", comments);
-		}
-		model.addAttribute("sweetBoardDto", sweetBoardDto);
-		return "sweetboard/sweetDetail";
-	}
-
 	// 게시글 수정하는 화면
 	@GetMapping(value = "/mod/{cd}")
 	public String sweetBoardModForm(@PathVariable("cd") Long cd, Model model) {
@@ -137,19 +123,41 @@ public class SweetBoardController {
 		}
 		return "sweetboard/sweetForm";
 	}
+	
+	// 첨부파일 다운로드
+	@SuppressWarnings("rawtypes")
+	@GetMapping(value="/dtl/download/{cd}")
+	public ResponseEntity attachDownload(@PathVariable("cd") Long cd, Model model, @RequestHeader("User-Agent") String userAgent) throws IOException {
+		StringBuilder filePath = new StringBuilder("D:");
+		filePath.append(sweetBoardService.downloadBoardAttach(cd).getAttachUrl());
+		// 한글파일 깨짐방지
+		String downloadName = encodeFileName(sweetBoardService.downloadBoardAttach(cd).getOriAttachName(), userAgent);
+		
+		StringBuilder fileName = new StringBuilder(downloadName);
+		
+		try {
+			InputStreamResource resource = new InputStreamResource(new FileInputStream(filePath.toString()));
+		
+			return ResponseEntity.ok()
+					.contentType(MediaType.APPLICATION_OCTET_STREAM)
+					.cacheControl(CacheControl.noCache())
+					.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + fileName)
+					.body(resource);
+		} catch(Exception e) {
+			return new ResponseEntity<Long>(cd, HttpStatus.OK);
+		}
+	}
 
 	// 게시글 수정
 	@PostMapping(value = "/mod/{cd}")
 	public String sweetBoardMod(@Valid SweetBoardDto sweetBoardDto, BindingResult bindingResult,
-			@RequestParam("boardImgFile") List<MultipartFile> boardImgFileList, List<MultipartFile> boardAttachFileList, Model model) {
+			@RequestParam("boardImgFile") List<MultipartFile> boardImgFileList, @RequestParam("boardAttachFile") List<MultipartFile> boardAttachFileList, Model model) {
 		if (bindingResult.hasErrors()) {
 			return "sweetboard/sweetForm";
 		}
-		if (boardImgFileList.get(0).isEmpty() && sweetBoardDto.getCd() == null) {
-			model.addAttribute("errorMessage", "이미지를 하나 이상 등록해주세요");
-			return "sweetboard/sweetForm";
-		}
 		try {
+			System.out.println("추가될 첨부파일 리스트: "+boardAttachFileList);
+			System.out.println("삭제될 첨부파일 리스트: "+sweetBoardDto.getBoardAttachCds());
 			sweetBoardService.updateSweetBoard(sweetBoardDto, boardImgFileList, boardAttachFileList);
 		} catch (Exception e) {
 			model.addAttribute("errorMessage", "글을 수정하는 과정에서 에러가 발생하였습니다.");
@@ -164,49 +172,71 @@ public class SweetBoardController {
 		sweetBoardService.deleteSweetBoard(cd);
 		return "redirect:/sweetboard/list";
 	}
-	
-//	// 좋아요 수 업데이트 - 1 (fail
-//	@PatchMapping(value="dtl/{cd}")
-//	public @ResponseBody ResponseEntity<Long> updateLikeCnt(Long cd) {
-//		sweetBoardService.addLike(cd);
-//		return new ResponseEntity<Long>(cd, HttpStatus.OK);
-//	}
-//	// 좋아요 수 업데이트 - 2 (fail
-//	@GetMapping(value="dtl/likeUpdate")
-//	@ResponseBody
-//	public HashMap<String, String> likeUpdate(Long cd, int count) {
-//		HashMap<String, String> map = new HashMap<>();
-//		map.put(cd, count);
-//		return map;
-//	}
-	// 좋아요 수 증가 - 3
-	@PatchMapping(value="/dtl/addLike")
-	public @ResponseBody ResponseEntity<Long> addLike(Long cd, @Valid SweetBoardDto sweetBoardDto, int count) {
-		Long savedSweetBoard = sweetBoardService.addLike(cd, sweetBoardDto, count);
-		return new ResponseEntity<Long>(savedSweetBoard, HttpStatus.OK);
+
+	// 좋아요 수 증가
+	@GetMapping(value = "/dtl/like")
+	@ResponseBody
+	public HashMap<String, Integer> like(Model model, Long cd) {
+		HashMap<String, Integer> map = new HashMap<>();
+		sweetBoardService.addLike(cd);
+		SweetBoardDto sweetBoardDto = sweetBoardService.getSweetBoardDtl(cd);
+		map.put("count", sweetBoardDto.getLike_cnt());
+		return map;
 	}
 	
-	// 댓글 조회 
-	@SuppressWarnings("rawtypes")
-	@PostMapping("/dtl/{cd}/com")
-	public ResponseEntity saveComment(@PathVariable Long cd, @RequestBody SweetCommentDto sweetCommentDto) {
-		return ResponseEntity.ok(sweetCommentService.saveComment(cd, sweetCommentDto));
+	// 댓글 조회
+	@GetMapping("/dtl/com/list")
+	@ResponseBody
+	public HashMap<String, List<SweetCommentDto>> listComment(@RequestParam("cd") Long cd, Model model) {
+		HashMap<String, List<SweetCommentDto>> map = new HashMap<>(); 
+		
+		List<SweetCommentDto> sweetCommentDtoList = sweetCommentService.getSweetComment(cd);
+		map.put("sweetCommentDtoList", sweetCommentDtoList);
+		return map;	
 	}
 	
-	// 댓글 작성
+	// 댓글 저장
+	@ResponseBody
 	@PostMapping(value="/dtl/com/write")
-	public String writeComment(@RequestParam("cd") Long cd, @RequestParam("comment") String comment) throws Exception {
-		SweetCommentDto sweetCommentDto = sweetCommentService.getSweetComment(cd);
-		sweetCommentDto.setComment(comment);
-		sweetCommentDto.setCd(cd);
-//		sweetCommentService.addComment(sweetCommentDto); // 코드가 엇박자임
-		return "redirect:/sweetboard/dtl";
+	public HashMap<String, String> saveComment(@RequestParam("cd") Long cd, @RequestParam("content") String content, Principal principal) {
+		String userId = principal.getName();
+		sweetCommentService.saveComment(userId, Long.valueOf(cd), content); // cd 자료형 좀
+		HashMap<String, String> map = new HashMap<>();
+		map.put("result", "result");
+		return map;
 	}
 	
 	// 댓글 삭제
-	@DeleteMapping(value="dtl/{cd}/com/{comCd}")
-	public @ResponseBody ResponseEntity<Long> deleteSweetComment(@PathVariable("cd") Long cd, Principal principal) {
-		sweetCommentService.deleteComment(cd);
-		return new ResponseEntity<Long>(cd, HttpStatus.OK);
+	@ResponseBody
+	@PostMapping(value="/dtl/com/del")
+	public HashMap<String, String> deleteComment(@RequestParam("commentCd") Long commentCd) {
+		sweetCommentService.deleteComment(commentCd);
+		HashMap<String, String> map = new HashMap<>();
+		map.put("result", "result");
+		return map;
+	}
+	
+	// 스윗 닉네임 존재 여부
+	@GetMapping("/existNickName")
+	@ResponseBody
+	public Map<String, String> existSweetNickName(Authentication auth) {
+		Map<String, String> result = new HashMap<>();
+		String nickName = sweetBoardService.existSweetNickName(auth.getName());
+		result.put("nickName", nickName);
+		
+		return result;
+	}
+	
+	// 한글파일 깨짐방지 파일명 인코딩
+	private String encodeFileName(String fileName, String userAgent) throws IOException {
+		String downloadName = null;
+		if (userAgent.contains("Trident")) {
+			downloadName = URLEncoder.encode(fileName, "UTF-8").replaceAll("\\+", " ");
+		} else if (userAgent.contains("Edge")) {
+			downloadName = URLEncoder.encode(fileName, "UTF-8");
+		} else {
+			downloadName = new String(fileName.getBytes("UTF-8"), "ISO-8859-1");
+		}
+		return downloadName;
 	}
 }

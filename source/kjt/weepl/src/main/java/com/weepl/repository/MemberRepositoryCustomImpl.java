@@ -13,7 +13,7 @@ import org.thymeleaf.util.StringUtils;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.weepl.dto.MemberSearchDto;
+import com.weepl.dto.SearchDto;
 import com.weepl.entity.Member;
 import com.weepl.entity.QMember;
 
@@ -52,7 +52,7 @@ public class MemberRepositoryCustomImpl implements MemberRepositoryCustom{
 	}
 	
 	@Override
-	public Page<Member> getAdminMemberInfoPage(MemberSearchDto memberSearchDto, Pageable pageable) {
+	public Page<Member> getAdminMemberInfoPage(SearchDto memberSearchDto, Pageable pageable) {
 		QueryResults<Member> results = queryFactory
 				.selectFrom(QMember.member)
 				.where(jdateAfter(memberSearchDto.getSearchDateType()), searchByLike(memberSearchDto.getSearchBy(), memberSearchDto.getSearchQuery()))

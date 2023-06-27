@@ -1,14 +1,49 @@
 <!DOCTYPE html>
-  <html xmlns:th="http://www.thymeleaf.org"
-    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-    layout:decorate="~{layouts/consLayout}">
-    <body>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/consLayout}">
+<body>
+	<th:block layout:fragment="css">
+		<style>
+
+}
+</style>
+	</th:block>
 	<div layout:fragment="content" class="content-wrapper">
-    
-     게시판 상담은 누구나 이용가능합니다...
-     <br>
-     비대면 상담은 회원만 이용가능합니다...
-    
-    </div>
-    </body>
+
+		<div class="subview">
+			<h3>상담이용안내</h3>
+			<h4 class="titrnd">위(Wee)는 누가 이용하나요?</h4>
+			<div class="boxguide01">위(Wee) 프로젝트 기관은 초·중·고등학교에 소속된 학생이라면 누구나
+				이용 가능합니다.<br>비대면 상담을 이용하려면 로그인을 해야합니다. 게시판상담은 비회원도 이용할수 있습니다.</div>
+			<h4 class="titrnd">위(Wee) 프로젝트 기관들을 이용하려면 어떻게 해야하나요?</h4>
+			<div class="boxguide02">
+				<p class="txtdot">위(Wee) 클래스: 학생 또는 학부모가 직접 신청하거나 담임 선생님을 통한 의뢰가
+					가능합니다.</p>
+				<p class="txtdot mt_20">위(Wee) 센터, 위(Wee) 스쿨, 가정형 위(Wee)센터</p>
+				<ol>
+					<li>- 학생 또는 학부모 : 센터에 전화 문의 또는 직접 방문을 통해 신청 가능합니다.</li>
+					<li>- 기관 : 위(Wee) 클래스 담당자, 담임 선생님, 유관기관 등을 통해 의뢰가 가능합니다.</li>
+				</ol>
+			</div>
+			<h4 class="titrnd">위(Wee) 프로젝트 기관을 이용할 때 비용이 드나요?</h4>
+			<div class="boxguide03">위(Wee) 클래스, 위(Wee) 센터, 위(Wee) 스쿨, 가정형
+				위(Wee)센터의 서비스는 무료로 제공됩니다.</div>
+			<h4 class="titrnd">위(Wee) 클래스와 센터의 이용 시간은 어떻게 되나요?</h4>
+			<div class="boxguide04">
+				위(Wee) 클래스는 학교 운영시간 내(쉬는 시간, 점심시간, 방과 후)에는 언제든지 이용 가능합니다. 수업시간에 상담을
+				원하는 학생은 미리 상담을 예약해야 합니다. 단, 긴급인 경우에는 선생님과 상의해서 즉시 상담이 가능하도록 해야 합니다.
+				<br>위(Wee) 센터는 평일(월~금) 9시 ~ 18시, 토요일(전화예약 후 방문), 일요일·공휴일은 휴무
+			</div>
+			<h4 class="titrnd">학교를 등교하지 않고 위(Wee) 센터를 이용할 때 출결을 인정받을 수 있나요?</h4>
+			<div class="boxguide05">위(Wee) 센터는 교육지원청 소속 기관으로, 위(Wee) 센터에서
+				상담서비스를 받거나 프로그램에 참여할 경우 출석으로 인정됩니다. 단, 출결이 인정되려면 반드시 사전에 학교에 알려 동의를
+				얻은 후 참여하여야 합니다. 위(Wee) 스쿨 및 가정형 위(Wee)센터도 마찬가지로 해당 학교의 동의 및 정식적인
+				의뢰절차를 통해 서비스를 받아야 원적교의 학적 유지가 가능합니다.</div>
+		</div>
+		<p>
+			<br>
+		</p>
+	</div>
+</body>
 </html>
