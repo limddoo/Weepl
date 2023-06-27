@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
@@ -15,16 +16,23 @@
 #siteMap{
 	width:1300px;
 	min-width:1300px;
-	margin-top : 20px;
-	margin-left: 135px;
 }
+.subview {
+		width: 1300px;
+		pointer-events: none;
+	user-select: none;
+	margin-top : 20px;
+	margin-left: 270px;
+	}
 </style>
 </th:block>
 </head>
 
 <body>
 	<div layout:fragment="content" class="content-wrapper">
+	<div class="subview">
 		<img id="siteMap" src="/img/siteMap.png">
+	</div>
 	</div>
 </body>
 

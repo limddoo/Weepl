@@ -331,9 +331,6 @@ function frmSubmit() {
     $("#bir").val(bir);
     if (!chkEmail) {
         alert('이메일 인증은 필수입니다.');
-        document
-            .getElementById("memailconfirm")
-            .focus();
         return false;
     }
 

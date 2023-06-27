@@ -41,21 +41,28 @@ public class MemberController {
 			return;
 		MemberFormDto memberFormDto = MemberFormDto.createAdmin();
 		Member member = Member.createMember(memberFormDto, passwordEncoder);
-		String password = passwordEncoder.encode(memberFormDto.getPwd());
-		member.setPwd(password);
+		member.setNickName("관리자");
 		member.setRole(Role.ADMIN);
 		memberService.saveMember(member);
 
-		// 유저
+		// 유저1(내담자)
 		boolean check2 = memberService.checkIdDuplicate("hong");
-		if (check2) // 이미 hong 계정이 있는 경우 관리자계정 생성하지않음
+		if (check2)
 			return;
-		MemberFormDto memberFormDto2 = MemberFormDto.createUser();
+		MemberFormDto memberFormDto2 = MemberFormDto.createUser1();
 		Member member2 = Member.createMember(memberFormDto2, passwordEncoder);
-		String password2 = passwordEncoder.encode(memberFormDto2.getPwd());
-		member2.setPwd(password2);
 		member2.setRole(Role.CLIENT);
 		memberService.saveMember(member2);
+		
+		// 유저2(전문상담사)
+		boolean check3 = memberService.checkIdDuplicate("kim");
+		if (check3)
+			return;
+		MemberFormDto memberFormDto3 = MemberFormDto.createUser2();
+		Member member3 = Member.createMember(memberFormDto3, passwordEncoder);
+		member3.setRole(Role.COUNSELOR);
+		member3.setNickName("스윗테스트");
+		memberService.saveMember(member3);
 	}
 
 	// 회원가입 폼 띄우기 전 약관동의 페이지

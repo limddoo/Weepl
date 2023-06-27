@@ -123,7 +123,9 @@ public class BoardConsService {
 	public Member findBoardMember(Long boardCd) {
 		BoardCons boardCons = boardConsRepository.getById(boardCd);
 		if(boardCons != null) {
-			return memberRepository.findByCd(boardCons.getMember().getCd());
+			if(boardCons.getMember() != null) {
+				return memberRepository.findByCd(boardCons.getMember().getCd());
+			}
 		}
 		return null;
 	}

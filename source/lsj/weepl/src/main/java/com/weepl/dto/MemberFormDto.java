@@ -96,7 +96,7 @@ public class MemberFormDto {
 	      return memberFormDto;
 	}
 	
-	static public MemberFormDto createUser() {
+	static public MemberFormDto createUser1() {
 		 MemberFormDto memberFormDto = new MemberFormDto();
 	      memberFormDto.setName("홍유저");
 	      memberFormDto.setId("hong");
@@ -112,6 +112,26 @@ public class MemberFormDto {
 	      memberFormDto.setAddr("대전광역시 서구 둔산서로 17");
 	      memberFormDto.setAddrDtl("양호빌딩 6층");
 	      memberFormDto.setAddrPost("35235");
+	      
+	      return memberFormDto;
+	}
+	
+	static public MemberFormDto createUser2() {
+		 MemberFormDto memberFormDto = new MemberFormDto();
+	      memberFormDto.setName("김스윗");
+	      memberFormDto.setId("kim");
+	      memberFormDto.setPwd("12341234");
+	      memberFormDto.setEmail("kim@abc.com");
+	      memberFormDto.setGender("W");
+	      memberFormDto.setTel1("010");
+	      memberFormDto.setTel2("4321");
+	      memberFormDto.setTel3("4321");
+	      memberFormDto.setBirY("1995");
+	      memberFormDto.setBirM("08");
+	      memberFormDto.setBirD("30");
+	      memberFormDto.setAddr("대전광역시 중구 목중로 26번길 10");
+	      memberFormDto.setAddrDtl("어쩌구");
+	      memberFormDto.setAddrPost("34814");
 	      
 	      return memberFormDto;
 	}
