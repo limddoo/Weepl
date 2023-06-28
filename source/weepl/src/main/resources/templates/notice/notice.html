@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layouts/seoulWeeLayout}">
+<!-- 사용자 스크립트 추가 -->
+<th:block layout:fragment="script">
+	<script th:inline="javascript">
+		$(document).ready(function() {
+			// 이전, 다음버튼 이동할 페이지 없을시, onclick 못하게 삭제
+			var disalbed_directions = document.querySelectorAll(".disabled > a");
+			disalbed_directions.forEach(function(disalbed_direction) {
+				disalbed_direction.removeAttribute('onclick');
+			});
+			
+			$("#searchBtn").on("click", function(e) {
+				e.preventDefault();
+				page(0);
+			});
+			
+			// 게시글 행 전체 클릭시 상세글 페이지에 진입
+			$(".board-content").on("click", function() {
+				var board_tr = $(this);
+				var board_cd = board_tr.children()[0].innerHTML;
+				location.href = "/board/noticedtl/"+board_cd;
+			});
+		});
+		function page(page) {
+			var searchDateType = $("#searchDateType").val();
+			var searchBy = $("#searchBy").val();
+			var searchQuery = $("#searchQuery").val();
+			location.href = "/board/notice/" + page + "?searchDateType="
+					+ searchDateType + "&searchBy=" + searchBy + "&searchQuery=" + searchQuery;
+		}
+	</script>
+</th:block>
+
+<!-- 사용자 CSS 추가 -->
+<th:block layout:fragment="css">
+	<style>
+select {
+	margin-right: 10px;
+}
+
+</style>
+</th:block>
+<div layout:fragment="content" class="content-wrapper">
+<div class="subview">
+<h3>공지사항</h3>	
+	<form th:action="@{'/board/notice/' + ${notices.number}}" role="form"
+		method="get" th:object="${notices}">
+		<div class="table-div">
+		<table class="table-container">
+			<thead>
+				<tr>
+					<th>글번호</th>
+					<th>제목</th>
+					<th>등록자</th>
+					<th>등록일</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="notice, status: ${notices.getContent()}" class="board-content">
+					<td th:text="${notice.cd}"></td>
+					<td th:text="${notice.title}"></td>
+					<td th:text="${notice.createdBy}"></td>
+					<td th:text="${#temporals.format(notice.regDt, 'yyyy-MM-dd HH:mm')}"></td>
+				</tr>
+			</tbody>
+		</table>
+		<a style="float: right; margin-right: 80px;" class="button-style"
+			th:href="@{/board/notice/new}"
+			sec:authorize="hasAnyAuthority('ROLE_ADMIN')">글쓰기</a>
+	</div>
+		
+		<div
+			th:with="start=${(notices.number/maxPage)*maxPage + 1}, end=(${(notices.totalPages == 0) ? 1 : (start + (maxPage - 1) < notices.totalPages ? start + 
+	(maxPage - 1) : notices.totalPages)})">
+			<ul class="pagination-ul">
+				<li class="page-button-direction"
+					th:classappend="${notices.first}?'disabled'"><a
+					th:onclick="'javascript:page(' + ${notices.number - 1} + ')'"
+					aria-label='Previous' class="page-link"> <span
+						aria-hidden='true' th:class="${notices.first} ? 'disabled'">&lt;&nbsp;Previous</span>
+				</a></li>
+				<li class="page-button"
+					th:each="page: ${#numbers.sequence(start, end)}"
+					th:classappend="${notices.number eq page-1}?'page-active':''">
+					<a th:onclick="'javascript:page(' + ${page - 1} + ')'"
+					th:inline="text" class="page-link">[[${page}]]</a>
+				</li>
+				<li class="page-button-direction"
+					th:classappend="${notices.last}?'disabled'"><a
+					th:onclick="'javascript:page(' + ${notices.number + 1} + ')'"
+					aria-label='Next' class="page-link"> <span aria-hidden='true' th:class="${notices.last} ? 'disabled'">Next&nbsp;&gt;</span>
+				</a></li>
+			</ul>
+		</div>
+
+
+			<div class="search-div" th:object="${noticeSearchDto}">
+			<select th:field="*{searchDateType}" class="input-select"
+				style="width: auto;">
+				<option value="all">전체기간</option>
+				<option value="1d">1 일</option>
+				<option value="1w">1 주</option>
+				<option value="1m">1개월</option>
+				<option value="6m">6개월</option>
+			</select> 
+			
+			 <select th:field="*{searchBy}" class="input-select"
+				style="width: auto;">
+				<option value="title">제목</option>
+				<option value="createdBy">작성자</option>
+			</select> <input th:field="*{searchQuery}" type="text" class="input-long"
+				placeholder="검색어를 입력해주세요">
+			<button id="searchBtn" type="submit" class="button-style searchBtn">검색</button>
+		</div>
+		
+		
+	</form>
+	</div>
+</div>
+</html>

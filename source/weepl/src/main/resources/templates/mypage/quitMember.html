@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/mypageLayout}">
+<!-- 사용자 script 추가 -->
+<th:block layout:fragment="script">
+	<script th:inline="javascript">
+	$(document).ready(function(){
+		var result = [[${result}]]; // String타입 : CDATA 형태로 들어감
+		if(result != null){
+			alert(result);
+		}
+	});
+	
+	function fregister_submit(f) {
+		var inputPwd = document.getElementById('pwd');
+		if(inputPwd.value == '') {
+			alert("변경할 비밀번호를 입력하세요");
+			inputPwd.focus();
+			return false;
+		}
+        if (!f.agree.checked) {
+          alert("회원탈퇴에 동의하셔야 탈퇴하실 수 있습니다.");
+          f.agree.focus();
+          return false;
+        }
+
+        if(confirm('정말 회원탈퇴 하시겠습니까?')) {
+        	f.submit();
+        } else {
+        	return false;
+        }
+      }
+	</script>
+</th:block>
+<!-- 사용자 CSS 추가 -->
+<th:block layout:fragment="css">
+	<style>
+.error {
+	color: #bd2130;
+}
+.content {
+	text-align: center;
+	margin-left: auto;
+	margin-right: auto;
+}
+.button-style {
+margin-top: 20px;
+}
+.subview {
+	width: 270px;
+	padding: 30px 50px 30px 50px;
+	text-align: center;
+}
+</style>
+</th:block>
+<div layout:fragment="content">
+	<form class="quit-content" role="form" method="post" action="/mypage/quitMember"
+	 onsubmit="return fregister_submit(this);" style="display: block;">
+	 <div class="subview">
+		<div class="form-group">
+			<label class="input-label" th:for="pwd">비밀번호를 입력하세요.</label> <input type="password"
+				name="pwd" id="pwd" class="input-short" >
+		</div>
+		<p th:if="${errorMsg}" class="error" th:text="${errorMsg}"></p>
+		<div class="fregister_agree2 checks2" >
+            <input type="checkbox" name="agree" value="1" id="agree" >
+            <label for="agree">회원탈퇴 동의<span>(필수)</span></label>
+          </div>
+		<div>
+		<button class="button-style" >비밀번호 입력</button>
+		<input type="hidden" th:name="${_csrf.parameterName}"
+			th:value="${_csrf.token}">
+			</div>
+			</div>
+	</form>
+</div>
+</html>

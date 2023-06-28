@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layouts/healthTestLayout}">
+
+<th:block layout:fragment="css">
+<style>
+.inner{
+	min-width: auto;
+	text-align:center;
+}
+ul{
+    list-style:none;
+    padding:0;
+   }
+   .checkType-list-wrap{
+ 	overflow: hidden;
+ 	display: inline-block;
+ }
+   .checkType-list{
+ 	overflow: hidden;
+ 	display: flex;
+ 	flex-wrap: wrap;
+    margin: 10px;
+    padding: 3px;
+ 
+ }
+ .checkType-list > li {
+    width:250px;
+    padding: 10px;
+    
+}
+
+.checkType-list > li > .item {
+    display: block;
+    cursor: pointer;
+    height: 100%;
+    
+} 
+.checkType-list > li > .item .item-content {
+    position: relative;
+    height: 100px;
+    width: 200px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 22px 20px;
+    min-height: 90px;
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    word-break: keep-all;
+}
+
+.checkType-list > li > .item input[type="checkbox"], .checkType-list > li > .item input[type="radio"] {
+    border: 0;
+    clip: rect(0, 0, 0, 0);
+    height: auto;
+    margin: 0;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+    white-space: nowrap;
+}
+
+.checkType-list > li > .item .item-content .item-name {
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+    color: #333;
+    line-height: 1.3;
+}
+
+.checkType-list > li > .item .item-content .item-name:before {
+    content: "";
+    flex: 0 0 auto;
+    display: block;
+    width: 30px;
+    height: 30px;
+    background-image: url(https://maro.imhc.or.kr/user/images/common/icon_check.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: #eee;
+    border-radius: 100%;
+    margin-right: 15px;
+}
+
+.checkType-list > li > .item input[type="checkbox"]:checked + .item-content:after, .checkType-list > li > .item input[type="radio"]:checked + .item-content:after {
+    content: "";
+    display: block;
+    border: 2px solid #0092d7;
+    position: absolute;
+    left: -1px;
+    top: -1px;
+    right: -1px;
+    bottom: -1px;
+    border-radius: inherit;
+}
+
+.checkType-list > li > .item input[type="checkbox"]:checked + .item-content .item-name:before, .checkType-list > li > .item input[type="radio"]:checked + .item-content .item-name:before {
+    background-image: url(https://maro.imhc.or.kr/user/images/common/icon_check_active.png);
+    background-color: #0092d7;
+}
+</style>
+</th:block>
+<th:block layout:fragment="script">
+	<script>
+		var testForm = null;
+		$(document).ready(function(){
+			testForm = $("#testForm");
+			
+		});
+		
+		var fnTestFormValidation = function(){
+			
+			if(! $('input[name^=test_sq]:checked').val()){
+				alert("필수선택 항목입니다.");
+				return false;
+			}else{
+			
+				var el_applyTest = testForm.find("input[name^=test_sq]:checked")
+				testForm.prop("action", el_applyTest.val());
+		}
+		}
+		
+	</script>
+</th:block>
+<div layout:fragment="content">
+	<div class = "inner">
+	<div>
+		<h1 th:text="${major_div}"></h1>
+	</div>
+		<form id="testForm" action="about:blank" method="get" onsubmit="return fnTestFormValidation();">
+		<input type="hidden" th:value="${major_div}" name="majorDiv">
+		<input type="hidden" th:value="${mid_div}" name="midDiv">
+		<strong th:text="${mid_div}"></strong>
+			<p>진행할 검사를 선택해주세요.</p>
+			
+			<div class="checkType-list-wrap">
+				<ul class="checkType-list">
+					<li>
+					  <label for="test_sq_1" class="item">
+					   <input type="radio" id="test_sq_1" name="test_sq[]" value="applyTest01_4"/>
+					   <div class="item-content">
+					   	<strong class="item-name">범불안장애 척도 (GAD-7)</strong>
+					   </div>
+					  </label>
+					</li>
+					<li>
+					  <label for="test_sq_2" class="item">
+					   <input type="radio" id="test_sq_2" name="test_sq[]" value="applyTest01_7"/>
+					   <div class="item-content">
+					   	<strong class="item-name">스트레스 지각척도 (PSS)</strong>
+					   </div>
+					  </label>
+					</li>
+				</ul>
+			</div>
+			<div>
+				<button type="submit" class="button-style">
+				<span>검사 시작</span>
+				</button>
+			</div>
+		</form>
+	 </div>
+</div>
+</html>

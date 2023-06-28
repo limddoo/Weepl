@@ -1,0 +1,6 @@
+nmem_cd,email,gender,name,region
+1,test@test.com,M,¾Æ¹«°³,NULL
+2,kim@test.com,M,±èÃ¶¼ö,NULL
+3,hong@test.com,M,È«±æµ¿,NULL
+4,lee@gmail.com,W,ÀÌ¿µÈñ,NULL
+5,kys@naver.com,M,±èÀ¯½Å,NULL

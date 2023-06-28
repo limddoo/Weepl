@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/memberLayout}">
+<!-- 사용자 CSS 추가 -->
+<th:block layout:fragment="css">
+	<style>
+		.error {
+			color: #bd2130;
+		}
+		
+		.content {
+  			margin-left: 750px;
+  			margin-right: 750px;
+		}
+		
+		.subview {
+			padding: 20px 50px 40px 50px;
+		}
+	</style>
+</th:block>
+<head>
+    <meta charset="UTF-8">
+    <meta name="_csrf" th:content="${_csrf.token}">
+	<meta name="_csrf_header" th:content="${_csrf.headerName}">
+    <title>비밀번호 찾기</title>
+    <script type="text/javascript" src="/js/findIdPw.js"></script>
+</head>
+<body>
+<div layout:fragment="content">
+<div class="subview">
+<h3>비밀번호 찾기</h3>
+	<form role="form" method="get" action="" th:object="${memberFormDto}" id="frm">
+		<div class="input-group">
+			<label th:for="id" class="input-label">아이디</label> <input type="text" th:field="*{id}"
+				class="input-short" placeholder="아이디 입력">
+		</div>
+		<div class="input-group">
+			<label th:for="name" class="input-label">이름</label> <input type="text" th:field="*{name}"
+				class="input-short" placeholder="이름 입력">
+		</div>
+		<div class="input-group">
+			<label th:for="email" class="input-label">이메일</label> <input type="email"
+				th:field="*{email}" class="input-short" placeholder="이메일 입력">
+		</div>
+		<div class="search-div">
+			<input type="button" class="button-style" id="find_pwd_btn" value="비밀번호 찾기">
+		</div>
+	</form>
+</div>
+</div>
+</body>
+</html>

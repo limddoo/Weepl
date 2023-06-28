@@ -1,0 +1,23 @@
+board_cons_cd,mod_dt,reg_dt,created_by,modified_by,content,del_yn,board_cons_pwd,res_yn,title,nmem_cd,mem_cd
+1,2023-06-28,2023-06-28,user01,user01,상담신청을 합니다. 요새 잠이 잘 안 옵니다.,N,user01,N,게시판 상담 1,NULL,2
+2,2023-06-28,2023-06-28,user02,user02,요새 마음이 우울하고 사람들하고 대화하기 꺼러집니다.,N,user02,N,게시판 상담 2,NULL,3
+3,2023-06-28,2023-06-28,anonymousUser,anonymousUser,테스트입니다.,N,1234,N,게시판 상담 3,1,NULL
+4,2023-06-28,2023-06-28,anonymousUser,anonymousUser,테스트입니다. ,N,1234,N,게시판 상담 4,2,NULL
+5,2023-06-28,2023-06-28,user03,user03,테스트입니다.,N,user03,N,게시판 상담 5,NULL,4
+6,2023-06-28,2023-06-28,user01,user01,테스트입니다.,N,user01,N,게시판 상담 6,NULL,2
+7,2023-06-28,2023-06-28,user03,user03,테스트입니다.,N,user03,N,게시판 상담 7,NULL,4
+8,2023-06-28,2023-06-28,anonymousUser,anonymousUser,테스트입니다.,N,0,N,게시판 상담 8,3,NULL
+9,2023-06-28,2023-06-28,user02,user02,테스트입니다.,N,user02,N,게시판 상담 9,NULL,3
+10,2023-06-28,2023-06-28,user02,user02,테스트입니다.,N,user02,N,게시판 상담 10,NULL,3
+11,2023-06-28,2023-06-28,anonymousUser,anonymousUser,테스트입니다.,N,4567,N,게시판 상담 11,4,NULL
+12,2023-06-28,2023-06-28,user03,user03,테스트입니다.,N,user03,N,게시판 상담 12,NULL,4
+13,2023-06-28,2023-06-28,user01,admin,테스트입니다.,N,user01,Y,게시판 상담 13,NULL,2
+14,2023-06-28,2023-06-28,anonymousUser,admin,테스트 입니다.,N,0,Y,게시판 상담 14,5,NULL
+15,2023-06-28,2023-06-28,user03,admin,테스트입니다.,N,user03,Y,게시판 상담 15,NULL,4
+16,2023-06-28,2023-06-28,user01,admin,테스트입니다.,N,user01,Y,게시판 상담 16,NULL,2
+17,2023-06-28,2023-06-28,user02,admin,테스트입니다.,N,user02,Y,게시판 상담 17,NULL,3
+18,2023-06-28,2023-06-28,user02,admin,테스트입니다.,N,user02,Y,게시판 상담 18,NULL,3
+19,2023-06-28,2023-06-28,user01,admin,테스트입니다.,N,user01,Y,게시판 상담 19,NULL,2
+20,2023-06-28,2023-06-28,user03,admin,테스트입니다.,N,user03,Y,게시판 상담 20,NULL,4
+21,2023-06-28,2023-06-28,user01,admin,최근 들어서 제 화를 주체를 못하고 있습니다. 어떻게 해결할 방법이 있을까요?,N,user01,Y,게시판 상담 21,NULL,2
+22,2023-06-28,2023-06-28,user02,admin,스마트폰 중독에 빠진 것 같습니다. ㅠㅠ 사용시간을 줄일 방법을 조언받고 싶습니다.,N,user02,Y,게시판 상담 22,NULL,3

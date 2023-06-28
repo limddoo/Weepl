@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<div class="sidebar" th:fragment="sidebar">
+<link th:href="@{/css/sidebar.css}" rel="stylesheet">
+	<div class="sidebarContainer">
+		<a href="/cons/consInfo" class="sidebarTitle">
+			<span>상담신청</span>
+		</a>
+		<hr>
+			<ul class="sidebarSubmenu">
+				<li><a id="consInfo" href="/cons/consInfo">상담이용안내</a></li>
+				<li><a id="main" href="/reservation/reservation">비대면 상담신청</a></li>
+				<li><a id="boardConsList" href="/boardCons/boardConsList">게시판 상담</a></li>
+		</ul>
+		<hr>
+	</div>
+</div>
+</html>

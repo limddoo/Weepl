@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/memberLayout}">
+<!-- 사용자 CSS 추가 -->
+<th:block layout:fragment="css">
+	<style>
+		.error {
+			color: #bd2130;
+		}
+		
+		.content {
+  			margin-left: 571.797px;
+  			margin-right: 571.797px;
+		}
+		
+		.subview {
+			padding: 20px 50px 40px 50px;
+		}
+	</style>
+</th:block>
+<head>
+    <meta charset="UTF-8">
+    <meta name="_csrf" th:content="${_csrf.token}">
+	<meta name="_csrf_header" th:content="${_csrf.headerName}">
+    <title>아이디 찾기</title>
+    <script type="text/javascript" src="/js/findIdPw.js"></script>
+</head>
+<body>
+
+<div layout:fragment="content">
+<div class="subview">
+<h3>아이디 찾기</h3>
+	<form role="form" method="get" action="" th:object="${memberFormDto}" id="frm">
+		<div class="input-group">
+			<label th:for="name" class="input-label">이름</label> <input type="text" th:field="*{name}"
+				class="input-short" placeholder="이름 입력">
+		</div>
+		<div class="input-group">
+			<label th:for="tel1" class="input-label">전화번호</label> <input type="text" class="input-short"
+				th:field="*{tel1}" placeholder="010" maxlength="3"> <label th:for="tel2" class="input-label-bar">-</label> <input type="text" class="input-short"
+				th:field="*{tel2}" placeholder="1234" maxlength="4"> <label th:for="tel3" class="input-label-bar">-</label> <input type="text" class="input-short"
+				th:field="*{tel3}" placeholder="5678" maxlength="4">
+		</div>
+		<div class="search-div">
+		<input type="button" class="button-style" id="find_id_btn" value="ID찾기">
+		</div>
+	</form>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,10 @@
+mem_cd,addr,addr_dtl,addr_post,bir_d,bir_m,bir_y,email,gender,mem_id,jdate,name,nick_name,pwd,qdate,role,mem_status,tel1,tel2,tel3
+1,대전광역시 서구 둔산서로 17,양호빌딩 6층,35235,26,10,1995,admin@abc.com,W,admin,2023-06-28,관리자,관리자,$2a$10$ZUNK6gjKXuCfr4BEcdr22uLAlWgk1rJvDZLJSSna/QeVCfFdwVBGm,NULL,ADMIN,GENERAL,10,1234,5678
+2,대전 서구 둔산서로 17 (둔산동),1,35235,1,1,1990,user01@ruu.kr,W,user01,2023-06-28,강유저,NULL,$2a$10$QoRX3VVJ47vArtEmz0u3H.QnylAAeaOO5DKVJmBH5215gevT2gL4a,NULL,CLIENT,GENERAL,10,1111,1111
+3,대전 서구 둔산서로 17 (둔산동),2,35235,2,2,1995,user02@ruu.kr,M,user02,2023-06-28,송유저,NULL,$2a$10$H7gta0JLOaX4..Lchw/hGumCkH/bjoESix.n3T0MU5IGHk9PesNEC,NULL,CLIENT,GENERAL,10,2222,2222
+4,대전 서구 둔산서로 17 (둔산동),3,35235,3,3,2000,user03@ruu.kr,W,user03,2023-06-28,한유저,NULL,$2a$10$c1pm82c2QrHvVGr/S2Thr.gt5x.IcTZOyZA07Lc.i8mjVFWbNto4C,NULL,CLIENT,GENERAL,10,3333,3333
+5,대전 서구 둔산서로 17 (둔산동),4,35235,4,4,1990,sweet01@ruu.kr,M,sweet01,2023-06-28,김스윗,NULL,$2a$10$fVQRcWrgQM0LJ9xbXhDS7em2R233VAYTHLbbJX6Fx5n0dUa3x1XgK,NULL,COUNSELOR,GENERAL,10,4444,4444
+6,대전 서구 둔산서로 17 (둔산동),5,35235,5,5,1995,sweet02@ruu.kr,W,sweet02,2023-06-28,임스윗,NULL,$2a$10$0.crKUck9NNY.BsMfVw3veWhU./CE.jsSpVDYvRIfet3In4W1Khf2,NULL,COUNSELOR,GENERAL,10,5555,5555
+7,대전 서구 둔산서로 17 (둔산동),6,35235,6,6,2000,sweet03@ruu.kr,M,sweet03,2023-06-28,최스윗,NULL,$2a$10$V7NBC6LU/Wiv7Lyl/lPine1HFItJa.r4Sd/aH.MrBazD2FONZ9YDO,NULL,COUNSELOR,GENERAL,10,6666,6666
+8,대전 서구 둔산서로 17 (둔산동),7,35235,7,7,1990,quitUser01@ruu.kr,W,quitUser01,2023-06-28,제갈유저,NULL,$2a$10$leyfEpeFp4ZCKLpjWZAlY.48jUPGQ2J1neh3Yawga3a.rAqMAk.hS,NULL,CLIENT,GENERAL,10,7777,7777
+9,대전 서구 둔산서로 17 (둔산동),8,35235,8,8,1995,restrictUser01@ruu.kr,M,restrictUser01,2023-06-28,독고유저,NULL,$2a$10$uvTqSiS/X5iMu9chX4dymezzFxmUEUfK8hFzb8p2B7a9IbhdYn1Hi,NULL,COUNSELOR,GENERAL,10,8888,8888
